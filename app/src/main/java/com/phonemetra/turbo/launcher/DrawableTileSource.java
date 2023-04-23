@@ -24,7 +24,7 @@ import android.graphics.drawable.Drawable;
 
 import com.android.gallery3d.glrenderer.BasicTexture;
 import com.android.gallery3d.glrenderer.BitmapTexture;
-import com.android.photos.views.TiledImageRenderer;
+import com.roy.android.photos.views.TiledImageRenderer;
 
 public class DrawableTileSource implements TiledImageRenderer.TileSource {
     private static final int GL_SIZE_LIMIT = 2048;

@@ -1,20 +1,4 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.android.photos;
+package com.roy.android.photos;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -33,26 +17,21 @@ import com.android.gallery3d.common.Utils;
 import com.android.gallery3d.exif.ExifInterface;
 import com.android.gallery3d.glrenderer.BasicTexture;
 import com.android.gallery3d.glrenderer.BitmapTexture;
-import com.android.photos.views.TiledImageRenderer;
+import com.roy.android.photos.views.TiledImageRenderer;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-interface SimpleBitmapRegionDecoder {
-    int getWidth();
-    int getHeight();
-    Bitmap decodeRegion(Rect wantRegion, BitmapFactory.Options options);
-}
-
 class SimpleBitmapRegionDecoderWrapper implements SimpleBitmapRegionDecoder {
     BitmapRegionDecoder mDecoder;
+
     private SimpleBitmapRegionDecoderWrapper(BitmapRegionDecoder decoder) {
         mDecoder = decoder;
     }
-    public static SimpleBitmapRegionDecoderWrapper newInstance(
-            String pathName, boolean isShareable) {
+
+    public static SimpleBitmapRegionDecoderWrapper newInstance(String pathName, boolean isShareable) {
         try {
             BitmapRegionDecoder d = BitmapRegionDecoder.newInstance(pathName, isShareable);
             if (d != null) {
@@ -64,8 +43,8 @@ class SimpleBitmapRegionDecoderWrapper implements SimpleBitmapRegionDecoder {
         }
         return null;
     }
-    public static SimpleBitmapRegionDecoderWrapper newInstance(
-            InputStream is, boolean isShareable) {
+
+    public static SimpleBitmapRegionDecoderWrapper newInstance(InputStream is, boolean isShareable) {
         try {
             BitmapRegionDecoder d = BitmapRegionDecoder.newInstance(is, isShareable);
             if (d != null) {
@@ -77,12 +56,15 @@ class SimpleBitmapRegionDecoderWrapper implements SimpleBitmapRegionDecoder {
         }
         return null;
     }
+
     public int getWidth() {
         return mDecoder.getWidth();
     }
+
     public int getHeight() {
         return mDecoder.getHeight();
     }
+
     public Bitmap decodeRegion(Rect wantRegion, BitmapFactory.Options options) {
         return mDecoder.decodeRegion(wantRegion, options);
     }
@@ -92,9 +74,11 @@ class DumbBitmapRegionDecoder implements SimpleBitmapRegionDecoder {
     Bitmap mBuffer;
     Canvas mTempCanvas;
     Paint mTempPaint;
+
     private DumbBitmapRegionDecoder(Bitmap b) {
         mBuffer = b;
     }
+
     public static DumbBitmapRegionDecoder newInstance(String pathName) {
         Bitmap b = BitmapFactory.decodeFile(pathName);
         if (b != null) {
@@ -102,6 +86,7 @@ class DumbBitmapRegionDecoder implements SimpleBitmapRegionDecoder {
         }
         return null;
     }
+
     public static DumbBitmapRegionDecoder newInstance(InputStream is) {
         Bitmap b = BitmapFactory.decodeStream(is);
         if (b != null) {
@@ -109,12 +94,15 @@ class DumbBitmapRegionDecoder implements SimpleBitmapRegionDecoder {
         }
         return null;
     }
+
     public int getWidth() {
         return mBuffer.getWidth();
     }
+
     public int getHeight() {
         return mBuffer.getHeight();
     }
+
     public Bitmap decodeRegion(Rect wantRegion, BitmapFactory.Options options) {
         if (mTempCanvas == null) {
             mTempCanvas = new Canvas();
@@ -122,10 +110,7 @@ class DumbBitmapRegionDecoder implements SimpleBitmapRegionDecoder {
             mTempPaint.setFilterBitmap(true);
         }
         int sampleSize = Math.max(options.inSampleSize, 1);
-        Bitmap newBitmap = Bitmap.createBitmap(
-                wantRegion.width() / sampleSize,
-                wantRegion.height() / sampleSize,
-                Bitmap.Config.ARGB_8888);
+        Bitmap newBitmap = Bitmap.createBitmap(wantRegion.width() / sampleSize, wantRegion.height() / sampleSize, Bitmap.Config.ARGB_8888);
         mTempCanvas.setBitmap(newBitmap);
         mTempCanvas.save();
         mTempCanvas.scale(1f / sampleSize, 1f / sampleSize);
@@ -135,11 +120,6 @@ class DumbBitmapRegionDecoder implements SimpleBitmapRegionDecoder {
         return newBitmap;
     }
 }
-
-/**
- * A {@link com.android.photos.views.TiledImageRenderer.TileSource} using
- * {@link BitmapRegionDecoder} to wrap a local file
- */
 
 public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
 
@@ -153,14 +133,18 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
     public static abstract class BitmapSource {
         private SimpleBitmapRegionDecoder mDecoder;
         private Bitmap mPreview;
-        private int mPreviewSize;
+        private final int mPreviewSize;
         private int mRotation;
-        public enum State { NOT_LOADED, LOADED, ERROR_LOADING };
+
+        public enum State {NOT_LOADED, LOADED, ERROR_LOADING}
+
         private State mState = State.NOT_LOADED;
+
         public BitmapSource(int previewSize) {
             mPreviewSize = previewSize;
         }
-        public boolean loadInBackground() {
+
+        public void loadInBackground() {
             ExifInterface ei = new ExifInterface();
             if (readExif(ei)) {
                 Integer ori = ei.getTagIntValue(ExifInterface.TAG_ORIENTATION);
@@ -171,7 +155,6 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
             mDecoder = loadBitmapRegionDecoder();
             if (mDecoder == null) {
                 mState = State.ERROR_LOADING;
-                return false;
             } else {
                 int width = mDecoder.getWidth();
                 int height = mDecoder.getHeight();
@@ -187,7 +170,6 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
                     mPreview = loadPreviewBitmap(opts);
                 }
                 mState = State.LOADED;
-                return true;
             }
         }
 
@@ -212,16 +194,20 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
         }
 
         public abstract boolean readExif(ExifInterface ei);
+
         public abstract SimpleBitmapRegionDecoder loadBitmapRegionDecoder();
+
         public abstract Bitmap loadPreviewBitmap(BitmapFactory.Options options);
     }
 
     public static class FilePathBitmapSource extends BitmapSource {
-        private String mPath;
+        private final String mPath;
+
         public FilePathBitmapSource(String path, int previewSize) {
             super(previewSize);
             mPath = path;
         }
+
         @Override
         public SimpleBitmapRegionDecoder loadBitmapRegionDecoder() {
             SimpleBitmapRegionDecoder d;
@@ -231,10 +217,12 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
             }
             return d;
         }
+
         @Override
         public Bitmap loadPreviewBitmap(BitmapFactory.Options options) {
             return BitmapFactory.decodeFile(mPath, options);
         }
+
         @Override
         public boolean readExif(ExifInterface ei) {
             try {
@@ -251,23 +239,25 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
     }
 
     public static class UriBitmapSource extends BitmapSource {
-        private Context mContext;
-        private Uri mUri;
+        private final Context mContext;
+        private final Uri mUri;
+
         public UriBitmapSource(Context context, Uri uri, int previewSize) {
             super(previewSize);
             mContext = context;
             mUri = uri;
         }
+
         private InputStream regenerateInputStream() throws FileNotFoundException {
             InputStream is = mContext.getContentResolver().openInputStream(mUri);
             return new BufferedInputStream(is);
         }
+
         @Override
         public SimpleBitmapRegionDecoder loadBitmapRegionDecoder() {
             try {
                 InputStream is = regenerateInputStream();
-                SimpleBitmapRegionDecoder regionDecoder =
-                        SimpleBitmapRegionDecoderWrapper.newInstance(is, false);
+                SimpleBitmapRegionDecoder regionDecoder = SimpleBitmapRegionDecoderWrapper.newInstance(is, false);
                 Utils.closeSilently(is);
                 if (regionDecoder == null) {
                     is = regenerateInputStream();
@@ -280,6 +270,7 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
                 return null;
             }
         }
+
         @Override
         public Bitmap loadPreviewBitmap(BitmapFactory.Options options) {
             try {
@@ -292,6 +283,7 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
                 return null;
             }
         }
+
         @Override
         public boolean readExif(ExifInterface ei) {
             InputStream is = null;
@@ -316,22 +308,24 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
     }
 
     public static class ResourceBitmapSource extends BitmapSource {
-        private Resources mRes;
-        private int mResId;
+        private final Resources mRes;
+        private final int mResId;
+
         public ResourceBitmapSource(Resources res, int resId, int previewSize) {
             super(previewSize);
             mRes = res;
             mResId = resId;
         }
+
         private InputStream regenerateInputStream() {
             InputStream is = mRes.openRawResource(mResId);
             return new BufferedInputStream(is);
         }
+
         @Override
         public SimpleBitmapRegionDecoder loadBitmapRegionDecoder() {
             InputStream is = regenerateInputStream();
-            SimpleBitmapRegionDecoder regionDecoder =
-                    SimpleBitmapRegionDecoderWrapper.newInstance(is, false);
+            SimpleBitmapRegionDecoder regionDecoder = SimpleBitmapRegionDecoderWrapper.newInstance(is, false);
             Utils.closeSilently(is);
             if (regionDecoder == null) {
                 is = regenerateInputStream();
@@ -340,10 +334,12 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
             }
             return regionDecoder;
         }
+
         @Override
         public Bitmap loadPreviewBitmap(BitmapFactory.Options options) {
             return BitmapFactory.decodeResource(mRes, mResId, options);
         }
+
         @Override
         public boolean readExif(ExifInterface ei) {
             try {
@@ -365,11 +361,11 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
     private BasicTexture mPreview;
     private final int mRotation;
 
-    
-    private Rect mWantRegion = new Rect();
-     
+
+    private final Rect mWantRegion = new Rect();
+
     private BitmapFactory.Options mOptions;
-     
+
 
     public BitmapRegionTileSource(Context context, BitmapSource source) {
         mTileSize = TiledImageRenderer.suggestedTileSize(context);
@@ -389,14 +385,11 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
                 // loaded, the lifecycle is different and interactions are on a different
                 // thread. Thus to simplify, this source will decode its own bitmap.
                 Bitmap preview = decodePreview(source, previewSize);
+                assert preview != null;
                 if (preview.getWidth() <= GL_SIZE_LIMIT && preview.getHeight() <= GL_SIZE_LIMIT) {
                     mPreview = new BitmapTexture(preview);
                 } else {
-                    Log.w(TAG, String.format(
-                            "Failed to create preview of apropriate size! "
-                            + " in: %dx%d, out: %dx%d",
-                            mWidth, mHeight,
-                            preview.getWidth(), preview.getHeight()));
+                    Log.w(TAG, String.format("Failed to create preview of apropriate size! " + " in: %dx%d, out: %dx%d", mWidth, mHeight, preview.getWidth(), preview.getHeight()));
                 }
             }
         }
@@ -430,7 +423,7 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
     @Override
     public Bitmap getTile(int level, int x, int y, Bitmap bitmap) {
         int tileSize = getTileSize();
-        
+
         int t = tileSize << level;
         mWantRegion.set(x, y, x + t, y + t);
 
@@ -455,7 +448,6 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
         return bitmap;
     }
 
-    
 
     /**
      * Note that the returned bitmap may have a long edge that's longer

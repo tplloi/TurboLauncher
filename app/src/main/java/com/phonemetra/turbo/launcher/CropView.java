@@ -21,7 +21,6 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
@@ -29,8 +28,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
-import com.android.photos.views.TiledImageRenderer.TileSource;
-import com.android.photos.views.TiledImageView;
+import com.roy.android.photos.views.TiledImageRenderer.TileSource;
+import com.roy.android.photos.views.TiledImageView;
 
 public class CropView extends TiledImageView implements OnScaleGestureListener {
 

@@ -34,7 +34,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 
-import com.android.photos.BitmapRegionTileSource;
+import com.roy.android.photos.BitmapRegionTileSource;
 
 import java.io.File;
 import java.io.FileOutputStream;

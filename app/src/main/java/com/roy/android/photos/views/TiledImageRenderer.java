@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.photos.views;
+package com.roy.android.photos.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;

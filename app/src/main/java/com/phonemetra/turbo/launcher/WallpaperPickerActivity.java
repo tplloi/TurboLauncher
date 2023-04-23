@@ -69,9 +69,9 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import com.android.photos.BitmapRegionTileSource;
+import com.roy.android.photos.BitmapRegionTileSource;
 import com.phonemetra.turbo.launcher.settings.SettingsProvider;
-import com.android.photos.BitmapRegionTileSource.BitmapSource;
+import com.roy.android.photos.BitmapRegionTileSource.BitmapSource;
 
 import java.io.File;
 import java.io.FileOutputStream;

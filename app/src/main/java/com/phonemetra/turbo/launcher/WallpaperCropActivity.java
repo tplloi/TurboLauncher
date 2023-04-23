@@ -45,8 +45,8 @@ import android.widget.Toast;
 
 import com.android.gallery3d.common.Utils;
 import com.android.gallery3d.exif.ExifInterface;
-import com.android.photos.BitmapRegionTileSource;
-import com.android.photos.BitmapRegionTileSource.BitmapSource;
+import com.roy.android.photos.BitmapRegionTileSource;
+import com.roy.android.photos.BitmapRegionTileSource.BitmapSource;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;

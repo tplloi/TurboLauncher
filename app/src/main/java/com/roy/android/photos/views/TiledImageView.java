@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.photos.views;
+package com.roy.android.photos.views;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -37,7 +37,7 @@ import android.widget.FrameLayout;
 
 import com.android.gallery3d.glrenderer.BasicTexture;
 import com.android.gallery3d.glrenderer.GLES20Canvas;
-import com.android.photos.views.TiledImageRenderer.TileSource;
+import com.roy.android.photos.views.TiledImageRenderer.TileSource;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
