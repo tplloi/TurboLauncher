@@ -73,7 +73,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission
         android:name="com.phonemetra.turbo.launcher.permission.READ_SETTINGS"
         tools:node="remove" />
@@ -120,7 +120,8 @@
         <activity
             android:name="com.phonemetra.turbo.launcher.ThemeSettingsActivity"
             android:exported="true"
-            android:label="@string/pref_title_theme_settings">
+            android:label="@string/pref_title_theme_settings"
+            tools:ignore="ExportedPreferenceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.phonemetra.turbo.launcher.category.LAUNCHER_PREFERENCES" />
@@ -204,7 +205,7 @@
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
-                <data android:scheme="package"></data>
+                <data android:scheme="package" />
             </intent-filter>
         </receiver>
 
