@@ -13,6 +13,7 @@ import com.android.gallery3d.common.Utils;
 import com.android.gallery3d.exif.ExifInterface;
 import com.android.gallery3d.glrenderer.BasicTexture;
 import com.android.gallery3d.glrenderer.BitmapTexture;
+import com.roy.android.photos.views.TileSource;
 import com.roy.android.photos.views.TiledImageRenderer;
 
 import java.io.BufferedInputStream;
@@ -20,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
+public class BitmapRegionTileSource implements TileSource {
 
     private static final String TAG = "BitmapRegionTileSource";
 

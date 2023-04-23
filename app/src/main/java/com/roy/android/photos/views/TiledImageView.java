@@ -1,34 +1,14 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.photos.views;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.RectF;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Choreographer;
 import android.view.Choreographer.FrameCallback;
@@ -37,25 +17,18 @@ import android.widget.FrameLayout;
 
 import com.android.gallery3d.glrenderer.BasicTexture;
 import com.android.gallery3d.glrenderer.GLES20Canvas;
-import com.roy.android.photos.views.TiledImageRenderer.TileSource;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * Shows an image using {@link TiledImageRenderer} using either {@link GLSurfaceView}
- * or {@link BlockingGLTextureView}.
- */
 public class TiledImageView extends FrameLayout {
 
     private static final boolean USE_TEXTURE_VIEW = false;
-    private static final boolean IS_SUPPORTED =
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
-    private static final boolean USE_CHOREOGRAPHER =
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    private static final boolean IS_SUPPORTED = true;
+    private static final boolean USE_CHOREOGRAPHER = true;
 
     private BlockingGLTextureView mTextureView;
-    private GLSurfaceView mGLSurfaceView;
+    private final GLSurfaceView mGLSurfaceView;
     private boolean mInvalPending = false;
     private FrameCallback mFrameCallback;
 
@@ -71,17 +44,17 @@ public class TiledImageView extends FrameLayout {
         TiledImageRenderer image;
     }
 
-    private float[] mValues = new float[9];
+//    private final float[] mValues = new float[9];
 
     // -------------------------
     // Guarded by mLock
     // -------------------------
-    protected Object mLock = new Object();
+    protected final Object mLock = new Object();
     protected ImageRendererWrapper mRenderer;
 
-    public static boolean isTilingSupported() {
-        return IS_SUPPORTED;
-    }
+//    public static boolean isTilingSupported() {
+//        return IS_SUPPORTED;
+//    }
 
     public TiledImageView(Context context) {
         this(context, null);
@@ -107,8 +80,7 @@ public class TiledImageView extends FrameLayout {
             mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
             view = mGLSurfaceView;
         }
-        addView(view, new LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        addView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         //setTileSource(new ColoredTiles());
     }
 
@@ -135,7 +107,7 @@ public class TiledImageView extends FrameLayout {
         }
     }
 
-    private Runnable mFreeTextures = new Runnable() {
+    private final Runnable mFreeTextures = new Runnable() {
 
         @Override
         public void run() {
@@ -143,23 +115,23 @@ public class TiledImageView extends FrameLayout {
         }
     };
 
-    public void onPause() {
-        if (!IS_SUPPORTED) {
-            return;
-        }
-        if (!USE_TEXTURE_VIEW) {
-            mGLSurfaceView.onPause();
-        }
-    }
+//    public void onPause() {
+//        if (!IS_SUPPORTED) {
+//            return;
+//        }
+//        if (!USE_TEXTURE_VIEW) {
+//            mGLSurfaceView.onPause();
+//        }
+//    }
 
-    public void onResume() {
-        if (!IS_SUPPORTED) {
-            return;
-        }
-        if (!USE_TEXTURE_VIEW) {
-            mGLSurfaceView.onResume();
-        }
-    }
+//    public void onResume() {
+//        if (!IS_SUPPORTED) {
+//            return;
+//        }
+//        if (!USE_TEXTURE_VIEW) {
+//            mGLSurfaceView.onResume();
+//        }
+//    }
 
     public void setTileSource(TileSource source, Runnable isReadyCallback) {
         if (!IS_SUPPORTED) {
@@ -178,8 +150,7 @@ public class TiledImageView extends FrameLayout {
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right,
-            int bottom) {
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (!IS_SUPPORTED) {
             return;
@@ -190,13 +161,10 @@ public class TiledImageView extends FrameLayout {
     }
 
     private void updateScaleIfNecessaryLocked(ImageRendererWrapper renderer) {
-        if (renderer == null || renderer.source == null
-                || renderer.scale > 0 || getWidth() == 0) {
+        if (renderer == null || renderer.source == null || renderer.scale > 0 || getWidth() == 0) {
             return;
         }
-        renderer.scale = Math.min(
-                (float) getWidth() / (float) renderer.source.getImageWidth(),
-                (float) getHeight() / (float) renderer.source.getImageHeight());
+        renderer.scale = Math.min((float) getWidth() / (float) renderer.source.getImageWidth(), (float) getHeight() / (float) renderer.source.getImageHeight());
     }
 
     @Override
@@ -236,59 +204,56 @@ public class TiledImageView extends FrameLayout {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void invalOnVsync() {
         if (!mInvalPending) {
             mInvalPending = true;
             if (mFrameCallback == null) {
-                mFrameCallback = new FrameCallback() {
-                    @Override
-                    public void doFrame(long frameTimeNanos) {
-                        mInvalPending = false;
-                        mGLSurfaceView.requestRender();
-                    }
+                mFrameCallback = frameTimeNanos -> {
+                    mInvalPending = false;
+                    mGLSurfaceView.requestRender();
                 };
             }
             Choreographer.getInstance().postFrameCallback(mFrameCallback);
         }
     }
 
-    private RectF mTempRectF = new RectF();
-    public void positionFromMatrix(Matrix matrix) {
-        if (!IS_SUPPORTED) {
-            return;
-        }
-        if (mRenderer.source != null) {
-            final int rotation = mRenderer.source.getRotation();
-            final boolean swap = !(rotation % 180 == 0);
-            final int width = swap ? mRenderer.source.getImageHeight()
-                    : mRenderer.source.getImageWidth();
-            final int height = swap ? mRenderer.source.getImageWidth()
-                    : mRenderer.source.getImageHeight();
-            mTempRectF.set(0, 0, width, height);
-            matrix.mapRect(mTempRectF);
-            matrix.getValues(mValues);
-            int cx = width / 2;
-            int cy = height / 2;
-            float scale = mValues[Matrix.MSCALE_X];
-            int xoffset = Math.round((getWidth() - mTempRectF.width()) / 2 / scale);
-            int yoffset = Math.round((getHeight() - mTempRectF.height()) / 2 / scale);
-            if (rotation == 90 || rotation == 180) {
-                cx += (mTempRectF.left / scale) - xoffset;
-            } else {
-                cx -= (mTempRectF.left / scale) - xoffset;
-            }
-            if (rotation == 180 || rotation == 270) {
-                cy += (mTempRectF.top / scale) - yoffset;
-            } else {
-                cy -= (mTempRectF.top / scale) - yoffset;
-            }
-            mRenderer.scale = scale;
-            mRenderer.centerX = swap ? cy : cx;
-            mRenderer.centerY = swap ? cx : cy;
-            invalidate();
-        }
-    }
+//    private final RectF mTempRectF = new RectF();
+
+//    public void positionFromMatrix(Matrix matrix) {
+//        if (!IS_SUPPORTED) {
+//            return;
+//        }
+//        if (mRenderer.source != null) {
+//            final int rotation = mRenderer.source.getRotation();
+//            final boolean swap = !(rotation % 180 == 0);
+//            final int width = swap ? mRenderer.source.getImageHeight()
+//                    : mRenderer.source.getImageWidth();
+//            final int height = swap ? mRenderer.source.getImageWidth()
+//                    : mRenderer.source.getImageHeight();
+//            mTempRectF.set(0, 0, width, height);
+//            matrix.mapRect(mTempRectF);
+//            matrix.getValues(mValues);
+//            int cx = width / 2;
+//            int cy = height / 2;
+//            float scale = mValues[Matrix.MSCALE_X];
+//            int xoffset = Math.round((getWidth() - mTempRectF.width()) / 2 / scale);
+//            int yoffset = Math.round((getHeight() - mTempRectF.height()) / 2 / scale);
+//            if (rotation == 90 || rotation == 180) {
+//                cx += (mTempRectF.left / scale) - xoffset;
+//            } else {
+//                cx -= (mTempRectF.left / scale) - xoffset;
+//            }
+//            if (rotation == 180 || rotation == 270) {
+//                cy += (mTempRectF.top / scale) - yoffset;
+//            } else {
+//                cy -= (mTempRectF.top / scale) - yoffset;
+//            }
+//            mRenderer.scale = scale;
+//            mRenderer.centerX = swap ? cy : cx;
+//            mRenderer.centerY = swap ? cx : cy;
+//            invalidate();
+//        }
+//    }
 
     private class TileRenderer implements Renderer {
 
@@ -314,8 +279,7 @@ public class TiledImageView extends FrameLayout {
             synchronized (mLock) {
                 readyCallback = mRenderer.isReadyCallback;
                 mRenderer.image.setModel(mRenderer.source, mRenderer.rotation);
-                mRenderer.image.setPosition(mRenderer.centerX, mRenderer.centerY,
-                        mRenderer.scale);
+                mRenderer.image.setPosition(mRenderer.centerX, mRenderer.centerY, mRenderer.scale);
             }
             boolean complete = mRenderer.image.draw(mCanvas);
             if (complete && readyCallback != null) {
@@ -326,9 +290,7 @@ public class TiledImageView extends FrameLayout {
                         mRenderer.isReadyCallback = null;
                     }
                 }
-                if (readyCallback != null) {
-                    post(readyCallback);
-                }
+                post(readyCallback);
             }
         }
 
@@ -336,18 +298,10 @@ public class TiledImageView extends FrameLayout {
 
     @SuppressWarnings("unused")
     private static class ColoredTiles implements TileSource {
-        private static final int[] COLORS = new int[] {
-            Color.RED,
-            Color.BLUE,
-            Color.YELLOW,
-            Color.GREEN,
-            Color.CYAN,
-            Color.MAGENTA,
-            Color.WHITE,
-        };
+        private static final int[] COLORS = new int[]{Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.WHITE,};
 
-        private Paint mPaint = new Paint();
-        private Canvas mCanvas = new Canvas();
+        private final Paint mPaint = new Paint();
+        private final Canvas mCanvas = new Canvas();
 
         @Override
         public int getTileSize() {
@@ -373,8 +327,7 @@ public class TiledImageView extends FrameLayout {
         public Bitmap getTile(int level, int x, int y, Bitmap bitmap) {
             int tileSize = getTileSize();
             if (bitmap == null) {
-                bitmap = Bitmap.createBitmap(tileSize, tileSize,
-                        Bitmap.Config.ARGB_8888);
+                bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ARGB_8888);
             }
             mCanvas.setBitmap(bitmap);
             mCanvas.drawColor(COLORS[level]);

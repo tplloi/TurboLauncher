@@ -24,9 +24,10 @@ import android.graphics.drawable.Drawable;
 
 import com.android.gallery3d.glrenderer.BasicTexture;
 import com.android.gallery3d.glrenderer.BitmapTexture;
+import com.roy.android.photos.views.TileSource;
 import com.roy.android.photos.views.TiledImageRenderer;
 
-public class DrawableTileSource implements TiledImageRenderer.TileSource {
+public class DrawableTileSource implements TileSource {
     private static final int GL_SIZE_LIMIT = 2048;
     // This must be no larger than half the size of the GL_SIZE_LIMIT
     // due to decodePreview being allowed to be up to 2x the size of the target
@@ -68,7 +69,7 @@ public class DrawableTileSource implements TiledImageRenderer.TileSource {
         if (mPreviewSize == 0) {
             return null;
         }
-        if (mPreview == null){
+        if (mPreview == null) {
             float width = getImageWidth();
             float height = getImageHeight();
             while (width > MAX_PREVIEW_SIZE || height > MAX_PREVIEW_SIZE) {

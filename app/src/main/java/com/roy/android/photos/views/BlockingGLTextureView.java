@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.photos.views;
 
 import android.content.Context;
@@ -64,14 +48,14 @@ public class BlockingGLTextureView extends TextureView
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width,
-            int height) {
+                                          int height) {
         mRenderThread.setSurface(surface);
         mRenderThread.setSize(width, height);
     }
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width,
-            int height) {
+                                            int height) {
         mRenderThread.setSize(width, height);
     }
 
@@ -125,7 +109,7 @@ public class BlockingGLTextureView extends TextureView
         }
 
         private static int[] getConfig() {
-            return new int[] {
+            return new int[]{
                     EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                     EGL10.EGL_RED_SIZE, 8,
                     EGL10.EGL_GREEN_SIZE, 8,
@@ -138,7 +122,7 @@ public class BlockingGLTextureView extends TextureView
         }
 
         EGLContext createContext(EGL10 egl, EGLDisplay eglDisplay, EGLConfig eglConfig) {
-            int[] attribList = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL10.EGL_NONE };
+            int[] attribList = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL10.EGL_NONE};
             return egl.eglCreateContext(eglDisplay, eglConfig, EGL10.EGL_NO_CONTEXT, attribList);
         }
 
@@ -170,14 +154,14 @@ public class BlockingGLTextureView extends TextureView
             mEglConfig = chooseEglConfig();
 
             /*
-            * Create an EGL context. We want to do this as rarely as we can, because an
-            * EGL context is a somewhat heavy object.
-            */
+             * Create an EGL context. We want to do this as rarely as we can, because an
+             * EGL context is a somewhat heavy object.
+             */
             mEglContext = createContext(mEgl, mEglDisplay, mEglConfig);
 
             if (mEglContext == null || mEglContext == EGL10.EGL_NO_CONTEXT) {
                 mEglContext = null;
-                throwEglException("createContext");
+                throwEglException();
             }
 
             mEglSurface = null;
@@ -251,13 +235,11 @@ public class BlockingGLTextureView extends TextureView
 
         /**
          * Display the current render surface.
-         * @return the EGL error code from eglSwapBuffers.
          */
-        public int swap() {
+        public void swap() {
             if (!mEgl.eglSwapBuffers(mEglDisplay, mEglSurface)) {
-                return mEgl.eglGetError();
+                mEgl.eglGetError();
             }
-            return EGL10.EGL_SUCCESS;
         }
 
         public void destroySurface() {
@@ -285,8 +267,8 @@ public class BlockingGLTextureView extends TextureView
             }
         }
 
-        private void throwEglException(String function) {
-            throwEglException(function, mEgl.eglGetError());
+        private void throwEglException() {
+            throwEglException("createContext", mEgl.eglGetError());
         }
 
         public static void throwEglException(String function, int error) {
@@ -311,12 +293,12 @@ public class BlockingGLTextureView extends TextureView
         private static final int RESIZE_SURFACE = 3;
         private static final int FINISH = 4;
 
-        private EglHelper mEglHelper = new EglHelper();
+        private final EglHelper mEglHelper = new EglHelper();
 
-        private Object mLock = new Object();
+        private final Object mLock = new Object();
         private int mExecMsgId = INVALID;
         private SurfaceTexture mSurface;
-        private Renderer mRenderer;
+        private final Renderer mRenderer;
         private int mWidth, mHeight;
 
         private boolean mFinished = false;
@@ -394,24 +376,24 @@ public class BlockingGLTextureView extends TextureView
 
         private void handleMessageLocked(int what) {
             switch (what) {
-            case CHANGE_SURFACE:
-                if (mEglHelper.createSurface(mSurface)) {
-                    mGL = mEglHelper.createGL();
-                    mRenderer.onSurfaceCreated(mGL, mEglHelper.mEglConfig);
-                }
-                break;
-            case RESIZE_SURFACE:
-                mRenderer.onSurfaceChanged(mGL, mWidth, mHeight);
-                break;
-            case RENDER:
-                mRenderer.onDrawFrame(mGL);
-                mEglHelper.swap();
-                break;
-            case FINISH:
-                mEglHelper.destroySurface();
-                mEglHelper.finish();
-                mFinished = true;
-                break;
+                case CHANGE_SURFACE:
+                    if (mEglHelper.createSurface(mSurface)) {
+                        mGL = mEglHelper.createGL();
+                        mRenderer.onSurfaceCreated(mGL, mEglHelper.mEglConfig);
+                    }
+                    break;
+                case RESIZE_SURFACE:
+                    mRenderer.onSurfaceChanged(mGL, mWidth, mHeight);
+                    break;
+                case RENDER:
+                    mRenderer.onDrawFrame(mGL);
+                    mEglHelper.swap();
+                    break;
+                case FINISH:
+                    mEglHelper.destroySurface();
+                    mEglHelper.finish();
+                    mFinished = true;
+                    break;
             }
         }
 

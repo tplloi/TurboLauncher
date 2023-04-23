@@ -28,7 +28,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
-import com.roy.android.photos.views.TiledImageRenderer.TileSource;
+import com.roy.android.photos.views.TileSource;
 import com.roy.android.photos.views.TiledImageView;
 
 public class CropView extends TiledImageView implements OnScaleGestureListener {
@@ -41,18 +41,20 @@ public class CropView extends TiledImageView implements OnScaleGestureListener {
     private float mMinScale;
     private boolean mTouchEnabled = true;
     private RectF mTempEdges = new RectF();
-    private float[] mTempPoint = new float[] { 0, 0 };
-    private float[] mTempCoef = new float[] { 0, 0 };
-    private float[] mTempAdjustment = new float[] { 0, 0 };
-    private float[] mTempImageDims = new float[] { 0, 0 };
-    private float[] mTempRendererCenter = new float[] { 0, 0 };
+    private float[] mTempPoint = new float[]{0, 0};
+    private float[] mTempCoef = new float[]{0, 0};
+    private float[] mTempAdjustment = new float[]{0, 0};
+    private float[] mTempImageDims = new float[]{0, 0};
+    private float[] mTempRendererCenter = new float[]{0, 0};
     TouchCallback mTouchCallback;
     Matrix mRotateMatrix;
     Matrix mInverseRotateMatrix;
 
     public interface TouchCallback {
         void onTouchDown();
+
         void onTap();
+
         void onTouchUp();
     }
 
@@ -193,11 +195,11 @@ public class CropView extends TiledImageView implements OnScaleGestureListener {
         if (getWidth() == 0 || getHeight() == 0) {
             final ViewTreeObserver observer = getViewTreeObserver();
             observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-                    public void onGlobalLayout() {
-                        moveToLeft();
-                        getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                });
+                public void onGlobalLayout() {
+                    moveToLeft();
+                    getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
         }
         final RectF edges = mTempEdges;
         getEdgesHelper(edges);
