@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.roy.turbo.launcher.list;
 
 import android.content.Context;
@@ -44,20 +29,20 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
             this.hasHeader = hasHeader;
         }
 
-        /**
+        /*
          * True if the directory should be shown even if no contacts are found.
          */
-        public boolean getShowIfEmpty() {
-            return showIfEmpty;
-        }
+//        public boolean getShowIfEmpty() {
+//            return showIfEmpty;
+//        }
 
-        public boolean getHasHeader() {
-            return hasHeader;
-        }
+//        public boolean getHasHeader() {
+//            return hasHeader;
+//        }
     }
 
     private final Context mContext;
-    private ArrayList<Partition> mPartitions;
+    private final ArrayList<Partition> mPartitions;
     private int mCount = 0;
     private boolean mCacheValid = true;
     private boolean mNotificationsEnabled = true;
@@ -69,7 +54,7 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
 
     public CompositeCursorAdapter(Context context, int initialCapacity) {
         mContext = context;
-        mPartitions = new ArrayList<Partition>();
+        mPartitions = new ArrayList<>();
     }
 
     public Context getContext() {
@@ -91,35 +76,34 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void addPartition(int location, Partition partition) {
-        mPartitions.add(location, partition);
-        invalidate();
-        notifyDataSetChanged();
-    }
+//    public void addPartition(int location, Partition partition) {
+//        mPartitions.add(location, partition);
+//        invalidate();
+//        notifyDataSetChanged();
+//    }
 
-    public void removePartition(int partitionIndex) {
-        Cursor cursor = mPartitions.get(partitionIndex).cursor;
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-        mPartitions.remove(partitionIndex);
-        invalidate();
-        notifyDataSetChanged();
-    }
+//    public void removePartition(int partitionIndex) {
+//        Cursor cursor = mPartitions.get(partitionIndex).cursor;
+//        if (cursor != null && !cursor.isClosed()) {
+//            cursor.close();
+//        }
+//        mPartitions.remove(partitionIndex);
+//        invalidate();
+//        notifyDataSetChanged();
+//    }
 
-    /**
+    /*
      * Removes cursors for all partitions.
      */
     // TODO: Is this really what this is supposed to do? Just remove the cursors? Not close them?
     // Not remove the partitions themselves? Isn't this leaking?
-
-    public void clearPartitions() {
-        for (Partition partition : mPartitions) {
-            partition.cursor = null;
-        }
-        invalidate();
-        notifyDataSetChanged();
-    }
+//    public void clearPartitions() {
+//        for (Partition partition : mPartitions) {
+//            partition.cursor = null;
+//        }
+//        invalidate();
+//        notifyDataSetChanged();
+//    }
 
     /**
      * Closes all cursors and removes all partitions.
@@ -136,19 +120,19 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setHasHeader(int partitionIndex, boolean flag) {
-        mPartitions.get(partitionIndex).hasHeader = flag;
-        invalidate();
-    }
+//    public void setHasHeader(int partitionIndex, boolean flag) {
+//        mPartitions.get(partitionIndex).hasHeader = flag;
+//        invalidate();
+//    }
 
-    public void setShowIfEmpty(int partitionIndex, boolean flag) {
-        mPartitions.get(partitionIndex).showIfEmpty = flag;
-        invalidate();
-    }
+//    public void setShowIfEmpty(int partitionIndex, boolean flag) {
+//        mPartitions.get(partitionIndex).showIfEmpty = flag;
+//        invalidate();
+//    }
 
-    public Partition getPartition(int partitionIndex) {
-        return mPartitions.get(partitionIndex);
-    }
+//    public Partition getPartition(int partitionIndex) {
+//        return mPartitions.get(partitionIndex);
+//    }
 
     protected void invalidate() {
         mCacheValid = false;
@@ -243,26 +227,26 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
         return -1;
     }
 
-    /**
+    /*
      * Given a list position, return the offset of the corresponding item in its
      * partition.  The header, if any, will have offset -1.
      */
-    public int getOffsetInPartition(int position) {
-        ensureCacheValid();
-        int start = 0;
-        for (Partition partition : mPartitions) {
-            int end = start + partition.count;
-            if (position >= start && position < end) {
-                int offset = position - start;
-                if (partition.hasHeader) {
-                    offset--;
-                }
-                return offset;
-            }
-            start = end;
-        }
-        return -1;
-    }
+//    public int getOffsetInPartition(int position) {
+//        ensureCacheValid();
+//        int start = 0;
+//        for (Partition partition : mPartitions) {
+//            int end = start + partition.count;
+//            if (position >= start && position < end) {
+//                int offset = position - start;
+//                if (partition.hasHeader) {
+//                    offset--;
+//                }
+//                return offset;
+//            }
+//            start = end;
+//        }
+//        return -1;
+//    }
 
     /**
      * Returns the first list position for the specified partition.
@@ -284,7 +268,7 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
     /**
      * Returns the overall number of item view types across all partitions. An
      * implementation of this method needs to ensure that the returned count is
-     * consistent with the values returned by {@link #getItemViewType(int,int)}.
+     * consistent with the values returned by {@link #getItemViewType(int, int)}.
      */
     public int getItemViewTypeCount() {
         return 1;
@@ -303,7 +287,7 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
         ensureCacheValid();
         int start = 0;
         for (int i = 0, n = mPartitions.size(); i < n; i++) {
-            int end = start  + mPartitions.get(i).count;
+            int end = start + mPartitions.get(i).count;
             if (position >= start && position < end) {
                 int offset = position - start;
                 if (mPartitions.get(i).hasHeader) {
@@ -357,7 +341,7 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
      * Returns the header view for the specified partition, creating one if needed.
      */
     protected View getHeaderView(int partition, Cursor cursor, View convertView,
-            ViewGroup parent) {
+                                 ViewGroup parent) {
         View view = convertView != null
                 ? convertView
                 : newHeaderView(mContext, partition, cursor, parent);
@@ -369,7 +353,7 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
      * Creates the header view for the specified partition.
      */
     protected View newHeaderView(Context context, int partition, Cursor cursor,
-            ViewGroup parent) {
+                                 ViewGroup parent) {
         return null;
     }
 
@@ -383,7 +367,7 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
      * Returns an item view for the specified partition, creating one if needed.
      */
     protected View getView(int partition, Cursor cursor, int position, View convertView,
-            ViewGroup parent) {
+                           ViewGroup parent) {
         View view;
         if (convertView != null) {
             view = convertView;
@@ -399,7 +383,7 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
      * corresponds directly to the current cursor position.
      */
     protected abstract View newView(Context context, int partition, Cursor cursor, int position,
-            ViewGroup parent);
+                                    ViewGroup parent);
 
     /**
      * Binds an item view for the specified partition and position. Position
@@ -513,13 +497,12 @@ public abstract class CompositeCursorAdapter extends BaseAdapter {
      * Enable or disable data change notifications.  It may be a good idea to
      * disable notifications before making changes to several partitions at once.
      */
-    public void setNotificationsEnabled(boolean flag) {
-        mNotificationsEnabled = flag;
-        if (flag && mNotificationNeeded) {
-            notifyDataSetChanged();
-        }
-    }
-
+//    public void setNotificationsEnabled(boolean flag) {
+//        mNotificationsEnabled = flag;
+//        if (flag && mNotificationNeeded) {
+//            notifyDataSetChanged();
+//        }
+//    }
     @Override
     public void notifyDataSetChanged() {
         if (mNotificationsEnabled) {
