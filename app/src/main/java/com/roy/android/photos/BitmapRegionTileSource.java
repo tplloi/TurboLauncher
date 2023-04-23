@@ -3,11 +3,7 @@ package com.roy.android.photos;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.util.Log;
@@ -23,103 +19,6 @@ import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
-class SimpleBitmapRegionDecoderWrapper implements SimpleBitmapRegionDecoder {
-    BitmapRegionDecoder mDecoder;
-
-    private SimpleBitmapRegionDecoderWrapper(BitmapRegionDecoder decoder) {
-        mDecoder = decoder;
-    }
-
-    public static SimpleBitmapRegionDecoderWrapper newInstance(String pathName, boolean isShareable) {
-        try {
-            BitmapRegionDecoder d = BitmapRegionDecoder.newInstance(pathName, isShareable);
-            if (d != null) {
-                return new SimpleBitmapRegionDecoderWrapper(d);
-            }
-        } catch (IOException e) {
-            Log.w("BitmapRegionTileSource", "getting decoder failed for path " + pathName, e);
-            return null;
-        }
-        return null;
-    }
-
-    public static SimpleBitmapRegionDecoderWrapper newInstance(InputStream is, boolean isShareable) {
-        try {
-            BitmapRegionDecoder d = BitmapRegionDecoder.newInstance(is, isShareable);
-            if (d != null) {
-                return new SimpleBitmapRegionDecoderWrapper(d);
-            }
-        } catch (IOException e) {
-            Log.w("BitmapRegionTileSource", "getting decoder failed", e);
-            return null;
-        }
-        return null;
-    }
-
-    public int getWidth() {
-        return mDecoder.getWidth();
-    }
-
-    public int getHeight() {
-        return mDecoder.getHeight();
-    }
-
-    public Bitmap decodeRegion(Rect wantRegion, BitmapFactory.Options options) {
-        return mDecoder.decodeRegion(wantRegion, options);
-    }
-}
-
-class DumbBitmapRegionDecoder implements SimpleBitmapRegionDecoder {
-    Bitmap mBuffer;
-    Canvas mTempCanvas;
-    Paint mTempPaint;
-
-    private DumbBitmapRegionDecoder(Bitmap b) {
-        mBuffer = b;
-    }
-
-    public static DumbBitmapRegionDecoder newInstance(String pathName) {
-        Bitmap b = BitmapFactory.decodeFile(pathName);
-        if (b != null) {
-            return new DumbBitmapRegionDecoder(b);
-        }
-        return null;
-    }
-
-    public static DumbBitmapRegionDecoder newInstance(InputStream is) {
-        Bitmap b = BitmapFactory.decodeStream(is);
-        if (b != null) {
-            return new DumbBitmapRegionDecoder(b);
-        }
-        return null;
-    }
-
-    public int getWidth() {
-        return mBuffer.getWidth();
-    }
-
-    public int getHeight() {
-        return mBuffer.getHeight();
-    }
-
-    public Bitmap decodeRegion(Rect wantRegion, BitmapFactory.Options options) {
-        if (mTempCanvas == null) {
-            mTempCanvas = new Canvas();
-            mTempPaint = new Paint();
-            mTempPaint.setFilterBitmap(true);
-        }
-        int sampleSize = Math.max(options.inSampleSize, 1);
-        Bitmap newBitmap = Bitmap.createBitmap(wantRegion.width() / sampleSize, wantRegion.height() / sampleSize, Bitmap.Config.ARGB_8888);
-        mTempCanvas.setBitmap(newBitmap);
-        mTempCanvas.save();
-        mTempCanvas.scale(1f / sampleSize, 1f / sampleSize);
-        mTempCanvas.drawBitmap(mBuffer, -wantRegion.left, -wantRegion.top, mTempPaint);
-        mTempCanvas.restore();
-        mTempCanvas.setBitmap(null);
-        return newBitmap;
-    }
-}
 
 public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
 
@@ -473,8 +372,9 @@ public class BitmapRegionTileSource implements TiledImageRenderer.TileSource {
         if (bitmap == null || bitmap.getConfig() != null) {
             return bitmap;
         }
-        Bitmap newBitmap = bitmap.copy(Config.ARGB_8888, false);
+        Bitmap newBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false);
         bitmap.recycle();
         return newBitmap;
     }
 }
+

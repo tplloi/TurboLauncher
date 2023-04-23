@@ -16,6 +16,8 @@
 
 package com.phonemetra.turbo.launcher;
 
+import static com.roy.android.photos.BitmapRegionTileSource.MAX_PREVIEW_SIZE;
+
 import android.animation.LayoutTransition;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -115,14 +117,28 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
     public static abstract class WallpaperTileInfo {
         protected View mView;
+
         public void setView(View v) {
             mView = v;
         }
-        public void onClick(WallpaperPickerActivity a) {}
-        public void onSave(WallpaperPickerActivity a) {}
-        public void onDelete(WallpaperPickerActivity a) {}
-        public boolean isSelectable() { return false; }
-        public boolean isNamelessWallpaper() { return false; }
+
+        public void onClick(WallpaperPickerActivity a) {
+        }
+
+        public void onSave(WallpaperPickerActivity a) {
+        }
+
+        public void onDelete(WallpaperPickerActivity a) {
+        }
+
+        public boolean isSelectable() {
+            return false;
+        }
+
+        public boolean isNamelessWallpaper() {
+            return false;
+        }
+
         public void onIndexUpdated(CharSequence label) {
             if (isNamelessWallpaper()) {
                 mView.setContentDescription(label);
@@ -143,9 +159,11 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         private Uri mUri;
         private boolean mFirstClick = true;
         private BitmapRegionTileSource.UriBitmapSource mBitmapSource;
+
         public UriWallpaperInfo(Uri uri) {
             mUri = uri;
         }
+
         @Override
         public void onClick(final WallpaperPickerActivity a) {
             final Runnable onLoad;
@@ -173,9 +191,10 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                 };
             }
             mBitmapSource = new BitmapRegionTileSource.UriBitmapSource(
-                    a, mUri, BitmapRegionTileSource.MAX_PREVIEW_SIZE);
+                    a, mUri, MAX_PREVIEW_SIZE);
             a.setCropViewTileSource(mBitmapSource, true, false, onLoad);
         }
+
         @Override
         public void onSave(final WallpaperPickerActivity a) {
             boolean finishActivityWhenDone = true;
@@ -190,10 +209,12 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             };
             a.cropImageAndSetWallpaper(mUri, h, finishActivityWhenDone);
         }
+
         @Override
         public boolean isSelectable() {
             return true;
         }
+
         @Override
         public boolean isNamelessWallpaper() {
             return true;
@@ -210,11 +231,12 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             mResId = resId;
             mThumb = thumb;
         }
+
         @Override
         public void onClick(WallpaperPickerActivity a) {
             BitmapRegionTileSource.ResourceBitmapSource bitmapSource =
                     new BitmapRegionTileSource.ResourceBitmapSource(
-                            mResources, mResId, BitmapRegionTileSource.MAX_PREVIEW_SIZE);
+                            mResources, mResId, MAX_PREVIEW_SIZE);
             bitmapSource.loadInBackground();
             BitmapRegionTileSource source = new BitmapRegionTileSource(a, bitmapSource);
             CropView v = a.getCropView();
@@ -228,26 +250,31 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             v.setTouchEnabled(false);
             a.setSystemWallpaperVisiblity(false);
         }
+
         @Override
         public void onSave(WallpaperPickerActivity a) {
             boolean finishActivityWhenDone = true;
             a.cropImageAndSetWallpaper(mResources, mResId, finishActivityWhenDone);
         }
+
         @Override
         public boolean isSelectable() {
             return true;
         }
+
         @Override
         public boolean isNamelessWallpaper() {
             return true;
         }
     }
-    
+
     public static class DefaultWallpaperInfo extends WallpaperTileInfo {
         public Drawable mThumb;
+
         public DefaultWallpaperInfo(Drawable thumb) {
             mThumb = thumb;
         }
+
         @Override
         public void onClick(WallpaperPickerActivity a) {
             CropView c = a.getCropView();
@@ -267,6 +294,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             c.setTouchEnabled(false);
             a.setSystemWallpaperVisiblity(false);
         }
+
         @Override
         public void onSave(WallpaperPickerActivity a) {
             try {
@@ -277,10 +305,12 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             }
             a.finish();
         }
+
         @Override
         public boolean isSelectable() {
             return true;
         }
+
         @Override
         public boolean isNamelessWallpaper() {
             return true;
@@ -294,11 +324,12 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     /**
      * shows the system wallpaper behind the window and hides the {@link
      * #mCropView} if visible
+     *
      * @param visible should the system wallpaper be shown
      */
     protected void setSystemWallpaperVisiblity(final boolean visible) {
         // hide our own wallpaper preview if necessary
-        if(!visible) {
+        if (!visible) {
             mCropView.setVisibility(View.VISIBLE);
         } else {
             changeWallpaperFlags(visible);
@@ -308,7 +339,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         mCropView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(!visible) {
+                if (!visible) {
                     changeWallpaperFlags(visible);
                 } else {
                     mCropView.setVisibility(View.INVISIBLE);
@@ -336,7 +367,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         Runnable showPostExecuteRunnable = new Runnable() {
             @Override
             public void run() {
-                if(postExecute != null) {
+                if (postExecute != null) {
                     postExecute.run();
                 }
                 setSystemWallpaperVisiblity(false);
@@ -358,6 +389,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         mWallpaperStrip = findViewById(R.id.wallpaper_strip);
         mCropView.setTouchCallback(new CropView.TouchCallback() {
             ViewPropertyAnimator mAnim;
+
             @Override
             public void onTouchDown() {
                 if (mAnim != null) {
@@ -368,19 +400,21 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                 }
                 mAnim = mWallpaperStrip.animate();
                 mAnim.alpha(0f)
-                    .setDuration(150)
-                    .withEndAction(new Runnable() {
-                        public void run() {
-                            mWallpaperStrip.setVisibility(View.INVISIBLE);
-                        }
-                    });
+                        .setDuration(150)
+                        .withEndAction(new Runnable() {
+                            public void run() {
+                                mWallpaperStrip.setVisibility(View.INVISIBLE);
+                            }
+                        });
                 mAnim.setInterpolator(new AccelerateInterpolator(0.75f));
                 mAnim.start();
             }
+
             @Override
             public void onTouchUp() {
                 mIgnoreNextTap = false;
             }
+
             @Override
             public void onTap() {
                 boolean ignoreTap = mIgnoreNextTap;
@@ -392,8 +426,8 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                     mWallpaperStrip.setVisibility(View.VISIBLE);
                     mAnim = mWallpaperStrip.animate();
                     mAnim.alpha(1f)
-                         .setDuration(150)
-                         .setInterpolator(new DecelerateInterpolator(0.75f));
+                            .setDuration(150)
+                            .setInterpolator(new DecelerateInterpolator(0.75f));
                     mAnim.start();
                 }
             }
@@ -509,7 +543,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         mCropView.addOnLayoutChangeListener(new OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom,
-                    int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 if ((right - left) > 0 && (bottom - top) > 0) {
                     if (mSelectedIndex >= 0 && mSelectedIndex < mWallpapersView.getChildCount()) {
                         mThumbnailOnClickListener.onClick(
@@ -677,8 +711,8 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     protected Bitmap getThumbnailOfLastPhoto() {
         Cursor cursor = MediaStore.Images.Media.query(getContentResolver(),
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[] { MediaStore.Images.ImageColumns._ID,
-                    MediaStore.Images.ImageColumns.DATE_TAKEN},
+                new String[]{MediaStore.Images.ImageColumns._ID,
+                        MediaStore.Images.ImageColumns.DATE_TAKEN},
                 null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC LIMIT 1");
         Bitmap thumb = null;
         if (cursor != null) {
@@ -730,7 +764,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     }
 
     private void populateWallpapersFromAdapter(ViewGroup parent, BaseAdapter adapter,
-            boolean addLongPressHandler) {
+                                               boolean addLongPressHandler) {
         for (int i = 0; i < adapter.getCount(); i++) {
             FrameLayout thumbnail = (FrameLayout) adapter.getView(i, null, parent);
             parent.addView(thumbnail, i);
@@ -792,7 +826,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     }
 
     private static Bitmap createThumbnail(Point size, Context context, Uri uri, byte[] imageBytes,
-            Resources res, int resId, int rotation, boolean leftAligned) {
+                                          Resources res, int resId, int rotation, boolean leftAligned) {
         int width = size.x;
         int height = size.y;
 
@@ -803,7 +837,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         } else if (imageBytes != null) {
             cropTask = new BitmapCropTask(
                     imageBytes, null, rotation, width, height, false, true, null);
-        }  else {
+        } else {
             cropTask = new BitmapCropTask(
                     context, res, resId, null, rotation, width, height, false, true, null);
         }
@@ -814,7 +848,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
         Matrix rotateMatrix = new Matrix();
         rotateMatrix.setRotate(rotation);
-        float[] rotatedBounds = new float[] { bounds.x, bounds.y };
+        float[] rotatedBounds = new float[]{bounds.x, bounds.y};
         rotateMatrix.mapPoints(rotatedBounds);
         rotatedBounds[0] = Math.abs(rotatedBounds[0]);
         rotatedBounds[1] = Math.abs(rotatedBounds[1]);
@@ -844,11 +878,12 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         final Point defaultSize = getDefaultThumbnailSize(this.getResources());
         final Context context = this;
         new AsyncTask<Void, Bitmap, Bitmap>() {
-            protected Bitmap doInBackground(Void...args) {
+            protected Bitmap doInBackground(Void... args) {
                 int rotation = WallpaperCropActivity.getRotationFromExif(context, uri);
                 return createThumbnail(defaultSize, context, uri, null, null, 0, rotation, false);
 
             }
+
             protected void onPostExecute(Bitmap thumb) {
                 if (thumb != null) {
                     image.setImageBitmap(thumb);
@@ -890,9 +925,9 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             if (newLiveWallpaper != null &&
                     (oldLiveWallpaper == null
                             || !oldLiveWallpaper.getComponent()
-                                    .equals(newLiveWallpaper.getComponent())
+                            .equals(newLiveWallpaper.getComponent())
                             || clickedWallpaper.getComponent()
-                                    .equals(oldLiveWallpaper.getComponent()))) {
+                            .equals(oldLiveWallpaper.getComponent()))) {
                 // Return if a live wallpaper was set
                 setResult(RESULT_OK);
                 finish();
@@ -1037,7 +1072,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                     bundledWallpapers.add(wallpaperInfo);
                     // Log.d(TAG, "add: [" + packageName + "]: " + extra + " (" + res + ")");
                 }
-            } 
+            }
         }
         return bundledWallpapers;
     }
@@ -1100,7 +1135,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     }
 
     public static View createImageTileView(LayoutInflater layoutInflater, int position,
-            View convertView, ViewGroup parent, Drawable thumb) {
+                                           View convertView, ViewGroup parent, Drawable thumb) {
         View view;
 
         if (convertView == null) {
