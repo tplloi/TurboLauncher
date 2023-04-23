@@ -573,31 +573,31 @@ public class ExifInterface {
         short SEA_LEVEL_NEGATIVE = 1;
     }
 
-    public interface GpsStatus {
-        String IN_PROGRESS = "A";
-        String INTEROPERABILITY = "V";
-    }
+//    public interface GpsStatus {
+//        String IN_PROGRESS = "A";
+//        String INTEROPERABILITY = "V";
+//    }
 
-    public interface GpsMeasureMode {
-        String MODE_2_DIMENSIONAL = "2";
-        String MODE_3_DIMENSIONAL = "3";
-    }
+//    public interface GpsMeasureMode {
+//        String MODE_2_DIMENSIONAL = "2";
+//        String MODE_3_DIMENSIONAL = "3";
+//    }
 
-    public interface GpsSpeedRef {
-        String KILOMETERS = "K";
-        String MILES = "M";
-        String KNOTS = "N";
-    }
+//    public interface GpsSpeedRef {
+//        String KILOMETERS = "K";
+//        String MILES = "M";
+//        String KNOTS = "N";
+//    }
 
-    public interface GpsTrackRef {
-        String TRUE_DIRECTION = "T";
-        String MAGNETIC_DIRECTION = "M";
-    }
+//    public interface GpsTrackRef {
+//        String TRUE_DIRECTION = "T";
+//        String MAGNETIC_DIRECTION = "M";
+//    }
 
-    public interface GpsDifferential {
-        short WITHOUT_DIFFERENTIAL_CORRECTION = 0;
-        short DIFFERENTIAL_CORRECTION_APPLIED = 1;
-    }
+//    public interface GpsDifferential {
+//        short WITHOUT_DIFFERENTIAL_CORRECTION = 0;
+//        short DIFFERENTIAL_CORRECTION_APPLIED = 1;
+//    }
 
     private static final String NULL_ARGUMENT_STRING = "Argument is null";
     private ExifData mData = new ExifData(DEFAULT_BYTE_ORDER);
@@ -613,9 +613,9 @@ public class ExifInterface {
      *
      * @param jpeg a byte array containing a jpeg compressed image.
      */
-    public void readExif(byte[] jpeg) throws IOException {
-        readExif(new ByteArrayInputStream(jpeg));
-    }
+//    public void readExif(byte[] jpeg) throws IOException {
+//        readExif(new ByteArrayInputStream(jpeg));
+//    }
 
     /**
      * Reads the exif tags from an InputStream, clearing this ExifInterface
@@ -683,14 +683,14 @@ public class ExifInterface {
      * @param exifOutStream an OutputStream to which the jpeg image with added
      *                      exif tags will be written.
      */
-    public void writeExif(byte[] jpeg, OutputStream exifOutStream) throws IOException {
-        if (jpeg == null || exifOutStream == null) {
-            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
-        }
-        OutputStream s = getExifWriterStream(exifOutStream);
-        s.write(jpeg, 0, jpeg.length);
-        s.flush();
-    }
+//    public void writeExif(byte[] jpeg, OutputStream exifOutStream) throws IOException {
+//        if (jpeg == null || exifOutStream == null) {
+//            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
+//        }
+//        OutputStream s = getExifWriterStream(exifOutStream);
+//        s.write(jpeg, 0, jpeg.length);
+//        s.flush();
+//    }
 
     /**
      * Writes the tags from this ExifInterface object into a jpeg compressed
@@ -700,14 +700,14 @@ public class ExifInterface {
      * @param exifOutStream the OutputStream to which the jpeg image with added
      *                      exif tags will be written.
      */
-    public void writeExif(Bitmap bmap, OutputStream exifOutStream) throws IOException {
-        if (bmap == null || exifOutStream == null) {
-            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
-        }
-        OutputStream s = getExifWriterStream(exifOutStream);
-        bmap.compress(Bitmap.CompressFormat.JPEG, 90, s);
-        s.flush();
-    }
+//    public void writeExif(Bitmap bmap, OutputStream exifOutStream) throws IOException {
+//        if (bmap == null || exifOutStream == null) {
+//            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
+//        }
+//        OutputStream s = getExifWriterStream(exifOutStream);
+//        bmap.compress(Bitmap.CompressFormat.JPEG, 90, s);
+//        s.flush();
+//    }
 
     /**
      * Writes the tags from this ExifInterface object into a jpeg stream,
@@ -717,14 +717,14 @@ public class ExifInterface {
      * @param exifOutStream an OutputStream to which the jpeg image with added
      *                      exif tags will be written.
      */
-    public void writeExif(InputStream jpegStream, OutputStream exifOutStream) throws IOException {
-        if (jpegStream == null || exifOutStream == null) {
-            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
-        }
-        OutputStream s = getExifWriterStream(exifOutStream);
-        doExifStreamIO(jpegStream, s);
-        s.flush();
-    }
+//    public void writeExif(InputStream jpegStream, OutputStream exifOutStream) throws IOException {
+//        if (jpegStream == null || exifOutStream == null) {
+//            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
+//        }
+//        OutputStream s = getExifWriterStream(exifOutStream);
+//        doExifStreamIO(jpegStream, s);
+//        s.flush();
+//    }
 
     /**
      * Writes the tags from this ExifInterface object into a jpeg image,
@@ -734,22 +734,21 @@ public class ExifInterface {
      * @param exifOutFileName a String containing the filepath to which the jpeg
      *                        image with added exif tags will be written.
      */
-    public void writeExif(byte[] jpeg, String exifOutFileName) throws
-            IOException {
-        if (jpeg == null || exifOutFileName == null) {
-            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
-        }
-        OutputStream s = null;
-        try {
-            s = getExifWriterStream(exifOutFileName);
-            s.write(jpeg, 0, jpeg.length);
-            s.flush();
-        } catch (IOException e) {
-            closeSilently(s);
-            throw e;
-        }
-        s.close();
-    }
+//    public void writeExif(byte[] jpeg, String exifOutFileName) throws IOException {
+//        if (jpeg == null || exifOutFileName == null) {
+//            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
+//        }
+//        OutputStream s = null;
+//        try {
+//            s = getExifWriterStream(exifOutFileName);
+//            s.write(jpeg, 0, jpeg.length);
+//            s.flush();
+//        } catch (IOException e) {
+//            closeSilently(s);
+//            throw e;
+//        }
+//        s.close();
+//    }
 
     /**
      * Writes the tags from this ExifInterface object into a jpeg compressed
@@ -759,21 +758,21 @@ public class ExifInterface {
      * @param exifOutFileName a String containing the filepath to which the jpeg
      *                        image with added exif tags will be written.
      */
-    public void writeExif(Bitmap bmap, String exifOutFileName) throws IOException {
-        if (bmap == null || exifOutFileName == null) {
-            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
-        }
-        OutputStream s = null;
-        try {
-            s = getExifWriterStream(exifOutFileName);
-            bmap.compress(Bitmap.CompressFormat.JPEG, 90, s);
-            s.flush();
-        } catch (IOException e) {
-            closeSilently(s);
-            throw e;
-        }
-        s.close();
-    }
+//    public void writeExif(Bitmap bmap, String exifOutFileName) throws IOException {
+//        if (bmap == null || exifOutFileName == null) {
+//            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
+//        }
+//        OutputStream s = null;
+//        try {
+//            s = getExifWriterStream(exifOutFileName);
+//            bmap.compress(Bitmap.CompressFormat.JPEG, 90, s);
+//            s.flush();
+//        } catch (IOException e) {
+//            closeSilently(s);
+//            throw e;
+//        }
+//        s.close();
+//    }
 
     /**
      * Writes the tags from this ExifInterface object into a jpeg stream,
@@ -783,22 +782,21 @@ public class ExifInterface {
      * @param exifOutFileName a String containing the filepath to which the jpeg
      *                        image with added exif tags will be written.
      */
-    public void writeExif(InputStream jpegStream, String exifOutFileName)
-            throws IOException {
-        if (jpegStream == null || exifOutFileName == null) {
-            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
-        }
-        OutputStream s = null;
-        try {
-            s = getExifWriterStream(exifOutFileName);
-            doExifStreamIO(jpegStream, s);
-            s.flush();
-        } catch (IOException e) {
-            closeSilently(s);
-            throw e;
-        }
-        s.close();
-    }
+//    public void writeExif(InputStream jpegStream, String exifOutFileName) throws IOException {
+//        if (jpegStream == null || exifOutFileName == null) {
+//            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
+//        }
+//        OutputStream s = null;
+//        try {
+//            s = getExifWriterStream(exifOutFileName);
+//            doExifStreamIO(jpegStream, s);
+//            s.flush();
+//        } catch (IOException e) {
+//            closeSilently(s);
+//            throw e;
+//        }
+//        s.close();
+//    }
 
     /**
      * Writes the tags from this ExifInterface object into a jpeg file, removing
@@ -808,21 +806,20 @@ public class ExifInterface {
      * @param exifOutFileName a String containing the filepath to which the jpeg
      *                        image with added exif tags will be written.
      */
-    public void writeExif(String jpegFileName, String exifOutFileName)
-            throws IOException {
-        if (jpegFileName == null || exifOutFileName == null) {
-            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
-        }
-        InputStream is = null;
-        try {
-            is = new FileInputStream(jpegFileName);
-            writeExif(is, exifOutFileName);
-        } catch (IOException e) {
-            closeSilently(is);
-            throw e;
-        }
-        is.close();
-    }
+//    public void writeExif(String jpegFileName, String exifOutFileName) throws IOException {
+//        if (jpegFileName == null || exifOutFileName == null) {
+//            throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
+//        }
+//        InputStream is = null;
+//        try {
+//            is = new FileInputStream(jpegFileName);
+//            writeExif(is, exifOutFileName);
+//        } catch (IOException e) {
+//            closeSilently(is);
+//            throw e;
+//        }
+//        is.close();
+//    }
 
     /**
      * Wraps an OutputStream object with an ExifOutputStream. Exif tags in this
@@ -881,50 +878,50 @@ public class ExifInterface {
      * @return true if success, false if could not overwrite. If false, no
      * changes are made to the file.
      */
-    public boolean rewriteExif(String filename, Collection<ExifTag> tags)
-            throws IOException {
-        RandomAccessFile file = null;
-        InputStream is = null;
-        boolean ret;
-        try {
-            File temp = new File(filename);
-            is = new BufferedInputStream(new FileInputStream(temp));
-
-            // Parse beginning of APP1 in exif to find size of exif header.
-            ExifParser parser;
-            try {
-                parser = ExifParser.parse(is, this);
-            } catch (ExifInvalidFormatException e) {
-                throw new IOException("Invalid exif format : ", e);
-            }
-            long exifSize = parser.getOffsetToExifEndFromSOF();
-
-            // Free up resources
-            is.close();
-            is = null;
-
-            // Open file for memory mapping.
-            file = new RandomAccessFile(temp, "rw");
-            long fileLength = file.length();
-            if (fileLength < exifSize) {
-                throw new IOException("Filesize changed during operation");
-            }
-
-            // Map only exif header into memory.
-            ByteBuffer buf = file.getChannel().map(MapMode.READ_WRITE, 0, exifSize);
-
-            // Attempt to overwrite tag values without changing lengths (avoids
-            // file copy).
-            ret = rewriteExif(buf, tags);
-        } catch (IOException e) {
-            closeSilently(file);
-            throw e;
-        } finally {
-            closeSilently(is);
-        }
-        file.close();
-        return ret;
-    }
+//    public boolean rewriteExif(String filename, Collection<ExifTag> tags)
+//            throws IOException {
+//        RandomAccessFile file = null;
+//        InputStream is = null;
+//        boolean ret;
+//        try {
+//            File temp = new File(filename);
+//            is = new BufferedInputStream(new FileInputStream(temp));
+//
+//            // Parse beginning of APP1 in exif to find size of exif header.
+//            ExifParser parser;
+//            try {
+//                parser = ExifParser.parse(is, this);
+//            } catch (ExifInvalidFormatException e) {
+//                throw new IOException("Invalid exif format : ", e);
+//            }
+//            long exifSize = parser.getOffsetToExifEndFromSOF();
+//
+//            // Free up resources
+//            is.close();
+//            is = null;
+//
+//            // Open file for memory mapping.
+//            file = new RandomAccessFile(temp, "rw");
+//            long fileLength = file.length();
+//            if (fileLength < exifSize) {
+//                throw new IOException("Filesize changed during operation");
+//            }
+//
+//            // Map only exif header into memory.
+//            ByteBuffer buf = file.getChannel().map(MapMode.READ_WRITE, 0, exifSize);
+//
+//            // Attempt to overwrite tag values without changing lengths (avoids
+//            // file copy).
+//            ret = rewriteExif(buf, tags);
+//        } catch (IOException e) {
+//            closeSilently(file);
+//            throw e;
+//        } finally {
+//            closeSilently(is);
+//        }
+//        file.close();
+//        return ret;
+//    }
 
     /**
      * Attempts to do an in-place rewrite the exif metadata in a ByteBuffer for
@@ -961,35 +958,35 @@ public class ExifInterface {
      *                 tags if possible.
      * @see #rewriteExif
      */
-    public void forceRewriteExif(String filename, Collection<ExifTag> tags)
-            throws
-            IOException {
-        // Attempt in-place write
-        if (!rewriteExif(filename, tags)) {
-            // Fall back to doing a copy
-            ExifData tempData = mData;
-            mData = new ExifData(DEFAULT_BYTE_ORDER);
-            FileInputStream is = null;
-            ByteArrayOutputStream bytes;
-            try {
-                is = new FileInputStream(filename);
-                bytes = new ByteArrayOutputStream();
-                doExifStreamIO(is, bytes);
-                byte[] imageBytes = bytes.toByteArray();
-                readExif(imageBytes);
-                setTags(tags);
-                writeExif(imageBytes, filename);
-            } catch (IOException e) {
-                closeSilently(is);
-                throw e;
-            } finally {
-                assert is != null;
-                is.close();
-                // Prevent clobbering of mData
-                mData = tempData;
-            }
-        }
-    }
+//    public void forceRewriteExif(String filename, Collection<ExifTag> tags)
+//            throws
+//            IOException {
+//        // Attempt in-place write
+//        if (!rewriteExif(filename, tags)) {
+//            // Fall back to doing a copy
+//            ExifData tempData = mData;
+//            mData = new ExifData(DEFAULT_BYTE_ORDER);
+//            FileInputStream is = null;
+//            ByteArrayOutputStream bytes;
+//            try {
+//                is = new FileInputStream(filename);
+//                bytes = new ByteArrayOutputStream();
+//                doExifStreamIO(is, bytes);
+//                byte[] imageBytes = bytes.toByteArray();
+//                readExif(imageBytes);
+//                setTags(tags);
+//                writeExif(imageBytes, filename);
+//            } catch (IOException e) {
+//                closeSilently(is);
+//                throw e;
+//            } finally {
+//                assert is != null;
+//                is.close();
+//                // Prevent clobbering of mData
+//                mData = tempData;
+//            }
+//        }
+//    }
 
     /**
      * Attempts to do an in-place rewrite of the exif metadata using the tags in
@@ -999,9 +996,9 @@ public class ExifInterface {
      * @param filename a String containing a filepath for a jpeg file.
      * @see #rewriteExif
      */
-    public void forceRewriteExif(String filename) throws IOException {
-        forceRewriteExif(filename, getAllTags());
-    }
+//    public void forceRewriteExif(String filename) throws IOException {
+//        forceRewriteExif(filename, getAllTags());
+//    }
 
     /**
      * Get the exif tags in this ExifInterface object or null if none exist.
@@ -1021,9 +1018,9 @@ public class ExifInterface {
      *              {@link #defineTag}).
      * @return a List of {@link ExifTag}s.
      */
-    public List<ExifTag> getTagsForTagId(short tagId) {
-        return mData.getAllTagsForTagId(tagId);
-    }
+//    public List<ExifTag> getTagsForTagId(short tagId) {
+//        return mData.getAllTagsForTagId(tagId);
+//    }
 
     /**
      * Returns a list of ExifTags that share an IFD (which can be obtained by
@@ -1034,9 +1031,9 @@ public class ExifInterface {
      *              {@link #defineTag}).
      * @return a List of {@link ExifTag}s.
      */
-    public List<ExifTag> getTagsForIfdId(int ifdId) {
-        return mData.getAllTagsForIfd(ifdId);
-    }
+//    public List<ExifTag> getTagsForIfdId(int ifdId) {
+//        return mData.getAllTagsForIfd(ifdId);
+//    }
 
     /**
      * Gets an ExifTag for an IFD other than the tag's default.
@@ -1067,10 +1064,10 @@ public class ExifInterface {
      *
      * @see #getTagValue
      */
-    public Object getTagValue(int tagId, int ifdId) {
-        ExifTag t = getTag(tagId, ifdId);
-        return (t == null) ? null : t.getValue();
-    }
+//    public Object getTagValue(int tagId, int ifdId) {
+//        ExifTag t = getTag(tagId, ifdId);
+//        return (t == null) ? null : t.getValue();
+//    }
 
     /**
      * Returns the value of the ExifTag in that tag's default IFD for a defined
@@ -1080,10 +1077,10 @@ public class ExifInterface {
      * @param tagId a defined tag constant, e.g. {@link #TAG_IMAGE_WIDTH}.
      * @return the value of the ExifTag or null if none exists.
      */
-    public Object getTagValue(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagValue(tagId, ifdId);
-    }
+//    public Object getTagValue(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagValue(tagId, ifdId);
+//    }
 
     /*
      * Getter methods that are similar to getTagValue. Null is returned if the
@@ -1093,40 +1090,40 @@ public class ExifInterface {
     /**
      * @see #getTagValue
      */
-    public String getTagStringValue(int tagId, int ifdId) {
-        ExifTag t = getTag(tagId, ifdId);
-        if (t == null) {
-            return null;
-        }
-        return t.getValueAsString();
-    }
+//    public String getTagStringValue(int tagId, int ifdId) {
+//        ExifTag t = getTag(tagId, ifdId);
+//        if (t == null) {
+//            return null;
+//        }
+//        return t.getValueAsString();
+//    }
 
     /**
      * @see #getTagValue
      */
-    public String getTagStringValue(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagStringValue(tagId, ifdId);
-    }
+//    public String getTagStringValue(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagStringValue(tagId, ifdId);
+//    }
 
     /**
      * @see #getTagValue
      */
-    public Long getTagLongValue(int tagId, int ifdId) {
-        long[] l = getTagLongValues(tagId, ifdId);
-        if (l == null || l.length <= 0) {
-            return null;
-        }
-        return l[0];
-    }
+//    public Long getTagLongValue(int tagId, int ifdId) {
+//        long[] l = getTagLongValues(tagId, ifdId);
+//        if (l == null || l.length <= 0) {
+//            return null;
+//        }
+//        return l[0];
+//    }
 
     /**
      * @see #getTagValue
      */
-    public Long getTagLongValue(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagLongValue(tagId, ifdId);
-    }
+//    public Long getTagLongValue(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagLongValue(tagId, ifdId);
+//    }
 
     /**
      * @see #getTagValue
