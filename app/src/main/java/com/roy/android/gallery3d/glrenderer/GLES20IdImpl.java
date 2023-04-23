@@ -34,9 +34,9 @@ public class GLES20IdImpl implements GLId {
         GLES20Canvas.checkError();
     }
 
-    @Override
-    public void glDeleteFramebuffers(GL11ExtensionPack gl11ep, int n, int[] buffers, int offset) {
-        GLES20.glDeleteFramebuffers(n, buffers, offset);
-        GLES20Canvas.checkError();
-    }
+//    @Override
+//    public void glDeleteFramebuffers(GL11ExtensionPack gl11ep, int n, int[] buffers, int offset) {
+//        GLES20.glDeleteFramebuffers(n, buffers, offset);
+//        GLES20Canvas.checkError();
+//    }
 }

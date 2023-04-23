@@ -1,4 +1,4 @@
-package com.roy.android.gallery3d.glrenderer;
+package com.roy.android.gallery3d.glrenderer
 
 // Texture is a rectangular image which can be drawn on GLCanvas.
 // The isOpaque() function gives a hint about whether the texture is opaque,
@@ -18,14 +18,10 @@ package com.roy.android.gallery3d.glrenderer;
 //       -- CanvasTexture
 //          -- StringTexture
 //
-public interface Texture {
-    int getWidth();
-
-    int getHeight();
-
-    void draw(GLCanvas canvas, int x, int y);
-
-    void draw(GLCanvas canvas, int x, int y, int w, int h);
-
-    boolean isOpaque();
+interface Texture {
+    val width: Int
+    val height: Int
+    fun draw(canvas: GLCanvas?, x: Int, y: Int)
+    fun draw(canvas: GLCanvas?, x: Int, y: Int, w: Int, h: Int)
+    val isOpaque: Boolean
 }
