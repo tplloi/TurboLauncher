@@ -26,7 +26,4 @@
     </style>
 
 <!-- AppsCustomize -->
-    <style name="TabIndicator.AppsCustomize">
-        <item name="android:maxWidth">150dp</item>
-    </style>
 </resources>

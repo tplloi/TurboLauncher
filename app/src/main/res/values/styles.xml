@@ -43,10 +43,6 @@
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
-    <style name="WorkspaceIcon.Portrait"></style>
-
-    <style name="WorkspaceIcon.Landscape"></style>
-
     <style name="WorkspaceIcon.AppsCustomize">
         <item name="android:background">@null</item>
         <item name="android:textColor">@color/apps_customize_icon_text_color</item>
@@ -82,36 +78,6 @@
         <item name="android:shadowRadius">4.0</item>
     </style>
 
-    <style name="TabIndicator">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
-        <item name="android:background">@drawable/tab_widget_indicator_selector</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="TabIndicator.AppsCustomize">
-        <!-- Overridden in values-land -->
-    </style>
-
-    <style name="MarketButton">
-        <item name="android:paddingLeft">5dp</item>
-        <item name="android:paddingRight">5dp</item>
-        <item name="android:textColor">@color/workspace_all_apps_and_delete_zone_text_color</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:shadowColor">@color/workspace_all_apps_and_delete_zone_text_shadow_color</item>
-        <item name="android:shadowDx">0.0</item>
-        <item name="android:shadowDy">0.0</item>
-        <item name="android:shadowRadius">2.0</item>
-    </style>
-
     <style name="PagedViewWidgetImageView">
         <item name="android:paddingLeft">@dimen/app_widget_preview_padding_left</item>
     </style>
@@ -124,12 +90,6 @@
         <item name="android:actionBarStyle">@style/WallpaperCropperActionBar</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowActionBarOverlay">true</item>
-    </style>
-
-    <style name="Theme.WallpaperPicker" parent="Theme.WallpaperCropper">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowShowWallpaper">true</item>
     </style>
 
     <style name="WallpaperCropperActionBar" parent="android:style/Widget.Holo.ActionBar">

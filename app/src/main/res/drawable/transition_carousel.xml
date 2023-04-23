@@ -1,6 +1,6 @@
 <animation-list
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/transition_carousel" android:oneshot="false">
+    android:oneshot="false">
     <item android:drawable="@drawable/carousel_00000" android:duration="30" />
     <item android:drawable="@drawable/carousel_00001" android:duration="30" />
     <item android:drawable="@drawable/carousel_00002" android:duration="30" />

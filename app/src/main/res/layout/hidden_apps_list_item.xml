@@ -26,7 +26,7 @@
         android:ellipsize="marquee"
         android:fadingEdge="horizontal" />
 
-    <com.phonemetra.turbo.launcher.widget.InertCheckBox android:id="@+id/checkbox"
+    <com.phonemetra.turbo.launcher.widget.InertCheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

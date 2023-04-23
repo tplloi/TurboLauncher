@@ -16,12 +16,7 @@
      limitations under the License.
 -->
 <resources>
-  <string-array name="preferences_interface_general_icons_text_font_family_entries">
-    <item>Normal</item>
-    <item>Dënn</item>
-    <item>Schmuel</item>
-  </string-array>
-  <string-array name="transition_effect_entries">
+    <string-array name="transition_effect_entries">
     <item>Keen</item>
     <item>Erazoomen</item>
     <item>Erauszoomen</item>

@@ -1,6 +1,6 @@
 <animation-list
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/transition_stack" android:oneshot="false">
+    android:oneshot="false">
     <item android:drawable="@drawable/stack_00000" android:duration="30" />
     <item android:drawable="@drawable/stack_00001" android:duration="30" />
     <item android:drawable="@drawable/stack_00002" android:duration="30" />

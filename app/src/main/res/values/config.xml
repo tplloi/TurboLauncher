@@ -49,7 +49,6 @@
     <integer name="config_workspaceDefaultScreen">0</integer>
 
     <!-- Tab transition animation duration -->
-    <integer name="config_tabTransitionDuration">250</integer>
 
     <!--
          The slope, in percent, of the drag movement needed to drag an item out of
@@ -91,8 +90,6 @@
     <integer name="config_dropAnimMaxDist">800</integer>
 
     <!-- Properties controlling the workspace fade-out during dragging -->
-    <integer name="config_dragFadeOutAlpha">80</integer>
-    <integer name="config_dragFadeOutDuration">250</integer>
 
     <!-- Camera distance for the overscroll effect -->
     <integer name="config_cameraDistance">8000</integer>
@@ -107,9 +104,5 @@
     <string name="app_filter_class" translatable="false"></string>
 
     <bool name="center_crop">false</bool>
-
-    <integer name="qsb_initial_alpha_state">55</integer>
-    <integer name="qsb_end_alpha_state">220</integer>
-    <integer name="qsb_buttons_end_colorfilter">120</integer>
 
 </resources>

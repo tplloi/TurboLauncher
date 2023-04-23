@@ -19,8 +19,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="home" msgid="7658288663002113681">"Accueil"</string>
-    <string name="uid_name" msgid="7820867637514617527">"Applications de base Android"</string>
     <string name="folder_name" msgid="7371454440695724752"></string>
     <string name="wallpaper_instructions" msgid="563973358787555519">"Définir comme fond d\'écran"</string>
   <plurals name="number_of_items_selected">
@@ -35,48 +33,22 @@
     <string name="pick_wallpaper" msgid="8179698221502010609">"Fonds d\'écran"</string>
     <string name="crop_wallpaper" msgid="8334345984491368009">"Rogner le fond d\'écran"</string>
     <string name="activity_not_found" msgid="8071924732094499514">"L\'application n\'est pas installée."</string>
-    <string name="widgets_tab_label" msgid="2921133187116603919">"Widgets"</string>
-    <string name="widget_adder" msgid="3201040140710381657">"Widgets"</string>
     <string name="long_press_widget_to_add" msgid="7699152356777458215">"App. de manière prolongée pour sélectionner widget."</string>
-    <string name="market" msgid="2619650989819296998">"Boutique"</string>
     <string name="widget_dims_format" msgid="2370757736025621599">"%1$d x %2$d"</string>
-    <string name="external_drop_widget_error" msgid="3165821058322217155">"Impossible de déposer élément sur écran d\'accueil."</string>
-    <string name="external_drop_widget_pick_title" msgid="3486317258037690630">"Sélectionner le widget à créer"</string>
-    <string name="rename_folder_label" msgid="3727762225964550653">"Nom du dossier"</string>
-    <string name="rename_folder_title" msgid="3771389277707820891">"Renommer le dossier"</string>
-    <string name="rename_action" msgid="5559600076028658757">"OK"</string>
-    <string name="cancel_action" msgid="7009134900002915310">"Annuler"</string>
-    <string name="menu_item_add_item" msgid="1264911265836810421">"Ajouter à l\'écran d\'accueil"</string>
     <string name="group_applications" msgid="3797214114206693605">"Applications"</string>
-    <string name="group_shortcuts" msgid="6012256992764410535">"Raccourcis"</string>
-    <string name="group_widgets" msgid="1569030723286851002">"Widgets"</string>
-    <string name="completely_out_of_space" msgid="6106288382070760318">"Vous n\'avez plus d\'espace libre sur vos écrans d\'accueil."</string>
     <string name="out_of_space" msgid="4691004494942118364">"Pas d\'espace libre sur cet écran d\'accueil."</string>
     <string name="hotseat_out_of_space" msgid="9139760413395605841">"Vous n\'avez plus de place sur la barre d\'accès rapide."</string>
-    <string name="invalid_hotseat_item" msgid="1211534262129849507">"Ce widget est trop volumineux pour la barre d\'accès rapide."</string>
-    <string name="shortcut_installed" msgid="1701742129426969556">"Le raccourci \"<xliff:g id="NAME">%s</xliff:g>\" a été créé."</string>
     <string name="shortcut_uninstalled" msgid="8176767991305701821">"Le raccourci \"<xliff:g id="NAME">%s</xliff:g>\" a été supprimé."</string>
     <string name="shortcut_duplicate" msgid="9167217446062498127">"Le raccourci \"<xliff:g id="NAME">%s</xliff:g>\" existe déjà."</string>
-    <string name="title_select_shortcut" msgid="6680642571148153868">"Sélectionner un raccourci"</string>
     <string name="title_select_application" msgid="3280812711670683644">"Sélectionner une application"</string>
     <string name="all_apps_button_label" msgid="9110807029020582876">"Applications"</string>
     <string name="all_apps_home_button_label" msgid="252062713717058851">"Accueil"</string>
     <string name="delete_zone_label_workspace" msgid="4009607676751398685">"Supprimer"</string>
-    <string name="delete_zone_label_all_apps" msgid="8083826390278958980">"Désinstaller"</string>
     <string name="delete_target_label" msgid="1822697352535677073">"Supprimer"</string>
     <string name="delete_target_uninstall_label" msgid="5100785476250872595">"Désinstaller"</string>
     <string name="info_target_label" msgid="8053346143994679532">"Informations sur l\'application"</string>
     <string name="accessibility_search_button" msgid="1628520399424565142">"Rechercher"</string>
     <string name="accessibility_voice_search_button" msgid="4637324840434406584">"Recherche vocale"</string>
-    <string name="accessibility_all_apps_button" msgid="2603132375383800483">"Applications"</string>
-    <string name="accessibility_delete_button" msgid="6466114477993744621">"Supprimer"</string>
-    <string name="delete_zone_label_all_apps_system_app" msgid="449755632749610895">"Désinstaller la mise à jour"</string>
-    <string name="cab_menu_delete_app" msgid="7435191475867183689">"Désinstaller l\'application"</string>
-    <string name="cab_menu_app_info" msgid="8593722221450362342">"Informations sur l\'application"</string>
-    <string name="cab_app_selection_text" msgid="374688303047985416">"1 application sélectionnée"</string>
-    <string name="cab_widget_selection_text" msgid="1833458597831541241">"1 widget sélectionné"</string>
-    <string name="cab_folder_selection_text" msgid="7999992513806132118">"1 dossier sélectionné"</string>
-    <string name="cab_shortcut_selection_text" msgid="2103811025667946450">"1 raccourci sélectionné"</string>
     <string name="permlab_install_shortcut" msgid="5632423390354674437">"installer des raccourcis"</string>
     <string name="permdesc_install_shortcut" msgid="923466509822011139">"Permettre à une application d\'ajouter des raccourcis sans l\'intervention de l\'utilisateur"</string>
     <string name="permlab_uninstall_shortcut" msgid="864595034498083837">"désinstaller des raccourcis"</string>
@@ -88,7 +60,6 @@
     <string name="gadget_error_text" msgid="6081085226050792095">"Problème lors du chargement du widget."</string>
     <string name="uninstall_system_app_text" msgid="4172046090762920660">"Impossible de désinstaller cette application, car il s\'agit d\'une application système."</string>
     <string name="folder_hint_text" msgid="6617836969016293992">"Dossier sans nom"</string>
-    <string name="workspace_description_format" msgid="2950174241104043327">"Écran d\'accueil %1$d"</string>
     <string name="default_scroll_format" msgid="7475544710230993317">"Page %1$d sur %2$d"</string>
     <string name="workspace_scroll_format" msgid="8458889198184077399">"Écran d\'accueil %1$d sur %2$d"</string>
     <string name="apps_customize_apps_scroll_format" msgid="370005296147130238">"Page des applications %1$d sur %2$d"</string>
@@ -102,46 +73,12 @@
     <string name="widget_button_text" msgid="2880537293434387943">"Widgets"</string>
     <string name="wallpaper_button_text" msgid="8404103075899945851">"Fonds d\'écran"</string>
     <string name="settings_button_text" msgid="8119458837558863227">"Paramètres"</string>
-    <string name="application_copyright">Copyright \\u00A9 2015 Phonemetra</string>
-  <string name="sort_button_text">Trier</string>
-  <string name="filter_button_text">Filtre</string>
-  <string name="default_screen_button_text">Écran par défaut</string>
-  <string name="transition_effect_button_text">Effet de défilement</string>
-  <string name="sort_mode_title">Titre</string>
+    <string name="sort_mode_title">Titre</string>
   <string name="sort_mode_launch_count">Nombre de lancements</string>
   <string name="sort_mode_install_time">Durée d\'installation</string>
   <string name="scrolling_page_outlines">Espacement des pages</string>
   <string name="scrolling_fade_adjacent">Estomper les pages adjacentes</string>
-  <string name="wallpaper_scroll">Défilement du fond d\'écran</string>
-  <string name="preferences_title">Paramètres</string>
-  <string name="preferences_application_title">Application</string>
-  <string name="preferences_interface_homescreen_title">Écran d\'accueil</string>
-  <string name="preferences_interface_homescreen_search_title">Barre de recherche</string>
-  <string name="preferences_interface_homescreen_search_summary">Afficher la barre de recherche persistante en haut de l\'écran</string>
-  <string name="preferences_interface_homescreen_general_hide_icon_labels_title">Masquer le nom des icônes</string>
-  <string name="preferences_interface_homescreen_general_hide_icon_labels_summary">Masquer le nom des icônes sur l\'écran d\'accueil</string>
-  <string name="preferences_interface_drawer_title">Liste d\'applications</string>
-  <string name="preferences_interface_drawer_summary">Applications et widgets de la liste des applications</string>
-  <string name="preferences_interface_drawer_apps_category">Applications</string>
-  <string name="preferences_interface_drawer_hidden_apps_title">Applications masquées</string>
-  <string name="preferences_interface_drawer_hidden_apps_summary">Masquer les applications de la liste des applications</string>
-  <string name="preferences_interface_drawer_hidden_apps_shortcuts_title">Supprimer les raccourcis</string>
-  <string name="preferences_interface_drawer_hidden_apps_shortcuts_summary">Supprimer les raccourcis sur l\'écran d\'accueil des applications masquées</string>
-  <string name="preferences_interface_drawer_hidden_apps_widgets_title">Supprimer les widgets</string>
-  <string name="preferences_interface_drawer_hidden_apps_widgets_summary">Supprimer les widgets sur l\'écran d\'accueil des applications masquées</string>
-  <string name="preferences_interface_drawer_hide_icon_labels_title">Masquer le nom des icônes</string>
-  <string name="preferences_interface_drawer_hide_icon_labels_summary">Masquer le nom des icônes dans la liste des applications</string>
-  <string name="preferences_interface_dock_title">Dock</string>
-  <string name="preferences_interface_general_title">Général</string>
-  <string name="preferences_interface_general_icons_category">Icônes</string>
-  <string name="preferences_interface_general_icons_large_title">Grandes icônes</string>
-  <string name="preferences_interface_general_icons_large_summary">Utiliser des icônes extra-larges dans l\'écran d\'accueil et la liste d\'applications</string>
-  <string name="preferences_interface_general_icons_text_style_title">Style de police de texte</string>
-  <string name="preferences_interface_general_icons_text_style_summary">Variante et style de police à utiliser pour le texte des l\'icônes</string>
-  <string name="menu_hidden_apps_delete">Réinitialiser</string>
-  <string name="hidden_apps_title">Applications masquées</string>
-  <string name="launcher_settings">PARAMÈTRES DU LANCEUR</string>
-  <string name="home_screen_settings">PARAMÈTRES DE L\'ÉCRAN D\'ACCUEIL</string>
+    <string name="home_screen_settings">PARAMÈTRES DE L\'ÉCRAN D\'ACCUEIL</string>
   <string name="drawer_settings">PARAMÈTRES DE L\'ÉCRAN DES APPLICATIONS</string>
   <string name="scroll_effect_text">Effet de défilement</string>
   <string name="drawer_sorting_text">Mode de tri</string>

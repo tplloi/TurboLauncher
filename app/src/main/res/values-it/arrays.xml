@@ -16,12 +16,7 @@
      limitations under the License.
 -->
 <resources>
-  <string-array name="preferences_interface_general_icons_text_font_family_entries">
-    <item>Regolare</item>
-    <item>Luminoso</item>
-    <item>Condensato</item>
-  </string-array>
-  <string-array name="transition_effect_entries">
+    <string-array name="transition_effect_entries">
     <item>Nessuno</item>
     <item>Riduci</item>
     <item>Ingrandisci</item>

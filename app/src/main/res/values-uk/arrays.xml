@@ -16,12 +16,7 @@
      limitations under the License.
 -->
 <resources>
-  <string-array name="preferences_interface_general_icons_text_font_family_entries">
-    <item>Звичайний</item>
-    <item>Легкий</item>
-    <item>Стиснутий</item>
-  </string-array>
-  <string-array name="transition_effect_entries">
+    <string-array name="transition_effect_entries">
     <item>Немає</item>
     <item>Збільшення</item>
     <item>Зменшення</item>

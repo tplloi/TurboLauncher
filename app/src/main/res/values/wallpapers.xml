@@ -19,8 +19,5 @@
     <string-array name="wallpapers" translatable="false">
         <item>default_wallpaper</item>
     </string-array>
-    
-    <string-array name="extra_wallpapers">
-    </string-array>
- 
+
 </resources>

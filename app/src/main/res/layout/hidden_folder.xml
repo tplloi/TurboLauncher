@@ -12,7 +12,6 @@
     android:clickable="true" >
 
     <RelativeLayout
-        android:id="@+id/folder_title_lock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >

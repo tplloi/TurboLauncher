@@ -16,12 +16,7 @@
      limitations under the License.
 -->
 <resources>
-  <string-array name="preferences_interface_general_icons_text_font_family_entries">
-    <item>Vanlig</item>
-    <item>Ljus</item>
-    <item>Kondenserad</item>
-  </string-array>
-  <string-array name="transition_effect_entries">
+    <string-array name="transition_effect_entries">
     <item>Ingen</item>
     <item>Zooma In</item>
     <item>Zooma ut</item>

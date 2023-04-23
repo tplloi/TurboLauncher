@@ -26,15 +26,5 @@
         <item name="android:navigationBarColor">#00000000</item>
     </style>
 
-    <style name="Theme.Material" parent="@android:style/Theme.Material">
-
-        <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:colorAccent">@color/colorAccent</item>
-
-    </style>
-
-    <style name="Theme.Settings" parent="Theme.Material"/>
-
 
 </resources>

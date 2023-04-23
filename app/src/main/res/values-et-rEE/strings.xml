@@ -19,8 +19,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="home" msgid="7658288663002113681">"Avaekraan"</string>
-    <string name="uid_name" msgid="7820867637514617527">"Androidi tuumrakendused"</string>
     <string name="folder_name" msgid="7371454440695724752"></string>
     <string name="wallpaper_instructions" msgid="563973358787555519">"Määra taustapilt"</string>
   <plurals name="number_of_items_selected">
@@ -35,48 +33,22 @@
     <string name="pick_wallpaper" msgid="8179698221502010609">"Taustapildid"</string>
     <string name="crop_wallpaper" msgid="8334345984491368009">"Taustapildi kärpimine"</string>
     <string name="activity_not_found" msgid="8071924732094499514">"Rakendus pole installitud."</string>
-    <string name="widgets_tab_label" msgid="2921133187116603919">"Vidinad"</string>
-    <string name="widget_adder" msgid="3201040140710381657">"Vidinad"</string>
     <string name="long_press_widget_to_add" msgid="7699152356777458215">"Vidina valimiseks vajutage ja hoidke seda all."</string>
-    <string name="market" msgid="2619650989819296998">"Pood"</string>
     <string name="widget_dims_format" msgid="2370757736025621599">"%1$d × %2$d"</string>
-    <string name="external_drop_widget_error" msgid="3165821058322217155">"Üksust ei saanud sellele avaekraanile tuua."</string>
-    <string name="external_drop_widget_pick_title" msgid="3486317258037690630">"Valige loomiseks vidin"</string>
-    <string name="rename_folder_label" msgid="3727762225964550653">"Kausta nimi"</string>
-    <string name="rename_folder_title" msgid="3771389277707820891">"Kausta ümbernimetamine"</string>
-    <string name="rename_action" msgid="5559600076028658757">"OK"</string>
-    <string name="cancel_action" msgid="7009134900002915310">"Tühista"</string>
-    <string name="menu_item_add_item" msgid="1264911265836810421">"Avaekraanile lisamine"</string>
     <string name="group_applications" msgid="3797214114206693605">"Rakendused"</string>
-    <string name="group_shortcuts" msgid="6012256992764410535">"Otseteed"</string>
-    <string name="group_widgets" msgid="1569030723286851002">"Vidinad"</string>
-    <string name="completely_out_of_space" msgid="6106288382070760318">"Teie avaekraanidel ei ole enam ruumi."</string>
     <string name="out_of_space" msgid="4691004494942118364">"Sellel avaekraanil pole enam ruumi."</string>
     <string name="hotseat_out_of_space" msgid="9139760413395605841">"Kohandataval dokialal pole rohkem ruumi."</string>
-    <string name="invalid_hotseat_item" msgid="1211534262129849507">"See vidin on kohandatava dokiala jaoks liiga suur."</string>
-    <string name="shortcut_installed" msgid="1701742129426969556">"Otsetee „<xliff:g id="NAME">%s</xliff:g>” on loodud."</string>
     <string name="shortcut_uninstalled" msgid="8176767991305701821">"Otsetee „<xliff:g id="NAME">%s</xliff:g>” on eemaldatud."</string>
     <string name="shortcut_duplicate" msgid="9167217446062498127">"Otsetee „<xliff:g id="NAME">%s</xliff:g>” on juba olemas."</string>
-    <string name="title_select_shortcut" msgid="6680642571148153868">"Otsetee valimine"</string>
     <string name="title_select_application" msgid="3280812711670683644">"Rakenduse valimine"</string>
     <string name="all_apps_button_label" msgid="9110807029020582876">"Rakendused"</string>
     <string name="all_apps_home_button_label" msgid="252062713717058851">"Avaekraan"</string>
     <string name="delete_zone_label_workspace" msgid="4009607676751398685">"Eemalda"</string>
-    <string name="delete_zone_label_all_apps" msgid="8083826390278958980">"Desinstalli"</string>
     <string name="delete_target_label" msgid="1822697352535677073">"Eemalda"</string>
     <string name="delete_target_uninstall_label" msgid="5100785476250872595">"Desinstalli"</string>
     <string name="info_target_label" msgid="8053346143994679532">"Rakenduse teave"</string>
     <string name="accessibility_search_button" msgid="1628520399424565142">"Otsing"</string>
     <string name="accessibility_voice_search_button" msgid="4637324840434406584">"Häälotsing"</string>
-    <string name="accessibility_all_apps_button" msgid="2603132375383800483">"Rakendused"</string>
-    <string name="accessibility_delete_button" msgid="6466114477993744621">"Eemalda"</string>
-    <string name="delete_zone_label_all_apps_system_app" msgid="449755632749610895">"Desinstalli värskendus"</string>
-    <string name="cab_menu_delete_app" msgid="7435191475867183689">"Rakenduse desinstallimine"</string>
-    <string name="cab_menu_app_info" msgid="8593722221450362342">"Rakenduse üksikasjad"</string>
-    <string name="cab_app_selection_text" msgid="374688303047985416">"Valitud on 1 rakendus"</string>
-    <string name="cab_widget_selection_text" msgid="1833458597831541241">"Valitud on 1 vidin"</string>
-    <string name="cab_folder_selection_text" msgid="7999992513806132118">"Valitud on 1 kaust"</string>
-    <string name="cab_shortcut_selection_text" msgid="2103811025667946450">"Valitud on 1 otsetee"</string>
     <string name="permlab_install_shortcut" msgid="5632423390354674437">"installi otseteed"</string>
     <string name="permdesc_install_shortcut" msgid="923466509822011139">"Võimaldab rakendusel lisada otseteid kasutaja sekkumiseta."</string>
     <string name="permlab_uninstall_shortcut" msgid="864595034498083837">"desinstalli otseteed"</string>
@@ -88,7 +60,6 @@
     <string name="gadget_error_text" msgid="6081085226050792095">"Probleem vidina laadimisel"</string>
     <string name="uninstall_system_app_text" msgid="4172046090762920660">"See on süsteemirakendus ja seda ei saa desinstallida."</string>
     <string name="folder_hint_text" msgid="6617836969016293992">"Nimetu kaust"</string>
-    <string name="workspace_description_format" msgid="2950174241104043327">"Avaekraan %1$d"</string>
     <string name="default_scroll_format" msgid="7475544710230993317">"Leht %1$d/%2$d"</string>
     <string name="workspace_scroll_format" msgid="8458889198184077399">"Avaekraan %1$d/%2$d"</string>
     <string name="apps_customize_apps_scroll_format" msgid="370005296147130238">"Rakenduste leht %1$d/%2$d"</string>

@@ -30,8 +30,7 @@
 	  	android:onClick="applyTheme"
 	/>
 	<Button
-		android:id="@+id/ThemeSearch"
-		android:layout_width="fill_parent"
+        android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 	  	android:text="@string/pref_themes_get_themes"
 	  	android:onClick="getThemes"
