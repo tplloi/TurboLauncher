@@ -1,5 +1,6 @@
 package com.roy.turbo.launcher.list;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -16,37 +17,38 @@ import android.widget.TextView;
 
 import com.roy.turbo.launcher.AppsCustomizePagedView;
 import com.roy.turbo.launcher.Launcher;
+import com.roy.turbo.launcher.R;
 import com.roy.turbo.launcher.settings.SettingsPanel;
 import com.roy.turbo.launcher.settings.SettingsProvider;
-import com.roy.turbo.launcher.R;
 
 public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
-	 private Launcher mLauncher;
-	    private Context mContext;
+    private final Launcher mLauncher;
+    private final Context mContext;
 
-	    class SettingsPosition {
-	        int partition = 0;
-	        int position = 0;
+    static class SettingsPosition {
+        int partition;
+        int position;
 
-	        SettingsPosition (int partition, int position) {
-	            this.partition = partition;
-	            this.position = position;
-	        }
-	    }
+        SettingsPosition(int partition, int position) {
+            this.partition = partition;
+            this.position = position;
+        }
+    }
 
-	    public SettingsPinnedHeaderAdapter(Context context) {
-	        super(context);
-	        mLauncher = (Launcher) context;
-	        mContext = context;
-	    }
+    public SettingsPinnedHeaderAdapter(Context context) {
+        super(context);
+        mLauncher = (Launcher) context;
+        mContext = context;
+    }
 
-	    private String[] mHeaders;
-	    public int mPinnedHeaderCount;
+    private String[] mHeaders;
+    public int mPinnedHeaderCount;
 
-	    public void setHeaders(String[] headers) {
-	        this.mHeaders = headers;
-	    }
+    public void setHeaders(String[] headers) {
+        this.mHeaders = headers;
+    }
 
+    @SuppressLint("InflateParams")
     @Override
     protected View newHeaderView(Context context, int partition, Cursor cursor,
                                  ViewGroup parent) {
@@ -63,6 +65,7 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected View newView(Context context, int partition, Cursor cursor, int position,
                            ViewGroup parent) {
@@ -72,98 +75,94 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
 
     @Override
     protected void bindView(View v, int partition, Cursor cursor, int position) {
-        TextView text = (TextView)v.findViewById(R.id.item_name);
-        
-     
+        TextView text = (TextView) v.findViewById(R.id.item_name);
+
+
         Configuration config = mLauncher.getResources().getConfiguration();
         if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-            text.setGravity(Gravity.RIGHT);
+            text.setGravity(Gravity.END);
         }
-        
+
         String title = cursor.getString(1);
         text.setText(title);
 
         v.setTag(new SettingsPosition(partition, position));
 
         Resources res = mLauncher.getResources();
-        
-        boolean current = false;
-        String state = "";
-        
-        
+
+        boolean current;
+        String state;
+
+
         switch (partition) {
-        case SettingsPanel.HOME_SETTINGS_POSITION:
-            switch (position) {
-                case 0:
-                    current = mLauncher.shouldShowSearchBar();
-                    state = current ? res.getString(R.string.setting_state_on)
-                            : res.getString(R.string.setting_state_off);
-                    ((TextView) v.findViewById(R.id.item_state)).setText(state);
-                    break;
-                case 1:
-                    state = mLauncher.getWorkspaceTransitionEffect();
-                    state = mapEffectToValue(state);
-                    ((TextView) v.findViewById(R.id.item_state)).setText(state);
-                    break;
-                case 2:
-                    current = mLauncher.shouldHideWorkspaceIconLables();
-                    state = current ? res.getString(R.string.setting_state_on)
-                            : res.getString(R.string.setting_state_off);
-                    ((TextView) v.findViewById(R.id.item_state)).setText(state);
-                    break;
-                case 3:
-                    current = SettingsProvider.getBoolean(mContext,
-                            SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_WALLPAPER_SCROLL,
-                            R.bool.preferences_interface_homescreen_scrolling_wallpaper_scroll_default);
-                    state = current ? res.getString(R.string.setting_state_on)
-                            : res.getString(R.string.setting_state_off);
-                    ((TextView) v.findViewById(R.id.item_state)).setText(state);
-                    break;
-                default:
-                    ((TextView) v.findViewById(R.id.item_state)).setText("");
-            }
-            break;
-        case SettingsPanel.DRAWER_SETTINGS_POSITION:
-            switch (position) {
-                case 0:
-                    state = mLauncher.getAppsCustomizeTransitionEffect();
-                    state = mapEffectToValue(state);
-                    ((TextView) v.findViewById(R.id.item_state)).setText(state);
-                    break;
-                case 1:
-                    updateDrawerSortSettingsItem(v);
-                    break;
-                case 2:
-                    current = SettingsProvider.getBoolean(mContext,
-                            SettingsProvider.SETTINGS_UI_DRAWER_HIDE_ICON_LABELS,
-                            R.bool.preferences_interface_drawer_hide_icon_labels_default);
-                    state = current ? res.getString(R.string.setting_state_on)
-                            : res.getString(R.string.setting_state_off);
-                    ((TextView) v.findViewById(R.id.item_state)).setText(state);
-                    break;
-                default:
-                    ((TextView) v.findViewById(R.id.item_state)).setText("");
-            }
-            break;
-        default:
-            switch (position) {
-                case 0:
+            case SettingsPanel.HOME_SETTINGS_POSITION:
+                switch (position) {
+                    case 0:
+                        current = mLauncher.shouldShowSearchBar();
+                        state = current ? res.getString(R.string.setting_state_on)
+                                : res.getString(R.string.setting_state_off);
+                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        break;
+                    case 1:
+                        state = mLauncher.getWorkspaceTransitionEffect();
+                        state = mapEffectToValue(state);
+                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        break;
+                    case 2:
+                        current = mLauncher.shouldHideWorkspaceIconLables();
+                        state = current ? res.getString(R.string.setting_state_on)
+                                : res.getString(R.string.setting_state_off);
+                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        break;
+                    case 3:
+                        current = SettingsProvider.getBoolean(mContext,
+                                SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_WALLPAPER_SCROLL,
+                                R.bool.preferences_interface_homescreen_scrolling_wallpaper_scroll_default);
+                        state = current ? res.getString(R.string.setting_state_on)
+                                : res.getString(R.string.setting_state_off);
+                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        break;
+                    default:
+                        ((TextView) v.findViewById(R.id.item_state)).setText("");
+                }
+                break;
+            case SettingsPanel.DRAWER_SETTINGS_POSITION:
+                switch (position) {
+                    case 0:
+                        state = mLauncher.getAppsCustomizeTransitionEffect();
+                        state = mapEffectToValue(state);
+                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        break;
+                    case 1:
+                        updateDrawerSortSettingsItem(v);
+                        break;
+                    case 2:
+                        current = SettingsProvider.getBoolean(mContext,
+                                SettingsProvider.SETTINGS_UI_DRAWER_HIDE_ICON_LABELS,
+                                R.bool.preferences_interface_drawer_hide_icon_labels_default);
+                        state = current ? res.getString(R.string.setting_state_on)
+                                : res.getString(R.string.setting_state_off);
+                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        break;
+                    default:
+                        ((TextView) v.findViewById(R.id.item_state)).setText("");
+                }
+                break;
+            default:
+                if (position == 0) {
                     current = SettingsProvider.getBoolean(mContext,
                             SettingsProvider.SETTINGS_UI_GENERAL_ICONS_LARGE,
                             R.bool.preferences_interface_general_icons_large_default);
                     state = current ? res.getString(R.string.setting_state_on)
                             : res.getString(R.string.setting_state_off);
                     ((TextView) v.findViewById(R.id.item_state)).setText(state);
-                    break;
-               
-                    
-                default:
+                } else {
                     ((TextView) v.findViewById(R.id.item_state)).setText("");
-            }
-    }
+                }
+        }
 
-    v.setOnClickListener(mSettingsItemListener);
-        
+        v.setOnClickListener(mSettingsItemListener);
+
     }
 
     @Override
@@ -218,73 +217,71 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
 
         @Override
         public void onClick(View v) {
-             
+
             int partition = ((SettingsPosition) v.getTag()).partition;
             int position = ((SettingsPosition) v.getTag()).position;
-             
-            
+
+
             switch (partition) {
-            case SettingsPanel.HOME_SETTINGS_POSITION:
-                switch (position) {
-                    case 0:
-                        onSettingsBooleanChanged(v,
-                                SettingsProvider.SETTINGS_UI_HOMESCREEN_SEARCH,
-                                R.bool.preferences_interface_homescreen_search_default);
-                        mLauncher.updateDynamicGrid();
-                        break;
-                    case 1:
-                        mLauncher.onClickTransitionEffectButton(v, false);
-                        break;
-                    case 2:
-                    	onSettingsBooleanChanged(v,
-                                SettingsProvider.SETTINGS_UI_HOMESCREEN_HIDE_ICON_LABELS,
-                                R.bool.preferences_interface_homescreen_hide_icon_labels_default);
-                    	mLauncher.updateDynamicGrid();
-                        break;
-                    case 3:
-                        onSettingsBooleanChanged(v,
-                                SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_WALLPAPER_SCROLL,
-                                R.bool.preferences_interface_homescreen_scrolling_wallpaper_scroll_default);
-                        mLauncher.updateDynamicGrid();
-                        break;
-               
-                }
-                break;
-            case SettingsPanel.DRAWER_SETTINGS_POSITION:
-                switch (position) {
-                    case 0:
-                        mLauncher.onClickTransitionEffectButton(v, true);
-                        break;
-                    case 1:
-                        onClickSortButton();
-                        break;
-                    case 2:
-                    	onSettingsBooleanChanged(v,
-                                SettingsProvider.SETTINGS_UI_DRAWER_HIDE_ICON_LABELS,
-                                R.bool.preferences_interface_drawer_hide_icon_labels_default);
-                        mLauncher.updateDynamicGrid();
-                        break;
-                }
-                break;
-            default:
-                switch (position) {
-                    case 0:
+                case SettingsPanel.HOME_SETTINGS_POSITION:
+                    switch (position) {
+                        case 0:
+                            onSettingsBooleanChanged(v,
+                                    SettingsProvider.SETTINGS_UI_HOMESCREEN_SEARCH,
+                                    R.bool.preferences_interface_homescreen_search_default);
+                            mLauncher.updateDynamicGrid();
+                            break;
+                        case 1:
+                            mLauncher.onClickTransitionEffectButton(v, false);
+                            break;
+                        case 2:
+                            onSettingsBooleanChanged(v,
+                                    SettingsProvider.SETTINGS_UI_HOMESCREEN_HIDE_ICON_LABELS,
+                                    R.bool.preferences_interface_homescreen_hide_icon_labels_default);
+                            mLauncher.updateDynamicGrid();
+                            break;
+                        case 3:
+                            onSettingsBooleanChanged(v,
+                                    SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_WALLPAPER_SCROLL,
+                                    R.bool.preferences_interface_homescreen_scrolling_wallpaper_scroll_default);
+                            mLauncher.updateDynamicGrid();
+                            break;
+
+                    }
+                    break;
+                case SettingsPanel.DRAWER_SETTINGS_POSITION:
+                    switch (position) {
+                        case 0:
+                            mLauncher.onClickTransitionEffectButton(v, true);
+                            break;
+                        case 1:
+                            onClickSortButton();
+                            break;
+                        case 2:
+                            onSettingsBooleanChanged(v,
+                                    SettingsProvider.SETTINGS_UI_DRAWER_HIDE_ICON_LABELS,
+                                    R.bool.preferences_interface_drawer_hide_icon_labels_default);
+                            mLauncher.updateDynamicGrid();
+                            break;
+                    }
+                    break;
+                default:
+                    if (position == 0) {
                         onSettingsBooleanChanged(v,
                                 SettingsProvider.SETTINGS_UI_GENERAL_ICONS_LARGE,
                                 R.bool.preferences_interface_general_icons_large_default);
                         mLauncher.updateDynamicGrid();
-                        break;
-                        
-                        
-                    //case 1:
-                    //    Intent intent = new Intent();
-                    //    intent.setClassName(OverviewSettingsPanel.ANDROID_SETTINGS,
-                    //            OverviewSettingsPanel.ANDROID_PROTECTED_APPS);
-                    //    mLauncher.startActivity(intent);
-                    //    break;
-                }
-        }
-            
+
+
+                        // case 1:
+                        //    Intent intent = new Intent();
+                        //    intent.setClassName(OverviewSettingsPanel.ANDROID_SETTINGS,
+                        //            OverviewSettingsPanel.ANDROID_PROTECTED_APPS);
+                        //    mLauncher.startActivity(intent);
+                        //    break;
+                    }
+            }
+
             View defaultHome = mLauncher.findViewById(R.id.default_home_screen_panel);
             defaultHome.setVisibility(getCursor(0).getCount() > 1 ? View.VISIBLE : View.GONE);
         }
@@ -297,10 +294,10 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
         // Set new state
         SharedPreferences sharedPref = SettingsProvider
                 .get(mContext);
-        sharedPref.edit().putBoolean(key, !current).commit();
+        sharedPref.edit().putBoolean(key, !current).apply();
         sharedPref.edit()
                 .putBoolean(SettingsProvider.SETTINGS_CHANGED, true)
-                .commit();
+                .apply();
 
         String state = current ? mLauncher.getResources().getString(
                 R.string.setting_state_off) : mLauncher.getResources().getString(
