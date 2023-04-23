@@ -1,21 +1,7 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.roy.turbo.launcher.list;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,23 +14,23 @@ public abstract class PinnedHeaderListAdapter extends CompositeCursorAdapter
     public static final int PARTITION_HEADER_TYPE = 0;
 
     private boolean mPinnedPartitionHeadersEnabled;
-    private boolean mHeaderVisibility[];
+    private boolean[] mHeaderVisibility;
 
     public PinnedHeaderListAdapter(Context context) {
         super(context);
     }
 
-    public PinnedHeaderListAdapter(Context context, int initialCapacity) {
-        super(context, initialCapacity);
-    }
+//    public PinnedHeaderListAdapter(Context context, int initialCapacity) {
+//        super(context, initialCapacity);
+//    }
 
     public boolean getPinnedPartitionHeadersEnabled() {
         return mPinnedPartitionHeadersEnabled;
     }
 
-    public void setPinnedPartitionHeadersEnabled(boolean flag) {
-        this.mPinnedPartitionHeadersEnabled = flag;
-    }
+//    public void setPinnedPartitionHeadersEnabled(boolean flag) {
+//        this.mPinnedPartitionHeadersEnabled = flag;
+//    }
 
     @Override
     public int getPinnedHeaderCount() {
@@ -69,7 +55,7 @@ public abstract class PinnedHeaderListAdapter extends CompositeCursorAdapter
         if (hasHeader(partition)) {
             View view = null;
             if (convertView != null) {
-                Integer headerType = (Integer)convertView.getTag();
+                Integer headerType = (Integer) convertView.getTag();
                 if (headerType != null && headerType == PARTITION_HEADER_TYPE) {
                     view = convertView;
                 }
@@ -81,7 +67,9 @@ public abstract class PinnedHeaderListAdapter extends CompositeCursorAdapter
                 view.setEnabled(false);
             }
             bindHeaderView(view, partition, getCursor(partition));
-            view.setLayoutDirection(parent.getLayoutDirection());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                view.setLayoutDirection(parent.getLayoutDirection());
+            }
             return view;
         } else {
             return null;
@@ -112,20 +100,20 @@ public abstract class PinnedHeaderListAdapter extends CompositeCursorAdapter
         int headerViewsCount = listView.getHeaderViewsCount();
 
         // Starting at the top, find and pin headers for partitions preceding the visible one(s)
-        int maxTopHeader = -1;
+//        int maxTopHeader = -1;
         int topHeaderHeight = 0;
         for (int i = 0; i < size; i++) {
             if (mHeaderVisibility[i]) {
                 int position = listView.getPositionAt(topHeaderHeight) - headerViewsCount;
                 int partition = getPartitionForPosition(position);
                 if (i > partition) {
-                        break;
+                    break;
                 }
 
-                if (!unCached){
+                if (!unCached) {
                     listView.setHeaderPinnedAtTop(i, topHeaderHeight, false);
                     topHeaderHeight += listView.getPinnedHeaderHeight(i);
-                    maxTopHeader = i;
+//                    maxTopHeader = i;
                 }
 
             }
