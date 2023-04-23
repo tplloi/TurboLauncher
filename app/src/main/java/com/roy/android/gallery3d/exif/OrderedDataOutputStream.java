@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.gallery3d.exif;
 
 import java.io.FilterOutputStream;
@@ -29,28 +13,24 @@ class OrderedDataOutputStream extends FilterOutputStream {
         super(out);
     }
 
-    public OrderedDataOutputStream setByteOrder(ByteOrder order) {
+    public void setByteOrder(ByteOrder order) {
         mByteBuffer.order(order);
-        return this;
     }
 
-    public OrderedDataOutputStream writeShort(short value) throws IOException {
+    public void writeShort(short value) throws IOException {
         mByteBuffer.rewind();
         mByteBuffer.putShort(value);
         out.write(mByteBuffer.array(), 0, 2);
-        return this;
     }
 
-    public OrderedDataOutputStream writeInt(int value) throws IOException {
+    public void writeInt(int value) throws IOException {
         mByteBuffer.rewind();
         mByteBuffer.putInt(value);
         out.write(mByteBuffer.array());
-        return this;
     }
 
-    public OrderedDataOutputStream writeRational(Rational rational) throws IOException {
+    public void writeRational(Rational rational) throws IOException {
         writeInt((int) rational.getNumerator());
         writeInt((int) rational.getDenominator());
-        return this;
     }
 }
