@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.gallery3d.exif;
 
 import java.io.EOFException;
@@ -29,7 +13,7 @@ class CountedDataInputStream extends FilterInputStream {
     private int mCount = 0;
 
     // allocate a byte buffer for a long value;
-    private final byte mByteArray[] = new byte[8];
+    private final byte[] mByteArray = new byte[8];
     private final ByteBuffer mByteBuffer = ByteBuffer.wrap(mByteArray);
 
     protected CountedDataInputStream(InputStream in) {
@@ -43,14 +27,14 @@ class CountedDataInputStream extends FilterInputStream {
     @Override
     public int read(byte[] b) throws IOException {
         int r = in.read(b);
-        mCount += (r >= 0) ? r : 0;
+        mCount += Math.max(r, 0);
         return r;
     }
 
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
         int r = in.read(b, off, len);
-        mCount += (r >= 0) ? r : 0;
+        mCount += Math.max(r, 0);
         return r;
     }
 
@@ -75,7 +59,7 @@ class CountedDataInputStream extends FilterInputStream {
     public void skipTo(long target) throws IOException {
         long cur = mCount;
         long diff = target - cur;
-        assert(diff >= 0);
+        assert (diff >= 0);
         skipOrThrow(diff);
     }
 
@@ -97,7 +81,7 @@ class CountedDataInputStream extends FilterInputStream {
     }
 
     public short readShort() throws IOException {
-        readOrThrow(mByteArray, 0 ,2);
+        readOrThrow(mByteArray, 0, 2);
         mByteBuffer.rewind();
         return mByteBuffer.getShort();
     }
@@ -107,7 +91,7 @@ class CountedDataInputStream extends FilterInputStream {
     }
 
     public int readInt() throws IOException {
-        readOrThrow(mByteArray, 0 , 4);
+        readOrThrow(mByteArray, 0, 4);
         mByteBuffer.rewind();
         return mByteBuffer.getInt();
     }
@@ -116,20 +100,20 @@ class CountedDataInputStream extends FilterInputStream {
         return readInt() & 0xffffffffL;
     }
 
-    public long readLong() throws IOException {
-        readOrThrow(mByteArray, 0 , 8);
-        mByteBuffer.rewind();
-        return mByteBuffer.getLong();
-    }
+//    public long readLong() throws IOException {
+//        readOrThrow(mByteArray, 0, 8);
+//        mByteBuffer.rewind();
+//        return mByteBuffer.getLong();
+//    }
 
-    public String readString(int n) throws IOException {
-        byte buf[] = new byte[n];
-        readOrThrow(buf);
-        return new String(buf, "UTF8");
-    }
+//    public String readString(int n) throws IOException {
+//        byte[] buf = new byte[n];
+//        readOrThrow(buf);
+//        return new String(buf, "UTF8");
+//    }
 
     public String readString(int n, Charset charset) throws IOException {
-        byte buf[] = new byte[n];
+        byte[] buf = new byte[n];
         readOrThrow(buf);
         return new String(buf, charset);
     }
