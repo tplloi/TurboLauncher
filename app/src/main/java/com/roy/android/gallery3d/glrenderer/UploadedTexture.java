@@ -46,7 +46,7 @@ public abstract class UploadedTexture extends BasicTexture {
     protected UploadedTexture(boolean hasBorder) {
         super(null, 0, STATE_UNLOADED);
         if (hasBorder) {
-            setBorder(true);
+            setBorder();
             mBorder = 1;
         }
     }
@@ -244,9 +244,9 @@ public abstract class UploadedTexture extends BasicTexture {
     }
 
     @Override
-    protected boolean onBind(GLCanvas canvas) {
+    protected void onBind(GLCanvas canvas) {
         updateContent(canvas);
-        return isContentValid();
+        isContentValid();
     }
 
     @Override

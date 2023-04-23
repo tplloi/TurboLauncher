@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.gallery3d.glrenderer;
 
 import android.util.Log;
@@ -38,7 +22,7 @@ public abstract class BasicTexture implements Texture {
     // Log a warning if a texture is larger along a dimension
     private static final int MAX_TEXTURE_SIZE = 4096;
 
-    protected int mId = -1;
+    protected int mId;
     protected int mState;
 
     protected int mWidth = UNSPECIFIED;
@@ -50,9 +34,8 @@ public abstract class BasicTexture implements Texture {
     private boolean mHasBorder;
 
     protected GLCanvas mCanvasRef = null;
-    private static WeakHashMap<BasicTexture, Object> sAllTextures
-            = new WeakHashMap<BasicTexture, Object>();
-    private static ThreadLocal sInFinalizer = new ThreadLocal();
+    private static final WeakHashMap<BasicTexture, Object> sAllTextures = new WeakHashMap<>();
+    private static final ThreadLocal sInFinalizer = new ThreadLocal();
 
     protected BasicTexture(GLCanvas canvas, int id, int state) {
         setAssociatedCanvas(canvas);
@@ -87,7 +70,7 @@ public abstract class BasicTexture implements Texture {
     }
 
     public boolean isFlippedVertically() {
-      return false;
+        return false;
     }
 
     public int getId() {
@@ -129,23 +112,25 @@ public abstract class BasicTexture implements Texture {
         return mHasBorder;
     }
 
-    protected void setBorder(boolean hasBorder) {
-        mHasBorder = hasBorder;
+    protected void setBorder() {
+        mHasBorder = true;
     }
 
     @Override
     public void draw(GLCanvas canvas, int x, int y) {
+        assert canvas != null;
         canvas.drawTexture(this, x, y, getWidth(), getHeight());
     }
 
     @Override
     public void draw(GLCanvas canvas, int x, int y, int w, int h) {
+        assert canvas != null;
         canvas.drawTexture(this, x, y, w, h);
     }
 
     // onBind is called before GLCanvas binds this texture.
     // It should make sure the data is uploaded to GL memory.
-    abstract protected boolean onBind(GLCanvas canvas);
+    abstract protected void onBind(GLCanvas canvas);
 
     // Returns the GL texture target for this texture (e.g. GL_TEXTURE_2D).
     abstract protected int getTarget();
@@ -189,17 +174,17 @@ public abstract class BasicTexture implements Texture {
     // This is for deciding if we can call Bitmap's recycle().
     // We cannot call Bitmap's recycle() in finalizer because at that point
     // the finalizer of Bitmap may already be called so recycle() will crash.
-    public static boolean inFinalizer() {
-        return sInFinalizer.get() != null;
-    }
+//    public static boolean inFinalizer() {
+//        return sInFinalizer.get() != null;
+//    }
 
-    public static void yieldAllTextures() {
-        synchronized (sAllTextures) {
-            for (BasicTexture t : sAllTextures.keySet()) {
-                t.yield();
-            }
-        }
-    }
+//    public static void yieldAllTextures() {
+//        synchronized (sAllTextures) {
+//            for (BasicTexture t : sAllTextures.keySet()) {
+//                t.yield();
+//            }
+//        }
+//    }
 
     public static void invalidateAllTextures() {
         synchronized (sAllTextures) {
