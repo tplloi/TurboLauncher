@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package android.util;
 
 /**
@@ -37,9 +21,7 @@ package android.util;
  *     . . .
  * }
  * </pre>
- *
- * @hide
- */
+ **/
 public final class Pools {
 
     /**
@@ -59,7 +41,6 @@ public final class Pools {
          *
          * @param instance The instance to release.
          * @return Whether the instance was put in the pool.
-         *
          * @throws IllegalStateException If the instance is already in the pool.
          */
         public boolean release(T instance);
@@ -83,7 +64,6 @@ public final class Pools {
          * Creates a new instance.
          *
          * @param maxPoolSize The max pool size.
-         *
          * @throws IllegalArgumentException If the max pool size is less than zero.
          */
         public SimplePool(int maxPoolSize) {
@@ -141,7 +121,6 @@ public final class Pools {
          * Creates a new instance.
          *
          * @param maxPoolSize The max pool size.
-         *
          * @throws IllegalArgumentException If the max pool size is less than zero.
          */
         public SynchronizedPool(int maxPoolSize) {
