@@ -22,8 +22,8 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-import com.android.gallery3d.glrenderer.BasicTexture;
-import com.android.gallery3d.glrenderer.BitmapTexture;
+import com.roy.android.gallery3d.glrenderer.BasicTexture;
+import com.roy.android.gallery3d.glrenderer.BitmapTexture;
 import com.roy.android.photos.views.TileSource;
 import com.roy.android.photos.views.TiledImageRenderer;
 

@@ -3,7 +3,7 @@ package com.roy.android.photos.views;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.android.gallery3d.glrenderer.BasicTexture;
+import com.roy.android.gallery3d.glrenderer.BasicTexture;
 
 public interface TileSource {
 

@@ -8,11 +8,11 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.util.Log;
 
-import com.android.gallery3d.common.BitmapUtils;
-import com.android.gallery3d.common.Utils;
-import com.android.gallery3d.exif.ExifInterface;
-import com.android.gallery3d.glrenderer.BasicTexture;
-import com.android.gallery3d.glrenderer.BitmapTexture;
+import com.roy.android.gallery3d.common.BitmapUtils;
+import com.roy.android.gallery3d.common.Utils;
+import com.roy.android.gallery3d.exif.ExifInterface;
+import com.roy.android.gallery3d.glrenderer.BasicTexture;
+import com.roy.android.gallery3d.glrenderer.BitmapTexture;
 import com.roy.android.photos.views.TileSource;
 import com.roy.android.photos.views.TiledImageRenderer;
 

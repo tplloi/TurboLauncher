@@ -43,8 +43,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.android.gallery3d.common.Utils;
-import com.android.gallery3d.exif.ExifInterface;
+import com.roy.android.gallery3d.common.Utils;
+import com.roy.android.gallery3d.exif.ExifInterface;
 import com.roy.android.photos.BitmapRegionTileSource;
 import com.roy.android.photos.BitmapRegionTileSource.BitmapSource;
 

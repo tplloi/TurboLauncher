@@ -15,8 +15,8 @@ import android.view.Choreographer.FrameCallback;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.android.gallery3d.glrenderer.BasicTexture;
-import com.android.gallery3d.glrenderer.GLES20Canvas;
+import com.roy.android.gallery3d.glrenderer.BasicTexture;
+import com.roy.android.gallery3d.glrenderer.GLES20Canvas;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
