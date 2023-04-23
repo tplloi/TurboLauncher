@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.gallery3d.exif;
 
 import java.util.HashMap;
@@ -28,12 +12,13 @@ import java.util.Map;
 class IfdData {
 
     private final int mIfdId;
-    private final Map<Short, ExifTag> mExifTags = new HashMap<Short, ExifTag>();
+    private final Map<Short, ExifTag> mExifTags = new HashMap<>();
     private int mOffsetToNextIfd = 0;
     private static final int[] sIfds = {
             IfdId.TYPE_IFD_0, IfdId.TYPE_IFD_1, IfdId.TYPE_IFD_EXIF,
             IfdId.TYPE_IFD_INTEROPERABILITY, IfdId.TYPE_IFD_GPS
     };
+
     /**
      * Creates an IfdData with given IFD ID.
      *
@@ -55,7 +40,7 @@ class IfdData {
      * Get a array the contains all {@link ExifTag} in this IFD.
      */
     protected ExifTag[] getAllTags() {
-        return mExifTags.values().toArray(new ExifTag[mExifTags.size()]);
+        return mExifTags.values().toArray(new ExifTag[0]);
     }
 
     /**
@@ -87,9 +72,9 @@ class IfdData {
         return mExifTags.put(tag.getTagId(), tag);
     }
 
-    protected boolean checkCollision(short tagId) {
-        return mExifTags.get(tagId) != null;
-    }
+//    protected boolean checkCollision(short tagId) {
+//        return mExifTags.get(tagId) != null;
+//    }
 
     /**
      * Removes the tag of the given ID

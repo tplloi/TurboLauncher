@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.gallery3d.exif;
 
 import android.util.Log;
@@ -37,15 +21,11 @@ class ExifReader {
     /**
      * Parses the inputStream and and returns the EXIF data in an
      * {@link ExifData}.
-     *
-     * @throws ExifInvalidFormatException
-     * @throws IOException
      */
-    protected ExifData read(InputStream inputStream) throws ExifInvalidFormatException,
-            IOException {
+    protected ExifData read(InputStream inputStream) throws ExifInvalidFormatException, IOException {
         ExifParser parser = ExifParser.parse(inputStream, mInterface);
         ExifData exifData = new ExifData(parser.getByteOrder());
-        ExifTag tag = null;
+        ExifTag tag;
 
         int event = parser.next();
         while (event != ExifParser.EVENT_END) {
@@ -69,7 +49,7 @@ class ExifReader {
                     exifData.getIfdData(tag.getIfd()).setTag(tag);
                     break;
                 case ExifParser.EVENT_COMPRESSED_IMAGE:
-                    byte buf[] = new byte[parser.getCompressedImageSize()];
+                    byte[] buf = new byte[parser.getCompressedImageSize()];
                     if (buf.length == parser.read(buf)) {
                         exifData.setCompressedThumbnail(buf);
                     } else {
