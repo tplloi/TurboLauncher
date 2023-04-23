@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.gallery3d.exif;
 
 import android.util.Log;
@@ -30,7 +14,7 @@ class ExifModifier {
     public static final boolean DEBUG = false;
     private final ByteBuffer mByteBuffer;
     private final ExifData mTagToModified;
-    private final List<TagOffset> mTagOffsets = new ArrayList<TagOffset>();
+    private final List<TagOffset> mTagOffsets = new ArrayList<>();
     private final ExifInterface mInterface;
     private int mOffsetBase;
 
@@ -71,7 +55,7 @@ class ExifModifier {
         try {
             is = new ByteBufferInputStream(mByteBuffer);
             int flag = 0;
-            IfdData[] ifdDatas = new IfdData[] {
+            IfdData[] ifdDatas = new IfdData[]{
                     mTagToModified.getIfdData(IfdId.TYPE_IFD_0),
                     mTagToModified.getIfdData(IfdId.TYPE_IFD_1),
                     mTagToModified.getIfdData(IfdId.TYPE_IFD_EXIF),
@@ -108,6 +92,7 @@ class ExifModifier {
                         break;
                     case ExifParser.EVENT_NEW_TAG:
                         ExifTag oldTag = parser.getTag();
+                        assert currIfd != null;
                         ExifTag newTag = currIfd.getTag(oldTag.getTagId());
                         if (newTag != null) {
                             if (newTag.getComponentCount() != oldTag.getComponentCount()
@@ -152,7 +137,7 @@ class ExifModifier {
         mByteBuffer.position(offset + mOffsetBase);
         switch (tag.getDataType()) {
             case ExifTag.TYPE_ASCII:
-                byte buf[] = tag.getStringByte();
+                byte[] buf = tag.getStringByte();
                 if (buf.length == tag.getComponentCount()) {
                     buf[buf.length - 1] = 0;
                     mByteBuffer.put(buf);
