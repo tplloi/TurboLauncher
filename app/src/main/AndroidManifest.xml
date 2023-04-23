@@ -6,7 +6,7 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true"
-        android:xlargeScreens="true"/>
+        android:xlargeScreens="true" />
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -30,33 +30,32 @@
         android:protectionLevel="signature" />
     <permission
         android:name="com.android.launcher.permission.INSTALL_SHORTCUT"
-        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="dangerous"
+        android:description="@string/permdesc_install_shortcut"
         android:label="@string/permlab_install_shortcut"
-        android:description="@string/permdesc_install_shortcut" />
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="dangerous" />
     <permission
         android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"
-        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="dangerous"
+        android:description="@string/permdesc_uninstall_shortcut"
         android:label="@string/permlab_uninstall_shortcut"
-        android:description="@string/permdesc_uninstall_shortcut"/>
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="dangerous" />
     <permission
         android:name="com.phonemetra.turbo.launcher.permission.READ_SETTINGS"
-        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="normal"
+        android:description="@string/permdesc_read_settings"
         android:label="@string/permlab_read_settings"
-        android:description="@string/permdesc_read_settings"/>
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="normal" />
     <permission
         android:name="com.phonemetra.turbo.launcher.permission.WRITE_SETTINGS"
-        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="normal"
+        android:description="@string/permdesc_write_settings"
         android:label="@string/permlab_write_settings"
-        android:description="@string/permdesc_write_settings"/>
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="normal" />
 
     <permission
         android:name="com.phonemetra.turbo.launcher.permission.RECEIVE_LAUNCH_BROADCASTS"
-        android:protectionLevel="signature"
-        />
+        android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
@@ -73,30 +72,34 @@
 
     <application
         android:name="com.phonemetra.turbo.launcher.LauncherApplication"
-        android:label="@string/application_name"
-        android:icon="@drawable/ic_launcher_home"
         android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher_home"
+        android:label="@string/application_name"
         android:largeHeap="@bool/config_largeHeap"
         android:supportsRtl="true">
         <activity
             android:name="com.phonemetra.turbo.launcher.Launcher"
-            android:launchMode="singleTask"
             android:clearTaskOnLaunch="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor"
             android:stateNotNeeded="true"
             android:theme="@style/Theme"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="nosensor">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.MONKEY"/>
+                <category android:name="android.intent.category.MONKEY" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name="com.phonemetra.turbo.launcher.ThemeSettingsActivity"
-                android:label="@string/pref_title_theme_settings">
+
+        <activity
+            android:name="com.phonemetra.turbo.launcher.ThemeSettingsActivity"
+            android:exported="true"
+            android:label="@string/pref_title_theme_settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.phonemetra.turbo.launcher.category.LAUNCHER_PREFERENCES" />
@@ -105,11 +108,12 @@
 
         <activity
             android:name="com.phonemetra.turbo.launcher.LauncherWallpaperPickerActivity"
-            android:theme="@style/Theme.WallpaperCropper"
-            android:label="@string/pick_wallpaper"
-            android:icon="@drawable/ic_wallpaper"
+            android:exported="true"
             android:finishOnCloseSystemDialogs="true"
-            android:process=":wallpaper_chooser">
+            android:icon="@drawable/ic_wallpaper"
+            android:label="@string/pick_wallpaper"
+            android:process=":wallpaper_chooser"
+            android:theme="@style/Theme.WallpaperCropper">
             <intent-filter>
                 <action android:name="android.intent.action.SET_WALLPAPER" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -118,11 +122,12 @@
 
         <activity
             android:name="com.phonemetra.turbo.launcher.WallpaperCropActivity"
-            android:theme="@style/Theme.WallpaperCropper"
-            android:label="@string/crop_wallpaper"
-            android:icon="@drawable/ic_wallpaper"
+            android:exported="true"
             android:finishOnCloseSystemDialogs="true"
-            android:process=":wallpaper_chooser">
+            android:icon="@drawable/ic_wallpaper"
+            android:label="@string/crop_wallpaper"
+            android:process=":wallpaper_chooser"
+            android:theme="@style/Theme.WallpaperCropper">
             <intent-filter>
                 <action android:name="android.service.wallpaper.CROP_AND_SET_WALLPAPER" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -130,11 +135,11 @@
             </intent-filter>
         </activity>
 
-        
 
         <!-- Intent received used to prepopulate the default workspace. -->
         <receiver
             android:name="com.phonemetra.turbo.launcher.PreloadReceiver"
+            android:exported="true"
             android:permission="com.phonemetra.turbo.launcher.permission.PRELOAD_WORKSPACE">
             <intent-filter>
                 <action android:name="com.phonemetra.turbo.launcher.action.PRELOAD_WORKSPACE" />
@@ -144,6 +149,7 @@
         <!-- Intent received used to install shortcuts from other applications -->
         <receiver
             android:name="com.phonemetra.turbo.launcher.InstallShortcutReceiver"
+            android:exported="true"
             android:permission="com.phonemetra.turbo.launcher.permission.INSTALL_SHORTCUT">
             <intent-filter>
                 <action android:name="com.phonemetra.turbo.launcher.action.INSTALL_SHORTCUT" />
@@ -153,6 +159,7 @@
         <!-- Intent received used to uninstall shortcuts from other applications -->
         <receiver
             android:name="com.phonemetra.turbo.launcher.UninstallShortcutReceiver"
+            android:exported="true"
             android:permission="com.phonemetra.turbo.launcher.permission.UNINSTALL_SHORTCUT">
             <intent-filter>
                 <action android:name="com.phonemetra.turbo.launcher.action.UNINSTALL_SHORTCUT" />
@@ -168,11 +175,14 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.phonemetra.turbo.launcher.PackageChangedReceiver" >
+        <receiver
+            android:name="com.phonemetra.turbo.launcher.PackageChangedReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_CHANGED"/>
-                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_CHANGED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package"></data>
             </intent-filter>
         </receiver>
@@ -182,10 +192,11 @@
             android:name="com.phonemetra.turbo.launcher.LauncherProvider"
             android:authorities="com.phonemetra.turbo.launcher.settings"
             android:exported="true"
-            android:writePermission="com.phonemetra.turbo.launcher.permission.WRITE_SETTINGS"
-            android:readPermission="com.phonemetra.turbo.launcher.permission.READ_SETTINGS" />
+            android:readPermission="com.phonemetra.turbo.launcher.permission.READ_SETTINGS"
+            android:writePermission="com.phonemetra.turbo.launcher.permission.WRITE_SETTINGS" />
 
-        <meta-data android:name="android.nfc.disable_beam_default"
-                       android:value="true" />
+        <meta-data
+            android:name="android.nfc.disable_beam_default"
+            android:value="true" />
     </application>
 </manifest>

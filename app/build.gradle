@@ -3,15 +3,15 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.phonemetra.turbo.launcher"
+        applicationId "com.roy93group.turbolauncher"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
-        versionName "0.0.2"
+        versionCode 20232304
+        versionName "2023.23.04"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -20,5 +20,13 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+//    testImplementation "org.mockito:mockito-core:5.1.1"
+//
+//    androidTestImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'net.bytebuddy:byte-buddy-android:1.12.22'
 
 }

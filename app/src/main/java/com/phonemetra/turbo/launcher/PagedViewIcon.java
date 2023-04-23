@@ -125,7 +125,8 @@ public class PagedViewIcon extends TextView {
         getPaint().setShadowLayer(BubbleTextView.SHADOW_LARGE_RADIUS, 0.0f,
                 BubbleTextView.SHADOW_Y_OFFSET, BubbleTextView.SHADOW_LARGE_COLOUR);
         super.draw(canvas);
-        canvas.save(Canvas.CLIP_SAVE_FLAG);
+//        canvas.save(Canvas.CLIP_SAVE_FLAG);
+        canvas.save();
         canvas.clipRect(getScrollX(), getScrollY() + getExtendedPaddingTop(),
                 getScrollX() + getWidth(),
                 getScrollY() + getHeight(), Region.Op.INTERSECT);

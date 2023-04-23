@@ -1,7 +1,5 @@
 package com.phonemetra.turbo.launcher;
 
-import com.phonemetra.turbo.launcher.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -56,7 +54,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * Default attributes for layout
      */
-    private static final int[] DEFAULT_ATTRS = new int[] {
+    private static final int[] DEFAULT_ATTRS = new int[]{
             android.R.attr.gravity
     };
 
@@ -145,6 +143,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         COLLAPSED,
         ANCHORED
     }
+
     private SlideState mSlideState = SlideState.COLLAPSED;
 
     /**
@@ -172,7 +171,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * Flag indicating if a drag view can have its own touch events.  If set
      * to true, a drag view can scroll horizontally and have its own click listener.
-     *
+     * <p>
      * Default is set to false.
      */
     private boolean mIsUsingDragViewTouchEvents;
@@ -206,13 +205,16 @@ public class SlidingUpPanelLayout extends ViewGroup {
     public interface PanelSlideListener {
         /**
          * Called when a sliding pane's position changes.
-         * @param panel The child view that was moved
+         *
+         * @param panel       The child view that was moved
          * @param slideOffset The new offset of this sliding pane within its range, from 0-1
          */
         public void onPanelSlide(View panel, float slideOffset);
+
         /**
          * Called when a sliding pane becomes slid completely collapsed. The pane may or may not
          * be interactive at this point depending on if it's shown or hidden
+         *
          * @param panel The child view that was slid to an collapsed position, revealing other panes
          */
         public void onPanelCollapsed(View panel);
@@ -220,6 +222,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         /**
          * Called when a sliding pane becomes slid completely expanded. The pane is now guaranteed
          * to be interactive. It may now obscure other views in the layout.
+         *
          * @param panel The child view that was slid to a expanded position
          */
         public void onPanelExpanded(View panel);
@@ -235,12 +238,15 @@ public class SlidingUpPanelLayout extends ViewGroup {
         @Override
         public void onPanelSlide(View panel, float slideOffset) {
         }
+
         @Override
         public void onPanelCollapsed(View panel) {
         }
+
         @Override
         public void onPanelExpanded(View panel) {
         }
+
         @Override
         public void onPanelAnchored(View panel) {
         }
@@ -281,7 +287,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
                 mDragViewResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_dragView, -1);
 
-                mOverlayContent = ta.getBoolean(R.styleable.SlidingUpPanelLayout_overlay,DEFAULT_OVERLAY_FLAG);
+                mOverlayContent = ta.getBoolean(R.styleable.SlidingUpPanelLayout_overlay, DEFAULT_OVERLAY_FLAG);
             }
 
             ta.recycle();
@@ -352,6 +358,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     /**
      * Set sliding enabled flag
+     *
      * @param enabled flag value
      */
     public void setSlidingEnabled(boolean enabled) {
@@ -379,12 +386,13 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * @return The current paralax offset
      */
     public int getCurrentParalaxOffset() {
-        int offset = (int)(mParalaxOffset * (1 - mSlideOffset));
+        int offset = (int) (mParalaxOffset * (1 - mSlideOffset));
         return mIsSlidingUp ? -offset : offset;
     }
 
     /**
      * Sets the panel slide listener
+     *
      * @param listener
      */
     public void setPanelSlideListener(PanelSlideListener listener) {
@@ -413,6 +421,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     /**
      * Sets whether or not the panel overlays the content
+     *
      * @param overlayed
      */
     public void setOverlayed(boolean overlayed) {
@@ -663,7 +672,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * Set if the drag view can have its own touch events.  If set
      * to true, a drag view can scroll horizontally and have its own click listener.
-     *
+     * <p>
      * Default is set to false.
      */
     public void setEnableDragViewTouchEvents(boolean enabled) {
@@ -962,7 +971,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         final LayoutParams lp = (LayoutParams) child.getLayoutParams();
         boolean result;
-        final int save = canvas.save(Canvas.CLIP_SAVE_FLAG);
+//        final int save = canvas.save(Canvas.CLIP_SAVE_FLAG);
+        final int save = canvas.save();
 
         boolean drawScrim = false;
 
@@ -1001,7 +1011,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * Smoothly animate mDraggingPane to the target X position within its range.
      *
      * @param slideOffset position to animate to
-     * @param velocity initial velocity in case of fling, or 0.
+     * @param velocity    initial velocity in case of fling, or 0.
      */
     boolean smoothSlideTo(float slideOffset, int velocity) {
         if (!mCanSlide) {
@@ -1064,12 +1074,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * Tests scrollability within child views of v given a delta of dx.
      *
-     * @param v View to test for horizontal scrollability
+     * @param v      View to test for horizontal scrollability
      * @param checkV Whether the view v passed should itself be checked for scrollability (true),
      *               or just its children (false).
-     * @param dx Delta scrolled in pixels
-     * @param x X coordinate of the active touch point
-     * @param y Y coordinate of the active touch point
+     * @param dx     Delta scrolled in pixels
+     * @param x      X coordinate of the active touch point
+     * @param y      Y coordinate of the active touch point
      * @return true if child views of v can be scrolled by delta of dx.
      */
     protected boolean canScroll(View v, boolean checkV, int dx, int x, int y) {
@@ -1145,7 +1155,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         @Override
         public void onViewDragStateChanged(int state) {
-            int anchoredTop = (int)(mAnchorPoint*mSlideRange);
+            int anchoredTop = (int) (mAnchorPoint * mSlideRange);
 
             if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_IDLE) {
                 if (mSlideOffset == 0) {
@@ -1154,7 +1164,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                         dispatchOnPanelExpanded(mSlideableView);
                         mSlideState = SlideState.EXPANDED;
                     }
-                } else if (mSlideOffset == (float)anchoredTop/(float)mSlideRange) {
+                } else if (mSlideOffset == (float) anchoredTop / (float) mSlideRange) {
                     if (mSlideState != SlideState.ANCHORED) {
                         updateObscuredViewVisibility();
                         dispatchOnPanelAnchored(mSlideableView);
@@ -1189,17 +1199,17 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 int anchoredTop;
                 float anchorOffset;
                 if (mIsSlidingUp) {
-                    anchoredTop = (int)(mAnchorPoint*mSlideRange);
-                    anchorOffset = (float)anchoredTop/(float)mSlideRange;
+                    anchoredTop = (int) (mAnchorPoint * mSlideRange);
+                    anchorOffset = (float) anchoredTop / (float) mSlideRange;
                 } else {
-                    anchoredTop = mPanelHeight - (int)(mAnchorPoint*mSlideRange);
-                    anchorOffset = (float)(mPanelHeight - anchoredTop)/(float)mSlideRange;
+                    anchoredTop = mPanelHeight - (int) (mAnchorPoint * mSlideRange);
+                    anchorOffset = (float) (mPanelHeight - anchoredTop) / (float) mSlideRange;
                 }
 
-                if (yvel > 0 || (yvel == 0 && mSlideOffset >= (1f+anchorOffset)/2)) {
+                if (yvel > 0 || (yvel == 0 && mSlideOffset >= (1f + anchorOffset) / 2)) {
                     top += mSlideRange;
-                } else if (yvel == 0 && mSlideOffset < (1f+anchorOffset)/2
-                        && mSlideOffset >= anchorOffset/2) {
+                } else if (yvel == 0 && mSlideOffset < (1f + anchorOffset) / 2
+                        && mSlideOffset >= anchorOffset / 2) {
                     top += mSlideRange * mAnchorPoint;
                 }
 
@@ -1233,7 +1243,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
-        private static final int[] ATTRS = new int[] {
+        private static final int[] ATTRS = new int[]{
                 android.R.attr.layout_weight
         };
 
