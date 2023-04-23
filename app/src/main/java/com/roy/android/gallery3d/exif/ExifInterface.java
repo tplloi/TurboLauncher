@@ -1150,40 +1150,40 @@ public class ExifInterface {
     /**
      * @see #getTagValue
      */
-    public Byte getTagByteValue(int tagId, int ifdId) {
-        byte[] l = getTagByteValues(tagId, ifdId);
-        if (l == null || l.length == 0) {
-            return null;
-        }
-        return l[0];
-    }
+//    public Byte getTagByteValue(int tagId, int ifdId) {
+//        byte[] l = getTagByteValues(tagId, ifdId);
+//        if (l == null || l.length == 0) {
+//            return null;
+//        }
+//        return l[0];
+//    }
 
     /**
      * @see #getTagValue
      */
-    public Byte getTagByteValue(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagByteValue(tagId, ifdId);
-    }
+//    public Byte getTagByteValue(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagByteValue(tagId, ifdId);
+//    }
 
     /**
      * @see #getTagValue
      */
-    public Rational getTagRationalValue(int tagId, int ifdId) {
-        Rational[] l = getTagRationalValues(tagId, ifdId);
-        if (l == null || l.length == 0) {
-            return null;
-        }
-        return new Rational(l[0]);
-    }
+//    public Rational getTagRationalValue(int tagId, int ifdId) {
+//        Rational[] l = getTagRationalValues(tagId, ifdId);
+//        if (l == null || l.length == 0) {
+//            return null;
+//        }
+//        return new Rational(l[0]);
+//    }
 
     /**
      * @see #getTagValue
      */
-    public Rational getTagRationalValue(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagRationalValue(tagId, ifdId);
-    }
+//    public Rational getTagRationalValue(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagRationalValue(tagId, ifdId);
+//    }
 
     /**
      * @see #getTagValue
@@ -1199,10 +1199,10 @@ public class ExifInterface {
     /**
      * @see #getTagValue
      */
-    public long[] getTagLongValues(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagLongValues(tagId, ifdId);
-    }
+//    public long[] getTagLongValues(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagLongValues(tagId, ifdId);
+//    }
 
     /**
      * @see #getTagValue
@@ -1218,10 +1218,10 @@ public class ExifInterface {
     /**
      * @see #getTagValue
      */
-    public int[] getTagIntValues(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagIntValues(tagId, ifdId);
-    }
+//    public int[] getTagIntValues(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagIntValues(tagId, ifdId);
+//    }
 
     /**
      * @see #getTagValue
@@ -1237,10 +1237,10 @@ public class ExifInterface {
     /**
      * @see #getTagValue
      */
-    public byte[] getTagByteValues(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagByteValues(tagId, ifdId);
-    }
+//    public byte[] getTagByteValues(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagByteValues(tagId, ifdId);
+//    }
 
     /**
      * @see #getTagValue
@@ -1256,10 +1256,10 @@ public class ExifInterface {
     /**
      * @see #getTagValue
      */
-    public Rational[] getTagRationalValues(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return getTagRationalValues(tagId, ifdId);
-    }
+//    public Rational[] getTagRationalValues(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return getTagRationalValues(tagId, ifdId);
+//    }
 
     /**
      * Checks whether a tag has a defined number of elements.
@@ -1267,14 +1267,14 @@ public class ExifInterface {
      * @param tagId a defined tag constant, e.g. {@link #TAG_IMAGE_WIDTH}.
      * @return true if the tag has a defined number of elements.
      */
-    public boolean isTagCountDefined(int tagId) {
-        int info = getTagInfo().get(tagId);
-        // No value in info can be zero, as all tags have a non-zero type
-        if (info == 0) {
-            return false;
-        }
-        return getComponentCountFromInfo(info) != ExifTag.SIZE_UNDEFINED;
-    }
+//    public boolean isTagCountDefined(int tagId) {
+//        int info = getTagInfo().get(tagId);
+//        // No value in info can be zero, as all tags have a non-zero type
+//        if (info == 0) {
+//            return false;
+//        }
+//        return getComponentCountFromInfo(info) != ExifTag.SIZE_UNDEFINED;
+//    }
 
     /**
      * Gets the defined number of elements for a tag.
@@ -1283,13 +1283,13 @@ public class ExifInterface {
      * @return the number of elements or {@link ExifTag#SIZE_UNDEFINED} if the
      * tag or the number of elements is not defined.
      */
-    public int getDefinedTagCount(int tagId) {
-        int info = getTagInfo().get(tagId);
-        if (info == 0) {
-            return ExifTag.SIZE_UNDEFINED;
-        }
-        return getComponentCountFromInfo(info);
-    }
+//    public int getDefinedTagCount(int tagId) {
+//        int info = getTagInfo().get(tagId);
+//        if (info == 0) {
+//            return ExifTag.SIZE_UNDEFINED;
+//        }
+//        return getComponentCountFromInfo(info);
+//    }
 
     /**
      * Gets the number of elements for an ExifTag in a given IFD.
@@ -1300,13 +1300,13 @@ public class ExifInterface {
      * undefined this will return the actual number of elements that is
      * in the ExifTag's value.
      */
-    public int getActualTagCount(int tagId, int ifdId) {
-        ExifTag t = getTag(tagId, ifdId);
-        if (t == null) {
-            return 0;
-        }
-        return t.getComponentCount();
-    }
+//    public int getActualTagCount(int tagId, int ifdId) {
+//        ExifTag t = getTag(tagId, ifdId);
+//        if (t == null) {
+//            return 0;
+//        }
+//        return t.getComponentCount();
+//    }
 
     /**
      * Gets the default IFD for a tag.
@@ -1330,13 +1330,13 @@ public class ExifInterface {
      * @return the type.
      * @see ExifTag#getDataType()
      */
-    public short getDefinedTagType(int tagId) {
-        int info = getTagInfo().get(tagId);
-        if (info == 0) {
-            return -1;
-        }
-        return getTypeFromInfo(info);
-    }
+//    public short getDefinedTagType(int tagId) {
+//        int info = getTagInfo().get(tagId);
+//        if (info == 0) {
+//            return -1;
+//        }
+//        return getTypeFromInfo(info);
+//    }
 
     /**
      * Note: defining tags with these TID's is disallowed.
@@ -1413,13 +1413,13 @@ public class ExifInterface {
      * is the wrong type/length.
      * @see #setTagValue
      */
-    public boolean setTagValue(int tagId, int ifdId, Object val) {
-        ExifTag t = getTag(tagId, ifdId);
-        if (t == null) {
-            return false;
-        }
-        return t.setValue(val);
-    }
+//    public boolean setTagValue(int tagId, int ifdId, Object val) {
+//        ExifTag t = getTag(tagId, ifdId);
+//        if (t == null) {
+//            return false;
+//        }
+//        return t.setValue(val);
+//    }
 
     /**
      * Sets the value of an ExifTag if it exists it's default IFD. The value
@@ -1430,10 +1430,10 @@ public class ExifInterface {
      * @return true if success, false if the ExifTag doesn't exist or the value
      * is the wrong type/length.
      */
-    public boolean setTagValue(int tagId, Object val) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        return setTagValue(tagId, ifdId, val);
-    }
+//    public boolean setTagValue(int tagId, Object val) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        return setTagValue(tagId, ifdId, val);
+//    }
 
     /**
      * Puts an ExifTag into this ExifInterface object's tags, removing a
@@ -1467,19 +1467,19 @@ public class ExifInterface {
      * @param tagId a tag constant, e.g. {@link #TAG_IMAGE_WIDTH}.
      * @param ifdId the IFD of the ExifTag to remove.
      */
-    public void deleteTag(int tagId, int ifdId) {
-        mData.removeTag(getTrueTagKey(tagId), ifdId);
-    }
+//    public void deleteTag(int tagId, int ifdId) {
+//        mData.removeTag(getTrueTagKey(tagId), ifdId);
+//    }
 
     /**
      * Removes the ExifTag for a tag constant from that tag's default IFD.
      *
      * @param tagId a tag constant, e.g. {@link #TAG_IMAGE_WIDTH}.
      */
-    public void deleteTag(int tagId) {
-        int ifdId = getDefinedTagDefaultIfd(tagId);
-        deleteTag(tagId, ifdId);
-    }
+//    public void deleteTag(int tagId) {
+//        int ifdId = getDefinedTagDefaultIfd(tagId);
+//        deleteTag(tagId, ifdId);
+//    }
 
     /**
      * Creates a new tag definition in this ExifInterface object for a given TID
@@ -1487,60 +1487,60 @@ public class ExifInterface {
      * as a previous definition will override it.
      *
      * @param tagId                 the TID for the tag.
-     * @param defaultIfd            the default IFD for the tag.
-     * @param tagType               the type of the tag (see {@link ExifTag#getDataType()}).
-     * @param defaultComponentCount the number of elements of this tag's type in
+     * defaultIfd            the default IFD for the tag.
+     * tagType               the type of the tag (see {@link ExifTag#getDataType()}).
+     * defaultComponentCount the number of elements of this tag's type in
      *                              the tags value.
-     * @param allowedIfds           the IFD's this tag is allowed to be put in.
+     * allowedIfds           the IFD's this tag is allowed to be put in.
      * @return the defined tag constant (e.g. {@link #TAG_IMAGE_WIDTH}) or
      * {@link #TAG_NULL} if the definition could not be made.
      */
-    public int setTagDefinition(short tagId, int defaultIfd, short tagType,
-                                short defaultComponentCount, int[] allowedIfds) {
-        if (sBannedDefines.contains(tagId)) {
-            return TAG_NULL;
-        }
-        if (ExifTag.isValidType(tagType) && ExifTag.isValidIfd(defaultIfd)) {
-            int tagDef = defineTag(defaultIfd, tagId);
-            if (tagDef == TAG_NULL) {
-                return TAG_NULL;
-            }
-            int[] otherDefs = getTagDefinitionsForTagId(tagId);
-            SparseIntArray infos = getTagInfo();
-            // Make sure defaultIfd is in allowedIfds
-            boolean defaultCheck = false;
-            for (int i : allowedIfds) {
-                if (defaultIfd == i) {
-                    defaultCheck = true;
-                }
-                if (!ExifTag.isValidIfd(i)) {
-                    return TAG_NULL;
-                }
-            }
-            if (!defaultCheck) {
-                return TAG_NULL;
-            }
+//    public int setTagDefinition(short tagId, int defaultIfd, short tagType,
+//                                short defaultComponentCount, int[] allowedIfds) {
+//        if (sBannedDefines.contains(tagId)) {
+//            return TAG_NULL;
+//        }
+//        if (ExifTag.isValidType(tagType) && ExifTag.isValidIfd(defaultIfd)) {
+//            int tagDef = defineTag(defaultIfd, tagId);
+//            if (tagDef == TAG_NULL) {
+//                return TAG_NULL;
+//            }
+//            int[] otherDefs = getTagDefinitionsForTagId(tagId);
+//            SparseIntArray infos = getTagInfo();
+//            // Make sure defaultIfd is in allowedIfds
+//            boolean defaultCheck = false;
+//            for (int i : allowedIfds) {
+//                if (defaultIfd == i) {
+//                    defaultCheck = true;
+//                }
+//                if (!ExifTag.isValidIfd(i)) {
+//                    return TAG_NULL;
+//                }
+//            }
+//            if (!defaultCheck) {
+//                return TAG_NULL;
+//            }
+//
+//            int ifdFlags = getFlagsFromAllowedIfds(allowedIfds);
+//            // Make sure no identical tags can exist in allowedIfds
+//            if (otherDefs != null) {
+//                for (int def : otherDefs) {
+//                    int tagInfo = infos.get(def);
+//                    int allowedFlags = getAllowedIfdFlagsFromInfo(tagInfo);
+//                    if ((ifdFlags & allowedFlags) != 0) {
+//                        return TAG_NULL;
+//                    }
+//                }
+//            }
+//            getTagInfo().put(tagDef, ifdFlags << 24 | (tagType << 16) | defaultComponentCount);
+//            return tagDef;
+//        }
+//        return TAG_NULL;
+//    }
 
-            int ifdFlags = getFlagsFromAllowedIfds(allowedIfds);
-            // Make sure no identical tags can exist in allowedIfds
-            if (otherDefs != null) {
-                for (int def : otherDefs) {
-                    int tagInfo = infos.get(def);
-                    int allowedFlags = getAllowedIfdFlagsFromInfo(tagInfo);
-                    if ((ifdFlags & allowedFlags) != 0) {
-                        return TAG_NULL;
-                    }
-                }
-            }
-            getTagInfo().put(tagDef, ifdFlags << 24 | (tagType << 16) | defaultComponentCount);
-            return tagDef;
-        }
-        return TAG_NULL;
-    }
-
-    protected int getTagDefinition(short tagId, int defaultIfd) {
-        return getTagInfo().get(defineTag(defaultIfd, tagId));
-    }
+//    protected int getTagDefinition(short tagId, int defaultIfd) {
+//        return getTagInfo().get(defineTag(defaultIfd, tagId));
+//    }
 
     protected int[] getTagDefinitionsForTagId(short tagId) {
         int[] ifds = IfdData.getIfds();
@@ -1560,12 +1560,12 @@ public class ExifInterface {
         return Arrays.copyOfRange(defs, 0, counter);
     }
 
-    protected int getTagDefinitionForTag(ExifTag tag) {
-        short type = tag.getDataType();
-        int count = tag.getComponentCount();
-        int ifd = tag.getIfd();
-        return getTagDefinitionForTag(tag.getTagId(), type, count, ifd);
-    }
+//    protected int getTagDefinitionForTag(ExifTag tag) {
+//        short type = tag.getDataType();
+//        int count = tag.getComponentCount();
+//        int ifd = tag.getIfd();
+//        return getTagDefinitionForTag(tag.getTagId(), type, count, ifd);
+//    }
 
     protected int getTagDefinitionForTag(short tagId, short type, int count, int ifd) {
         int[] defs = getTagDefinitionsForTagId(tagId);
@@ -1601,31 +1601,31 @@ public class ExifInterface {
      *
      * @param tagId a defined tag constant, e.g. {@link #TAG_IMAGE_WIDTH}.
      */
-    public void removeTagDefinition(int tagId) {
-        getTagInfo().delete(tagId);
-    }
+//    public void removeTagDefinition(int tagId) {
+//        getTagInfo().delete(tagId);
+//    }
 
     /**
      * Resets tag definitions to the default ones.
      */
-    public void resetTagDefinitions() {
-        mTagInfo = null;
-    }
+//    public void resetTagDefinitions() {
+//        mTagInfo = null;
+//    }
 
     /**
      * Returns the thumbnail from IFD1 as a bitmap, or null if none exists.
      *
      * @return the thumbnail as a bitmap.
      */
-    public Bitmap getThumbnailBitmap() {
-        if (mData.hasCompressedThumbnail()) {
-            byte[] thumb = mData.getCompressedThumbnail();
-            return BitmapFactory.decodeByteArray(thumb, 0, thumb.length);
-        } else if (mData.hasUncompressedStrip()) {
-            // TODO: implement uncompressed
-        }
-        return null;
-    }
+//    public Bitmap getThumbnailBitmap() {
+//        if (mData.hasCompressedThumbnail()) {
+//            byte[] thumb = mData.getCompressedThumbnail();
+//            return BitmapFactory.decodeByteArray(thumb, 0, thumb.length);
+//        } else if (mData.hasUncompressedStrip()) {
+//            // TODO: implement uncompressed
+//        }
+//        return null;
+//    }
 
     /**
      * Returns the thumbnail from IFD1 as a byte array, or null if none exists.
@@ -1634,42 +1634,42 @@ public class ExifInterface {
      *
      * @return the thumbnail as a byte array.
      */
-    public byte[] getThumbnailBytes() {
-        if (mData.hasCompressedThumbnail()) {
-            return mData.getCompressedThumbnail();
-        } else if (mData.hasUncompressedStrip()) {
-            // TODO: implement this
-        }
-        return null;
-    }
+//    public byte[] getThumbnailBytes() {
+//        if (mData.hasCompressedThumbnail()) {
+//            return mData.getCompressedThumbnail();
+//        } else if (mData.hasUncompressedStrip()) {
+//            // TODO: implement this
+//        }
+//        return null;
+//    }
 
     /**
      * Returns the thumbnail if it is jpeg compressed, or null if none exists.
      *
      * @return the thumbnail as a byte array.
      */
-    public byte[] getThumbnail() {
-        return mData.getCompressedThumbnail();
-    }
+//    public byte[] getThumbnail() {
+//        return mData.getCompressedThumbnail();
+//    }
 
     /**
      * Check if thumbnail is compressed.
      *
      * @return true if the thumbnail is compressed.
      */
-    public boolean isThumbnailCompressed() {
-        return mData.hasCompressedThumbnail();
-    }
+//    public boolean isThumbnailCompressed() {
+//        return mData.hasCompressedThumbnail();
+//    }
 
     /**
      * Check if thumbnail exists.
      *
      * @return true if a compressed thumbnail exists.
      */
-    public boolean hasThumbnail() {
-        // TODO: add back in uncompressed strip
-        return mData.hasCompressedThumbnail();
-    }
+//    public boolean hasThumbnail() {
+//        // TODO: add back in uncompressed strip
+//        return mData.hasCompressedThumbnail();
+//    }
 
     // TODO: uncompressed thumbnail setters
 
@@ -1680,11 +1680,11 @@ public class ExifInterface {
      * @param thumb a byte array containing a jpeg compressed image.
      * @return true if the thumbnail was set.
      */
-    public boolean setCompressedThumbnail(byte[] thumb) {
-        mData.clearThumbnailAndStrips();
-        mData.setCompressedThumbnail(thumb);
-        return true;
-    }
+//    public boolean setCompressedThumbnail(byte[] thumb) {
+//        mData.clearThumbnailAndStrips();
+//        mData.setCompressedThumbnail(thumb);
+//        return true;
+//    }
 
     /**
      * Sets the thumbnail to be a jpeg compressed bitmap. Clears any prior
@@ -1693,20 +1693,20 @@ public class ExifInterface {
      * @param thumb a bitmap to compress to a jpeg thumbnail.
      * @return true if the thumbnail was set.
      */
-    public boolean setCompressedThumbnail(Bitmap thumb) {
-        ByteArrayOutputStream thumbnail = new ByteArrayOutputStream();
-        if (!thumb.compress(Bitmap.CompressFormat.JPEG, 90, thumbnail)) {
-            return false;
-        }
-        return setCompressedThumbnail(thumbnail.toByteArray());
-    }
+//    public boolean setCompressedThumbnail(Bitmap thumb) {
+//        ByteArrayOutputStream thumbnail = new ByteArrayOutputStream();
+//        if (!thumb.compress(Bitmap.CompressFormat.JPEG, 90, thumbnail)) {
+//            return false;
+//        }
+//        return setCompressedThumbnail(thumbnail.toByteArray());
+//    }
 
     /**
      * Clears the compressed thumbnail if it exists.
      */
-    public void removeCompressedThumbnail() {
-        mData.setCompressedThumbnail(null);
-    }
+//    public void removeCompressedThumbnail() {
+//        mData.setCompressedThumbnail(null);
+//    }
 
     // Convenience methods:
 
@@ -1714,30 +1714,30 @@ public class ExifInterface {
      * Decodes the user comment tag into string as specified in the EXIF
      * standard. Returns null if decoding failed.
      */
-    public String getUserComment() {
-        return mData.getUserComment();
-    }
+//    public String getUserComment() {
+//        return mData.getUserComment();
+//    }
 
     /**
      * Returns the Orientation ExifTag value for a given number of degrees.
      *
      * @param degrees the amount an image is rotated in degrees.
      */
-    public static short getOrientationValueForRotation(int degrees) {
-        degrees %= 360;
-        if (degrees < 0) {
-            degrees += 360;
-        }
-        if (degrees < 90) {
-            return Orientation.TOP_LEFT; // 0 degrees
-        } else if (degrees < 180) {
-            return Orientation.RIGHT_TOP; // 90 degrees cw
-        } else if (degrees < 270) {
-            return Orientation.BOTTOM_LEFT; // 180 degrees
-        } else {
-            return Orientation.RIGHT_BOTTOM; // 270 degrees cw
-        }
-    }
+//    public static short getOrientationValueForRotation(int degrees) {
+//        degrees %= 360;
+//        if (degrees < 0) {
+//            degrees += 360;
+//        }
+//        if (degrees < 90) {
+//            return Orientation.TOP_LEFT; // 0 degrees
+//        } else if (degrees < 180) {
+//            return Orientation.RIGHT_TOP; // 90 degrees cw
+//        } else if (degrees < 270) {
+//            return Orientation.BOTTOM_LEFT; // 180 degrees
+//        } else {
+//            return Orientation.RIGHT_BOTTOM; // 270 degrees cw
+//        }
+//    }
 
     /**
      * Returns the rotation degrees corresponding to an ExifTag Orientation
@@ -1772,20 +1772,20 @@ public class ExifInterface {
      * @return the GPS coordinate represented as degrees + minutes/60 +
      * seconds/3600
      */
-    public static double convertLatOrLongToDouble(Rational[] coordinate, String reference) {
-        try {
-            double degrees = coordinate[0].toDouble();
-            double minutes = coordinate[1].toDouble();
-            double seconds = coordinate[2].toDouble();
-            double result = degrees + minutes / 60.0 + seconds / 3600.0;
-            if ((reference.equals("S") || reference.equals("W"))) {
-                return -result;
-            }
-            return result;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException();
-        }
-    }
+//    public static double convertLatOrLongToDouble(Rational[] coordinate, String reference) {
+//        try {
+//            double degrees = coordinate[0].toDouble();
+//            double minutes = coordinate[1].toDouble();
+//            double seconds = coordinate[2].toDouble();
+//            double result = degrees + minutes / 60.0 + seconds / 3600.0;
+//            if ((reference.equals("S") || reference.equals("W"))) {
+//                return -result;
+//            }
+//            return result;
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new IllegalArgumentException();
+//        }
+//    }
 
     /**
      * Gets the GPS latitude and longitude as a pair of doubles from this
