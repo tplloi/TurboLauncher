@@ -373,53 +373,53 @@ public class ExifInterface {
         short RIGHT_BOTTOM = 8;
     }
 
-    public interface YCbCrPositioning {
-        short CENTERED = 1;
-        short CO_SITED = 2;
-    }
+//    public interface YCbCrPositioning {
+//        short CENTERED = 1;
+//        short CO_SITED = 2;
+//    }
 
-    public interface Compression {
-        short UNCOMPRESSION = 1;
-        short JPEG = 6;
-    }
+//    public interface Compression {
+//        short UNCOMPRESSION = 1;
+//        short JPEG = 6;
+//    }
 
-    public interface ResolutionUnit {
-        short INCHES = 2;
-        short CENTIMETERS = 3;
-    }
+//    public interface ResolutionUnit {
+//        short INCHES = 2;
+//        short CENTIMETERS = 3;
+//    }
 
-    public interface PhotometricInterpretation {
-        short RGB = 2;
-        short YCBCR = 6;
-    }
+//    public interface PhotometricInterpretation {
+//        short RGB = 2;
+//        short YCBCR = 6;
+//    }
 
-    public interface PlanarConfiguration {
-        short CHUNKY = 1;
-        short PLANAR = 2;
-    }
+//    public interface PlanarConfiguration {
+//        short CHUNKY = 1;
+//        short PLANAR = 2;
+//    }
 
-    public interface ExposureProgram {
-        short NOT_DEFINED = 0;
-        short MANUAL = 1;
-        short NORMAL_PROGRAM = 2;
-        short APERTURE_PRIORITY = 3;
-        short SHUTTER_PRIORITY = 4;
-        short CREATIVE_PROGRAM = 5;
-        short ACTION_PROGRAM = 6;
-        short PROTRAIT_MODE = 7;
-        short LANDSCAPE_MODE = 8;
-    }
+//    public interface ExposureProgram {
+//        short NOT_DEFINED = 0;
+//        short MANUAL = 1;
+//        short NORMAL_PROGRAM = 2;
+//        short APERTURE_PRIORITY = 3;
+//        short SHUTTER_PRIORITY = 4;
+//        short CREATIVE_PROGRAM = 5;
+//        short ACTION_PROGRAM = 6;
+//        short PROTRAIT_MODE = 7;
+//        short LANDSCAPE_MODE = 8;
+//    }
 
-    public interface MeteringMode {
-        short UNKNOWN = 0;
-        short AVERAGE = 1;
-        short CENTER_WEIGHTED_AVERAGE = 2;
-        short SPOT = 3;
-        short MULTISPOT = 4;
-        short PATTERN = 5;
-        short PARTAIL = 6;
-        short OTHER = 255;
-    }
+//    public interface MeteringMode {
+//        short UNKNOWN = 0;
+//        short AVERAGE = 1;
+//        short CENTER_WEIGHTED_AVERAGE = 2;
+//        short SPOT = 3;
+//        short MULTISPOT = 4;
+//        short PATTERN = 5;
+//        short PARTAIL = 6;
+//        short OTHER = 255;
+//    }
 
     /**
      * standard, we can treat this constant as bitwise flag.
@@ -429,149 +429,149 @@ public class ExifInterface {
      * short flash = FIRED | RETURN_STROBE_RETURN_LIGHT_DETECTED |
      * MODE_AUTO_MODE
      */
-    public interface Flash {
-        // LSB
-        short DID_NOT_FIRED = 0;
-        short FIRED = 1;
-        // 1st~2nd bits
-        short RETURN_NO_STROBE_RETURN_DETECTION_FUNCTION = 0;
-        short RETURN_STROBE_RETURN_LIGHT_NOT_DETECTED = 2 << 1;
-        short RETURN_STROBE_RETURN_LIGHT_DETECTED = 3 << 1;
-        // 3rd~4th bits
-        short MODE_UNKNOWN = 0;
-        short MODE_COMPULSORY_FLASH_FIRING = 1 << 3;
-        short MODE_COMPULSORY_FLASH_SUPPRESSION = 2 << 3;
-        short MODE_AUTO_MODE = 3 << 3;
-        // 5th bit
-        short FUNCTION_PRESENT = 0;
-        short FUNCTION_NO_FUNCTION = 1 << 5;
-        // 6th bit
-        short RED_EYE_REDUCTION_NO_OR_UNKNOWN = 0;
-        short RED_EYE_REDUCTION_SUPPORT = 1 << 6;
-    }
+//    public interface Flash {
+//        // LSB
+//        short DID_NOT_FIRED = 0;
+//        short FIRED = 1;
+//        // 1st~2nd bits
+//        short RETURN_NO_STROBE_RETURN_DETECTION_FUNCTION = 0;
+//        short RETURN_STROBE_RETURN_LIGHT_NOT_DETECTED = 2 << 1;
+//        short RETURN_STROBE_RETURN_LIGHT_DETECTED = 3 << 1;
+//        // 3rd~4th bits
+//        short MODE_UNKNOWN = 0;
+//        short MODE_COMPULSORY_FLASH_FIRING = 1 << 3;
+//        short MODE_COMPULSORY_FLASH_SUPPRESSION = 2 << 3;
+//        short MODE_AUTO_MODE = 3 << 3;
+//        // 5th bit
+//        short FUNCTION_PRESENT = 0;
+//        short FUNCTION_NO_FUNCTION = 1 << 5;
+//        // 6th bit
+//        short RED_EYE_REDUCTION_NO_OR_UNKNOWN = 0;
+//        short RED_EYE_REDUCTION_SUPPORT = 1 << 6;
+//    }
 
-    public interface ColorSpace {
-        short SRGB = 1;
-        short UNCALIBRATED = (short) 0xFFFF;
-    }
+//    public interface ColorSpace {
+//        short SRGB = 1;
+//        short UNCALIBRATED = (short) 0xFFFF;
+//    }
 
-    public interface ExposureMode {
-        short AUTO_EXPOSURE = 0;
-        short MANUAL_EXPOSURE = 1;
-        short AUTO_BRACKET = 2;
-    }
+//    public interface ExposureMode {
+//        short AUTO_EXPOSURE = 0;
+//        short MANUAL_EXPOSURE = 1;
+//        short AUTO_BRACKET = 2;
+//    }
 
-    public interface WhiteBalance {
-        short AUTO = 0;
-        short MANUAL = 1;
-    }
+//    public interface WhiteBalance {
+//        short AUTO = 0;
+//        short MANUAL = 1;
+//    }
 
-    public interface SceneCapture {
-        short STANDARD = 0;
-        short LANDSCAPE = 1;
-        short PROTRAIT = 2;
-        short NIGHT_SCENE = 3;
-    }
+//    public interface SceneCapture {
+//        short STANDARD = 0;
+//        short LANDSCAPE = 1;
+//        short PROTRAIT = 2;
+//        short NIGHT_SCENE = 3;
+//    }
 
-    public interface ComponentsConfiguration {
-        short NOT_EXIST = 0;
-        short Y = 1;
-        short CB = 2;
-        short CR = 3;
-        short R = 4;
-        short G = 5;
-        short B = 6;
-    }
+//    public interface ComponentsConfiguration {
+//        short NOT_EXIST = 0;
+//        short Y = 1;
+//        short CB = 2;
+//        short CR = 3;
+//        short R = 4;
+//        short G = 5;
+//        short B = 6;
+//    }
 
-    public interface LightSource {
-        short UNKNOWN = 0;
-        short DAYLIGHT = 1;
-        short FLUORESCENT = 2;
-        short TUNGSTEN = 3;
-        short FLASH = 4;
-        short FINE_WEATHER = 9;
-        short CLOUDY_WEATHER = 10;
-        short SHADE = 11;
-        short DAYLIGHT_FLUORESCENT = 12;
-        short DAY_WHITE_FLUORESCENT = 13;
-        short COOL_WHITE_FLUORESCENT = 14;
-        short WHITE_FLUORESCENT = 15;
-        short STANDARD_LIGHT_A = 17;
-        short STANDARD_LIGHT_B = 18;
-        short STANDARD_LIGHT_C = 19;
-        short D55 = 20;
-        short D65 = 21;
-        short D75 = 22;
-        short D50 = 23;
-        short ISO_STUDIO_TUNGSTEN = 24;
-        short OTHER = 255;
-    }
+//    public interface LightSource {
+//        short UNKNOWN = 0;
+//        short DAYLIGHT = 1;
+//        short FLUORESCENT = 2;
+//        short TUNGSTEN = 3;
+//        short FLASH = 4;
+//        short FINE_WEATHER = 9;
+//        short CLOUDY_WEATHER = 10;
+//        short SHADE = 11;
+//        short DAYLIGHT_FLUORESCENT = 12;
+//        short DAY_WHITE_FLUORESCENT = 13;
+//        short COOL_WHITE_FLUORESCENT = 14;
+//        short WHITE_FLUORESCENT = 15;
+//        short STANDARD_LIGHT_A = 17;
+//        short STANDARD_LIGHT_B = 18;
+//        short STANDARD_LIGHT_C = 19;
+//        short D55 = 20;
+//        short D65 = 21;
+//        short D75 = 22;
+//        short D50 = 23;
+//        short ISO_STUDIO_TUNGSTEN = 24;
+//        short OTHER = 255;
+//    }
 
-    public interface SensingMethod {
-        short NOT_DEFINED = 1;
-        short ONE_CHIP_COLOR = 2;
-        short TWO_CHIP_COLOR = 3;
-        short THREE_CHIP_COLOR = 4;
-        short COLOR_SEQUENTIAL_AREA = 5;
-        short TRILINEAR = 7;
-        short COLOR_SEQUENTIAL_LINEAR = 8;
-    }
+//    public interface SensingMethod {
+//        short NOT_DEFINED = 1;
+//        short ONE_CHIP_COLOR = 2;
+//        short TWO_CHIP_COLOR = 3;
+//        short THREE_CHIP_COLOR = 4;
+//        short COLOR_SEQUENTIAL_AREA = 5;
+//        short TRILINEAR = 7;
+//        short COLOR_SEQUENTIAL_LINEAR = 8;
+//    }
 
-    public interface FileSource {
-        short DSC = 3;
-    }
+//    public interface FileSource {
+//        short DSC = 3;
+//    }
 
-    public interface SceneType {
-        short DIRECT_PHOTOGRAPHED = 1;
-    }
+//    public interface SceneType {
+//        short DIRECT_PHOTOGRAPHED = 1;
+//    }
 
-    public interface GainControl {
-        short NONE = 0;
-        short LOW_UP = 1;
-        short HIGH_UP = 2;
-        short LOW_DOWN = 3;
-        short HIGH_DOWN = 4;
-    }
+//    public interface GainControl {
+//        short NONE = 0;
+//        short LOW_UP = 1;
+//        short HIGH_UP = 2;
+//        short LOW_DOWN = 3;
+//        short HIGH_DOWN = 4;
+//    }
 
-    public interface Contrast {
-        short NORMAL = 0;
-        short SOFT = 1;
-        short HARD = 2;
-    }
+//    public interface Contrast {
+//        short NORMAL = 0;
+//        short SOFT = 1;
+//        short HARD = 2;
+//    }
 
-    public interface Saturation {
-        short NORMAL = 0;
-        short LOW = 1;
-        short HIGH = 2;
-    }
+//    public interface Saturation {
+//        short NORMAL = 0;
+//        short LOW = 1;
+//        short HIGH = 2;
+//    }
 
-    public interface Sharpness {
-        short NORMAL = 0;
-        short SOFT = 1;
-        short HARD = 2;
-    }
+//    public interface Sharpness {
+//        short NORMAL = 0;
+//        short SOFT = 1;
+//        short HARD = 2;
+//    }
 
-    public interface SubjectDistance {
-        short UNKNOWN = 0;
-        short MACRO = 1;
-        short CLOSE_VIEW = 2;
-        short DISTANT_VIEW = 3;
-    }
+//    public interface SubjectDistance {
+//        short UNKNOWN = 0;
+//        short MACRO = 1;
+//        short CLOSE_VIEW = 2;
+//        short DISTANT_VIEW = 3;
+//    }
 
-    public interface GpsLatitudeRef {
-        String NORTH = "N";
-        String SOUTH = "S";
-    }
+//    public interface GpsLatitudeRef {
+//        String NORTH = "N";
+//        String SOUTH = "S";
+//    }
 
-    public interface GpsLongitudeRef {
-        String EAST = "E";
-        String WEST = "W";
-    }
+//    public interface GpsLongitudeRef {
+//        String EAST = "E";
+//        String WEST = "W";
+//    }
 
-    public interface GpsAltitudeRef {
-        short SEA_LEVEL = 0;
-        short SEA_LEVEL_NEGATIVE = 1;
-    }
+//    public interface GpsAltitudeRef {
+//        short SEA_LEVEL = 0;
+//        short SEA_LEVEL_NEGATIVE = 1;
+//    }
 
 //    public interface GpsStatus {
 //        String IN_PROGRESS = "A";
