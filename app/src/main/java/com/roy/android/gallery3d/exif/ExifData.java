@@ -1,27 +1,9 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.android.gallery3d.exif;
 
-import android.util.Log;
-
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,20 +14,20 @@ import java.util.List;
  * @see IfdData
  */
 class ExifData {
-    private static final String TAG = "ExifData";
-    private static final byte[] USER_COMMENT_ASCII = {
-            0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00
-    };
-    private static final byte[] USER_COMMENT_JIS = {
-            0x4A, 0x49, 0x53, 0x00, 0x00, 0x00, 0x00, 0x00
-    };
-    private static final byte[] USER_COMMENT_UNICODE = {
-            0x55, 0x4E, 0x49, 0x43, 0x4F, 0x44, 0x45, 0x00
-    };
+//    private static final String TAG = "ExifData";
+//    private static final byte[] USER_COMMENT_ASCII = {
+//            0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00
+//    };
+//    private static final byte[] USER_COMMENT_JIS = {
+//            0x4A, 0x49, 0x53, 0x00, 0x00, 0x00, 0x00, 0x00
+//    };
+//    private static final byte[] USER_COMMENT_UNICODE = {
+//            0x55, 0x4E, 0x49, 0x43, 0x4F, 0x44, 0x45, 0x00
+//    };
 
     private final IfdData[] mIfdDatas = new IfdData[IfdId.TYPE_IFD_COUNT];
     private byte[] mThumbnail;
-    private ArrayList<byte[]> mStripBytes = new ArrayList<byte[]>();
+    private final ArrayList<byte[]> mStripBytes = new ArrayList<>();
     private final ByteOrder mByteOrder;
 
     ExifData(ByteOrder order) {
@@ -99,8 +81,6 @@ class ExifData {
 
     /**
      * Gets the strip at the specified index.
-     *
-     * @exceptions #IndexOutOfBoundException
      */
     protected byte[] getStrip(int index) {
         return mStripBytes.get(index);
@@ -185,18 +165,18 @@ class ExifData {
         return null;
     }
 
-    protected void clearThumbnailAndStrips() {
-        mThumbnail = null;
-        mStripBytes.clear();
-    }
+//    protected void clearThumbnailAndStrips() {
+//        mThumbnail = null;
+//        mStripBytes.clear();
+//    }
 
     /**
      * Removes the thumbnail and its related tags. IFD1 will be removed.
      */
-    protected void removeThumbnailData() {
-        clearThumbnailAndStrips();
-        mIfdDatas[IfdId.TYPE_IFD_1] = null;
-    }
+//    protected void removeThumbnailData() {
+//        clearThumbnailAndStrips();
+//        mIfdDatas[IfdId.TYPE_IFD_1] = null;
+//    }
 
     /**
      * Removes the tag with a given TID and IFD.
@@ -213,54 +193,52 @@ class ExifData {
      * Decodes the user comment tag into string as specified in the EXIF
      * standard. Returns null if decoding failed.
      */
-    protected String getUserComment() {
-        IfdData ifdData = mIfdDatas[IfdId.TYPE_IFD_0];
-        if (ifdData == null) {
-            return null;
-        }
-        ExifTag tag = ifdData.getTag(ExifInterface.getTrueTagKey(ExifInterface.TAG_USER_COMMENT));
-        if (tag == null) {
-            return null;
-        }
-        if (tag.getComponentCount() < 8) {
-            return null;
-        }
-
-        byte[] buf = new byte[tag.getComponentCount()];
-        tag.getBytes(buf);
-
-        byte[] code = new byte[8];
-        System.arraycopy(buf, 0, code, 0, 8);
-
-        try {
-            if (Arrays.equals(code, USER_COMMENT_ASCII)) {
-                return new String(buf, 8, buf.length - 8, "US-ASCII");
-            } else if (Arrays.equals(code, USER_COMMENT_JIS)) {
-                return new String(buf, 8, buf.length - 8, "EUC-JP");
-            } else if (Arrays.equals(code, USER_COMMENT_UNICODE)) {
-                return new String(buf, 8, buf.length - 8, "UTF-16");
-            } else {
-                return null;
-            }
-        } catch (UnsupportedEncodingException e) {
-            Log.w(TAG, "Failed to decode the user comment");
-            return null;
-        }
-    }
+//    protected String getUserComment() {
+//        IfdData ifdData = mIfdDatas[IfdId.TYPE_IFD_0];
+//        if (ifdData == null) {
+//            return null;
+//        }
+//        ExifTag tag = ifdData.getTag(ExifInterface.getTrueTagKey(ExifInterface.TAG_USER_COMMENT));
+//        if (tag == null) {
+//            return null;
+//        }
+//        if (tag.getComponentCount() < 8) {
+//            return null;
+//        }
+//
+//        byte[] buf = new byte[tag.getComponentCount()];
+//        tag.getBytes(buf);
+//
+//        byte[] code = new byte[8];
+//        System.arraycopy(buf, 0, code, 0, 8);
+//
+//        try {
+//            if (Arrays.equals(code, USER_COMMENT_ASCII)) {
+//                return new String(buf, 8, buf.length - 8, "US-ASCII");
+//            } else if (Arrays.equals(code, USER_COMMENT_JIS)) {
+//                return new String(buf, 8, buf.length - 8, "EUC-JP");
+//            } else if (Arrays.equals(code, USER_COMMENT_UNICODE)) {
+//                return new String(buf, 8, buf.length - 8, "UTF-16");
+//            } else {
+//                return null;
+//            }
+//        } catch (UnsupportedEncodingException e) {
+//            Log.w(TAG, "Failed to decode the user comment");
+//            return null;
+//        }
+//    }
 
     /**
      * Returns a list of all {@link ExifTag}s in the ExifData or null if there
      * are none.
      */
     protected List<ExifTag> getAllTags() {
-        ArrayList<ExifTag> ret = new ArrayList<ExifTag>();
+        ArrayList<ExifTag> ret = new ArrayList<>();
         for (IfdData d : mIfdDatas) {
             if (d != null) {
                 ExifTag[] tags = d.getAllTags();
                 if (tags != null) {
-                    for (ExifTag t : tags) {
-                        ret.add(t);
-                    }
+                    Collections.addAll(ret, tags);
                 }
             }
         }
@@ -274,45 +252,44 @@ class ExifData {
      * Returns a list of all {@link ExifTag}s in a given IFD or null if there
      * are none.
      */
-    protected List<ExifTag> getAllTagsForIfd(int ifd) {
-        IfdData d = mIfdDatas[ifd];
-        if (d == null) {
-            return null;
-        }
-        ExifTag[] tags = d.getAllTags();
-        if (tags == null) {
-            return null;
-        }
-        ArrayList<ExifTag> ret = new ArrayList<ExifTag>(tags.length);
-        for (ExifTag t : tags) {
-            ret.add(t);
-        }
-        if (ret.size() == 0) {
-            return null;
-        }
-        return ret;
-    }
+//    protected List<ExifTag> getAllTagsForIfd(int ifd) {
+//        IfdData d = mIfdDatas[ifd];
+//        if (d == null) {
+//            return null;
+//        }
+//        ExifTag[] tags = d.getAllTags();
+//        if (tags == null) {
+//            return null;
+//        }
+//        ArrayList<ExifTag> ret = new ArrayList<ExifTag>(tags.length);
+//        for (ExifTag t : tags) {
+//            ret.add(t);
+//        }
+//        if (ret.size() == 0) {
+//            return null;
+//        }
+//        return ret;
+//    }
 
     /**
      * Returns a list of all {@link ExifTag}s with a given TID or null if there
      * are none.
      */
-    protected List<ExifTag> getAllTagsForTagId(short tag) {
-        ArrayList<ExifTag> ret = new ArrayList<ExifTag>();
-        for (IfdData d : mIfdDatas) {
-            if (d != null) {
-                ExifTag t = d.getTag(tag);
-                if (t != null) {
-                    ret.add(t);
-                }
-            }
-        }
-        if (ret.size() == 0) {
-            return null;
-        }
-        return ret;
-    }
-
+//    protected List<ExifTag> getAllTagsForTagId(short tag) {
+//        ArrayList<ExifTag> ret = new ArrayList<ExifTag>();
+//        for (IfdData d : mIfdDatas) {
+//            if (d != null) {
+//                ExifTag t = d.getTag(tag);
+//                if (t != null) {
+//                    ret.add(t);
+//                }
+//            }
+//        }
+//        if (ret.size() == 0) {
+//            return null;
+//        }
+//        return ret;
+//    }
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
