@@ -1,40 +1,38 @@
-package android.util;
+package android.util
 
 /**
  * Helper class for crating pools of objects. An example use looks like this:
  * <pre>
  * public class MyPooledClass {
  *
- *     private static final SynchronizedPool<MyPooledClass> sPool =
- *             new SynchronizedPool<MyPooledClass>(10);
+ * private static final SynchronizedPool<MyPooledClass> sPool =
+ * new SynchronizedPool<MyPooledClass>(10);
  *
- *     public static MyPooledClass obtain() {
- *         MyPooledClass instance = sPool.acquire();
- *         return (instance != null) ? instance : new MyPooledClass();
- *     }
- *
- *     public void recycle() {
- *          // Clear state if needed.
- *          sPool.release(this);
- *     }
- *
- *     . . .
+ * public static MyPooledClass obtain() {
+ * MyPooledClass instance = sPool.acquire();
+ * return (instance != null) ? instance : new MyPooledClass();
  * }
- * </pre>
- **/
-public final class Pools {
-
+ *
+ * public void recycle() {
+ * // Clear state if needed.
+ * sPool.release(this);
+ * }
+ *
+ * . . .
+ * }
+</MyPooledClass></MyPooledClass></pre> *
+ */
+class Pools private constructor() {
     /**
      * Interface for managing a pool of objects.
      *
      * @param <T> The pooled type.
-     */
-    public static interface Pool<T> {
-
+    </T> */
+    interface Pool<T> {
         /**
          * @return An instance from the pool if such, null otherwise.
          */
-        public T acquire();
+        fun acquire(): T
 
         /**
          * Release an instance to the pool.
@@ -43,22 +41,17 @@ public final class Pools {
          * @return Whether the instance was put in the pool.
          * @throws IllegalStateException If the instance is already in the pool.
          */
-        public boolean release(T instance);
-    }
-
-    private Pools() {
-        /* do nothing - hiding constructor */
+        fun release(instance: T): Boolean
     }
 
     /**
      * Simple (non-synchronized) pool of objects.
      *
      * @param <T> The pooled type.
-     */
-    public static class SimplePool<T> implements Pool<T> {
-        private final Object[] mPool;
-
-        private int mPoolSize;
+    </T> */
+    open class SimplePool<T>(maxPoolSize: Int) : Pool<T?> {
+        private val mPool: Array<Any?>
+        private var mPoolSize = 0
 
         /**
          * Creates a new instance.
@@ -66,46 +59,39 @@ public final class Pools {
          * @param maxPoolSize The max pool size.
          * @throws IllegalArgumentException If the max pool size is less than zero.
          */
-        public SimplePool(int maxPoolSize) {
-            if (maxPoolSize <= 0) {
-                throw new IllegalArgumentException("The max pool size must be > 0");
-            }
-            mPool = new Object[maxPoolSize];
+        init {
+            require(maxPoolSize > 0) { "The max pool size must be > 0" }
+            mPool = arrayOfNulls(maxPoolSize)
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public T acquire() {
+        override fun acquire(): T? {
             if (mPoolSize > 0) {
-                final int lastPooledIndex = mPoolSize - 1;
-                T instance = (T) mPool[lastPooledIndex];
-                mPool[lastPooledIndex] = null;
-                mPoolSize--;
-                return instance;
+                val lastPooledIndex = mPoolSize - 1
+                val instance = mPool[lastPooledIndex] as T?
+                mPool[lastPooledIndex] = null
+                mPoolSize--
+                return instance
             }
-            return null;
+            return null
         }
 
-        @Override
-        public boolean release(T instance) {
-            if (isInPool(instance)) {
-                throw new IllegalStateException("Already in the pool!");
+        override fun release(instance: T?): Boolean {
+            check(!isInPool(instance)) { "Already in the pool!" }
+            if (mPoolSize < mPool.size) {
+                mPool[mPoolSize] = instance
+                mPoolSize++
+                return true
             }
-            if (mPoolSize < mPool.length) {
-                mPool[mPoolSize] = instance;
-                mPoolSize++;
-                return true;
-            }
-            return false;
+            return false
         }
 
-        private boolean isInPool(T instance) {
-            for (int i = 0; i < mPoolSize; i++) {
-                if (mPool[i] == instance) {
-                    return true;
+        private fun isInPool(instance: T?): Boolean {
+            for (i in 0 until mPoolSize) {
+                if (mPool[i] === instance) {
+                    return true
                 }
             }
-            return false;
+            return false
         }
     }
 
@@ -113,32 +99,23 @@ public final class Pools {
      * Synchronized) pool of objects.
      *
      * @param <T> The pooled type.
+    </T> */
+    class SynchronizedPool<T>
+    /**
+     * Creates a new instance.
+     *
+     * @param maxPoolSize The max pool size.
+     * @throws IllegalArgumentException If the max pool size is less than zero.
      */
-    public static class SynchronizedPool<T> extends SimplePool<T> {
-        private final Object mLock = new Object();
+        (maxPoolSize: Int) : SimplePool<T>(maxPoolSize) {
+        private val mLock = Any()
 
-        /**
-         * Creates a new instance.
-         *
-         * @param maxPoolSize The max pool size.
-         * @throws IllegalArgumentException If the max pool size is less than zero.
-         */
-        public SynchronizedPool(int maxPoolSize) {
-            super(maxPoolSize);
+        override fun acquire(): T? {
+            synchronized(mLock) { return super.acquire() }
         }
 
-        @Override
-        public T acquire() {
-            synchronized (mLock) {
-                return super.acquire();
-            }
-        }
-
-        @Override
-        public boolean release(T element) {
-            synchronized (mLock) {
-                return super.release(element);
-            }
+        override fun release(instance: T?): Boolean {
+            synchronized(mLock) { return super.release(instance) }
         }
     }
 }
