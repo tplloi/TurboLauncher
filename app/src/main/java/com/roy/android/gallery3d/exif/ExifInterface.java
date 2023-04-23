@@ -1790,32 +1790,30 @@ public class ExifInterface {
     /**
      * Gets the GPS latitude and longitude as a pair of doubles from this
      * ExifInterface object's tags, or null if the necessary tags do not exist.
-     *
-     * @return an array of 2 doubles containing the latitude, and longitude
+     * return an array of 2 doubles containing the latitude, and longitude
      * respectively.
      * @see #convertLatOrLongToDouble
      */
-    public double[] getLatLongAsDoubles() {
-        Rational[] latitude = getTagRationalValues(TAG_GPS_LATITUDE);
-        String latitudeRef = getTagStringValue(TAG_GPS_LATITUDE_REF);
-        Rational[] longitude = getTagRationalValues(TAG_GPS_LONGITUDE);
-        String longitudeRef = getTagStringValue(TAG_GPS_LONGITUDE_REF);
-        if (latitude == null || longitude == null || latitudeRef == null || longitudeRef == null
-                || latitude.length < 3 || longitude.length < 3) {
-            return null;
-        }
-        double[] latLon = new double[2];
-        latLon[0] = convertLatOrLongToDouble(latitude, latitudeRef);
-        latLon[1] = convertLatOrLongToDouble(longitude, longitudeRef);
-        return latLon;
-    }
+//    public double[] getLatLongAsDoubles() {
+//        Rational[] latitude = getTagRationalValues(TAG_GPS_LATITUDE);
+//        String latitudeRef = getTagStringValue(TAG_GPS_LATITUDE_REF);
+//        Rational[] longitude = getTagRationalValues(TAG_GPS_LONGITUDE);
+//        String longitudeRef = getTagStringValue(TAG_GPS_LONGITUDE_REF);
+//        if (latitude == null || longitude == null || latitudeRef == null || longitudeRef == null
+//                || latitude.length < 3 || longitude.length < 3) {
+//            return null;
+//        }
+//        double[] latLon = new double[2];
+//        latLon[0] = convertLatOrLongToDouble(latitude, latitudeRef);
+//        latLon[1] = convertLatOrLongToDouble(longitude, longitudeRef);
+//        return latLon;
+//    }
 
     private static final String GPS_DATE_FORMAT_STR = "yyyy:MM:dd";
-    private static final String DATETIME_FORMAT_STR = "yyyy:MM:dd kk:mm:ss";
-    private final DateFormat mDateTimeStampFormat = new SimpleDateFormat(DATETIME_FORMAT_STR);
+//    private static final String DATETIME_FORMAT_STR = "yyyy:MM:dd kk:mm:ss";
+//    private final DateFormat mDateTimeStampFormat = new SimpleDateFormat(DATETIME_FORMAT_STR);
     private final DateFormat mGPSDateStampFormat = new SimpleDateFormat(GPS_DATE_FORMAT_STR);
-    private final Calendar mGPSTimeStampCalendar = Calendar
-            .getInstance(TimeZone.getTimeZone("UTC"));
+//    private final Calendar mGPSTimeStampCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     /**
      * Creates, formats, and sets the DateTimeStamp tag for one of:
@@ -1827,20 +1825,20 @@ public class ExifInterface {
      * @param timezone  a TimeZone object.
      * @return true if success, false if the tag could not be set.
      */
-    public boolean addDateTimeStampTag(int tagId, long timestamp, TimeZone timezone) {
-        if (tagId == TAG_DATE_TIME || tagId == TAG_DATE_TIME_DIGITIZED
-                || tagId == TAG_DATE_TIME_ORIGINAL) {
-            mDateTimeStampFormat.setTimeZone(timezone);
-            ExifTag t = buildTag(tagId, mDateTimeStampFormat.format(timestamp));
-            if (t == null) {
-                return false;
-            }
-            setTag(t);
-        } else {
-            return false;
-        }
-        return true;
-    }
+//    public boolean addDateTimeStampTag(int tagId, long timestamp, TimeZone timezone) {
+//        if (tagId == TAG_DATE_TIME || tagId == TAG_DATE_TIME_DIGITIZED
+//                || tagId == TAG_DATE_TIME_ORIGINAL) {
+//            mDateTimeStampFormat.setTimeZone(timezone);
+//            ExifTag t = buildTag(tagId, mDateTimeStampFormat.format(timestamp));
+//            if (t == null) {
+//                return false;
+//            }
+//            setTag(t);
+//        } else {
+//            return false;
+//        }
+//        return true;
+//    }
 
     /**
      * Creates and sets all to the GPS tags for a give latitude and longitude.
@@ -1849,49 +1847,48 @@ public class ExifInterface {
      * @param longitude a GPS longitude coordinate.
      * @return true if success, false if they could not be created or set.
      */
-    public boolean addGpsTags(double latitude, double longitude) {
-        ExifTag latTag = buildTag(TAG_GPS_LATITUDE, toExifLatLong(latitude));
-        ExifTag longTag = buildTag(TAG_GPS_LONGITUDE, toExifLatLong(longitude));
-        ExifTag latRefTag = buildTag(TAG_GPS_LATITUDE_REF,
-                latitude >= 0 ? ExifInterface.GpsLatitudeRef.NORTH
-                        : ExifInterface.GpsLatitudeRef.SOUTH);
-        ExifTag longRefTag = buildTag(TAG_GPS_LONGITUDE_REF,
-                longitude >= 0 ? ExifInterface.GpsLongitudeRef.EAST
-                        : ExifInterface.GpsLongitudeRef.WEST);
-        if (latTag == null || longTag == null || latRefTag == null || longRefTag == null) {
-            return false;
-        }
-        setTag(latTag);
-        setTag(longTag);
-        setTag(latRefTag);
-        setTag(longRefTag);
-        return true;
-    }
+//    public boolean addGpsTags(double latitude, double longitude) {
+//        ExifTag latTag = buildTag(TAG_GPS_LATITUDE, toExifLatLong(latitude));
+//        ExifTag longTag = buildTag(TAG_GPS_LONGITUDE, toExifLatLong(longitude));
+//        ExifTag latRefTag = buildTag(TAG_GPS_LATITUDE_REF,
+//                latitude >= 0 ? ExifInterface.GpsLatitudeRef.NORTH
+//                        : ExifInterface.GpsLatitudeRef.SOUTH);
+//        ExifTag longRefTag = buildTag(TAG_GPS_LONGITUDE_REF,
+//                longitude >= 0 ? ExifInterface.GpsLongitudeRef.EAST
+//                        : ExifInterface.GpsLongitudeRef.WEST);
+//        if (latTag == null || longTag == null || latRefTag == null || longRefTag == null) {
+//            return false;
+//        }
+//        setTag(latTag);
+//        setTag(longTag);
+//        setTag(latRefTag);
+//        setTag(longRefTag);
+//        return true;
+//    }
 
     /**
      * Creates and sets the GPS timestamp tag.
-     *
-     * @param timestamp a GPS timestamp.
+     * timestamp a GPS timestamp.
      * @return true if success, false if could not be created or set.
      */
-    public boolean addGpsDateTimeStampTag(long timestamp) {
-        ExifTag t = buildTag(TAG_GPS_DATE_STAMP, mGPSDateStampFormat.format(timestamp));
-        if (t == null) {
-            return false;
-        }
-        setTag(t);
-        mGPSTimeStampCalendar.setTimeInMillis(timestamp);
-        t = buildTag(TAG_GPS_TIME_STAMP, new Rational[]{
-                new Rational(mGPSTimeStampCalendar.get(Calendar.HOUR_OF_DAY), 1),
-                new Rational(mGPSTimeStampCalendar.get(Calendar.MINUTE), 1),
-                new Rational(mGPSTimeStampCalendar.get(Calendar.SECOND), 1)
-        });
-        if (t == null) {
-            return false;
-        }
-        setTag(t);
-        return true;
-    }
+//    public boolean addGpsDateTimeStampTag(long timestamp) {
+//        ExifTag t = buildTag(TAG_GPS_DATE_STAMP, mGPSDateStampFormat.format(timestamp));
+//        if (t == null) {
+//            return false;
+//        }
+//        setTag(t);
+//        mGPSTimeStampCalendar.setTimeInMillis(timestamp);
+//        t = buildTag(TAG_GPS_TIME_STAMP, new Rational[]{
+//                new Rational(mGPSTimeStampCalendar.get(Calendar.HOUR_OF_DAY), 1),
+//                new Rational(mGPSTimeStampCalendar.get(Calendar.MINUTE), 1),
+//                new Rational(mGPSTimeStampCalendar.get(Calendar.SECOND), 1)
+//        });
+//        if (t == null) {
+//            return false;
+//        }
+//        setTag(t);
+//        return true;
+//    }
 
     private static Rational[] toExifLatLong(double value) {
         // convert to the format dd/1 mm/1 ssss/100
