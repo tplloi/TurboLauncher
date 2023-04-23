@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <supports-screens
         android:anyDensity="true"
@@ -27,31 +28,38 @@
     <permission
         android:name="com.phonemetra.turbo.launcher.permission.PRELOAD_WORKSPACE"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature"
+        tools:node="remove" />
     <permission
         android:name="com.android.launcher.permission.INSTALL_SHORTCUT"
         android:description="@string/permdesc_install_shortcut"
         android:label="@string/permlab_install_shortcut"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="dangerous" />
+        android:protectionLevel="dangerous"
+        tools:ignore="ReservedSystemPermission"
+        tools:node="remove" />
     <permission
         android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"
         android:description="@string/permdesc_uninstall_shortcut"
         android:label="@string/permlab_uninstall_shortcut"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="dangerous" />
+        android:protectionLevel="dangerous"
+        tools:ignore="ReservedSystemPermission"
+        tools:node="remove" />
     <permission
         android:name="com.phonemetra.turbo.launcher.permission.READ_SETTINGS"
         android:description="@string/permdesc_read_settings"
         android:label="@string/permlab_read_settings"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="normal" />
+        android:protectionLevel="normal"
+        tools:node="remove" />
     <permission
         android:name="com.phonemetra.turbo.launcher.permission.WRITE_SETTINGS"
         android:description="@string/permdesc_write_settings"
         android:label="@string/permlab_write_settings"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="normal" />
+        android:protectionLevel="normal"
+        tools:node="remove" />
 
     <permission
         android:name="com.phonemetra.turbo.launcher.permission.RECEIVE_LAUNCH_BROADCASTS"
@@ -66,9 +74,22 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.phonemetra.turbo.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.phonemetra.turbo.launcher.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.phonemetra.turbo.launcher.permission.RECEIVE_LAUNCH_BROADCASTS" />
+    <uses-permission
+        android:name="com.phonemetra.turbo.launcher.permission.READ_SETTINGS"
+        tools:node="remove" />
+    <uses-permission
+        android:name="com.phonemetra.turbo.launcher.permission.WRITE_SETTINGS"
+        tools:node="remove" />
+    <uses-permission
+        android:name="com.phonemetra.turbo.launcher.permission.RECEIVE_LAUNCH_BROADCASTS"
+        tools:node="remove" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+        </intent>
+    </queries>
 
     <application
         android:name="com.phonemetra.turbo.launcher.LauncherApplication"
