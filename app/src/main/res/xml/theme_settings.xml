@@ -18,7 +18,7 @@
         android:summary="@string/pref_summary_theme_package"
         android:title="@string/pref_title_theme_package" />
 
-    <com.phonemetra.turbo.launcher.ThemePreference
+    <com.roy.turbo.launcher.ThemePreference
         android:key="themePreview"
         android:layout="@layout/theme_preview" />
 

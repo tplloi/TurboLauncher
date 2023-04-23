@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.phonemetra.turbo.launcher.PagedViewWidget
+<com.roy.turbo.launcher.PagedViewWidget
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
 
@@ -26,7 +26,7 @@
     android:focusable="true">
 
     <!-- The preview of the widget or shortcut. -->
-    <com.phonemetra.turbo.launcher.PagedViewWidgetImageView
+    <com.roy.turbo.launcher.PagedViewWidgetImageView
         android:id="@+id/widget_preview"
         style="@style/PagedViewWidgetImageView"
         android:layout_width="match_parent"
@@ -81,4 +81,4 @@
     </LinearLayout>
 
 
-</com.phonemetra.turbo.launcher.PagedViewWidget>
+</com.roy.turbo.launcher.PagedViewWidget>

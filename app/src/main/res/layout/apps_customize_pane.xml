@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.phonemetra.turbo.launcher.AppsCustomizeLayout
+<com.roy.turbo.launcher.AppsCustomizeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
-        <com.phonemetra.turbo.launcher.AppsCustomizePagedView
+        <com.roy.turbo.launcher.AppsCustomizePagedView
             android:id="@+id/apps_customize_pane_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,4 +38,4 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom" />
     </FrameLayout>
-</com.phonemetra.turbo.launcher.AppsCustomizeLayout>
+</com.roy.turbo.launcher.AppsCustomizeLayout>

@@ -26,7 +26,7 @@
         android:required="false" />
 
     <permission
-        android:name="com.phonemetra.turbo.launcher.permission.PRELOAD_WORKSPACE"
+        android:name="com.roy.turbo.launcher.permission.PRELOAD_WORKSPACE"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
         android:protectionLevel="signature"
         tools:node="remove" />
@@ -47,14 +47,14 @@
         tools:ignore="ReservedSystemPermission"
         tools:node="remove" />
     <permission
-        android:name="com.phonemetra.turbo.launcher.permission.READ_SETTINGS"
+        android:name="com.roy.turbo.launcher.permission.READ_SETTINGS"
         android:description="@string/permdesc_read_settings"
         android:label="@string/permlab_read_settings"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
         android:protectionLevel="normal"
         tools:node="remove" />
     <permission
-        android:name="com.phonemetra.turbo.launcher.permission.WRITE_SETTINGS"
+        android:name="com.roy.turbo.launcher.permission.WRITE_SETTINGS"
         android:description="@string/permdesc_write_settings"
         android:label="@string/permlab_write_settings"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
@@ -62,7 +62,7 @@
         tools:node="remove" />
 
     <permission
-        android:name="com.phonemetra.turbo.launcher.permission.RECEIVE_LAUNCH_BROADCASTS"
+        android:name="com.roy.turbo.launcher.permission.RECEIVE_LAUNCH_BROADCASTS"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -92,14 +92,14 @@
     </queries>
 
     <application
-        android:name="com.phonemetra.turbo.launcher.LauncherApplication"
+        android:name="com.roy.turbo.launcher.LauncherApplication"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher_home"
         android:label="@string/application_name"
         android:largeHeap="@bool/config_largeHeap"
         android:supportsRtl="true">
         <activity
-            android:name="com.phonemetra.turbo.launcher.Launcher"
+            android:name="com.roy.turbo.launcher.Launcher"
             android:clearTaskOnLaunch="true"
             android:exported="true"
             android:launchMode="singleTask"
@@ -118,7 +118,7 @@
         </activity>
 
         <activity
-            android:name="com.phonemetra.turbo.launcher.ThemeSettingsActivity"
+            android:name="com.roy.turbo.launcher.ThemeSettingsActivity"
             android:exported="true"
             android:label="@string/pref_title_theme_settings"
             tools:ignore="ExportedPreferenceActivity">
@@ -129,7 +129,7 @@
         </activity>
 
         <activity
-            android:name="com.phonemetra.turbo.launcher.LauncherWallpaperPickerActivity"
+            android:name="com.roy.turbo.launcher.LauncherWallpaperPickerActivity"
             android:exported="true"
             android:finishOnCloseSystemDialogs="true"
             android:icon="@drawable/ic_wallpaper"
@@ -143,7 +143,7 @@
         </activity>
 
         <activity
-            android:name="com.phonemetra.turbo.launcher.WallpaperCropActivity"
+            android:name="com.roy.turbo.launcher.WallpaperCropActivity"
             android:exported="true"
             android:finishOnCloseSystemDialogs="true"
             android:icon="@drawable/ic_wallpaper"
@@ -160,7 +160,7 @@
 
         <!-- Intent received used to prepopulate the default workspace. -->
         <receiver
-            android:name="com.phonemetra.turbo.launcher.PreloadReceiver"
+            android:name="com.roy.turbo.launcher.PreloadReceiver"
             android:exported="true"
             android:permission="com.phonemetra.turbo.launcher.permission.PRELOAD_WORKSPACE">
             <intent-filter>
@@ -170,7 +170,7 @@
 
         <!-- Intent received used to install shortcuts from other applications -->
         <receiver
-            android:name="com.phonemetra.turbo.launcher.InstallShortcutReceiver"
+            android:name="com.roy.turbo.launcher.InstallShortcutReceiver"
             android:exported="true"
             android:permission="com.phonemetra.turbo.launcher.permission.INSTALL_SHORTCUT">
             <intent-filter>
@@ -180,7 +180,7 @@
 
         <!-- Intent received used to uninstall shortcuts from other applications -->
         <receiver
-            android:name="com.phonemetra.turbo.launcher.UninstallShortcutReceiver"
+            android:name="com.roy.turbo.launcher.UninstallShortcutReceiver"
             android:exported="true"
             android:permission="com.phonemetra.turbo.launcher.permission.UNINSTALL_SHORTCUT">
             <intent-filter>
@@ -190,7 +190,7 @@
 
         <!-- New user initialization; set up initial wallpaper -->
         <receiver
-            android:name="com.phonemetra.turbo.launcher.UserInitializeReceiver"
+            android:name="com.roy.turbo.launcher.UserInitializeReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.USER_INITIALIZE" />
@@ -198,7 +198,7 @@
         </receiver>
 
         <receiver
-            android:name="com.phonemetra.turbo.launcher.PackageChangedReceiver"
+            android:name="com.roy.turbo.launcher.PackageChangedReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
@@ -211,8 +211,8 @@
 
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider
-            android:name="com.phonemetra.turbo.launcher.LauncherProvider"
-            android:authorities="com.phonemetra.turbo.launcher.settings"
+            android:name="com.roy.turbo.launcher.LauncherProvider"
+            android:authorities="com.roy.turbo.launcher.settings"
             android:exported="true"
             android:readPermission="com.phonemetra.turbo.launcher.permission.READ_SETTINGS"
             android:writePermission="com.phonemetra.turbo.launcher.permission.WRITE_SETTINGS" />

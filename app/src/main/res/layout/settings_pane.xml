@@ -126,7 +126,7 @@
         
 
         <view
-            class="com.phonemetra.turbo.launcher.list.PinnedHeaderListView"
+            class="com.roy.turbo.launcher.list.PinnedHeaderListView"
             android:id="@+id/settings_home_screen_listview"
             android:layout_width="match_parent"
             android:layout_height="0dip"
