@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.roy.turbo.launcher;
 
 import android.content.ComponentName;
@@ -28,19 +13,25 @@ import java.util.List;
 class AllAppsList {
     public static final int DEFAULT_APPLICATIONS_NUMBER = 42;
 
-    /** The list off all apps. */
-    public ArrayList<AppInfo> data =
-            new ArrayList<AppInfo>(DEFAULT_APPLICATIONS_NUMBER);
-    /** The list of apps that have been added since the last notify() call. */
-    public ArrayList<AppInfo> added =
-            new ArrayList<AppInfo>(DEFAULT_APPLICATIONS_NUMBER);
-    /** The list of apps that have been removed since the last notify() call. */
-    public ArrayList<AppInfo> removed = new ArrayList<AppInfo>();
-    /** The list of apps that have been modified since the last notify() call. */
-    public ArrayList<AppInfo> modified = new ArrayList<AppInfo>();
+    /**
+     * The list off all apps.
+     */
+    public ArrayList<AppInfo> data = new ArrayList<>(DEFAULT_APPLICATIONS_NUMBER);
+    /**
+     * The list of apps that have been added since the last notify() call.
+     */
+    public ArrayList<AppInfo> added = new ArrayList<>(DEFAULT_APPLICATIONS_NUMBER);
+    /**
+     * The list of apps that have been removed since the last notify() call.
+     */
+    public ArrayList<AppInfo> removed = new ArrayList<>();
+    /**
+     * The list of apps that have been modified since the last notify() call.
+     */
+    public ArrayList<AppInfo> modified = new ArrayList<>();
 
-    private IconCache mIconCache;
-    private AppFilter mAppFilter;
+    private final IconCache mIconCache;
+    private final AppFilter mAppFilter;
 
     public AllAppsList(IconCache iconCache, AppFilter appFilter) {
         mIconCache = iconCache;
@@ -50,7 +41,7 @@ class AllAppsList {
     /**
      * Add the supplied ApplicationInfo objects to the list, and enqueue it into the
      * list to broadcast when notify() is called.
-     *
+     * <p>
      * If the app is already in the list, doesn't add it.
      */
     public void add(AppInfo info) {
@@ -169,7 +160,7 @@ class AllAppsList {
         mainIntent.setPackage(packageName);
 
         final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
-        return apps != null ? apps : new ArrayList<ResolveInfo>();
+        return apps != null ? apps : new ArrayList<>();
     }
 
     /**
@@ -191,7 +182,7 @@ class AllAppsList {
      */
     private static boolean findActivity(ArrayList<AppInfo> apps, ComponentName component) {
         final int N = apps.size();
-        for (int i=0; i<N; i++) {
+        for (int i = 0; i < N; i++) {
             final AppInfo info = apps.get(i);
             if (info.componentName.equals(component)) {
                 return true;
@@ -204,7 +195,7 @@ class AllAppsList {
      * Find an ApplicationInfo object for the given packageName and className.
      */
     private AppInfo findApplicationInfoLocked(String packageName, String className) {
-        for (AppInfo info: data) {
+        for (AppInfo info : data) {
             final ComponentName component = info.intent.getComponent();
             if (packageName.equals(component.getPackageName())
                     && className.equals(component.getClassName())) {
