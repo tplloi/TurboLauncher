@@ -1,15 +1,11 @@
-package com.roy.turbo.launcher.view;
+package com.roy.turbo.launcher.view
 
-import android.view.View;
+import android.view.View
 
-public interface Page {
-    public int getPageChildCount();
-
-    public View getChildOnPageAt(int i);
-
-    public void removeAllViewsOnPage();
-
-    public void removeViewOnPageAt(int i);
-
-    public int indexOfChildOnPage(View v);
+interface Page {
+    val pageChildCount: Int
+    fun getChildOnPageAt(i: Int): View?
+    fun removeAllViewsOnPage()
+    fun removeViewOnPageAt(i: Int)
+    fun indexOfChildOnPage(v: View?): Int
 }
