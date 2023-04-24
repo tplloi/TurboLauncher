@@ -1,62 +1,58 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.os.Handler;
+import android.os.Handler
+import android.os.Looper
+import kotlin.math.max
 
-public class Alarm implements Runnable {
+class Alarm : Runnable {
+    private var mAlarmTriggerTime: Long = 0
+    private var mWaitingForCallback = false
+    private val mHandler: Handler = Handler(Looper.getMainLooper())
+    private var mAlarmListener: OnAlarmListener? = null
+    private var mAlarmPending = false
 
-    private long mAlarmTriggerTime;
-
-    private boolean mWaitingForCallback;
-
-    private final Handler mHandler;
-    private OnAlarmListener mAlarmListener;
-    private boolean mAlarmPending = false;
-
-    public Alarm() {
-        mHandler = new Handler();
-    }
-
-    public void setOnAlarmListener(OnAlarmListener alarmListener) {
-        mAlarmListener = alarmListener;
+    fun setOnAlarmListener(alarmListener: OnAlarmListener?) {
+        mAlarmListener = alarmListener
     }
 
     // Sets the alarm to go off in a certain number of milliseconds. If the alarm is already set,
     // it's overwritten and only the new alarm setting is used
-    public void setAlarm(long millisecondsInFuture) {
-        long currentTime = System.currentTimeMillis();
-        mAlarmPending = true;
-        mAlarmTriggerTime = currentTime + millisecondsInFuture;
+    fun setAlarm(millisecondsInFuture: Long) {
+        val currentTime = System.currentTimeMillis()
+        mAlarmPending = true
+        mAlarmTriggerTime = currentTime + millisecondsInFuture
         if (!mWaitingForCallback) {
-            mHandler.postDelayed(this, mAlarmTriggerTime - currentTime);
-            mWaitingForCallback = true;
+            mHandler.postDelayed(this, mAlarmTriggerTime - currentTime)
+            mWaitingForCallback = true
         }
     }
 
-    public void cancelAlarm() {
-        mAlarmTriggerTime = 0;
-        mAlarmPending = false;
+    fun cancelAlarm() {
+        mAlarmTriggerTime = 0
+        mAlarmPending = false
     }
 
     // this is called when our timer runs out
-    public void run() {
-        mWaitingForCallback = false;
-        if (mAlarmTriggerTime != 0) {
-            long currentTime = System.currentTimeMillis();
+    override fun run() {
+        mWaitingForCallback = false
+        if (mAlarmTriggerTime != 0L) {
+            val currentTime = System.currentTimeMillis()
             if (mAlarmTriggerTime > currentTime) {
                 // We still need to wait some time to trigger spring loaded mode--
                 // post a new callback
-                mHandler.postDelayed(this, Math.max(0, mAlarmTriggerTime - currentTime));
-                mWaitingForCallback = true;
+                mHandler.postDelayed(
+                    /* r = */ this,
+                    /* delayMillis = */max(0, mAlarmTriggerTime - currentTime)
+                )
+                mWaitingForCallback = true
             } else {
-                mAlarmPending = false;
-                if (mAlarmListener != null) {
-                    mAlarmListener.onAlarm(this);
-                }
+                mAlarmPending = false
+                mAlarmListener?.onAlarm(this)
             }
         }
     }
 
-    public boolean alarmPending() {
-        return mAlarmPending;
+    fun alarmPending(): Boolean {
+        return mAlarmPending
     }
 }
