@@ -1,23 +1,6 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
-import com.roy.turbo.launcher.R;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -28,8 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-public class AppsCustomizeLayout extends FrameLayout implements LauncherTransitionable,
-        Insettable  {
+public class AppsCustomizeLayout extends FrameLayout implements LauncherTransitionable, Insettable {
 
     private AppsCustomizePagedView mAppsCustomizePane;
     private FrameLayout mContent;
@@ -63,23 +45,23 @@ public class AppsCustomizeLayout extends FrameLayout implements LauncherTransiti
      */
     @Override
     protected void onFinishInflate() {
-        final AppsCustomizePagedView appsCustomizePane = (AppsCustomizePagedView)
-                findViewById(R.id.apps_customize_pane_content);
-        mAppsCustomizePane = appsCustomizePane;
+        super.onFinishInflate();
+        mAppsCustomizePane = (AppsCustomizePagedView) findViewById(R.id.apps_customize_pane_content);
         mContent = (FrameLayout) findViewById(R.id.apps_customize_content);
         if (mAppsCustomizePane == null) throw new Resources.NotFoundException();
-        
+
     }
 
-     public boolean onInterceptTouchEvent(MotionEvent ev) {
-         // If we are mid transitioning to the workspace, then intercept touch events here so we
-         // can ignore them, otherwise we just let all apps handle the touch events.
-         if (mInTransition && mTransitioningToWorkspace) {
-             return true;
-         }
-         return super.onInterceptTouchEvent(ev);
-     };
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        // If we are mid transitioning to the workspace, then intercept touch events here so we
+        // can ignore them, otherwise we just let all apps handle the touch events.
+        if (mInTransition && mTransitioningToWorkspace) {
+            return true;
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // Allow touch events to fall through to the workspace if we are transitioning there
@@ -139,7 +121,6 @@ public class AppsCustomizeLayout extends FrameLayout implements LauncherTransiti
         return mContent;
     }
 
-    /* LauncherTransitionable overrides */
     @Override
     public void onLauncherTransitionPrepare(Launcher l, boolean animated, boolean toWorkspace) {
         mAppsCustomizePane.onLauncherTransitionPrepare(l, animated, toWorkspace);
@@ -186,7 +167,7 @@ public class AppsCustomizeLayout extends FrameLayout implements LauncherTransiti
         }
 
         if (!toWorkspace) {
-           
+
             // Make sure adjacent pages are loaded (we wait until after the transition to
             // prevent slowing down the animation)
             mAppsCustomizePane.loadAssociatedPages(mAppsCustomizePane.getCurrentPage());
