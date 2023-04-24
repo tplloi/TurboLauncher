@@ -711,9 +711,12 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     protected Bitmap getThumbnailOfLastPhoto() {
         Cursor cursor = MediaStore.Images.Media.query(getContentResolver(),
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Images.ImageColumns._ID,
-                        MediaStore.Images.ImageColumns.DATE_TAKEN},
-                null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC LIMIT 1");
+                new String[]{MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATE_TAKEN},
+                null,
+                null,
+//                MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC LIMIT 1"
+                MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC"
+        );
         Bitmap thumb = null;
         if (cursor != null) {
             if (cursor.moveToFirst()) {
