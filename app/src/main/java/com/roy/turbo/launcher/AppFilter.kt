@@ -1,31 +1,32 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.content.ComponentName;
-import android.text.TextUtils;
+import android.content.ComponentName
+import android.text.TextUtils
 
-public abstract class AppFilter {
+abstract class AppFilter {
+    abstract fun shouldShowApp(app: ComponentName?): Boolean
 
-	public abstract boolean shouldShowApp(ComponentName app);
-
-	public static AppFilter loadByName(String className) {
-		if (TextUtils.isEmpty(className))
-			return null;
-
-		try {
-			Class<?> cls = Class.forName(className);
-			return (AppFilter) cls.newInstance();
-		} catch (ClassNotFoundException e) {
-
-			return null;
-		} catch (InstantiationException e) {
-
-			return null;
-		} catch (IllegalAccessException e) {
-
-			return null;
-		} catch (ClassCastException e) {
-
-			return null;
-		}
-	}
+    companion object {
+        @JvmStatic
+        fun loadByName(className: String?): AppFilter? {
+            return if (TextUtils.isEmpty(className)) null else try {
+                val cls = className?.let {
+                    Class.forName(it)
+                }
+                cls?.newInstance() as AppFilter?
+            } catch (e: ClassNotFoundException) {
+                e.printStackTrace()
+                null
+            } catch (e: InstantiationException) {
+                e.printStackTrace()
+                null
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+                null
+            } catch (e: ClassCastException) {
+                e.printStackTrace()
+                null
+            }
+        }
+    }
 }
