@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 
-import com.roy.turbo.launcher.view.Page;
+import com.roy.turbo.launcher.itf.Page;
 
 /**
  * The grid based layout used strictly for the widget/wallpaper tab of the AppsCustomize pane

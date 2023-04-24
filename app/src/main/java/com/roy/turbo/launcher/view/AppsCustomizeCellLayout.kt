@@ -3,6 +3,7 @@ package com.roy.turbo.launcher.view
 import android.content.Context
 import android.view.View
 import com.roy.turbo.launcher.CellLayout
+import com.roy.turbo.launcher.itf.Page
 
 class AppsCustomizeCellLayout(context: Context) : CellLayout(context), Page {
     override fun removeAllViewsOnPage() {

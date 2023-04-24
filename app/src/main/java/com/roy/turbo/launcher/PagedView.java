@@ -54,7 +54,7 @@ import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
 
-import com.roy.turbo.launcher.view.Page;
+import com.roy.turbo.launcher.itf.Page;
 
 public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener {
     private static final String TAG = "PagedView";
