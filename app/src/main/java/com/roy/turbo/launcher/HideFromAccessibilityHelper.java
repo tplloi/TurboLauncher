@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.OnHierarchyChangeListener;
 
+import com.roy.turbo.launcher.view.AppsCustomizeLayout;
+
 import java.util.HashMap;
 
 public class HideFromAccessibilityHelper implements OnHierarchyChangeListener {

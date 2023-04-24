@@ -483,7 +483,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
      *
      * @return The index of the currently displayed page.
      */
-    int getCurrentPage() {
+    public int getCurrentPage() {
         return mCurrentPage;
     }
 
@@ -2431,11 +2431,11 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 };
     }
 
-    protected void loadAssociatedPages(int page) {
+    public void loadAssociatedPages(int page) {
         loadAssociatedPages(page, false);
     }
 
-    protected void loadAssociatedPages(int page, boolean immediateAndOnly) {
+    public void loadAssociatedPages(int page, boolean immediateAndOnly) {
         if (mContentIsRefreshable) {
             final int count = getChildCount();
             if (page < count) {

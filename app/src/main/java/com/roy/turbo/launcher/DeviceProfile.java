@@ -42,7 +42,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import com.roy.turbo.launcher.settings.SettingsProvider;
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.view.AppsCustomizeLayout;
 
 class DeviceProfileQuery {
     float widthDps;

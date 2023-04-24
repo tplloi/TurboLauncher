@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,6 +10,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import com.roy.turbo.launcher.AppsCustomizePagedView;
+import com.roy.turbo.launcher.Insettable;
+import com.roy.turbo.launcher.Launcher;
+import com.roy.turbo.launcher.LauncherTransitionable;
+import com.roy.turbo.launcher.R;
 
 public class AppsCustomizeLayout extends FrameLayout implements LauncherTransitionable, Insettable {
 
@@ -88,7 +94,7 @@ public class AppsCustomizeLayout extends FrameLayout implements LauncherTransiti
         return super.getDescendantFocusability();
     }
 
-    void reset() {
+    public void reset() {
         if (mInTransition) {
             // Defer to after the transition to reset
             mResetAfterTransition = true;
@@ -215,7 +221,7 @@ public class AppsCustomizeLayout extends FrameLayout implements LauncherTransiti
         mAppsCustomizePane.clearAllWidgetPages();
     }
 
-    boolean isTransitioning() {
+    public boolean isTransitioning() {
         return mInTransition;
     }
 }
