@@ -1,96 +1,151 @@
-package com.roy.turbo.launcher.settings;
+package com.roy.turbo.launcher.settings
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Context
+import android.content.SharedPreferences
 
-public final class SettingsProvider {
-    public static final String SETTINGS_KEY = "com.roy.turbo.launcher_preferences";
+object SettingsProvider {
+    const val SETTINGS_KEY = "com.roy.turbo.launcher_preferences"
+    const val SETTINGS_CHANGED = "settings_changed"
+    const val SETTINGS_UI_HOMESCREEN_DEFAULT_SCREEN_ID = "ui_homescreen_default_screen_id"
+    const val SETTINGS_UI_HOMESCREEN_SEARCH = "ui_homescreen_search"
+    const val SETTINGS_UI_HOMESCREEN_HIDE_ICON_LABELS = "ui_homescreen_general_hide_icon_labels"
+    const val SETTINGS_UI_HOMESCREEN_SCROLLING_TRANSITION_EFFECT =
+        "ui_homescreen_scrolling_transition_effect"
+    const val SETTINGS_UI_HOMESCREEN_SCROLLING_WALLPAPER_SCROLL =
+        "ui_homescreen_scrolling_wallpaper_scroll"
+    const val SETTINGS_UI_HOMESCREEN_SCROLLING_PAGE_OUTLINES =
+        "ui_homescreen_scrolling_page_outlines"
+    const val SETTINGS_UI_HOMESCREEN_SCROLLING_FADE_ADJACENT =
+        "ui_homescreen_scrolling_fade_adjacent"
+    const val SETTINGS_UI_DRAWER_SCROLLING_TRANSITION_EFFECT =
+        "ui_drawer_scrolling_transition_effect"
+    const val SETTINGS_UI_DRAWER_SCROLLING_FADE_ADJACENT = "ui_drawer_scrolling_fade_adjacent"
+    const val SETTINGS_UI_DRAWER_REMOVE_HIDDEN_APPS_SHORTCUTS =
+        "ui_drawer_remove_hidden_apps_shortcuts"
+    const val SETTINGS_UI_DRAWER_REMOVE_HIDDEN_APPS_WIDGETS = "ui_drawer_remove_hidden_apps_widgets"
+    const val SETTINGS_UI_DRAWER_HIDE_ICON_LABELS = "ui_drawer_hide_icon_labels"
+    const val SETTINGS_UI_GENERAL_ICONS_LARGE = "ui_general_icons_large"
+    const val SETTINGS_UI_DRAWER_SORT_MODE = "ui_drawer_sort_mode"
 
-    public static final String SETTINGS_CHANGED = "settings_changed";
-
-    public static final String SETTINGS_UI_HOMESCREEN_DEFAULT_SCREEN_ID = "ui_homescreen_default_screen_id";
-    public static final String SETTINGS_UI_HOMESCREEN_SEARCH = "ui_homescreen_search";
-    public static final String SETTINGS_UI_HOMESCREEN_HIDE_ICON_LABELS = "ui_homescreen_general_hide_icon_labels";
-    public static final String SETTINGS_UI_HOMESCREEN_SCROLLING_TRANSITION_EFFECT = "ui_homescreen_scrolling_transition_effect";
-    public static final String SETTINGS_UI_HOMESCREEN_SCROLLING_WALLPAPER_SCROLL = "ui_homescreen_scrolling_wallpaper_scroll";
-    public static final String SETTINGS_UI_HOMESCREEN_SCROLLING_PAGE_OUTLINES = "ui_homescreen_scrolling_page_outlines";
-    public static final String SETTINGS_UI_HOMESCREEN_SCROLLING_FADE_ADJACENT = "ui_homescreen_scrolling_fade_adjacent";
-    public static final String SETTINGS_UI_DRAWER_SCROLLING_TRANSITION_EFFECT = "ui_drawer_scrolling_transition_effect";
-    public static final String SETTINGS_UI_DRAWER_SCROLLING_FADE_ADJACENT = "ui_drawer_scrolling_fade_adjacent";
-    public static final String SETTINGS_UI_DRAWER_REMOVE_HIDDEN_APPS_SHORTCUTS = "ui_drawer_remove_hidden_apps_shortcuts";
-    public static final String SETTINGS_UI_DRAWER_REMOVE_HIDDEN_APPS_WIDGETS = "ui_drawer_remove_hidden_apps_widgets";
-    public static final String SETTINGS_UI_DRAWER_HIDE_ICON_LABELS = "ui_drawer_hide_icon_labels";
-    public static final String SETTINGS_UI_GENERAL_ICONS_LARGE = "ui_general_icons_large";
-    public static final String SETTINGS_UI_DRAWER_SORT_MODE = "ui_drawer_sort_mode";
-
-//    public static final String SETTINGS_HOME_LAST_APP = "home_last_app";
-//    public static final String SETTINGS_UI_THEME_ICONS = "ui_theme_icons";
-//    public static final String SETTINGS_UI_THEME_PACKAGENAME = "ui_theme_packagename";
-
-    public static SharedPreferences get(Context context) {
-        return context.getSharedPreferences(SETTINGS_KEY, Context.MODE_MULTI_PROCESS);
+    @JvmStatic
+    operator fun get(context: Context): SharedPreferences {
+        return context.getSharedPreferences(SETTINGS_KEY, Context.MODE_MULTI_PROCESS)
     }
 
-    public static int getIntCustomDefault(Context context, String key, int def) {
-        return get(context).getInt(key, def);
+    @JvmStatic
+    fun getIntCustomDefault(
+        context: Context,
+        key: String?,
+        def: Int
+    ): Int {
+        return SettingsProvider[context].getInt(key, def)
     }
 
-    public static int getInt(Context context, String key, int resource) {
-        return getIntCustomDefault(context, key, context.getResources().getInteger(resource));
+    fun getInt(
+        context: Context,
+        key: String?,
+        resource: Int
+    ): Int {
+        return getIntCustomDefault(context, key, context.resources.getInteger(resource))
     }
 
-    public static long getLongCustomDefault(Context context, String key, long def) {
-        return get(context).getLong(key, def);
+    @JvmStatic
+    fun getLongCustomDefault(
+        context: Context,
+        key: String?,
+        def: Long
+    ): Long {
+        return SettingsProvider[context].getLong(key, def)
     }
 
-    public static long getLong(Context context, String key, int resource) {
-        return getLongCustomDefault(context, key, context.getResources().getInteger(resource));
+    fun getLong(
+        context: Context,
+        key: String?,
+        resource: Int
+    ): Long {
+        return getLongCustomDefault(context, key, context.resources.getInteger(resource).toLong())
     }
 
-    public static boolean getBooleanCustomDefault(Context context, String key, boolean def) {
-        return get(context).getBoolean(key, def);
+    fun getBooleanCustomDefault(
+        context: Context,
+        key: String?,
+        def: Boolean
+    ): Boolean {
+        return SettingsProvider[context].getBoolean(key, def)
     }
 
-    public static boolean getBoolean(Context context, String key, int resource) {
-        return getBooleanCustomDefault(context, key, context.getResources().getBoolean(resource));
+    @JvmStatic
+    fun getBoolean(
+        context: Context,
+        key: String?,
+        resource: Int
+    ): Boolean {
+        return getBooleanCustomDefault(context, key, context.resources.getBoolean(resource))
     }
 
-    public static String getStringCustomDefault(Context context, String key, String def) {
-        return get(context).getString(key, def);
+    fun getStringCustomDefault(
+        context: Context,
+        key: String?,
+        def: String?
+    ): String? {
+        return SettingsProvider[context].getString(key, def)
     }
 
-    public static String getString(Context context, String key, int resource) {
-        return getStringCustomDefault(context, key, context.getResources().getString(resource));
+    @JvmStatic
+    fun getString(
+        context: Context,
+        key: String?,
+        resource: Int
+    ): String? {
+        return getStringCustomDefault(context, key, context.resources.getString(resource))
     }
 
-    public static void putString(Context context, String key, String value) {
-        get(context).edit().putString(key, value).apply();
+    fun putString(
+        context: Context,
+        key: String?,
+        value: String?
+    ) {
+        SettingsProvider[context].edit().putString(key, value).apply()
     }
 
-    public static void putInt(Context context, String key, int value) {
-        get(context).edit().putInt(key, value).apply();
+    @JvmStatic
+    fun putInt(
+        context: Context,
+        key: String?,
+        value: Int
+    ) {
+        SettingsProvider[context].edit().putInt(key, value).apply()
     }
 
-    public static boolean getThemeIcons(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(SETTINGS_KEY, 0);
-        return preferences.getBoolean("themeIcons", true);
-
+    @JvmStatic
+    fun getThemeIcons(context: Context): Boolean {
+        val preferences = context.getSharedPreferences(SETTINGS_KEY, 0)
+        return preferences.getBoolean("themeIcons", true)
     }
 
-    public static boolean getThemeFont(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(SETTINGS_KEY, 0);
-        return sp.getBoolean("themeFont", true);
+    @JvmStatic
+    fun getThemeFont(context: Context): Boolean {
+        val sp = context.getSharedPreferences(SETTINGS_KEY, 0)
+        return sp.getBoolean("themeFont", true)
     }
 
-    public static String getThemePackageName(Context context, String default_theme) {
-        SharedPreferences preferences = context.getSharedPreferences(SETTINGS_KEY, 0);
-        return preferences.getString("themePackageName", default_theme);
+    @JvmStatic
+    fun getThemePackageName(
+        context: Context,
+        default_theme: String?
+    ): String? {
+        val preferences = context.getSharedPreferences(SETTINGS_KEY, 0)
+        return preferences.getString("themePackageName", default_theme)
     }
 
-    public static void setThemePackageName(Context context, String packageName) {
-        final SharedPreferences preferences = context.getSharedPreferences(SETTINGS_KEY, 0);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("themePackageName", packageName);
-        editor.apply();
+    @JvmStatic
+    fun setThemePackageName(
+        context: Context,
+        packageName: String?
+    ) {
+        val preferences = context.getSharedPreferences(SETTINGS_KEY, 0)
+        val editor = preferences.edit()
+        editor.putString("themePackageName", packageName)
+        editor.apply()
     }
 }
