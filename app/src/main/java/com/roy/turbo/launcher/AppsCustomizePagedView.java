@@ -59,7 +59,7 @@ import android.widget.Toast;
 
 import com.roy.turbo.launcher.DropTarget.DragObject;
 import com.roy.turbo.launcher.settings.SettingsProvider;
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.view.AppsCustomizeCellLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;

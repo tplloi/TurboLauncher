@@ -54,15 +54,7 @@ import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
 
-import com.roy.turbo.launcher.R;
-
-interface Page {
-    public int getPageChildCount();
-    public View getChildOnPageAt(int i);
-    public void removeAllViewsOnPage();
-    public void removeViewOnPageAt(int i);
-    public int indexOfChildOnPage(View v);
-}
+import com.roy.turbo.launcher.view.Page;
 
 public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener {
     private static final String TAG = "PagedView";
@@ -392,6 +384,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         mTmpPoint[1] += v.getTop();
         return mTmpPoint;
     }
+
     float[] mapPointFromParentToView(View v, float x, float y) {
         mTmpPoint[0] = x - v.getLeft();
         mTmpPoint[1] = y - v.getTop();
@@ -433,6 +426,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     int getViewportWidth() {
         return mViewport.width();
     }
+
     int getViewportHeight() {
         return mViewport.height();
     }
@@ -450,13 +444,13 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     PageIndicator getPageIndicator() {
         return mPageIndicator;
     }
+
     protected PageIndicator.PageMarkerResources getPageIndicatorMarker(int pageIndex) {
         return new PageIndicator.PageMarkerResources();
     }
 
     /**
      * Add a page change listener which will be called when a page is _finished_ listening.
-     *
      */
     public void setPageSwitchListener(PageSwitchListener pageSwitchListener) {
         mPageSwitchListener = pageSwitchListener;
@@ -578,6 +572,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     void setRestorePage(int restorePage) {
         mRestorePage = restorePage;
     }
+
     int getRestorePage() {
         return mRestorePage;
     }
@@ -600,6 +595,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             mPageIndicator.setActiveMarker(getNextPage());
         }
     }
+
     protected void pageBeginMoving() {
         if (!mIsPageMoving) {
             mIsPageMoving = true;
@@ -725,8 +721,8 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         if (mScroller.computeScrollOffset()) {
             // Don't bother scrolling if the page does not need to be moved
             if (getScrollX() != mScroller.getCurrX()
-                || getScrollY() != mScroller.getCurrY()
-                || mOverScrollX != mScroller.getCurrX()) {
+                    || getScrollY() != mScroller.getCurrY()
+                    || mOverScrollX != mScroller.getCurrX()) {
                 float scaleX = mFreeScroll ? getScaleX() : 1f;
                 int scrollX = (int) (mScroller.getCurrX() * (1 / scaleX));
                 scrollTo(scrollX, mScroller.getCurrY());
@@ -892,7 +888,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
                 final int childWidthMeasureSpec =
                         MeasureSpec.makeMeasureSpec(childWidth, childWidthMode);
-                    final int childHeightMeasureSpec =
+                final int childHeightMeasureSpec =
                         MeasureSpec.makeMeasureSpec(childHeight, childHeightMode);
                 child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
             }
@@ -912,7 +908,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         int offsetY = getViewportOffsetY();
 
         // Update the viewport offsets
-        mViewport.offset(offsetX,  offsetY);
+        mViewport.offset(offsetX, offsetY);
 
         final boolean isRtl = isLayoutRtl();
 
@@ -1080,16 +1076,17 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         mAllowPagedViewAnimations = true;
 
     }
+
     protected void disablePagedViewAnimations() {
         mAllowPagedViewAnimations = false;
     }
 
     /*
- * This interpolator emulates the rate at which the perceived scale of an object changes
- * as its distance from a camera increases. When this interpolator is applied to a scale
- * animation on a view, it evokes the sense that the object is shrinking due to moving away
- * from the camera.
- */
+     * This interpolator emulates the rate at which the perceived scale of an object changes
+     * as its distance from a camera increases. When this interpolator is applied to a scale
+     * animation on a view, it evokes the sense that the object is shrinking due to moving away
+     * from the camera.
+     */
     static class ZInterpolator implements TimeInterpolator {
         private float focalLength;
 
@@ -1108,9 +1105,11 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
      */
     static class InverseZInterpolator implements TimeInterpolator {
         private ZInterpolator zInterpolator;
+
         public InverseZInterpolator(float foc) {
             zInterpolator = new ZInterpolator(foc);
         }
+
         public float getInterpolation(float input) {
             return 1 - zInterpolator.getInterpolation(1 - input);
         }
@@ -1160,6 +1159,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         removeMarkerForView(indexOfChild(v));
         super.removeView(v);
     }
+
     @Override
     public void removeViewInLayout(View v) {
         // XXX: We should find a better way to hook into this before the view
@@ -1167,6 +1167,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         removeMarkerForView(indexOfChild(v));
         super.removeViewInLayout(v);
     }
+
     @Override
     public void removeViewAt(int index) {
         // XXX: We should find a better way to hook into this before the view
@@ -1174,6 +1175,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         removeViewAt(index);
         super.removeViewAt(index);
     }
+
     @Override
     public void removeAllViewsInLayout() {
         // Update the page indicator, we don't update the page indicator as we
@@ -1282,7 +1284,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                     final View v = getPageAt(i);
                     if (v == mDragView) continue;
                     if (mForceDrawAllChildrenNextFrame ||
-                               (leftScreen <= i && i <= rightScreen && shouldDrawChild(v))) {
+                            (leftScreen <= i && i <= rightScreen && shouldDrawChild(v))) {
                         drawChild(canvas, v, drawingTime);
                     }
                 }
@@ -1349,7 +1351,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             if (mCurrentPage > 0) {
                 getPageAt(mCurrentPage - 1).addFocusables(views, direction, focusableMode);
             }
-        } else if (direction == View.FOCUS_RIGHT){
+        } else if (direction == View.FOCUS_RIGHT) {
             if (mCurrentPage < getPageCount() - 1) {
                 getPageAt(mCurrentPage + 1).addFocusables(views, direction, focusableMode);
             }
@@ -1359,7 +1361,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     /**
      * If one of our descendant views decides that it could be focused now, only
      * pass that along if it's on the current page.
-     *
+     * <p>
      * This happens when live folders requery, and if they're off page, they
      * end up calling requestFocus, which pulls it on page.
      */
@@ -1377,7 +1379,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             }
             ViewParent parent = v.getParent();
             if (parent instanceof View) {
-                v = (View)v.getParent();
+                v = (View) v.getParent();
             } else {
                 return;
             }
@@ -1416,11 +1418,13 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         if (isLayoutRtl()) {
             return (x < getViewportOffsetX() + getPaddingLeft() + mPageSpacing);
         }
-        return  (x > (getViewportOffsetX() + getViewportWidth() -
+        return (x > (getViewportOffsetX() + getViewportWidth() -
                 getPaddingRight() - mPageSpacing));
     }
 
-    /** Returns whether x and y originated within the buffered viewport */
+    /**
+     * Returns whether x and y originated within the buffered viewport
+     */
     private boolean isTouchPointInViewportWithBuffer(int x, int y) {
         mTmpRect.set(mViewport.left - mViewport.width() / 2, mViewport.top,
                 mViewport.right + mViewport.width() / 2, mViewport.bottom);
@@ -1604,7 +1608,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         final int halfScreenSize = getViewportWidth() / 2;
 
         screenCenter = Math.min(getScrollX() + halfScreenSize, screenCenter);
-        screenCenter = Math.max(halfScreenSize,  screenCenter);
+        screenCenter = Math.max(halfScreenSize, screenCenter);
 
         return getScrollProgress(screenCenter, v, page);
     }
@@ -1630,7 +1634,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
         float scrollProgress = delta / (totalDistance * 1.0f);
         scrollProgress = Math.min(scrollProgress, getMaxScrollProgress());
-        scrollProgress = Math.max(scrollProgress, - getMaxScrollProgress());
+        scrollProgress = Math.max(scrollProgress, -getMaxScrollProgress());
         return scrollProgress;
     }
 
@@ -1805,285 +1809,292 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         final int action = ev.getAction();
 
         switch (action & MotionEvent.ACTION_MASK) {
-        case MotionEvent.ACTION_DOWN:
-            /*
-             * If being flinged and user touches, stop the fling. isFinished
-             * will be false if being flinged.
-             */
-            if (!mScroller.isFinished()) {
-                abortScrollerAnimation(false);
-            }
-
-            // Remember where the motion event started
-            mDownMotionX = mLastMotionX = ev.getX();
-            mDownMotionY = mLastMotionY = ev.getY();
-            mDownScrollX = getScrollX();
-            float[] p = mapPointFromViewToParent(this, mLastMotionX, mLastMotionY);
-            mParentDownMotionX = p[0];
-            mParentDownMotionY = p[1];
-            mLastMotionXRemainder = 0;
-            mTotalMotionX = 0;
-            mActivePointerId = ev.getPointerId(0);
-
-            if (mTouchState == TOUCH_STATE_SCROLLING) {
-                pageBeginMoving();
-            }
-            break;
-
-        case MotionEvent.ACTION_MOVE:
-            if (mTouchState == TOUCH_STATE_SCROLLING) {
-                // Scroll to follow the motion event
-                final int pointerIndex = ev.findPointerIndex(mActivePointerId);
-
-                if (pointerIndex == -1) return true;
-
-                final float x = ev.getX(pointerIndex);
-                final float deltaX = mLastMotionX + mLastMotionXRemainder - x;
-
-                mTotalMotionX += Math.abs(deltaX);
-
-                // Only scroll and update mLastMotionX if we have moved some discrete amount.  We
-                // keep the remainder because we are actually testing if we've moved from the last
-                // scrolled position (which is discrete).
-                if (Math.abs(deltaX) >= 1.0f) {
-                    mTouchX += deltaX;
-                    mSmoothingTime = System.nanoTime() / NANOTIME_DIV;
-                    if (!mDeferScrollUpdate) {
-                        scrollBy((int) deltaX, 0);
-                    } else {
-                        invalidate();
-                    }
-                    mLastMotionX = x;
-                    mLastMotionXRemainder = deltaX - (int) deltaX;
-                } else {
-                    awakenScrollBars();
+            case MotionEvent.ACTION_DOWN:
+                /*
+                 * If being flinged and user touches, stop the fling. isFinished
+                 * will be false if being flinged.
+                 */
+                if (!mScroller.isFinished()) {
+                    abortScrollerAnimation(false);
                 }
-            } else if (mTouchState == TOUCH_STATE_REORDERING) {
-                // Update the last motion position
-                mLastMotionX = ev.getX();
-                mLastMotionY = ev.getY();
 
-                // Update the parent down so that our zoom animations take this new movement into
-                // account
-                float[] pt = mapPointFromViewToParent(this, mLastMotionX, mLastMotionY);
-                mParentDownMotionX = pt[0];
-                mParentDownMotionY = pt[1];
-                updateDragViewTranslationDuringDrag();
+                // Remember where the motion event started
+                mDownMotionX = mLastMotionX = ev.getX();
+                mDownMotionY = mLastMotionY = ev.getY();
+                mDownScrollX = getScrollX();
+                float[] p = mapPointFromViewToParent(this, mLastMotionX, mLastMotionY);
+                mParentDownMotionX = p[0];
+                mParentDownMotionY = p[1];
+                mLastMotionXRemainder = 0;
+                mTotalMotionX = 0;
+                mActivePointerId = ev.getPointerId(0);
 
-                // Find the closest page to the touch point
-                final int dragViewIndex = indexOfChild(mDragView);
+                if (mTouchState == TOUCH_STATE_SCROLLING) {
+                    pageBeginMoving();
+                }
+                break;
 
-                // Change the drag view if we are hovering over the drop target
-                boolean isHoveringOverDelete = isHoveringOverDeleteDropTarget(
-                        (int) mParentDownMotionX, (int) mParentDownMotionY);
-                setPageHoveringOverDeleteDropTarget(dragViewIndex, isHoveringOverDelete);
+            case MotionEvent.ACTION_MOVE:
+                if (mTouchState == TOUCH_STATE_SCROLLING) {
+                    // Scroll to follow the motion event
+                    final int pointerIndex = ev.findPointerIndex(mActivePointerId);
 
-                final int pageUnderPointIndex = getNearestHoverOverPageIndex();
-                if (pageUnderPointIndex > -1 && pageUnderPointIndex != indexOfChild(mDragView) &&
-                        !isHoveringOverDelete) {
-                    mTempVisiblePagesRange[0] = 0;
-                    mTempVisiblePagesRange[1] = getPageCount() - 1;
-                    getOverviewModePages(mTempVisiblePagesRange);
-                    if (mTempVisiblePagesRange[0] <= pageUnderPointIndex &&
-                            pageUnderPointIndex <= mTempVisiblePagesRange[1] &&
-                            pageUnderPointIndex != mSidePageHoverIndex && mScroller.isFinished()) {
-                        mSidePageHoverIndex = pageUnderPointIndex;
-                        mSidePageHoverRunnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                // Setup the scroll to the correct page before we swap the views
-                                snapToPage(pageUnderPointIndex);
+                    if (pointerIndex == -1) return true;
 
-                                // For each of the pages between the paged view and the drag view,
-                                // animate them from the previous position to the new position in
-                                // the layout (as a result of the drag view moving in the layout)
-                                int shiftDelta = (dragViewIndex < pageUnderPointIndex) ? -1 : 1;
-                                int lowerIndex = (dragViewIndex < pageUnderPointIndex) ?
-                                        dragViewIndex + 1 : pageUnderPointIndex;
-                                int upperIndex = (dragViewIndex > pageUnderPointIndex) ?
-                                        dragViewIndex - 1 : pageUnderPointIndex;
-                                for (int i = lowerIndex; i <= upperIndex; ++i) {
-                                    View v = getChildAt(i);
-                                    // dragViewIndex < pageUnderPointIndex, so after we remove the
-                                    // drag view all subsequent views to pageUnderPointIndex will
-                                    // shift down.
-                                    int oldX = getViewportOffsetX() + getChildOffset(i);
-                                    int newX = getViewportOffsetX() + getChildOffset(i + shiftDelta);
+                    final float x = ev.getX(pointerIndex);
+                    final float deltaX = mLastMotionX + mLastMotionXRemainder - x;
 
-                                    // Animate the view translation from its old position to its new
-                                    // position
-                                    AnimatorSet anim = (AnimatorSet) v.getTag(ANIM_TAG_KEY);
-                                    if (anim != null) {
-                                        anim.cancel();
+                    mTotalMotionX += Math.abs(deltaX);
+
+                    // Only scroll and update mLastMotionX if we have moved some discrete amount.  We
+                    // keep the remainder because we are actually testing if we've moved from the last
+                    // scrolled position (which is discrete).
+                    if (Math.abs(deltaX) >= 1.0f) {
+                        mTouchX += deltaX;
+                        mSmoothingTime = System.nanoTime() / NANOTIME_DIV;
+                        if (!mDeferScrollUpdate) {
+                            scrollBy((int) deltaX, 0);
+                        } else {
+                            invalidate();
+                        }
+                        mLastMotionX = x;
+                        mLastMotionXRemainder = deltaX - (int) deltaX;
+                    } else {
+                        awakenScrollBars();
+                    }
+                } else if (mTouchState == TOUCH_STATE_REORDERING) {
+                    // Update the last motion position
+                    mLastMotionX = ev.getX();
+                    mLastMotionY = ev.getY();
+
+                    // Update the parent down so that our zoom animations take this new movement into
+                    // account
+                    float[] pt = mapPointFromViewToParent(this, mLastMotionX, mLastMotionY);
+                    mParentDownMotionX = pt[0];
+                    mParentDownMotionY = pt[1];
+                    updateDragViewTranslationDuringDrag();
+
+                    // Find the closest page to the touch point
+                    final int dragViewIndex = indexOfChild(mDragView);
+
+                    // Change the drag view if we are hovering over the drop target
+                    boolean isHoveringOverDelete = isHoveringOverDeleteDropTarget(
+                            (int) mParentDownMotionX, (int) mParentDownMotionY);
+                    setPageHoveringOverDeleteDropTarget(dragViewIndex, isHoveringOverDelete);
+
+                    final int pageUnderPointIndex = getNearestHoverOverPageIndex();
+                    if (pageUnderPointIndex > -1 && pageUnderPointIndex != indexOfChild(mDragView) &&
+                            !isHoveringOverDelete) {
+                        mTempVisiblePagesRange[0] = 0;
+                        mTempVisiblePagesRange[1] = getPageCount() - 1;
+                        getOverviewModePages(mTempVisiblePagesRange);
+                        if (mTempVisiblePagesRange[0] <= pageUnderPointIndex &&
+                                pageUnderPointIndex <= mTempVisiblePagesRange[1] &&
+                                pageUnderPointIndex != mSidePageHoverIndex && mScroller.isFinished()) {
+                            mSidePageHoverIndex = pageUnderPointIndex;
+                            mSidePageHoverRunnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Setup the scroll to the correct page before we swap the views
+                                    snapToPage(pageUnderPointIndex);
+
+                                    // For each of the pages between the paged view and the drag view,
+                                    // animate them from the previous position to the new position in
+                                    // the layout (as a result of the drag view moving in the layout)
+                                    int shiftDelta = (dragViewIndex < pageUnderPointIndex) ? -1 : 1;
+                                    int lowerIndex = (dragViewIndex < pageUnderPointIndex) ?
+                                            dragViewIndex + 1 : pageUnderPointIndex;
+                                    int upperIndex = (dragViewIndex > pageUnderPointIndex) ?
+                                            dragViewIndex - 1 : pageUnderPointIndex;
+                                    for (int i = lowerIndex; i <= upperIndex; ++i) {
+                                        View v = getChildAt(i);
+                                        // dragViewIndex < pageUnderPointIndex, so after we remove the
+                                        // drag view all subsequent views to pageUnderPointIndex will
+                                        // shift down.
+                                        int oldX = getViewportOffsetX() + getChildOffset(i);
+                                        int newX = getViewportOffsetX() + getChildOffset(i + shiftDelta);
+
+                                        // Animate the view translation from its old position to its new
+                                        // position
+                                        AnimatorSet anim = (AnimatorSet) v.getTag(ANIM_TAG_KEY);
+                                        if (anim != null) {
+                                            anim.cancel();
+                                        }
+
+                                        v.setTranslationX(oldX - newX);
+                                        anim = new AnimatorSet();
+                                        anim.setDuration(REORDERING_REORDER_REPOSITION_DURATION);
+                                        anim.playTogether(
+                                                ObjectAnimator.ofFloat(v, "translationX", 0f));
+                                        anim.start();
+                                        v.setTag(anim);
                                     }
 
-                                    v.setTranslationX(oldX - newX);
-                                    anim = new AnimatorSet();
-                                    anim.setDuration(REORDERING_REORDER_REPOSITION_DURATION);
-                                    anim.playTogether(
-                                            ObjectAnimator.ofFloat(v, "translationX", 0f));
-                                    anim.start();
-                                    v.setTag(anim);
+                                    removeView(mDragView);
+                                    onRemoveView(mDragView, false);
+                                    addView(mDragView, pageUnderPointIndex);
+                                    onAddView(mDragView, pageUnderPointIndex);
+                                    mSidePageHoverIndex = -1;
+                                    if (mPageIndicator != null) {
+                                        mPageIndicator.setActiveMarker(getNextPage());
+                                    }
                                 }
-
-                                removeView(mDragView);
-                                onRemoveView(mDragView, false);
-                                addView(mDragView, pageUnderPointIndex);
-                                onAddView(mDragView, pageUnderPointIndex);
-                                mSidePageHoverIndex = -1;
-                                if (mPageIndicator != null) {
-                                    mPageIndicator.setActiveMarker(getNextPage());
-                                }
-                            }
-                        };
-                        postDelayed(mSidePageHoverRunnable, REORDERING_SIDE_PAGE_HOVER_TIMEOUT);
+                            };
+                            postDelayed(mSidePageHoverRunnable, REORDERING_SIDE_PAGE_HOVER_TIMEOUT);
+                        }
+                    } else {
+                        removeCallbacks(mSidePageHoverRunnable);
+                        mSidePageHoverIndex = -1;
                     }
                 } else {
-                    removeCallbacks(mSidePageHoverRunnable);
-                    mSidePageHoverIndex = -1;
+                    determineScrollingStart(ev);
                 }
-            } else {
-                determineScrollingStart(ev);
-            }
-            break;
+                break;
 
-        case MotionEvent.ACTION_UP:
-            if (mTouchState == TOUCH_STATE_SCROLLING) {
-                final int activePointerId = mActivePointerId;
-                final int pointerIndex = ev.findPointerIndex(activePointerId);
-                final float x = ev.getX(pointerIndex);
-                final VelocityTracker velocityTracker = mVelocityTracker;
-                velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-                int velocityX = (int) velocityTracker.getXVelocity(activePointerId);
-                final int deltaX = (int) (x - mDownMotionX);
-                final int pageWidth = getPageAt(mCurrentPage).getMeasuredWidth();
-                boolean isSignificantMove = Math.abs(deltaX) > pageWidth *
-                        SIGNIFICANT_MOVE_THRESHOLD;
+            case MotionEvent.ACTION_UP:
+                if (mTouchState == TOUCH_STATE_SCROLLING) {
+                    final int activePointerId = mActivePointerId;
+                    final int pointerIndex = ev.findPointerIndex(activePointerId);
+                    final float x = ev.getX(pointerIndex);
+                    final VelocityTracker velocityTracker = mVelocityTracker;
+                    velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+                    int velocityX = (int) velocityTracker.getXVelocity(activePointerId);
+                    final int deltaX = (int) (x - mDownMotionX);
+                    final int pageWidth = getPageAt(mCurrentPage).getMeasuredWidth();
+                    boolean isSignificantMove = Math.abs(deltaX) > pageWidth *
+                            SIGNIFICANT_MOVE_THRESHOLD;
 
-                mTotalMotionX += Math.abs(mLastMotionX + mLastMotionXRemainder - x);
+                    mTotalMotionX += Math.abs(mLastMotionX + mLastMotionXRemainder - x);
 
-                boolean isFling = mTotalMotionX > MIN_LENGTH_FOR_FLING &&
-                        Math.abs(velocityX) > mFlingThresholdVelocity;
+                    boolean isFling = mTotalMotionX > MIN_LENGTH_FOR_FLING &&
+                            Math.abs(velocityX) > mFlingThresholdVelocity;
 
-                if (!mFreeScroll) {
-                    // In the case that the page is moved far to one direction and then is flung
-                    // in the opposite direction, we use a threshold to determine whether we should
-                    // just return to the starting page, or if we should skip one further.
-                    boolean returnToOriginalPage = false;
-                    if (Math.abs(deltaX) > pageWidth * RETURN_TO_ORIGINAL_PAGE_THRESHOLD &&
-                            Math.signum(velocityX) != Math.signum(deltaX) && isFling) {
-                        returnToOriginalPage = true;
+                    if (!mFreeScroll) {
+                        // In the case that the page is moved far to one direction and then is flung
+                        // in the opposite direction, we use a threshold to determine whether we should
+                        // just return to the starting page, or if we should skip one further.
+                        boolean returnToOriginalPage = false;
+                        if (Math.abs(deltaX) > pageWidth * RETURN_TO_ORIGINAL_PAGE_THRESHOLD &&
+                                Math.signum(velocityX) != Math.signum(deltaX) && isFling) {
+                            returnToOriginalPage = true;
+                        }
+
+                        int finalPage;
+                        // We give flings precedence over large moves, which is why we short-circuit our
+                        // test for a large move if a fling has been registered. That is, a large
+                        // move to the left and fling to the right will register as a fling to the right.
+                        final boolean isRtl = isLayoutRtl();
+                        boolean isDeltaXLeft = isRtl ? deltaX > 0 : deltaX < 0;
+                        boolean isVelocityXLeft = isRtl ? velocityX > 0 : velocityX < 0;
+                        if (((isSignificantMove && !isDeltaXLeft && !isFling) ||
+                                (isFling && !isVelocityXLeft)) && mCurrentPage > 0) {
+                            finalPage = returnToOriginalPage ? mCurrentPage : mCurrentPage - 1;
+                            snapToPageWithVelocity(finalPage, velocityX);
+                        } else if (((isSignificantMove && isDeltaXLeft && !isFling) ||
+                                (isFling && isVelocityXLeft)) &&
+                                mCurrentPage < getChildCount() - 1) {
+                            finalPage = returnToOriginalPage ? mCurrentPage : mCurrentPage + 1;
+                            snapToPageWithVelocity(finalPage, velocityX);
+                        } else {
+                            snapToDestination();
+                        }
+                    } else {
+                        if (!mScroller.isFinished()) {
+                            abortScrollerAnimation(true);
+                        }
+
+                        float scaleX = getScaleX();
+                        int vX = (int) (-velocityX * scaleX);
+                        int initialScrollX = (int) (getScrollX() * scaleX);
+
+                        mScroller.setInterpolator(mDefaultInterpolator);
+                        mScroller.fling(initialScrollX,
+                                getScrollY(), vX, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
+                        invalidate();
                     }
-
-                    int finalPage;
-                    // We give flings precedence over large moves, which is why we short-circuit our
-                    // test for a large move if a fling has been registered. That is, a large
-                    // move to the left and fling to the right will register as a fling to the right.
-                    final boolean isRtl = isLayoutRtl();
-                    boolean isDeltaXLeft = isRtl ? deltaX > 0 : deltaX < 0;
-                    boolean isVelocityXLeft = isRtl ? velocityX > 0 : velocityX < 0;
-                    if (((isSignificantMove && !isDeltaXLeft && !isFling) ||
-                            (isFling && !isVelocityXLeft)) && mCurrentPage > 0) {
-                        finalPage = returnToOriginalPage ? mCurrentPage : mCurrentPage - 1;
-                        snapToPageWithVelocity(finalPage, velocityX);
-                    } else if (((isSignificantMove && isDeltaXLeft && !isFling) ||
-                            (isFling && isVelocityXLeft)) &&
-                            mCurrentPage < getChildCount() - 1) {
-                        finalPage = returnToOriginalPage ? mCurrentPage : mCurrentPage + 1;
-                        snapToPageWithVelocity(finalPage, velocityX);
+                } else if (mTouchState == TOUCH_STATE_PREV_PAGE) {
+                    // at this point we have not moved beyond the touch slop
+                    // (otherwise mTouchState would be TOUCH_STATE_SCROLLING), so
+                    // we can just page
+                    int nextPage = Math.max(0, mCurrentPage - 1);
+                    if (nextPage != mCurrentPage) {
+                        snapToPage(nextPage);
                     } else {
                         snapToDestination();
                     }
-                } else {
-                    if (!mScroller.isFinished()) {
-                        abortScrollerAnimation(true);
+                } else if (mTouchState == TOUCH_STATE_NEXT_PAGE) {
+                    // at this point we have not moved beyond the touch slop
+                    // (otherwise mTouchState would be TOUCH_STATE_SCROLLING), so
+                    // we can just page
+                    int nextPage = Math.min(getChildCount() - 1, mCurrentPage + 1);
+                    if (nextPage != mCurrentPage) {
+                        snapToPage(nextPage);
+                    } else {
+                        snapToDestination();
                     }
+                } else if (mTouchState == TOUCH_STATE_REORDERING) {
+                    // Update the last motion position
+                    mLastMotionX = ev.getX();
+                    mLastMotionY = ev.getY();
 
-                    float scaleX = getScaleX();
-                    int vX = (int) (-velocityX * scaleX);
-                    int initialScrollX = (int) (getScrollX() * scaleX);
-
-                    mScroller.setInterpolator(mDefaultInterpolator);
-                    mScroller.fling(initialScrollX,
-                            getScrollY(), vX, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
-                    invalidate();
-                }
-            } else if (mTouchState == TOUCH_STATE_PREV_PAGE) {
-                // at this point we have not moved beyond the touch slop
-                // (otherwise mTouchState would be TOUCH_STATE_SCROLLING), so
-                // we can just page
-                int nextPage = Math.max(0, mCurrentPage - 1);
-                if (nextPage != mCurrentPage) {
-                    snapToPage(nextPage);
+                    // Update the parent down so that our zoom animations take this new movement into
+                    // account
+                    float[] pt = mapPointFromViewToParent(this, mLastMotionX, mLastMotionY);
+                    mParentDownMotionX = pt[0];
+                    mParentDownMotionY = pt[1];
+                    updateDragViewTranslationDuringDrag();
+                    boolean handledFling = false;
+                    if (!DISABLE_FLING_TO_DELETE) {
+                        // Check the velocity and see if we are flinging-to-delete
+                        PointF flingToDeleteVector = isFlingingToDelete();
+                        if (flingToDeleteVector != null) {
+                            onFlingToDelete(flingToDeleteVector);
+                            handledFling = true;
+                        }
+                    }
+                    if (!handledFling && isHoveringOverDeleteDropTarget((int) mParentDownMotionX,
+                            (int) mParentDownMotionY)) {
+                        onDropToDelete();
+                    }
                 } else {
-                    snapToDestination();
-                }
-            } else if (mTouchState == TOUCH_STATE_NEXT_PAGE) {
-                // at this point we have not moved beyond the touch slop
-                // (otherwise mTouchState would be TOUCH_STATE_SCROLLING), so
-                // we can just page
-                int nextPage = Math.min(getChildCount() - 1, mCurrentPage + 1);
-                if (nextPage != mCurrentPage) {
-                    snapToPage(nextPage);
-                } else {
-                    snapToDestination();
-                }
-            } else if (mTouchState == TOUCH_STATE_REORDERING) {
-                // Update the last motion position
-                mLastMotionX = ev.getX();
-                mLastMotionY = ev.getY();
-
-                // Update the parent down so that our zoom animations take this new movement into
-                // account
-                float[] pt = mapPointFromViewToParent(this, mLastMotionX, mLastMotionY);
-                mParentDownMotionX = pt[0];
-                mParentDownMotionY = pt[1];
-                updateDragViewTranslationDuringDrag();
-                boolean handledFling = false;
-                if (!DISABLE_FLING_TO_DELETE) {
-                    // Check the velocity and see if we are flinging-to-delete
-                    PointF flingToDeleteVector = isFlingingToDelete();
-                    if (flingToDeleteVector != null) {
-                        onFlingToDelete(flingToDeleteVector);
-                        handledFling = true;
+                    if (!mCancelTap) {
+                        onUnhandledTap(ev);
                     }
                 }
-                if (!handledFling && isHoveringOverDeleteDropTarget((int) mParentDownMotionX,
-                        (int) mParentDownMotionY)) {
-                    onDropToDelete();
+
+                // Remove the callback to wait for the side page hover timeout
+                removeCallbacks(mSidePageHoverRunnable);
+                // End any intermediate reordering states
+                resetTouchState();
+                break;
+
+            case MotionEvent.ACTION_CANCEL:
+                if (mTouchState == TOUCH_STATE_SCROLLING) {
+                    snapToDestination();
                 }
-            } else {
-                if (!mCancelTap) {
-                    onUnhandledTap(ev);
-                }
-            }
+                resetTouchState();
+                break;
 
-            // Remove the callback to wait for the side page hover timeout
-            removeCallbacks(mSidePageHoverRunnable);
-            // End any intermediate reordering states
-            resetTouchState();
-            break;
-
-        case MotionEvent.ACTION_CANCEL:
-            if (mTouchState == TOUCH_STATE_SCROLLING) {
-                snapToDestination();
-            }
-            resetTouchState();
-            break;
-
-        case MotionEvent.ACTION_POINTER_UP:
-            onSecondaryPointerUp(ev);
-            releaseVelocityTracker();
-            break;
+            case MotionEvent.ACTION_POINTER_UP:
+                onSecondaryPointerUp(ev);
+                releaseVelocityTracker();
+                break;
         }
 
         return true;
     }
 
-    public void onFlingToDelete(View v) {}
-    public void onRemoveView(View v, boolean deletePermanently) {}
-    public void onRemoveViewAnimationCompleted() {}
-    public void onAddView(View v, int index) {}
+    public void onFlingToDelete(View v) {
+    }
+
+    public void onRemoveView(View v, boolean deletePermanently) {
+    }
+
+    public void onRemoveViewAnimationCompleted() {
+    }
+
+    public void onAddView(View v, int index) {
+    }
 
     private void resetTouchState() {
         releaseVelocityTracker();
@@ -2114,7 +2125,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                     }
                     if (hscroll != 0 || vscroll != 0) {
                         boolean isForwardScroll = isLayoutRtl() ? (hscroll < 0 || vscroll < 0)
-                                                         : (hscroll > 0 || vscroll > 0);
+                                : (hscroll > 0 || vscroll > 0);
                         if (isForwardScroll) {
                             scrollRight();
                         } else {
@@ -2216,7 +2227,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
         public float getInterpolation(float t) {
             t -= 1.0f;
-            return t*t*t*t*t + 1;
+            return t * t * t * t * t + 1;
         }
     }
 
@@ -2289,7 +2300,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected void snapToPage(int whichPage, int duration, boolean immediate,
-            TimeInterpolator interpolator) {
+                              TimeInterpolator interpolator) {
         whichPage = Math.max(0, Math.min(whichPage, getPageCount() - 1));
 
         int newX = getScrollForPage(whichPage);
@@ -2303,7 +2314,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected void snapToPage(int whichPage, int delta, int duration, boolean immediate,
-            TimeInterpolator interpolator) {
+                              TimeInterpolator interpolator) {
         mNextPage = whichPage;
         View focusedChild = getFocusedChild();
         if (focusedChild != null && whichPage != mCurrentPage &&
@@ -2352,7 +2363,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     public void scrollRight() {
-        if (getNextPage() < getChildCount() -1) snapToPage(getNextPage() + 1);
+        if (getNextPage() < getChildCount() - 1) snapToPage(getNextPage() + 1);
     }
 
     public int getPageForView(View v) {
@@ -2410,26 +2421,27 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
 
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 
     protected void loadAssociatedPages(int page) {
         loadAssociatedPages(page, false);
     }
+
     protected void loadAssociatedPages(int page, boolean immediateAndOnly) {
         if (mContentIsRefreshable) {
             final int count = getChildCount();
             if (page < count) {
                 int lowerPageBound = getAssociatedLowerPageBound(page);
                 int upperPageBound = getAssociatedUpperPageBound(page);
-                
+
                 for (int i = 0; i < count; ++i) {
                     Page layout = (Page) getPageAt(i);
                     if ((i < lowerPageBound) || (i > upperPageBound)) {
@@ -2458,6 +2470,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     protected int getAssociatedLowerPageBound(int page) {
         return Math.max(0, page - 1);
     }
+
     protected int getAssociatedUpperPageBound(int page) {
         final int count = getChildCount();
         return Math.min(page + 1, count - 1);
@@ -2480,9 +2493,11 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     protected void invalidatePageData() {
         invalidatePageData(-1, false);
     }
+
     protected void invalidatePageData(int currentPage) {
         invalidatePageData(currentPage, false);
     }
+
     protected void invalidatePageData(int currentPage, boolean immediateAndOnly) {
         if (!mIsDataReady) {
             return;
@@ -2580,7 +2595,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
         // Check if we are within the reordering range
         if (mTempVisiblePagesRange[0] <= dragViewIndex &&
-            dragViewIndex <= mTempVisiblePagesRange[1]) {
+                dragViewIndex <= mTempVisiblePagesRange[1]) {
             // Find the drag view under the pointer
             mDragView = getChildAt(dragViewIndex);
             mDragView.animate().scaleX(1.15f).scaleY(1.15f).setDuration(100).start();
@@ -2600,6 +2615,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         }
         return state;
     }
+
     void endReordering() {
         // For simplicity, we call endReordering sometimes even if reordering was never started.
         // In that case, we don't want to do anything.
@@ -2618,7 +2634,9 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             mPostReorderingPreZoomInRunnable = new Runnable() {
                 public void run() {
                     onCompleteRunnable.run();
-                };
+                }
+
+                ;
             };
 
             mPostReorderingPreZoomInRemainingAnimationCount =
@@ -2668,7 +2686,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         private final TimeInterpolator mAlphaInterpolator = new DecelerateInterpolator(0.75f);
 
         public FlingAlongVectorAnimatorUpdateListener(View dragView, PointF vel, Rect from,
-                long startTime, float friction) {
+                                                      long startTime, float friction) {
             mDragView = dragView;
             mVelocity = vel;
             mFrom = from;
@@ -2692,7 +2710,9 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             mVelocity.y *= mFriction;
             mPrevTime = curTime;
         }
-    };
+    }
+
+    ;
 
     private static final int ANIM_TAG_KEY = 100;
 
@@ -2719,7 +2739,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
                 int firstIndex = (isLastWidgetPage ? 0 : mTempVisiblePagesRange[0]);
                 int lastIndex = Math.min(mTempVisiblePagesRange[1], getPageCount() - 1);
-                int lowerIndex = (slideFromLeft ? firstIndex : dragViewIndex + 1 );
+                int lowerIndex = (slideFromLeft ? firstIndex : dragViewIndex + 1);
                 int upperIndex = (slideFromLeft ? dragViewIndex - 1 : lastIndex);
                 ArrayList<Animator> animations = new ArrayList<Animator>();
                 for (int i = lowerIndex; i <= upperIndex; ++i) {
@@ -2793,6 +2813,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             private int mCount = -1;
             private long mStartTime;
             private float mOffset;
+
             /* Anonymous inner class ctor */ {
                 mStartTime = startTime;
             }
@@ -2849,7 +2870,8 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         return false;
     }
 
-    protected void setPageHoveringOverDeleteDropTarget(int viewIndex, boolean isHovering) {}
+    protected void setPageHoveringOverDeleteDropTarget(int viewIndex, boolean isHovering) {
+    }
 
     private void onDropToDelete() {
         final View dragView = mDragView;
@@ -2925,13 +2947,15 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                     scrollRight();
                     return true;
                 }
-            } break;
+            }
+            break;
             case AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD: {
                 if (getCurrentPage() > 0) {
                     scrollLeft();
                     return true;
                 }
-            } break;
+            }
+            break;
         }
         return false;
     }
