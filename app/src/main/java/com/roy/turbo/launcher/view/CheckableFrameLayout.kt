@@ -1,47 +1,46 @@
-package com.roy.turbo.launcher.view;
+package com.roy.turbo.launcher.view
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.Checkable;
-import android.widget.FrameLayout;
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.Checkable
+import android.widget.FrameLayout
 
-public class CheckableFrameLayout extends FrameLayout implements Checkable {
-    private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };
-    boolean mChecked;
+class CheckableFrameLayout : FrameLayout, Checkable {
+    private var mChecked = false
 
-    public CheckableFrameLayout(Context context) {
-        super(context);
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(
+        context, attrs
+    )
+
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
+        context, attrs, defStyle
+    )
+
+    override fun isChecked(): Boolean {
+        return mChecked
     }
 
-    public CheckableFrameLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public CheckableFrameLayout(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    public boolean isChecked() {
-        return mChecked;
-    }
-
-    public void setChecked(boolean checked) {
+    override fun setChecked(checked: Boolean) {
         if (checked != mChecked) {
-            mChecked = checked;
-            refreshDrawableState();
+            mChecked = checked
+            refreshDrawableState()
         }
     }
 
-    public void toggle() {
-        setChecked(!mChecked);
+    override fun toggle() {
+        isChecked = !mChecked
     }
 
-    @Override
-    protected int[] onCreateDrawableState(int extraSpace) {
-        final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-        if (isChecked()) {
-            mergeDrawableStates(drawableState, CHECKED_STATE_SET);
+    override fun onCreateDrawableState(extraSpace: Int): IntArray {
+        val drawableState = super.onCreateDrawableState(extraSpace + 1)
+        if (isChecked) {
+            mergeDrawableStates(drawableState, CHECKED_STATE_SET)
         }
-        return drawableState;
+        return drawableState
+    }
+
+    companion object {
+        private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)
     }
 }
