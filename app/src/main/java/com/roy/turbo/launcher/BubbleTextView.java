@@ -1,23 +1,6 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
-import com.roy.turbo.launcher.R;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -37,7 +20,7 @@ public class BubbleTextView extends TextView {
     static final float SHADOW_Y_OFFSET = 2.0f;
     static final int SHADOW_LARGE_COLOUR = 0xDD000000;
     static final int SHADOW_SMALL_COLOUR = 0xCC000000;
-    static final float PADDING_H = 8.0f;
+    //    static final float PADDING_H = 8.0f;
     static final float PADDING_V = 3.0f;
 
     private int mPrevAlpha = -1;
@@ -94,7 +77,7 @@ public class BubbleTextView extends TextView {
 
         final Resources res = getContext().getResources();
         mFocusedOutlineColor = mFocusedGlowColor = mPressedOutlineColor = mPressedGlowColor =
-            res.getColor(R.color.outline_color);
+                res.getColor(R.color.outline_color);
 
         setShadowLayer(SHADOW_LARGE_RADIUS, 0.0f, SHADOW_Y_OFFSET, SHADOW_LARGE_COLOUR);
     }
@@ -131,8 +114,7 @@ public class BubbleTextView extends TextView {
         }
         super.setTag(tag);
     }
-    
-     
+
 
     @Override
     protected void drawableStateChanged() {
@@ -178,7 +160,7 @@ public class BubbleTextView extends TextView {
      * Draw this BubbleTextView into the given Canvas.
      *
      * @param destCanvas the canvas to draw on
-     * @param padding the horizontal and vertical padding to use when drawing
+     * @param padding    the horizontal and vertical padding to use when drawing
      */
     private void drawWithPadding(Canvas destCanvas, int padding) {
         final Rect clipRect = mTempRect;
@@ -186,7 +168,7 @@ public class BubbleTextView extends TextView {
 
         // adjust the clip rect so that we don't include the text label
         clipRect.bottom =
-            getExtendedPaddingTop() - (int) BubbleTextView.PADDING_V + getLayout().getLineTop(0);
+                getExtendedPaddingTop() - (int) BubbleTextView.PADDING_V + getLayout().getLineTop(0);
 
         // Draw the View into the bitmap.
         // The translate of scrollX and scrollY is necessary when drawing TextViews, because
@@ -222,6 +204,7 @@ public class BubbleTextView extends TextView {
         return b;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // Call the superclass onTouchEvent first, because sometimes it changes the state to
@@ -306,7 +289,7 @@ public class BubbleTextView extends TextView {
             final int scrollY = getScrollY();
 
             if (mBackgroundSizeChanged) {
-                background.setBounds(0, 0,  getRight() - getLeft(), getBottom() - getTop());
+                background.setBounds(0, 0, getRight() - getLeft(), getBottom() - getTop());
                 mBackgroundSizeChanged = false;
             }
 
