@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.view.BubbleTextView;
 
 /**
  * A keyboard listener we set on all the workspace icons.

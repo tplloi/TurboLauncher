@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:antialias="true"
         android:src="@drawable/portal_ring_inner_holo"/>
-    <com.roy.turbo.launcher.BubbleTextView
+    <com.roy.turbo.launcher.view.BubbleTextView
         style="@style/WorkspaceIcon"
         android:id="@+id/folder_icon_name"
         android:layout_gravity="top"

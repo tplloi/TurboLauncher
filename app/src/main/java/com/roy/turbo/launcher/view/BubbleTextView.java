@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,14 +14,27 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import com.roy.turbo.launcher.CellLayout;
+import com.roy.turbo.launcher.CheckLongPressHelper;
+import com.roy.turbo.launcher.DeviceProfile;
+import com.roy.turbo.launcher.HolographicOutlineHelper;
+import com.roy.turbo.launcher.IconCache;
+import com.roy.turbo.launcher.ItemInfo;
+import com.roy.turbo.launcher.LauncherAppState;
+import com.roy.turbo.launcher.LauncherModel;
+import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.ShortcutAndWidgetContainer;
+import com.roy.turbo.launcher.ShortcutInfo;
+import com.roy.turbo.launcher.Utilities;
+
 public class BubbleTextView extends TextView {
-    static final float SHADOW_LARGE_RADIUS = 4.0f;
-    static final float SHADOW_SMALL_RADIUS = 1.75f;
-    static final float SHADOW_Y_OFFSET = 2.0f;
-    static final int SHADOW_LARGE_COLOUR = 0xDD000000;
-    static final int SHADOW_SMALL_COLOUR = 0xCC000000;
+    public static final float SHADOW_LARGE_RADIUS = 4.0f;
+    public static final float SHADOW_SMALL_RADIUS = 1.75f;
+    public static final float SHADOW_Y_OFFSET = 2.0f;
+    public static final int SHADOW_LARGE_COLOUR = 0xDD000000;
+    public static final int SHADOW_SMALL_COLOUR = 0xCC000000;
     //    static final float PADDING_H = 8.0f;
-    static final float PADDING_V = 3.0f;
+    public static final float PADDING_V = 3.0f;
 
     private int mPrevAlpha = -1;
 
@@ -245,7 +258,7 @@ public class BubbleTextView extends TextView {
         return result;
     }
 
-    void setStayPressed(boolean stayPressed) {
+    public void setStayPressed(boolean stayPressed) {
         mStayPressed = stayPressed;
         if (!stayPressed) {
             mPressedOrFocusedBackground = null;
@@ -263,16 +276,16 @@ public class BubbleTextView extends TextView {
         }
     }
 
-    void clearPressedOrFocusedBackground() {
+    public void clearPressedOrFocusedBackground() {
         mPressedOrFocusedBackground = null;
         setCellLayoutPressedOrFocusedIcon();
     }
 
-    Bitmap getPressedOrFocusedBackground() {
+    public Bitmap getPressedOrFocusedBackground() {
         return mPressedOrFocusedBackground;
     }
 
-    int getPressedOrFocusedBackgroundPadding() {
+    public int getPressedOrFocusedBackgroundPadding() {
         return mOutlineHelper.mMaxOuterBlurRadius / 2;
     }
 

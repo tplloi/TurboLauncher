@@ -205,8 +205,8 @@ public class HolographicOutlineHelper {
         glowShape.recycle();
     }
 
-    void applyExtraThickExpensiveOutlineWithBlur(Bitmap srcDst, Canvas srcDstCanvas, int color,
-            int outlineColor) {
+    public void applyExtraThickExpensiveOutlineWithBlur(Bitmap srcDst, Canvas srcDstCanvas, int color,
+                                                        int outlineColor) {
         applyExpensiveOutlineWithBlur(srcDst, srcDstCanvas, color, outlineColor, EXTRA_THICK);
     }
 

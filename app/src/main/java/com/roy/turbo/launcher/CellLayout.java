@@ -44,7 +44,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LayoutAnimationController;
 
 import com.roy.turbo.launcher.FolderIcon.FolderRingAnimator;
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.view.BubbleTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -349,7 +349,7 @@ public class CellLayout extends ViewGroup {
         invalidate();
     }
 
-    void setPressedOrFocusedIcon(BubbleTextView icon) {
+    public void setPressedOrFocusedIcon(BubbleTextView icon) {
         // We draw the pressed or focused BubbleTextView's background in CellLayout because it
         // requires an expanded clip rect (due to the glow's blur radius)
         BubbleTextView oldIcon = mPressedOrFocusedIcon;

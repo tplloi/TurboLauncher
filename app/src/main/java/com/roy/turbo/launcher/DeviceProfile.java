@@ -98,8 +98,8 @@ public class DeviceProfile {
     float overviewModeScaleFactor;
 
     int iconSizePx;
-    int iconTextSizePx;
-    int iconDrawablePaddingPx;
+    public int iconTextSizePx;
+    public int iconDrawablePaddingPx;
     int cellWidthPx;
     int cellHeightPx;
     int allAppsIconSizePx;

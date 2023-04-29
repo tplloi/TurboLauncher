@@ -25,6 +25,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import com.roy.turbo.launcher.view.BubbleTextView;
+
 /**
  * An icon on a PagedView, specifically for items in the launcher's paged view (with compound
  * drawables on the top).

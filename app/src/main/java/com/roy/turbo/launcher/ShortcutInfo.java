@@ -31,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Represents a launchable icon on the workspaces and in folders.
  */
-class ShortcutInfo extends ItemInfo {
+public class ShortcutInfo extends ItemInfo {
 
     /**
      * The intent used to start the application.
@@ -115,7 +115,9 @@ class ShortcutInfo extends ItemInfo {
                 getPackageInfo(context, intent.getComponent().getPackageName()));
     }
 
-    /** TODO: Remove this.  It's only called by ApplicationInfo.makeShortcut. */
+    /**
+     * TODO: Remove this.  It's only called by ApplicationInfo.makeShortcut.
+     */
     public ShortcutInfo(AppInfo info) {
         super(info);
         title = info.title.toString();
@@ -161,7 +163,7 @@ class ShortcutInfo extends ItemInfo {
      * Creates the application intent based on a component name and various launch flags.
      * Sets {@link #itemType} to {@link LauncherSettings.BaseLauncherColumns#ITEM_TYPE_APPLICATION}.
      *
-     * @param className the class name of the component representing the intent
+     * @param className   the class name of the component representing the intent
      * @param launchFlags the launch flags
      */
     final void setActivity(Context context, ComponentName className, int launchFlags) {
@@ -212,9 +214,9 @@ class ShortcutInfo extends ItemInfo {
     }
 
     public static void dumpShortcutInfoList(String tag, String label,
-            ArrayList<ShortcutInfo> list) {
+                                            ArrayList<ShortcutInfo> list) {
         Log.d(tag, label + " size=" + list.size());
-        for (ShortcutInfo info: list) {
+        for (ShortcutInfo info : list) {
             Log.d(tag, "   title=\"" + info.title + " icon=" + info.mIcon
                     + " customIcon=" + info.customIcon);
         }

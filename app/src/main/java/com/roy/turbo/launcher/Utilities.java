@@ -70,7 +70,7 @@ public final class Utilities {
     /**
      * Returns a FastBitmapDrawable with the icon, accurately sized.
      */
-    static Drawable createIconDrawable(Bitmap icon) {
+    public static Drawable createIconDrawable(Bitmap icon) {
         FastBitmapDrawable d = new FastBitmapDrawable(icon);
         d.setFilterBitmap(true);
         resizeIconDrawable(d);

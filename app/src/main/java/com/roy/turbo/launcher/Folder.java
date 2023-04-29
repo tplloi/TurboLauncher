@@ -54,6 +54,7 @@ import android.widget.TextView;
 import com.roy.turbo.launcher.FolderInfo.FolderListener;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.sv.Alarm;
+import com.roy.turbo.launcher.view.BubbleTextView;
 
 import java.util.ArrayList;
 import java.util.Collections;

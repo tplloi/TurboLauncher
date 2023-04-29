@@ -96,6 +96,7 @@ import com.roy.turbo.launcher.PagedView.TransitionEffect;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.settings.SettingsPanel;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;
+import com.roy.turbo.launcher.view.BubbleTextView;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

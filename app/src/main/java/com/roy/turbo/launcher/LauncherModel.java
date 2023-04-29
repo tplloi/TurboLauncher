@@ -624,7 +624,7 @@ public class LauncherModel extends BroadcastReceiver {
 		}
 	}
 
-	static void checkItemInfo(final ItemInfo item) {
+	public static void checkItemInfo(final ItemInfo item) {
 		final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
 		final long itemId = item.id;
 		Runnable r = new Runnable() {
