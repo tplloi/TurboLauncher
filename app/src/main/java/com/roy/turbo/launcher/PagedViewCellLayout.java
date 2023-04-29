@@ -1,5 +1,6 @@
 package com.roy.turbo.launcher;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -15,14 +16,13 @@ import com.roy.turbo.launcher.itf.Page;
  * to give a preview of its contents.
  */
 public class PagedViewCellLayout extends ViewGroup implements Page {
-    static final String TAG = "PagedViewCellLayout";
 
     private int mCellCountX;
     private int mCellCountY;
-    private int mOriginalCellWidth;
-    private int mOriginalCellHeight;
-    private int mCellWidth;
-    private int mCellHeight;
+    private final int mOriginalCellWidth;
+    private final int mOriginalCellHeight;
+    private final int mCellWidth;
+    private final int mCellHeight;
     private int mOriginalWidthGap;
     private int mOriginalHeightGap;
     private int mWidthGap;
@@ -78,21 +78,22 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
         }
     }
 
-    public boolean addViewToCellLayout(View child, int index, int childId,
-                                       PagedViewCellLayout.LayoutParams params) {
-        final PagedViewCellLayout.LayoutParams lp = params;
+    public boolean addViewToCellLayout(
+            View child,
+            int index,
+            int childId,
+            PagedViewCellLayout.LayoutParams params) {
 
         // Generate an id for each view, this assumes we have at most 256x256 cells
         // per workspace screen
-        if (lp.cellX >= 0 && lp.cellX <= (mCellCountX - 1) &&
-                lp.cellY >= 0 && (lp.cellY <= mCellCountY - 1)) {
+        if (params.cellX >= 0 && params.cellX <= (mCellCountX - 1) && params.cellY >= 0 && (params.cellY <= mCellCountY - 1)) {
             // If the horizontal or vertical span is set to -1, it is taken to
             // mean that it spans the extent of the CellLayout
-            if (lp.cellHSpan < 0) lp.cellHSpan = mCellCountX;
-            if (lp.cellVSpan < 0) lp.cellVSpan = mCellCountY;
+            if (params.cellHSpan < 0) params.cellHSpan = mCellCountX;
+            if (params.cellVSpan < 0) params.cellVSpan = mCellCountY;
 
             child.setId(childId);
-            mChildren.addView(child, index, lp);
+            mChildren.addView(child, index, params);
 
             return true;
         }
@@ -189,12 +190,8 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
             View child = getChildAt(i);
-            int childWidthMeasureSpec =
-                    MeasureSpec.makeMeasureSpec(newWidth - getPaddingLeft() -
-                            getPaddingRight(), MeasureSpec.EXACTLY);
-            int childheightMeasureSpec =
-                    MeasureSpec.makeMeasureSpec(newHeight - getPaddingTop() -
-                            getPaddingBottom(), MeasureSpec.EXACTLY);
+            int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(newWidth - getPaddingLeft() - getPaddingRight(), MeasureSpec.EXACTLY);
+            int childheightMeasureSpec = MeasureSpec.makeMeasureSpec(newHeight - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
             child.measure(childWidthMeasureSpec, childheightMeasureSpec);
         }
 
@@ -229,6 +226,7 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean result = super.onTouchEvent(event);
@@ -236,6 +234,7 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
         if (count > 0) {
             // We only intercept the touch if we are tapping in empty space after the final row
             View child = getChildOnPageAt(count - 1);
+            assert child != null;
             int bottom = child.getBottom();
             int numRows = (int) Math.ceil((float) getPageChildCount() / getCellCountX());
             if (numRows < getCellCountY()) {
@@ -299,10 +298,9 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
         int availWidth = width - (getPaddingLeft() + getPaddingRight());
 
         // We know that we have to fit N cells with N-1 width gaps, so we just juggle to solve for N
-        int n = Math.max(1, (availWidth + mWidthGap) / (mCellWidth + mWidthGap));
 
         // We don't do anything fancy to determine if we squeeze another row in.
-        return n;
+        return Math.max(1, (availWidth + mWidthGap) / (mCellWidth + mWidthGap));
     }
 
     /**
@@ -314,10 +312,9 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
         int availHeight = height - (getPaddingTop() + getPaddingBottom());
 
         // We know that we have to fit N cells with N-1 height gaps, so we juggle to solve for N
-        int n = Math.max(1, (availHeight + mHeightGap) / (mCellHeight + mHeightGap));
 
         // We don't do anything fancy to determine if we squeeze another row in.
-        return n;
+        return Math.max(1, (availHeight + mHeightGap) / (mCellHeight + mHeightGap));
     }
 
     /**
@@ -330,7 +327,11 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
         };
     }
 
-    public void calculateCellCount(int width, int height, int maxCellCountX, int maxCellCountY) {
+    public void calculateCellCount(
+            int width,
+            int height,
+            int maxCellCountX,
+            int maxCellCountY) {
         mCellCountX = Math.min(maxCellCountX, estimateCellHSpan(width));
         mCellCountY = Math.min(maxCellCountY, estimateCellVSpan(height));
         requestLayout();
@@ -441,9 +442,14 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
             this.cellVSpan = cellVSpan;
         }
 
-        public void setup(Context context,
-                          int cellWidth, int cellHeight, int widthGap, int heightGap,
-                          int hStartPadding, int vStartPadding) {
+        public void setup(
+                Context context,
+                int cellWidth,
+                int cellHeight,
+                int widthGap,
+                int heightGap,
+                int hStartPadding,
+                int vStartPadding) {
 
             final int myCellHSpan = cellHSpan;
             final int myCellVSpan = cellVSpan;
