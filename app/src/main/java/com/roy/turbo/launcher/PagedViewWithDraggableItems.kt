@@ -1,136 +1,119 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+import android.view.View.OnLongClickListener
+import android.view.View.OnTouchListener
+import kotlin.math.abs
 
 //done 2023.04.29
-public abstract class PagedViewWithDraggableItems extends PagedView
-        implements View.OnLongClickListener, View.OnTouchListener {
-    private View mLastTouchedItem;
-    private boolean mIsDragging;
-    private boolean mIsDragEnabled;
-    private float mDragSlopeThreshold;
-    private final Launcher mLauncher;
+abstract class PagedViewWithDraggableItems @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : PagedView(context, attrs, defStyle), OnLongClickListener, OnTouchListener {
+    private var mLastTouchedItem: View? = null
+    private var mIsDragging = false
+    private var mIsDragEnabled = false
+    private var mDragSlopeThreshold = 0f
+    private val mLauncher: Launcher
 
-    public PagedViewWithDraggableItems(Context context) {
-        this(context, null);
+    init {
+        mLauncher = context as Launcher
     }
 
-    public PagedViewWithDraggableItems(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+    protected open fun beginDragging(v: View?): Boolean {
+        val wasDragging = mIsDragging
+        mIsDragging = true
+        return !wasDragging
     }
 
-    public PagedViewWithDraggableItems(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        mLauncher = (Launcher) context;
+    private fun cancelDragging() {
+        mIsDragging = false
+        mLastTouchedItem = null
+        mIsDragEnabled = false
     }
 
-    protected boolean beginDragging(View v) {
-        boolean wasDragging = mIsDragging;
-        mIsDragging = true;
-        return !wasDragging;
-    }
+    private fun handleTouchEvent(ev: MotionEvent) {
+        val action = ev.action
+        when (action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_DOWN -> {
+                cancelDragging()
+                mIsDragEnabled = true
+            }
 
-    protected void cancelDragging() {
-        mIsDragging = false;
-        mLastTouchedItem = null;
-        mIsDragEnabled = false;
-    }
-
-    private void handleTouchEvent(MotionEvent ev) {
-        final int action = ev.getAction();
-        switch (action & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                cancelDragging();
-                mIsDragEnabled = true;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (mTouchState != TOUCH_STATE_SCROLLING && !mIsDragging && mIsDragEnabled) {
-                    determineDraggingStart(ev);
-                }
-                break;
-        }
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        handleTouchEvent(ev);
-        return super.onInterceptTouchEvent(ev);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        handleTouchEvent(ev);
-        return super.onTouchEvent(ev);
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        mLastTouchedItem = v;
-        mIsDragEnabled = true;
-        return false;
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        // Return early if this is not initiated from a touch
-        if (!v.isInTouchMode()) return false;
-        // Return early if we are still animating the pages
-        if (mNextPage != INVALID_PAGE) return false;
-        // When we have exited all apps or are in transition, disregard long clicks
-        if (!mLauncher.isAllAppsVisible() ||
-                mLauncher.getWorkspace().isSwitchingState()) return false;
-        // Return if global dragging is not enabled
-        if (!mLauncher.isDraggingEnabled()) return false;
-
-        return beginDragging(v);
-    }
-
-
-    protected void determineScrollingStart(MotionEvent ev) {
-        if (!mIsDragging) super.determineScrollingStart(ev);
-    }
-
-
-    protected void determineDraggingStart(MotionEvent ev) {
-
-        final int pointerIndex = ev.findPointerIndex(mActivePointerId);
-        final float x = ev.getX(pointerIndex);
-        final float y = ev.getY(pointerIndex);
-        final int xDiff = (int) Math.abs(x - mLastMotionX);
-        final int yDiff = (int) Math.abs(y - mLastMotionY);
-
-        final int touchSlop = mTouchSlop;
-        boolean yMoved = yDiff > touchSlop;
-        boolean isUpwardMotion = (yDiff / (float) xDiff) > mDragSlopeThreshold;
-
-        if (isUpwardMotion && yMoved && mLastTouchedItem != null) {
-            // Drag if the user moved far enough along the Y axis
-            beginDragging(mLastTouchedItem);
-
-            // Cancel any pending long press
-            if (mAllowLongPress) {
-                mAllowLongPress = false;
-                // Try canceling the long press. It could also have been scheduled
-                // by a distant descendant, so use the mAllowLongPress flag to block
-                // everything
-                final View currentPage = getPageAt(mCurrentPage);
-                if (currentPage != null) {
-                    currentPage.cancelLongPress();
-                }
+            MotionEvent.ACTION_MOVE -> if (mTouchState != TOUCH_STATE_SCROLLING && !mIsDragging && mIsDragEnabled) {
+                determineDraggingStart(ev)
             }
         }
     }
 
-    public void setDragSlopeThreshold(float dragSlopeThreshold) {
-        mDragSlopeThreshold = dragSlopeThreshold;
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        handleTouchEvent(ev)
+        return super.onInterceptTouchEvent(ev)
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        cancelDragging();
-        super.onDetachedFromWindow();
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        handleTouchEvent(ev)
+        return super.onTouchEvent(ev)
+    }
+
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
+        mLastTouchedItem = v
+        mIsDragEnabled = true
+        return false
+    }
+
+    override fun onLongClick(v: View): Boolean {
+        // Return early if this is not initiated from a touch
+        if (!v.isInTouchMode) return false
+        // Return early if we are still animating the pages
+        if (mNextPage != INVALID_PAGE) return false
+        // When we have exited all apps or are in transition, disregard long clicks
+        if (!mLauncher.isAllAppsVisible ||
+            mLauncher.workspace.isSwitchingState
+        ) return false
+        // Return if global dragging is not enabled
+        return if (!mLauncher.isDraggingEnabled) false else beginDragging(v)
+    }
+
+    override fun determineScrollingStart(ev: MotionEvent) {
+        if (!mIsDragging) super.determineScrollingStart(ev)
+    }
+
+    protected open fun determineDraggingStart(ev: MotionEvent) {
+        val pointerIndex = ev.findPointerIndex(mActivePointerId)
+        val x = ev.getX(pointerIndex)
+        val y = ev.getY(pointerIndex)
+        val xDiff = abs(x - mLastMotionX).toInt()
+        val yDiff = abs(y - mLastMotionY).toInt()
+        val touchSlop = mTouchSlop
+        val yMoved = yDiff > touchSlop
+        val isUpwardMotion = yDiff / xDiff.toFloat() > mDragSlopeThreshold
+        if (isUpwardMotion && yMoved && mLastTouchedItem != null) {
+            // Drag if the user moved far enough along the Y axis
+            beginDragging(mLastTouchedItem)
+
+            // Cancel any pending long press
+            if (mAllowLongPress) {
+                mAllowLongPress = false
+                // Try canceling the long press. It could also have been scheduled
+                // by a distant descendant, so use the mAllowLongPress flag to block
+                // everything
+                val currentPage = getPageAt(mCurrentPage)
+                currentPage?.cancelLongPress()
+            }
+        }
+    }
+
+    fun setDragSlopeThreshold(dragSlopeThreshold: Float) {
+        mDragSlopeThreshold = dragSlopeThreshold
+    }
+
+    override fun onDetachedFromWindow() {
+        cancelDragging()
+        super.onDetachedFromWindow()
     }
 }
