@@ -36,14 +36,14 @@ class HolographicLinearLayout @SuppressLint("ClickableViewAccessibility") constr
         a.recycle()
         setWillNotDraw(false)
         mHolographicHelper = HolographicViewHelper(context)
-        setOnTouchListener { v: View?, event: MotionEvent? ->
+        setOnTouchListener { _: View?, _: MotionEvent? ->
             if (isPressed != mIsPressed) {
                 mIsPressed = isPressed
                 refreshDrawableState()
             }
             false
         }
-        onFocusChangeListener = OnFocusChangeListener { v: View?, hasFocus: Boolean ->
+        onFocusChangeListener = OnFocusChangeListener { _: View?, _: Boolean ->
             if (isFocused != mIsFocused) {
                 mIsFocused = isFocused
                 refreshDrawableState()
