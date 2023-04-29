@@ -1,83 +1,83 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.appwidget.AppWidgetHostView;
-import android.content.ComponentName;
-import android.content.ContentValues;
+import android.appwidget.AppWidgetHostView
+import android.content.ComponentName
+import android.content.ContentValues
 
 /**
  * Represents a widget (either instantiated or about to be) in the Launcher.
  */
-class LauncherAppWidgetInfo extends ItemInfo {
-
+internal class LauncherAppWidgetInfo(appWidgetId: Int, providerName: ComponentName) : ItemInfo() {
     /*
      * Indicates that the widget hasn't been instantiated yet.
      */
-//    static final int NO_ID = -1;
-
+    //    static final int NO_ID = -1;
     /**
      * Identifier for this widget when talking with
-     * {@link android.appwidget.AppWidgetManager} for updates.
+     * [android.appwidget.AppWidgetManager] for updates.
      */
-    int appWidgetId;
+    @JvmField
+    var appWidgetId: Int
 
-    ComponentName providerName;
+    @JvmField
+    var providerName: ComponentName
 
     // TODO: Are these necessary here?
-    int minWidth = -1;
-    int minHeight = -1;
+    @JvmField
+    var minWidth = -1
 
-    private boolean mHasNotifiedInitialWidgetSizeChanged;
+    @JvmField
+    var minHeight = -1
+    private var mHasNotifiedInitialWidgetSizeChanged = false
 
     /**
      * View that holds this widget after it's been created.  This view isn't created
      * until Launcher knows it's needed.
      */
-    AppWidgetHostView hostView = null;
+    @JvmField
+    var hostView: AppWidgetHostView? = null
 
-    LauncherAppWidgetInfo(int appWidgetId, ComponentName providerName) {
-        itemType = LauncherSettings.Favorites.ITEM_TYPE_APPWIDGET;
-        this.appWidgetId = appWidgetId;
-        this.providerName = providerName;
+    init {
+        itemType = LauncherSettings.Favorites.ITEM_TYPE_APPWIDGET
+        this.appWidgetId = appWidgetId
+        this.providerName = providerName
 
         // Since the widget isn't instantiated yet, we don't know these values. Set them to -1
         // to indicate that they should be calculated based on the layout and minWidth/minHeight
-        spanX = -1;
-        spanY = -1;
+        spanX = -1
+        spanY = -1
     }
 
-    @Override
-    void onAddToDatabase(ContentValues values) {
-        super.onAddToDatabase(values);
-        values.put(LauncherSettings.Favorites.APPWIDGET_ID, appWidgetId);
-        values.put(LauncherSettings.Favorites.APPWIDGET_PROVIDER, providerName.flattenToString());
+    public override fun onAddToDatabase(values: ContentValues) {
+        super.onAddToDatabase(values)
+        values.put(LauncherSettings.Favorites.APPWIDGET_ID, appWidgetId)
+        values.put(LauncherSettings.Favorites.APPWIDGET_PROVIDER, providerName.flattenToString())
     }
 
     /**
      * When we bind the widget, we should notify the widget that the size has changed if we have not
      * done so already (only really for default workspace widgets).
      */
-    void onBindAppWidget(Launcher launcher) {
+    fun onBindAppWidget(launcher: Launcher?) {
         if (!mHasNotifiedInitialWidgetSizeChanged) {
-            notifyWidgetSizeChanged(launcher);
+            notifyWidgetSizeChanged(launcher)
         }
     }
 
     /**
      * Trigger an update callback to the widget to notify it that its size has changed.
      */
-    void notifyWidgetSizeChanged(Launcher launcher) {
-        AppWidgetResizeFrame.updateWidgetSizeRanges(hostView, launcher, spanX, spanY);
-        mHasNotifiedInitialWidgetSizeChanged = true;
+    fun notifyWidgetSizeChanged(launcher: Launcher?) {
+        AppWidgetResizeFrame.updateWidgetSizeRanges(hostView, launcher, spanX, spanY)
+        mHasNotifiedInitialWidgetSizeChanged = true
     }
 
-    @Override
-    public String toString() {
-        return "AppWidget(id=" + appWidgetId + ")";
+    override fun toString(): String {
+        return "AppWidget(id=$appWidgetId)"
     }
 
-    @Override
-    void unbind() {
-        super.unbind();
-        hostView = null;
+    public override fun unbind() {
+        super.unbind()
+        hostView = null
     }
 }
