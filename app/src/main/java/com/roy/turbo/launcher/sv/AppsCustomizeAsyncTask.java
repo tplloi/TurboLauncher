@@ -3,8 +3,6 @@ package com.roy.turbo.launcher.sv;
 import android.os.AsyncTask;
 import android.os.Process;
 
-import com.roy.turbo.launcher.AsyncTaskPageData;
-
 public class AppsCustomizeAsyncTask extends AsyncTask<AsyncTaskPageData, Void, AsyncTaskPageData> {
     public AppsCustomizeAsyncTask(int p, AsyncTaskPageData.Type ty) {
         page = p;

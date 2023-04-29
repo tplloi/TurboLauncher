@@ -1,7 +1,8 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.sv;
 
 import android.graphics.Bitmap;
 
+import com.roy.turbo.launcher.WidgetPreviewLoader;
 import com.roy.turbo.launcher.itf.AsyncTaskCallback;
 
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ public class AsyncTaskPageData {
         LoadWidgetPreviewData
     }
 
-    AsyncTaskPageData(int p, ArrayList<Object> l, int cw, int ch, AsyncTaskCallback bgR,
-                      AsyncTaskCallback postR, WidgetPreviewLoader w) {
+    public AsyncTaskPageData(int p, ArrayList<Object> l, int cw, int ch, AsyncTaskCallback bgR,
+                             AsyncTaskCallback postR, WidgetPreviewLoader w) {
         page = p;
         items = l;
         generatedImages = new ArrayList<>();
@@ -23,7 +24,7 @@ public class AsyncTaskPageData {
         widgetPreviewLoader = w;
     }
 
-    void cleanup(boolean cancelled) {
+    public void cleanup(boolean cancelled) {
         // Clean up any references to source/generated bitmaps
         if (generatedImages != null) {
             if (cancelled) {
@@ -35,10 +36,10 @@ public class AsyncTaskPageData {
         }
     }
 
-    int page;
-    ArrayList<Object> items;
+    public int page;
+    public ArrayList<Object> items;
     //    ArrayList<Bitmap> sourceImages;
-    ArrayList<Bitmap> generatedImages;
+    public ArrayList<Bitmap> generatedImages;
     int maxImageWidth;
     int maxImageHeight;
     public AsyncTaskCallback doInBackgroundCallback;

@@ -44,6 +44,7 @@ import android.widget.Toast;
 import com.roy.turbo.launcher.DropTarget.DragObject;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.sv.AppsCustomizeAsyncTask;
+import com.roy.turbo.launcher.sv.AsyncTaskPageData;
 import com.roy.turbo.launcher.view.AppsCustomizeCellLayout;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;
 

@@ -1,7 +1,7 @@
 package com.roy.turbo.launcher.itf
 
 import com.roy.turbo.launcher.sv.AppsCustomizeAsyncTask
-import com.roy.turbo.launcher.AsyncTaskPageData
+import com.roy.turbo.launcher.sv.AsyncTaskPageData
 
 interface AsyncTaskCallback {
     fun run(
