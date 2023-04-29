@@ -86,6 +86,7 @@ import com.roy.turbo.launcher.itf.DropTarget.DragObject;
 import com.roy.turbo.launcher.itf.LauncherTransitionable;
 import com.roy.turbo.launcher.settings.SettingsPanel;
 import com.roy.turbo.launcher.settings.SettingsProvider;
+import com.roy.turbo.launcher.ui.LauncherWallpaperPickerActivity;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;
 import com.roy.turbo.launcher.view.BubbleTextView;
 import com.roy.turbo.launcher.view.DragView;

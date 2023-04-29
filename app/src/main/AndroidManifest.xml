@@ -129,7 +129,7 @@
         </activity>
 
         <activity
-            android:name="com.roy.turbo.launcher.LauncherWallpaperPickerActivity"
+            android:name="com.roy.turbo.launcher.ui.LauncherWallpaperPickerActivity"
             android:exported="true"
             android:finishOnCloseSystemDialogs="true"
             android:icon="@drawable/ic_wallpaper"
