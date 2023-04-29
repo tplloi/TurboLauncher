@@ -15,7 +15,7 @@ public class AsyncTaskPageData {
                       AsyncTaskCallback postR, WidgetPreviewLoader w) {
         page = p;
         items = l;
-        generatedImages = new ArrayList<Bitmap>();
+        generatedImages = new ArrayList<>();
         maxImageWidth = cw;
         maxImageHeight = ch;
         doInBackgroundCallback = bgR;
@@ -37,7 +37,7 @@ public class AsyncTaskPageData {
 
     int page;
     ArrayList<Object> items;
-    ArrayList<Bitmap> sourceImages;
+    //    ArrayList<Bitmap> sourceImages;
     ArrayList<Bitmap> generatedImages;
     int maxImageWidth;
     int maxImageHeight;
