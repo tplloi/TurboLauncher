@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.animation.TimeInterpolator;
@@ -37,18 +21,12 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
-import java.util.List;
-
 import com.roy.turbo.launcher.view.ButtonDropTarget;
 
-public class DeleteDropTarget extends ButtonDropTarget {
-    private static int DELETE_ANIMATION_DURATION = 285;
-    private static int FLING_DELETE_ANIMATION_DURATION = 350;
-    private static float FLING_TO_DELETE_FRICTION = 0.035f;
-    private static int MODE_FLING_DELETE_TO_TRASH = 0;
-    private static int MODE_FLING_DELETE_ALONG_VECTOR = 1;
+import java.util.List;
 
-    private final int mFlingDeleteMode = MODE_FLING_DELETE_ALONG_VECTOR;
+public class DeleteDropTarget extends ButtonDropTarget {
+    private static final int MODE_FLING_DELETE_ALONG_VECTOR = 1;
 
     private ColorStateList mOriginalTextColor;
     private TransitionDrawable mUninstallDrawable;
@@ -243,14 +221,12 @@ public class DeleteDropTarget extends ButtonDropTarget {
         mSearchDropTargetBar.deferOnDragEnd();
         deferCompleteDropIfUninstalling(d);
 
-        Runnable onAnimationEndRunnable = new Runnable() {
-            @Override
-            public void run() {
-                completeDrop(d);
-                mSearchDropTargetBar.onDragEnd();
-                mLauncher.exitSpringLoadedDragMode();
-            }
+        Runnable onAnimationEndRunnable = () -> {
+            completeDrop(d);
+            mSearchDropTargetBar.onDragEnd();
+            mLauncher.exitSpringLoadedDragMode();
         };
+        int DELETE_ANIMATION_DURATION = 285;
         dragLayer.animateView(d.dragView, from, to, scale, 1f, 1f, 0.1f, 0.1f,
                 DELETE_ANIMATION_DURATION, new DecelerateInterpolator(2),
                 new LinearInterpolator(), onAnimationEndRunnable,
@@ -296,21 +272,18 @@ public class DeleteDropTarget extends ButtonDropTarget {
                 mWaitingForUninstall =
                     mLauncher.startApplicationUninstallActivity(componentName, flags);
                 if (mWaitingForUninstall) {
-                    final Runnable checkIfUninstallWasSuccess = new Runnable() {
-                        @Override
-                        public void run() {
-                            mWaitingForUninstall = false;
-                            String packageName = componentName.getPackageName();
-                            List<ResolveInfo> activities =
-                                    AllAppsList.findActivitiesForPackage(getContext(), packageName);
-                            boolean uninstallSuccessful = activities.size() == 0;
-                            if (dragSource instanceof Folder) {
-                                ((Folder) dragSource).
+                    final Runnable checkIfUninstallWasSuccess = () -> {
+                        mWaitingForUninstall = false;
+                        String packageName = componentName.getPackageName();
+                        List<ResolveInfo> activities =
+                                AllAppsList.findActivitiesForPackage(getContext(), packageName);
+                        boolean uninstallSuccessful = activities.size() == 0;
+                        if (dragSource instanceof Folder) {
+                            ((Folder) dragSource).
                                     onUninstallActivityReturned(uninstallSuccessful);
-                            } else if (dragSource instanceof Workspace) {
-                                ((Workspace) dragSource).
+                        } else if (dragSource instanceof Workspace) {
+                            ((Workspace) dragSource).
                                     onUninstallActivityReturned(uninstallSuccessful);
-                            }
                         }
                     };
                     mLauncher.addOnResumeCallback(checkIfUninstallWasSuccess);
@@ -377,34 +350,26 @@ public class DeleteDropTarget extends ButtonDropTarget {
         final float x3 = to.left;                                   // delete target t/l
         final float y3 = to.top;
 
-        final TimeInterpolator scaleAlphaInterpolator = new TimeInterpolator() {
-            @Override
-            public float getInterpolation(float t) {
-                return t * t * t * t * t * t * t * t;
-            }
-        };
-        return new AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                final DragView dragView = (DragView) dragLayer.getAnimatedView();
-                float t = ((Float) animation.getAnimatedValue()).floatValue();
-                float tp = scaleAlphaInterpolator.getInterpolation(t);
-                float initialScale = dragView.getInitialScale();
-                float finalAlpha = 0.5f;
-                float scale = dragView.getScaleX();
-                float x1o = ((1f - scale) * dragView.getMeasuredWidth()) / 2f;
-                float y1o = ((1f - scale) * dragView.getMeasuredHeight()) / 2f;
-                float x = (1f - t) * (1f - t) * (x1 - x1o) + 2 * (1f - t) * t * (x2 - x1o) +
-                        (t * t) * x3;
-                float y = (1f - t) * (1f - t) * (y1 - y1o) + 2 * (1f - t) * t * (y2 - x1o) +
-                        (t * t) * y3;
+        final TimeInterpolator scaleAlphaInterpolator = t -> t * t * t * t * t * t * t * t;
+        return animation -> {
+            final DragView dragView = (DragView) dragLayer.getAnimatedView();
+            float t = (Float) animation.getAnimatedValue();
+            float tp = scaleAlphaInterpolator.getInterpolation(t);
+            float initialScale = dragView.getInitialScale();
+            float finalAlpha = 0.5f;
+            float scale = dragView.getScaleX();
+            float x1o = ((1f - scale) * dragView.getMeasuredWidth()) / 2f;
+            float y1o = ((1f - scale) * dragView.getMeasuredHeight()) / 2f;
+            float x = (1f - t) * (1f - t) * (x1 - x1o) + 2 * (1f - t) * t * (x2 - x1o) +
+                    (t * t) * x3;
+            float y = (1f - t) * (1f - t) * (y1 - y1o) + 2 * (1f - t) * t * (y2 - x1o) +
+                    (t * t) * y3;
 
-                dragView.setTranslationX(x);
-                dragView.setTranslationY(y);
-                dragView.setScaleX(initialScale * (1f - tp));
-                dragView.setScaleY(initialScale * (1f - tp));
-                dragView.setAlpha(finalAlpha + (1f - finalAlpha) * (1f - tp));
-            }
+            dragView.setTranslationX(x);
+            dragView.setTranslationY(y);
+            dragView.setScaleX(initialScale * (1f - tp));
+            dragView.setScaleY(initialScale * (1f - tp));
+            dragView.setAlpha(finalAlpha + (1f - finalAlpha) * (1f - tp));
         };
     }
 
@@ -414,17 +379,17 @@ public class DeleteDropTarget extends ButtonDropTarget {
      * progressively.
      */
     private static class FlingAlongVectorAnimatorUpdateListener implements AnimatorUpdateListener {
-        private DragLayer mDragLayer;
-        private PointF mVelocity;
-        private Rect mFrom;
+        private final DragLayer mDragLayer;
+        private final PointF mVelocity;
+        private final Rect mFrom;
         private long mPrevTime;
         private boolean mHasOffsetForScale;
-        private float mFriction;
+        private final float mFriction;
 
         private final TimeInterpolator mAlphaInterpolator = new DecelerateInterpolator(0.75f);
 
         public FlingAlongVectorAnimatorUpdateListener(DragLayer dragLayer, PointF vel, Rect from,
-                long startTime, float friction) {
+                                                      long startTime, float friction) {
             mDragLayer = dragLayer;
             mVelocity = vel;
             mFrom = from;
@@ -435,7 +400,7 @@ public class DeleteDropTarget extends ButtonDropTarget {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
             final DragView dragView = (DragView) mDragLayer.getAnimatedView();
-            float t = ((Float) animation.getAnimatedValue()).floatValue();
+            float t = (Float) animation.getAnimatedValue();
             long curTime = AnimationUtils.currentAnimationTimeMillis();
 
             if (!mHasOffsetForScale) {
@@ -459,13 +424,14 @@ public class DeleteDropTarget extends ButtonDropTarget {
             mVelocity.y *= mFriction;
             mPrevTime = curTime;
         }
-    };
+    }
     private AnimatorUpdateListener createFlingAlongVectorAnimatorListener(final DragLayer dragLayer,
             DragObject d, PointF vel, final long startTime, final int duration,
             ViewConfiguration config) {
         final Rect from = new Rect();
         dragLayer.getViewRectRelativeToSelf(d.dragView, from);
 
+        float FLING_TO_DELETE_FRICTION = 0.035f;
         return new FlingAlongVectorAnimatorUpdateListener(dragLayer, vel, from, startTime,
                 FLING_TO_DELETE_FRICTION);
     }
@@ -481,6 +447,8 @@ public class DeleteDropTarget extends ButtonDropTarget {
             resetHoverColor();
         }
 
+        int MODE_FLING_DELETE_TO_TRASH = 0;
+        int mFlingDeleteMode = MODE_FLING_DELETE_ALONG_VECTOR;
         if (mFlingDeleteMode == MODE_FLING_DELETE_TO_TRASH) {
             // Defer animating out the drop target if we are animating to it
             mSearchDropTargetBar.deferOnDragEnd();
@@ -489,7 +457,7 @@ public class DeleteDropTarget extends ButtonDropTarget {
 
         final ViewConfiguration config = ViewConfiguration.get(mLauncher);
         final DragLayer dragLayer = mLauncher.getDragLayer();
-        final int duration = FLING_DELETE_ANIMATION_DURATION;
+        final int duration = 350;
         final long startTime = AnimationUtils.currentAnimationTimeMillis();
 
         // NOTE: Because it takes time for the first frame of animation to actually be
@@ -522,17 +490,14 @@ public class DeleteDropTarget extends ButtonDropTarget {
         }
         deferCompleteDropIfUninstalling(d);
 
-        Runnable onAnimationEndRunnable = new Runnable() {
-            @Override
-            public void run() {
-                // If we are dragging from AllApps, then we allow AppsCustomizePagedView to clean up
-                // itself, otherwise, complete the drop to initiate the deletion process
-                if (!isAllApps) {
-                    mLauncher.exitSpringLoadedDragMode();
-                    completeDrop(d);
-                }
-                mLauncher.getDragController().onDeferredEndFling(d);
+        Runnable onAnimationEndRunnable = () -> {
+            // If we are dragging from AllApps, then we allow AppsCustomizePagedView to clean up
+            // itself, otherwise, complete the drop to initiate the deletion process
+            if (!isAllApps) {
+                mLauncher.exitSpringLoadedDragMode();
+                completeDrop(d);
             }
+            mLauncher.getDragController().onDeferredEndFling(d);
         };
         dragLayer.animateView(d.dragView, updateCb, duration, tInterpolator, onAnimationEndRunnable,
                 DragLayer.ANIMATION_END_DISAPPEAR, null);
