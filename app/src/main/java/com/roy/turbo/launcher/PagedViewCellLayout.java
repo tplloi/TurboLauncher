@@ -403,10 +403,10 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
 
         // X coordinate of the view in the layout.
         @ViewDebug.ExportedProperty
-        int x;
+        public int x;
         // Y coordinate of the view in the layout.
         @ViewDebug.ExportedProperty
-        int y;
+        public int y;
 
         public LayoutParams() {
             super(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
