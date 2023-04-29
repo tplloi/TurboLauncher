@@ -91,6 +91,7 @@ import com.roy.turbo.launcher.view.BubbleTextView;
 import com.roy.turbo.launcher.view.DragView;
 import com.roy.turbo.launcher.view.HolographicImageView;
 import com.roy.turbo.launcher.view.HolographicLinearLayout;
+import com.roy.turbo.launcher.view.LauncherViewPropertyAnimator;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
