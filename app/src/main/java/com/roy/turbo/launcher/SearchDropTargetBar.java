@@ -16,7 +16,7 @@
 
 package com.roy.turbo.launcher;
 
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.view.ButtonDropTarget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

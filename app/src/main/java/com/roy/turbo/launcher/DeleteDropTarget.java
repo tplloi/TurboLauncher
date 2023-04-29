@@ -38,7 +38,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import java.util.List;
-import com.roy.turbo.launcher.R;
+
+import com.roy.turbo.launcher.view.ButtonDropTarget;
 
 public class DeleteDropTarget extends ButtonDropTarget {
     private static int DELETE_ANIMATION_DURATION = 285;

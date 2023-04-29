@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.view;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +8,14 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
+
+import com.roy.turbo.launcher.DragController;
+import com.roy.turbo.launcher.DragLayer;
+import com.roy.turbo.launcher.DragSource;
+import com.roy.turbo.launcher.DropTarget;
+import com.roy.turbo.launcher.Launcher;
+import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.SearchDropTargetBar;
 
 public class ButtonDropTarget extends TextView implements DropTarget, DragController.DragListener {
 
@@ -40,7 +48,7 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
         mBottomDragPadding = r.getDimensionPixelSize(R.dimen.drop_target_drag_padding);
     }
 
-    void setLauncher(Launcher launcher) {
+    public void setLauncher(Launcher launcher) {
         mLauncher = launcher;
     }
 
@@ -107,7 +115,7 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
         return (getLayoutDirection() == View.LAYOUT_DIRECTION_RTL);
     }
 
-    Rect getIconRect(int viewWidth, int viewHeight, int drawableWidth, int drawableHeight) {
+    public Rect getIconRect(int viewWidth, int viewHeight, int drawableWidth, int drawableHeight) {
         DragLayer dragLayer = mLauncher.getDragLayer();
 
         // Find the rect to animate to (the view is center aligned)
