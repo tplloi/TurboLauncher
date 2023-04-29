@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2006 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.animation.TimeInterpolator;
@@ -46,7 +30,7 @@ public class LauncherScroller  {
     private float mDeltaY;
     private boolean mFinished;
     private TimeInterpolator mInterpolator;
-    private boolean mFlywheel;
+    private final boolean mFlywheel;
 
     private float mVelocity;
     private float mCurrVelocity;
@@ -58,7 +42,7 @@ public class LauncherScroller  {
     private static final int SCROLL_MODE = 0;
     private static final int FLING_MODE = 1;
 
-    private static float DECELERATION_RATE = (float) (Math.log(0.78) / Math.log(0.9));
+    private static final float DECELERATION_RATE = (float) (Math.log(0.78) / Math.log(0.9));
     private static final float INFLEXION = 0.35f; // Tension lines cross at (INFLEXION, 1)
     private static final float START_TENSION = 0.5f;
     private static final float END_TENSION = 1.0f;
@@ -73,7 +57,7 @@ public class LauncherScroller  {
     private final float mPpi;
 
     // A context-specific coefficient adjusted to physical values.
-    private float mPhysicalCoeff;
+    private final float mPhysicalCoeff;
 
     static {
         float x_min = 0.0f;
@@ -115,7 +99,7 @@ public class LauncherScroller  {
 
     }
 
-    private static float sViscousFluidScale;
+    private static final float sViscousFluidScale;
     private static float sViscousFluidNormalize;
 
     public void setInterpolator(TimeInterpolator interpolator) {
@@ -544,9 +528,6 @@ public class LauncherScroller  {
         mFinished = false;
     }
 
-    /**
-     * @hide
-     */
     public boolean isScrollingInDirection(float xvel, float yvel) {
         return !mFinished && Math.signum(xvel) == Math.signum(mFinalX - mStartX) &&
                 Math.signum(yvel) == Math.signum(mFinalY - mStartY);
