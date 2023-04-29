@@ -1,60 +1,15 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
-import android.content.res.Configuration;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
+import com.roy.turbo.launcher.view.BubbleTextView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import com.roy.turbo.launcher.view.BubbleTextView;
-
-/**
- * A keyboard listener we set on all the workspace icons.
- */
-class IconKeyEventListener implements View.OnKeyListener {
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        return FocusHelper.handleIconKeyEvent(v, keyCode, event);
-    }
-}
-
-/**
- * A keyboard listener we set on all the workspace icons.
- */
-class FolderKeyEventListener implements View.OnKeyListener {
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        return FocusHelper.handleFolderKeyEvent(v, keyCode, event);
-    }
-}
-
-/**
- * A keyboard listener we set on all the hotseat buttons.
- */
-class HotseatIconKeyEventListener implements View.OnKeyListener {
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        final Configuration configuration = v.getResources().getConfiguration();
-        return FocusHelper.handleHotseatButtonKeyEvent(v, keyCode, event, configuration.orientation);
-    }
-}
 
 public class FocusHelper {
 
@@ -495,11 +450,11 @@ public class FocusHelper {
         final ArrayList<View> views = getCellLayoutChildrenSortedSpatially(layout, parent);
         return findIndexOfIcon(views, views.indexOf(v), delta);
     }
+
     /**
-     * Private helper method to find the next closest BubbleTextView or FolderIcon in the direction 
+     * Private helper method to find the next closest BubbleTextView or FolderIcon in the direction
      * delta on the next line.
-     * 
-     * @param delta either -1 or 1 depending on the line and direction we want to search
+     * delta either -1 or 1 depending on the line and direction we want to search
      */
     private static View getClosestIconOnLine(CellLayout layout, ViewGroup parent, View v,
             int lineDelta) {
