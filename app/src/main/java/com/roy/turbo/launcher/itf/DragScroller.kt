@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.itf
 
 interface DragScroller {
     fun scrollLeft()

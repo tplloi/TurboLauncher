@@ -65,6 +65,8 @@ import android.widget.TextView;
 import com.roy.turbo.launcher.FolderIcon.FolderRingAnimator;
 import com.roy.turbo.launcher.Launcher.CustomContentCallbacks;
 import com.roy.turbo.launcher.LauncherSettings.Favorites;
+import com.roy.turbo.launcher.itf.DragScroller;
+import com.roy.turbo.launcher.itf.DragSource;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.sv.Alarm;
 import com.roy.turbo.launcher.view.BubbleTextView;

@@ -20,6 +20,8 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
+import com.roy.turbo.launcher.itf.DragSource;
+
 public interface DropTarget {
 
 	class DragObject {
