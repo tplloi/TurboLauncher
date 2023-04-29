@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.animation.Animator;
@@ -30,7 +14,7 @@ import java.util.HashSet;
 import java.util.WeakHashMap;
 
 public class LauncherAnimUtils {
-    static WeakHashMap<Animator, Object> sAnimators = new WeakHashMap<Animator, Object>();
+    static WeakHashMap<Animator, Object> sAnimators = new WeakHashMap<>();
     static Animator.AnimatorListener sEndAnimListener = new Animator.AnimatorListener() {
         public void onAnimationStart(Animator animation) {
             sAnimators.put(animation, null);
@@ -67,17 +51,13 @@ public class LauncherAnimUtils {
                     animator.start();
 
                     final ViewTreeObserver.OnDrawListener listener = this;
-                    view.post(new Runnable() {
-                            public void run() {
-                                view.getViewTreeObserver().removeOnDrawListener(listener);
-                            }
-                        });
+                    view.post(() -> view.getViewTreeObserver().removeOnDrawListener(listener));
                 }
             });
     }
 
     public static void onDestroyActivity() {
-        HashSet<Animator> animators = new HashSet<Animator>(sAnimators.keySet());
+        HashSet<Animator> animators = new HashSet<>(sAnimators.keySet());
         for (Animator a : animators) {
             if (a.isRunning()) {
                 a.cancel();
@@ -109,8 +89,7 @@ public class LauncherAnimUtils {
         return anim;
     }
 
-    public static ObjectAnimator ofPropertyValuesHolder(View target,
-            PropertyValuesHolder... values) {
+    public static ObjectAnimator ofPropertyValuesHolder(View target, PropertyValuesHolder... values) {
         ObjectAnimator anim = new ObjectAnimator();
         anim.setTarget(target);
         anim.setValues(values);
@@ -119,8 +98,7 @@ public class LauncherAnimUtils {
         return anim;
     }
 
-    public static ObjectAnimator ofPropertyValuesHolder(Object target,
-            View view, PropertyValuesHolder... values) {
+    public static ObjectAnimator ofPropertyValuesHolder(Object target, View view, PropertyValuesHolder... values) {
         ObjectAnimator anim = new ObjectAnimator();
         anim.setTarget(target);
         anim.setValues(values);
