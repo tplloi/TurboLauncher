@@ -53,6 +53,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
 import com.roy.turbo.launcher.itf.Page;
+import com.roy.turbo.launcher.view.LauncherScroller;
 
 import java.util.ArrayList;
 
