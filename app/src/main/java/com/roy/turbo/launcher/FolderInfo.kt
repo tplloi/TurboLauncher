@@ -1,103 +1,99 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.content.ContentValues;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import android.content.ContentValues
+import java.util.Arrays
 
 /**
  * Represents a folder containing shortcuts or apps.
  */
-class FolderInfo extends ItemInfo {
-
+internal class FolderInfo : ItemInfo() {
     /**
      * Whether this folder has been opened
      */
-    boolean opened;
+    @JvmField
+    var opened = false
 
     /**
      * The apps and shortcuts and hidden status
      */
-    ArrayList<ShortcutInfo> contents = new ArrayList<>();
-    Boolean hidden = false;
+    @JvmField
+    var contents = ArrayList<ShortcutInfo>()
 
-    ArrayList<FolderListener> listeners = new ArrayList<>();
+    @JvmField
+    var hidden = false
+    var listeners = ArrayList<FolderListener>()
 
-    FolderInfo() {
-        itemType = LauncherSettings.Favorites.ITEM_TYPE_FOLDER;
+    init {
+        itemType = LauncherSettings.Favorites.ITEM_TYPE_FOLDER
     }
 
     /**
      * Add an app or shortcut
      */
-    public void add(ShortcutInfo item) {
-        contents.add(item);
-        for (int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).onAdd(item);
+    fun add(item: ShortcutInfo) {
+        contents.add(item)
+        for (i in listeners.indices) {
+            listeners[i].onAdd(item)
         }
-        itemsChanged();
+        itemsChanged()
     }
 
     /**
      * Remove an app or shortcut. Does not change the DB.
      */
-    public void remove(ShortcutInfo item) {
-        contents.remove(item);
-        for (int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).onRemove(item);
+    fun remove(item: ShortcutInfo) {
+        contents.remove(item)
+        for (i in listeners.indices) {
+            listeners[i].onRemove(item)
         }
-        itemsChanged();
+        itemsChanged()
     }
 
-    public void setTitle(CharSequence title) {
-        this.title = title;
-        for (int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).onTitleChanged(title);
+    var title: CharSequence?
+        get() = super.title
+        set(title) {
+            this.title = title
+            for (i in listeners.indices) {
+                listeners[i].onTitleChanged(title)
+            }
+        }
+
+    public override fun onAddToDatabase(values: ContentValues) {
+        super.onAddToDatabase(values)
+        values.put(LauncherSettings.Favorites.TITLE, title.toString())
+        values.put(LauncherSettings.Favorites.HIDDEN, if (hidden) 1 else 0)
+    }
+
+    fun addListener(listener: FolderListener) {
+        listeners.add(listener)
+    }
+
+    fun removeListener(listener: FolderListener) {
+        listeners.remove(listener)
+    }
+
+    fun itemsChanged() {
+        for (i in listeners.indices) {
+            listeners[i].onItemsChanged()
         }
     }
 
-    @Override
-    void onAddToDatabase(ContentValues values) {
-        super.onAddToDatabase(values);
-        values.put(LauncherSettings.Favorites.TITLE, title.toString());
-        values.put(LauncherSettings.Favorites.HIDDEN, hidden ? 1 : 0);
+    public override fun unbind() {
+        super.unbind()
+        listeners.clear()
     }
 
-    void addListener(FolderListener listener) {
-        listeners.add(listener);
+    internal interface FolderListener {
+        fun onAdd(item: ShortcutInfo?)
+        fun onRemove(item: ShortcutInfo?)
+        fun onTitleChanged(title: CharSequence?)
+        fun onItemsChanged()
     }
 
-    void removeListener(FolderListener listener) {
-        listeners.remove(listener);
-    }
-
-    void itemsChanged() {
-        for (int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).onItemsChanged();
-        }
-    }
-
-    @Override
-    void unbind() {
-        super.unbind();
-        listeners.clear();
-    }
-
-    interface FolderListener {
-        void onAdd(ShortcutInfo item);
-
-        void onRemove(ShortcutInfo item);
-
-        void onTitleChanged(CharSequence title);
-
-        void onItemsChanged();
-    }
-
-    @Override
-    public String toString() {
-        return "FolderInfo(id=" + this.id + " type=" + this.itemType
-                + " container=" + this.container + " screen=" + screenId
+    override fun toString(): String {
+        return ("FolderInfo(id=" + id + " type=" + itemType
+                + " container=" + container + " screen=" + screenId
                 + " cellX=" + cellX + " cellY=" + cellY + " spanX=" + spanX
-                + " spanY=" + spanY + " dropPos=" + Arrays.toString(dropPos) + ")";
+                + " spanY=" + spanY + " dropPos=" + Arrays.toString(dropPos) + ")")
     }
 }
