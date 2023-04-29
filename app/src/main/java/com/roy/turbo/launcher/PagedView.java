@@ -52,9 +52,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import java.util.ArrayList;
-
 import com.roy.turbo.launcher.itf.Page;
+
+import java.util.ArrayList;
 
 public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener {
     private static final String TAG = "PagedView";
@@ -3145,8 +3145,13 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 }
 
                 v.setTranslationX(translationX);
-                v.setScaleX(scale);
-                v.setScaleY(scale);
+                try {
+                    v.setScaleX(scale);
+                    v.setScaleY(scale);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 if (v instanceof CellLayout) {
                     ((CellLayout) v).getShortcutsAndWidgets().setAlpha(alpha);
                 } else {
