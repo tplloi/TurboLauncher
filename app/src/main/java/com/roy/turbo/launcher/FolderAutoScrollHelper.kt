@@ -1,43 +1,38 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.support.v4.widget.AutoScrollHelper;
-import android.widget.ScrollView;
+import android.support.v4.widget.AutoScrollHelper
+import android.widget.ScrollView
 
 /**
- * An implementation of {@link AutoScrollHelper} that knows how to scroll
- * through a {@link Folder}.
+ * An implementation of [AutoScrollHelper] that knows how to scroll
+ * through a [Folder].
  */
-public class FolderAutoScrollHelper extends AutoScrollHelper {
-    private static final float MAX_SCROLL_VELOCITY = 1500f;
-
-    private final ScrollView mTarget;
-
-    public FolderAutoScrollHelper(ScrollView target) {
-        super(target);
-
-        mTarget = target;
-
-        setActivationDelay(0);
-        setEdgeType(EDGE_TYPE_INSIDE_EXTEND);
-        setExclusive(true);
-        setMaximumVelocity(MAX_SCROLL_VELOCITY, MAX_SCROLL_VELOCITY);
-        setRampDownDuration(0);
-        setRampUpDuration(0);
+class FolderAutoScrollHelper(private val mTarget: ScrollView) : AutoScrollHelper(
+    mTarget
+) {
+    init {
+        setActivationDelay(0)
+        setEdgeType(EDGE_TYPE_INSIDE_EXTEND)
+        isExclusive = true
+        setMaximumVelocity(MAX_SCROLL_VELOCITY, MAX_SCROLL_VELOCITY)
+        setRampDownDuration(0)
+        setRampUpDuration(0)
     }
 
-    @Override
-    public void scrollTargetBy(int deltaX, int deltaY) {
-        mTarget.scrollBy(deltaX, deltaY);
+    override fun scrollTargetBy(deltaX: Int, deltaY: Int) {
+        mTarget.scrollBy(deltaX, deltaY)
     }
 
-    @Override
-    public boolean canTargetScrollHorizontally(int direction) {
+    override fun canTargetScrollHorizontally(direction: Int): Boolean {
         // List do not scroll horizontally.
-        return false;
+        return false
     }
 
-    @Override
-    public boolean canTargetScrollVertically(int direction) {
-        return mTarget.canScrollVertically(direction);
+    override fun canTargetScrollVertically(direction: Int): Boolean {
+        return mTarget.canScrollVertically(direction)
+    }
+
+    companion object {
+        private const val MAX_SCROLL_VELOCITY = 1500f
     }
 }
