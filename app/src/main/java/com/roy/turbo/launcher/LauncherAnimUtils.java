@@ -24,6 +24,8 @@ import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import com.roy.turbo.launcher.helper.FirstFrameAnimatorHelper;
+
 import java.util.HashSet;
 import java.util.WeakHashMap;
 

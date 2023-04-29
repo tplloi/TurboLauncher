@@ -22,6 +22,8 @@ import android.animation.TimeInterpolator;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 
+import com.roy.turbo.launcher.helper.FirstFrameAnimatorHelper;
+
 import java.util.ArrayList;
 import java.util.EnumSet;
 
