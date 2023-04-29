@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.content.Context;
@@ -32,13 +16,13 @@ public class HolographicOutlineHelper {
     public int mMaxOuterBlurRadius;
     public int mMinOuterBlurRadius;
 
-    private BlurMaskFilter mExtraThickOuterBlurMaskFilter;
-    private BlurMaskFilter mThickOuterBlurMaskFilter;
-    private BlurMaskFilter mMediumOuterBlurMaskFilter;
-    private BlurMaskFilter mThinOuterBlurMaskFilter;
-    private BlurMaskFilter mThickInnerBlurMaskFilter;
-    private BlurMaskFilter mExtraThickInnerBlurMaskFilter;
-    private BlurMaskFilter mMediumInnerBlurMaskFilter;
+    private final BlurMaskFilter mExtraThickOuterBlurMaskFilter;
+    private final BlurMaskFilter mThickOuterBlurMaskFilter;
+    private final BlurMaskFilter mMediumOuterBlurMaskFilter;
+    private final BlurMaskFilter mThinOuterBlurMaskFilter;
+    private final BlurMaskFilter mThickInnerBlurMaskFilter;
+    private final BlurMaskFilter mExtraThickInnerBlurMaskFilter;
+    private final BlurMaskFilter mMediumInnerBlurMaskFilter;
 
     private static final int THICK = 0;
     private static final int MEDIUM = 1;
