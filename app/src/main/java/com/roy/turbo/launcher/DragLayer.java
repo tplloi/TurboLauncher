@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.animation.Animator;
@@ -21,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -40,33 +25,30 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import com.roy.turbo.launcher.R;
-
 /**
  * A ViewGroup that coordinates dragging across its descendants
  */
 public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChangeListener {
     private DragController mDragController;
-    private int[] mTmpXY = new int[2];
+    private final int[] mTmpXY = new int[2];
 
     private int mXDown, mYDown;
     private Launcher mLauncher;
 
     // Variables relating to resizing widgets
-    private final ArrayList<AppWidgetResizeFrame> mResizeFrames =
-            new ArrayList<AppWidgetResizeFrame>();
+    private final ArrayList<AppWidgetResizeFrame> mResizeFrames = new ArrayList<>();
     private AppWidgetResizeFrame mCurrentResizeFrame;
 
     // Variables relating to animation of views after drop
     private ValueAnimator mDropAnim = null;
     private ValueAnimator mFadeOutAnim = null;
-    private TimeInterpolator mCubicEaseOutInterpolator = new DecelerateInterpolator(1.5f);
+    private final TimeInterpolator mCubicEaseOutInterpolator = new DecelerateInterpolator(1.5f);
     private DragView mDropView = null;
     private int mAnchorViewInitialScrollX = 0;
     private View mAnchorView = null;
 
     private boolean mHoverPointClosesFolder = false;
-    private Rect mHitRect = new Rect();
+    private final Rect mHitRect = new Rect();
     public static final int ANIMATION_END_DISAPPEAR = 0;
     public static final int ANIMATION_END_FADE_OUT = 1;
     public static final int ANIMATION_END_REMAIN_VISIBLE = 2;
@@ -140,18 +122,12 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
 
     private boolean isEventOverFolderTextRegion(Folder folder, MotionEvent ev) {
         getDescendantRectRelativeToSelf(folder.getEditTextRegion(), mHitRect);
-        if (mHitRect.contains((int) ev.getX(), (int) ev.getY())) {
-            return true;
-        }
-        return false;
+        return mHitRect.contains((int) ev.getX(), (int) ev.getY());
     }
 
     private boolean isEventOverFolder(Folder folder, MotionEvent ev) {
         getDescendantRectRelativeToSelf(folder, mHitRect);
-        if (mHitRect.contains((int) ev.getX(), (int) ev.getY())) {
-            return true;
-        }
-        return false;
+        return mHitRect.contains((int) ev.getX(), (int) ev.getY());
     }
 
     private boolean handleTouchDown(MotionEvent ev, boolean intercept) {
@@ -294,6 +270,7 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
         return false;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         boolean handled = false;
@@ -379,8 +356,8 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
     /**
      * Inverse of {@link #getDescendantCoordRelativeToSelf(View, int[])}.
      */
-    public float mapCoordInSelfToDescendent(View descendant, int[] coord) {
-        return Utilities.mapCoordInSelfToDescendent(descendant, this, coord);
+    public void mapCoordInSelfToDescendent(View descendant, int[] coord) {
+        Utilities.mapCoordInSelfToDescendent(descendant, this, coord);
     }
 
     public void getViewRectRelativeToSelf(View v, Rect r) {
@@ -524,7 +501,7 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
         Rect r = new Rect();
         getViewRectRelativeToSelf(dragView, r);
 
-        int coord[] = new int[2];
+        int[] coord = new int[2];
         float childScale = child.getScaleX();
         coord[0] = lp.x + (int) (child.getMeasuredWidth() * (1 - childScale) / 2);
         coord[1] = lp.y + (int) (child.getMeasuredHeight() * (1 - childScale) / 2);
@@ -566,12 +543,10 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
         final int fromX = r.left;
         final int fromY = r.top;
         child.setVisibility(INVISIBLE);
-        Runnable onCompleteRunnable = new Runnable() {
-            public void run() {
-                child.setVisibility(VISIBLE);
-                if (onFinishAnimationRunnable != null) {
-                    onFinishAnimationRunnable.run();
-                }
+        Runnable onCompleteRunnable = () -> {
+            child.setVisibility(VISIBLE);
+            if (onFinishAnimationRunnable != null) {
+                onFinishAnimationRunnable.run();
             }
         };
         animateViewIntoPosition(dragView, fromX, fromY, toX, toY, 1, 1, 1, toScale, toScale,
@@ -599,12 +574,12 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
      *        location doesn't account for scaling, and so should be centered about the desired
      *        final location (including scaling).
      * @param finalAlpha The final alpha of the view, in case we want it to fade as it animates.
-     * @param finalScale The final scale of the view. The view is scaled about its center.
+     * finalScale The final scale of the view. The view is scaled about its center.
      * @param duration The duration of the animation.
      * @param motionInterpolator The interpolator to use for the location of the view.
      * @param alphaInterpolator The interpolator to use for the alpha of the view.
      * @param onCompleteRunnable Optional runnable to run on animation completion.
-     * @param fadeOut Whether or not to fade out the view once the animation completes. If true,
+     * fadeOut Whether or not to fade out the view once the animation completes. If true,
      *        the runnable will execute after the view is faded out.
      * @param anchorView If not null, this represents the view which the animated view stays
      *        anchored to in case scrolling is currently taking place. Note: currently this is
@@ -640,42 +615,39 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
         // Animate the view
         final float initAlpha = view.getAlpha();
         final float dropViewScale = view.getScaleX();
-        AnimatorUpdateListener updateCb = new AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                final float percent = (Float) animation.getAnimatedValue();
-                final int width = view.getMeasuredWidth();
-                final int height = view.getMeasuredHeight();
+        AnimatorUpdateListener updateCb = animation -> {
+            final float percent = (Float) animation.getAnimatedValue();
+            final int width = view.getMeasuredWidth();
+            final int height = view.getMeasuredHeight();
 
-                float alphaPercent = alphaInterpolator == null ? percent :
-                        alphaInterpolator.getInterpolation(percent);
-                float motionPercent = motionInterpolator == null ? percent :
-                        motionInterpolator.getInterpolation(percent);
+            float alphaPercent = alphaInterpolator == null ? percent :
+                    alphaInterpolator.getInterpolation(percent);
+            float motionPercent = motionInterpolator == null ? percent :
+                    motionInterpolator.getInterpolation(percent);
 
-                float initialScaleX = initScaleX * dropViewScale;
-                float initialScaleY = initScaleY * dropViewScale;
-                float scaleX = finalScaleX * percent + initialScaleX * (1 - percent);
-                float scaleY = finalScaleY * percent + initialScaleY * (1 - percent);
-                float alpha = finalAlpha * alphaPercent + initAlpha * (1 - alphaPercent);
+            float initialScaleX = initScaleX * dropViewScale;
+            float initialScaleY = initScaleY * dropViewScale;
+            float scaleX = finalScaleX * percent + initialScaleX * (1 - percent);
+            float scaleY = finalScaleY * percent + initialScaleY * (1 - percent);
+            float alpha = finalAlpha * alphaPercent + initAlpha * (1 - alphaPercent);
 
-                float fromLeft = from.left + (initialScaleX - 1f) * width / 2;
-                float fromTop = from.top + (initialScaleY - 1f) * height / 2;
+            float fromLeft = from.left + (initialScaleX - 1f) * width / 2;
+            float fromTop = from.top + (initialScaleY - 1f) * height / 2;
 
-                int x = (int) (fromLeft + Math.round(((to.left - fromLeft) * motionPercent)));
-                int y = (int) (fromTop + Math.round(((to.top - fromTop) * motionPercent)));
+            int x = (int) (fromLeft + Math.round(((to.left - fromLeft) * motionPercent)));
+            int y = (int) (fromTop + Math.round(((to.top - fromTop) * motionPercent)));
 
-                int anchorAdjust = mAnchorView == null ? 0 : (int) (mAnchorView.getScaleX() *
+            int anchorAdjust = mAnchorView == null ? 0 : (int) (mAnchorView.getScaleX() *
                     (mAnchorViewInitialScrollX - mAnchorView.getScrollX()));
 
-                int xPos = x - mDropView.getScrollX() + anchorAdjust;
-                int yPos = y - mDropView.getScrollY();
+            int xPos = x - mDropView.getScrollX() + anchorAdjust;
+            int yPos = y - mDropView.getScrollY();
 
-                mDropView.setTranslationX(xPos);
-                mDropView.setTranslationY(yPos);
-                mDropView.setScaleX(scaleX);
-                mDropView.setScaleY(scaleY);
-                mDropView.setAlpha(alpha);
-            }
+            mDropView.setTranslationX(xPos);
+            mDropView.setTranslationY(yPos);
+            mDropView.setScaleX(scaleX);
+            mDropView.setScaleY(scaleY);
+            mDropView.setAlpha(alpha);
         };
         animateView(view, updateCb, duration, interpolator, onCompleteRunnable, animationEndStyle,
                 anchorView);
@@ -745,13 +717,11 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
         mFadeOutAnim.setDuration(150);
         mFadeOutAnim.setFloatValues(0f, 1f);
         mFadeOutAnim.removeAllUpdateListeners();
-        mFadeOutAnim.addUpdateListener(new AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                final float percent = (Float) animation.getAnimatedValue();
+        mFadeOutAnim.addUpdateListener(animation -> {
+            final float percent = (Float) animation.getAnimatedValue();
 
-                float alpha = 1 - percent;
-                mDropView.setAlpha(alpha);
-            }
+            float alpha = 1 - percent;
+            mDropView.setAlpha(alpha);
         });
         mFadeOutAnim.addListener(new AnimatorListenerAdapter() {
             public void onAnimationEnd(Animator animation) {
@@ -790,18 +760,18 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
         if (mDragViewIndex == -1) {
             return i;
         } else if (i == mDragViewIndex) {
-            return getChildCount()-1;
+            return getChildCount() - 1;
         } else if (i < mDragViewIndex) {
             return i;
         } else {
             // i > mDragViewIndex
-            return i-1;
+            return i - 1;
         }
     }
 
     private boolean mInScrollArea;
-    private Drawable mLeftHoverDrawable;
-    private Drawable mRightHoverDrawable;
+    private final Drawable mLeftHoverDrawable;
+    private final Drawable mRightHoverDrawable;
 
     void onEnterScrollArea(int direction) {
         mInScrollArea = true;
@@ -852,6 +822,6 @@ public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChang
     }
 
     public interface TouchCompleteListener {
-        public void onTouchComplete();
+        void onTouchComplete();
     }
 }
