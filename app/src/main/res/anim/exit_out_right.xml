@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <objectAnimator
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:duration="300"
+        android:duration="300"
             android:propertyName="x"
             android:valueFrom="0"
             android:valueTo="1000"

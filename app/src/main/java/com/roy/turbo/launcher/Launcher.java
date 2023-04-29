@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.animation.Animator;
@@ -23,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Dialog;
@@ -61,6 +46,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.speech.RecognizerIntent;
 import android.text.Selection;
@@ -91,13 +77,13 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.roy.turbo.launcher.PagedView.TransitionEffect;
 import com.roy.turbo.launcher.helper.FirstFrameAnimatorHelper;
+import com.roy.turbo.launcher.itf.DragSource;
 import com.roy.turbo.launcher.itf.DropTarget;
 import com.roy.turbo.launcher.itf.DropTarget.DragObject;
-import com.roy.turbo.launcher.PagedView.TransitionEffect;
-import com.roy.turbo.launcher.itf.DragSource;
-import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.settings.SettingsPanel;
+import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;
 import com.roy.turbo.launcher.view.BubbleTextView;
 import com.roy.turbo.launcher.view.DragView;
@@ -1202,32 +1188,27 @@ public class Launcher extends Activity implements View.OnClickListener,
         fragmentTransaction.commit();
     }
 
-    public void setTransitionEffect(boolean pageOrDrawer,
-                                    String newTransitionEffect) {
-        String mSettingsProviderValue = pageOrDrawer ? SettingsProvider.SETTINGS_UI_DRAWER_SCROLLING_TRANSITION_EFFECT
-                : SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_TRANSITION_EFFECT;
+    @SuppressLint("ResourceType")
+    public void setTransitionEffect(boolean pageOrDrawer, String newTransitionEffect) {
+        String mSettingsProviderValue = pageOrDrawer ? SettingsProvider.SETTINGS_UI_DRAWER_SCROLLING_TRANSITION_EFFECT : SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_TRANSITION_EFFECT;
         PagedView pagedView = pageOrDrawer ? mAppsCustomizeContent : mWorkspace;
 
-        SettingsProvider.get(getApplicationContext()).edit()
-                .putString(mSettingsProviderValue, newTransitionEffect)
-                .commit();
+        SettingsProvider.get(getApplicationContext()).edit().putString(mSettingsProviderValue, newTransitionEffect).commit();
         TransitionEffect.setFromString(pagedView, newTransitionEffect);
 
         // Reset Settings Changed
         SharedPreferences.Editor editor = mSharedPrefs.edit();
         editor.putBoolean(SettingsProvider.SETTINGS_CHANGED, false);
-        editor.commit();
+        editor.apply();
 
         mOverviewSettingsPanel.notifyDataSetInvalidated();
 
-        FragmentTransaction fragmentTransaction = getFragmentManager()
-                .beginTransaction();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(0, R.anim.exit_out_right);
         fragmentTransaction.remove(mTransitionEffectsFragment).commit();
 
         mDarkPanel.setVisibility(View.VISIBLE);
-        ObjectAnimator anim = ObjectAnimator.ofFloat(mDarkPanel, "alpha", 0.3f,
-                0.0f);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(mDarkPanel, "alpha", 0.3f, 0.0f);
         anim.start();
         anim.addListener(mAnimatorListener);
     }
@@ -1249,49 +1230,26 @@ public class Launcher extends Activity implements View.OnClickListener,
                                 R.bool.preferences_interface_homescreen_scrolling_page_outlines_default));
 
         fadeAdjacent
-                .setChecked(SettingsProvider
-                        .getBoolean(
-                                this,
-                                !isAllAppsVisible() ? SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_FADE_ADJACENT
-                                        : SettingsProvider.SETTINGS_UI_DRAWER_SCROLLING_FADE_ADJACENT,
-                                !isAllAppsVisible() ? R.bool.preferences_interface_homescreen_scrolling_fade_adjacent_default
-                                        : R.bool.preferences_interface_drawer_scrolling_fade_adjacent_default));
+                .setChecked(SettingsProvider.getBoolean(this, !isAllAppsVisible() ? SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_FADE_ADJACENT : SettingsProvider.SETTINGS_UI_DRAWER_SCROLLING_FADE_ADJACENT, !isAllAppsVisible() ? R.bool.preferences_interface_homescreen_scrolling_fade_adjacent_default : R.bool.preferences_interface_drawer_scrolling_fade_adjacent_default));
 
-        final PagedView pagedView = !isAllAppsVisible() ? mWorkspace
-                : mAppsCustomizeContent;
+        final PagedView pagedView = !isAllAppsVisible() ? mWorkspace : mAppsCustomizeContent;
 
-        popupMenu
-                .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.scrolling_page_outlines:
-                                SettingsProvider
-                                        .get(Launcher.this)
-                                        .edit()
-                                        .putBoolean(
-                                                SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_PAGE_OUTLINES,
-                                                !item.isChecked()).commit();
-                                mWorkspace.setShowOutlines(!item.isChecked());
-                                break;
-                            case R.id.scrolling_fade_adjacent:
-                                SettingsProvider
-                                        .get(Launcher.this)
-                                        .edit()
-                                        .putBoolean(
-                                                !isAllAppsVisible() ? SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_FADE_ADJACENT
-                                                        : SettingsProvider.SETTINGS_UI_DRAWER_SCROLLING_FADE_ADJACENT,
-                                                !item.isChecked()).commit();
-                                pagedView.setFadeInAdjacentScreens(!item
-                                        .isChecked());
-                                break;
-                            default:
-                                return false;
-                        }
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.scrolling_page_outlines:
+                    SettingsProvider.get(Launcher.this).edit().putBoolean(SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_PAGE_OUTLINES, !item.isChecked()).commit();
+                    mWorkspace.setShowOutlines(!item.isChecked());
+                    break;
+                case R.id.scrolling_fade_adjacent:
+                    SettingsProvider.get(Launcher.this).edit().putBoolean(!isAllAppsVisible() ? SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_FADE_ADJACENT : SettingsProvider.SETTINGS_UI_DRAWER_SCROLLING_FADE_ADJACENT, !item.isChecked()).apply();
+                    pagedView.setFadeInAdjacentScreens(!item.isChecked());
+                    break;
+                default:
+                    return false;
+            }
 
-                        return true;
-                    }
-                });
+            return true;
+        });
 
         popupMenu.show();
     }
@@ -1311,13 +1269,11 @@ public class Launcher extends Activity implements View.OnClickListener,
 
 
     public interface QSBScroller {
-        public void setScrollY(int scrollY);
+        void setScrollY(int scrollY);
     }
 
-    public QSBScroller addToCustomContentPage(View customContent,
-                                              CustomContentCallbacks callbacks, String description) {
-        mWorkspace
-                .addToCustomContentPage(customContent, callbacks, description);
+    public QSBScroller addToCustomContentPage(View customContent, CustomContentCallbacks callbacks, String description) {
+        mWorkspace.addToCustomContentPage(customContent, callbacks, description);
         return mQsbScroller;
     }
 
@@ -1387,9 +1343,9 @@ public class Launcher extends Activity implements View.OnClickListener,
     private static State intToState(int stateOrdinal) {
         State state = State.WORKSPACE;
         final State[] stateValues = State.values();
-        for (int i = 0; i < stateValues.length; i++) {
-            if (stateValues[i].ordinal() == stateOrdinal) {
-                state = stateValues[i];
+        for (State stateValue : stateValues) {
+            if (stateValue.ordinal() == stateOrdinal) {
+                state = stateValue;
                 break;
             }
         }
@@ -1466,8 +1422,7 @@ public class Launcher extends Activity implements View.OnClickListener,
             int currentIndex = savedState.getInt("apps_customize_currentIndex");
             mAppsCustomizeContent.restorePageForIndex(currentIndex);
         }
-        mItemIdToViewId = (HashMap<Integer, Integer>) savedState
-                .getSerializable(RUNTIME_STATE_VIEW_IDS);
+        mItemIdToViewId = (HashMap<Integer, Integer>) savedState.getSerializable(RUNTIME_STATE_VIEW_IDS);
     }
 
     /**
@@ -1535,12 +1490,12 @@ public class Launcher extends Activity implements View.OnClickListener,
                 THEME_DEFAULT);
         PackageManager pm = getPackageManager();
         Resources themeResources = null;
+        assert themePackage != null;
         if (!themePackage.equals(THEME_DEFAULT)) {
             try {
                 themeResources = pm.getResourcesForApplication(themePackage);
             } catch (NameNotFoundException e) {
-                SettingsProvider.setThemePackageName(this,
-                        Launcher.THEME_DEFAULT);
+                SettingsProvider.setThemePackageName(this, Launcher.THEME_DEFAULT);
             }
         }
         if (themeResources != null) {
@@ -1550,11 +1505,10 @@ public class Launcher extends Activity implements View.OnClickListener,
                 showThemeFont = SettingsProvider.getThemeFont(this);
 
                 if (showThemeFont) {
-                    themeFont = Typeface.createFromAsset(
-                            themeResources.getAssets(), "themefont.ttf");
+                    themeFont = Typeface.createFromAsset(themeResources.getAssets(), "themefont.ttf");
                 }
             } catch (RuntimeException e) {
-
+                e.printStackTrace();
             }
         }
 
@@ -1646,7 +1600,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         int[] touchXY = mPendingAddInfo.dropPos;
         CellLayout layout = getCellLayout(container, screenId);
 
-        boolean foundCellSpan = false;
+        boolean foundCellSpan;
 
         ShortcutInfo info = mModel.infoFromShortcutIntent(this, data, null);
         if (info == null) {
@@ -1734,6 +1688,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * @param appWidgetId The app widget id
      * cellInfo    The position on screen where to create the widget.
      */
+    @SuppressLint("StaticFieldLeak")
     private void completeAddAppWidget(final int appWidgetId, long container,
                                       long screenId, AppWidgetHostView hostView,
                                       AppWidgetProviderInfo appWidgetInfo) {
@@ -1754,7 +1709,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         int[] cellXY = mTmpAddItemCellCoordinates;
         int[] touchXY = mPendingAddInfo.dropPos;
         int[] finalSpan = new int[2];
-        boolean foundCellSpan = false;
+        boolean foundCellSpan;
         if (mPendingAddInfo.cellX >= 0 && mPendingAddInfo.cellY >= 0) {
             cellXY[0] = mPendingAddInfo.cellX;
             cellXY[1] = mPendingAddInfo.cellY;
@@ -1899,8 +1854,7 @@ public class Launcher extends Activity implements View.OnClickListener,
                     private boolean mStarted = false;
 
                     public void onDraw() {
-                        if (mStarted)
-                            return;
+                        if (mStarted) return;
                         mStarted = true;
                         // We delay the layer building a bit in order to give
                         // other message processing a time to run. In particular
@@ -1909,16 +1863,11 @@ public class Launcher extends Activity implements View.OnClickListener,
                         // some communication back with the app.
                         mWorkspace.postDelayed(mBuildLayersRunnable, 500);
                         final ViewTreeObserver.OnDrawListener listener = this;
-                        mWorkspace.post(new Runnable() {
-                            public void run() {
-                                if (mWorkspace != null
-                                        && mWorkspace.getViewTreeObserver() != null) {
-                                    mWorkspace.getViewTreeObserver()
-                                            .removeOnDrawListener(listener);
-                                }
+                        mWorkspace.post(() -> {
+                            if (mWorkspace != null && mWorkspace.getViewTreeObserver() != null) {
+                                mWorkspace.getViewTreeObserver().removeOnDrawListener(listener);
                             }
                         });
-                        return;
                     }
                 });
             }
@@ -1956,21 +1905,16 @@ public class Launcher extends Activity implements View.OnClickListener,
         }
     }
 
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == ADVANCE_MSG) {
                 int i = 0;
                 for (View key : mWidgetsToAdvance.keySet()) {
-                    final View v = key
-                            .findViewById(mWidgetsToAdvance.get(key).autoAdvanceViewId);
+                    final View v = key.findViewById(mWidgetsToAdvance.get(key).autoAdvanceViewId);
                     final int delay = mAdvanceStagger * i;
                     if (v instanceof Advanceable) {
-                        postDelayed(new Runnable() {
-                            public void run() {
-                                ((Advanceable) v).advance();
-                            }
-                        }, delay);
+                        postDelayed(() -> ((Advanceable) v).advance(), delay);
                     }
                     i++;
                 }
@@ -2176,16 +2120,12 @@ public class Launcher extends Activity implements View.OnClickListener,
 
         // Save the current AppsCustomize tab
         if (mAppsCustomizeLayout != null) {
-            AppsCustomizePagedView.ContentType type = mAppsCustomizeContent
-                    .getContentType();
-            String currentTabTag = mAppsCustomizeContent.getContentType()
-                    .name();
+            AppsCustomizePagedView.ContentType type = mAppsCustomizeContent.getContentType();
+            String currentTabTag = mAppsCustomizeContent.getContentType().name();
             if (currentTabTag != null) {
-                outState.putString("apps_customize_currentContentType",
-                        currentTabTag);
+                outState.putString("apps_customize_currentContentType", currentTabTag);
             }
-            int currentIndex = mAppsCustomizeContent
-                    .getSaveInstanceStateIndex();
+            int currentIndex = mAppsCustomizeContent.getSaveInstanceStateIndex();
             outState.putInt("apps_customize_currentIndex", currentIndex);
         }
         outState.putSerializable(RUNTIME_STATE_VIEW_IDS, mItemIdToViewId);
@@ -2327,14 +2267,13 @@ public class Launcher extends Activity implements View.OnClickListener,
             intent.putExtra(SearchManager.QUERY, initialQuery);
         }
         if (selectInitialQuery) {
-            intent.putExtra(SearchManager.EXTRA_SELECT_QUERY,
-                    selectInitialQuery);
+            intent.putExtra(SearchManager.EXTRA_SELECT_QUERY, selectInitialQuery);
         }
         intent.setSourceBounds(sourceBounds);
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException ex) {
-
+            ex.printStackTrace();
         }
     }
 
@@ -2406,17 +2345,12 @@ public class Launcher extends Activity implements View.OnClickListener,
                     REQUEST_CREATE_APPWIDGET);
         } else {
             // Otherwise just add it
-            Runnable onComplete = new Runnable() {
-                @Override
-                public void run() {
-                    // Exit spring loaded mode if necessary after adding the
-                    // widget
-                    exitSpringLoadedDragModeDelayed(true,
-                            EXIT_SPRINGLOADED_MODE_SHORT_TIMEOUT, null);
-                }
+            Runnable onComplete = () -> {
+                // Exit spring loaded mode if necessary after adding the
+                // widget
+                exitSpringLoadedDragModeDelayed(true, EXIT_SPRINGLOADED_MODE_SHORT_TIMEOUT, null);
             };
-            completeAddAppWidget(appWidgetId, info.container, info.screenId,
-                    boundWidget, appWidgetInfo);
+            completeAddAppWidget(appWidgetId, info.container, info.screenId, boundWidget, appWidgetInfo);
             mWorkspace.removeExtraEmptyScreen(true, onComplete, delay, false);
         }
     }
@@ -2435,8 +2369,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * @param cell          The cell it should be added to, optional
      *                      position      The location on the screen where it was dropped, optional
      */
-    void processShortcutFromDrop(ComponentName componentName, long container,
-                                 long screenId, int[] cell, int[] loc) {
+    void processShortcutFromDrop(ComponentName componentName, long container, long screenId, int[] cell, int[] loc) {
         resetAddInfo();
         mPendingAddInfo.container = container;
         mPendingAddInfo.screenId = screenId;
@@ -2491,24 +2424,19 @@ public class Launcher extends Activity implements View.OnClickListener,
             appWidgetId = getAppWidgetHost().allocateAppWidgetId();
             Bundle options = info.bindOptions;
 
-            boolean success = false;
+            boolean success;
             if (options != null) {
-                success = mAppWidgetManager.bindAppWidgetIdIfAllowed(
-                        appWidgetId, info.componentName, options);
+                success = mAppWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, info.componentName, options);
             } else {
-                success = mAppWidgetManager.bindAppWidgetIdIfAllowed(
-                        appWidgetId, info.componentName);
+                success = mAppWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, info.componentName);
             }
             if (success) {
                 addAppWidgetImpl(appWidgetId, info, null, info.info);
             } else {
                 mPendingAddWidgetInfo = info.info;
-                Intent intent = new Intent(
-                        AppWidgetManager.ACTION_APPWIDGET_BIND);
-                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                        appWidgetId);
-                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER,
-                        info.componentName);
+                Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_BIND);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER, info.componentName);
                 // TODO: we need to make sure that this accounts for the options
                 // bundle.
                 // intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_OPTIONS,
@@ -2597,14 +2525,12 @@ public class Launcher extends Activity implements View.OnClickListener,
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (event.getKeyCode()) {
-                case KeyEvent.KEYCODE_HOME:
-                    return true;
+            if (event.getKeyCode() == KeyEvent.KEYCODE_HOME) {
+                return true;
             }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
-            switch (event.getKeyCode()) {
-                case KeyEvent.KEYCODE_HOME:
-                    return true;
+            if (event.getKeyCode() == KeyEvent.KEYCODE_HOME) {
+                return true;
             }
         }
 
@@ -2613,12 +2539,10 @@ public class Launcher extends Activity implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-        Fragment f1 = getFragmentManager().findFragmentByTag(
-                HiddenFolderFragment.HIDDEN_FOLDER_FRAGMENT);
+        Fragment f1 = getFragmentManager().findFragmentByTag(HiddenFolderFragment.HIDDEN_FOLDER_FRAGMENT);
         if (f1 != null) {
             mHiddenFolderFragment.saveHiddenFolderStatus(-1);
-            FragmentTransaction fragmentTransaction = getFragmentManager()
-                    .beginTransaction();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.remove(mHiddenFolderFragment).commit();
         }
         if (isAllAppsVisible()) {
@@ -4712,9 +4636,9 @@ public class Launcher extends Activity implements View.OnClickListener,
 
 }
 
-interface DebugIntents {
-    static final String DELETE_DATABASE = "com.roy.turbo.launcher.action.DELETE_DATABASE";
-    static final String MIGRATE_DATABASE = "com.roy.turbo.launcher.action.MIGRATE_DATABASE";
-}
+//interface DebugIntents {
+//    static final String DELETE_DATABASE = "com.roy.turbo.launcher.action.DELETE_DATABASE";
+//    static final String MIGRATE_DATABASE = "com.roy.turbo.launcher.action.MIGRATE_DATABASE";
+//}
 
 
