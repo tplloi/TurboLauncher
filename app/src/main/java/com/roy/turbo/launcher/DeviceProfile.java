@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.roy.turbo.launcher.model.DeviceProfileQuery;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;
 
@@ -389,14 +390,14 @@ public class DeviceProfile {
         float kNearestNeighbors = 3;
         final PointF xy = new PointF(width, height);
 
-        Collections.sort(points, (a, b) -> (int) (dist(xy, a.dimens) - dist(xy, b.dimens)));
+        Collections.sort(points, (a, b) -> (int) (dist(xy, a.getDimens()) - dist(xy, b.getDimens())));
 
         for (int i = 0; i < points.size(); ++i) {
             DeviceProfileQuery p = points.get(i);
             if (i < kNearestNeighbors) {
-                float w = weight(xy, p.dimens, pow);
+                float w = weight(xy, p.getDimens(), pow);
                 if (w == Float.POSITIVE_INFINITY) {
-                    return p.value;
+                    return p.getValue();
                 }
                 weights += w;
             }
@@ -405,8 +406,8 @@ public class DeviceProfile {
         for (int i = 0; i < points.size(); ++i) {
             DeviceProfileQuery p = points.get(i);
             if (i < kNearestNeighbors) {
-                float w = weight(xy, p.dimens, pow);
-                sum += w * p.value / weights;
+                float w = weight(xy, p.getDimens(), pow);
+                sum += w * p.getValue() / weights;
             }
         }
 
