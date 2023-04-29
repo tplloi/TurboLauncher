@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.roy.turbo.launcher.itf.Insettable;
 import com.roy.turbo.launcher.view.DragView;
+import com.roy.turbo.launcher.view.LauncherAppWidgetHostView;
 
 import java.util.ArrayList;
 

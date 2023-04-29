@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.view;
 
 import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetHostView;
@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
+import com.roy.turbo.launcher.DragLayer;
 import com.roy.turbo.launcher.DragLayer.TouchCompleteListener;
+import com.roy.turbo.launcher.Launcher;
+import com.roy.turbo.launcher.R;
 import com.roy.turbo.launcher.helper.CheckLongPressHelper;
 
 public class LauncherAppWidgetHostView extends AppWidgetHostView implements TouchCompleteListener {

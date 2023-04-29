@@ -24,6 +24,8 @@ import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.roy.turbo.launcher.view.LauncherAppWidgetHostView;
+
 public class ShortcutAndWidgetContainer extends ViewGroup {
     static final String TAG = "CellLayoutChildren";
 

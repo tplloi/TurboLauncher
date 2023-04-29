@@ -5,7 +5,7 @@ import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetProviderInfo
 import android.content.Context
 import com.roy.turbo.launcher.Launcher
-import com.roy.turbo.launcher.LauncherAppWidgetHostView
+import com.roy.turbo.launcher.view.LauncherAppWidgetHostView
 import com.roy.turbo.launcher.LauncherModel
 
 class LauncherAppWidgetHost(var mLauncher: Launcher, hostId: Int) :

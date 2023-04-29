@@ -77,6 +77,7 @@ import com.roy.turbo.launcher.sv.Alarm;
 import com.roy.turbo.launcher.view.BubbleTextView;
 import com.roy.turbo.launcher.view.DragView;
 import com.roy.turbo.launcher.view.IconKeyEventListener;
+import com.roy.turbo.launcher.view.LauncherAppWidgetHostView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
