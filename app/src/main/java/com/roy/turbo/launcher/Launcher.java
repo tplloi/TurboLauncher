@@ -93,10 +93,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -171,7 +169,7 @@ public class Launcher extends Activity implements View.OnClickListener,
     private static final String TOOLBAR_SEARCH_ICON_METADATA_NAME = "com.android.launcher.toolbar_search_icon";
     private static final String TOOLBAR_VOICE_SEARCH_ICON_METADATA_NAME = "com.android.launcher.toolbar_voice_search_icon";
 
-    public static final String USER_HAS_MIGRATED = "launcher.user_migrated_from_old_data";
+//    public static final String USER_HAS_MIGRATED = "launcher.user_migrated_from_old_data";
 
     /**
      * The different states that Launcher can be in.
@@ -179,8 +177,6 @@ public class Launcher extends Activity implements View.OnClickListener,
     private enum State {
         NONE, WORKSPACE, APPS_CUSTOMIZE, APPS_CUSTOMIZE_SPRING_LOADED
     }
-
-    ;
 
     private State mState = State.WORKSPACE;
     private AnimatorSet mStateAnimation;
@@ -193,14 +189,14 @@ public class Launcher extends Activity implements View.OnClickListener,
     private static final Object sLock = new Object();
     private static int sScreen = DEFAULT_SCREEN;
 
-    private HashMap<Integer, Integer> mItemIdToViewId = new HashMap<Integer, Integer>();
+    private HashMap<Integer, Integer> mItemIdToViewId = new HashMap<>();
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
     // How long to wait before the new-shortcut animation automatically pans the
     // workspace
-    private static int NEW_APPS_PAGE_MOVE_DELAY = 500;
-    private static int NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS = 5;
-    private static int NEW_APPS_ANIMATION_DELAY = 500;
+    private static final int NEW_APPS_PAGE_MOVE_DELAY = 500;
+    private static final int NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS = 5;
+    private static final int NEW_APPS_ANIMATION_DELAY = 500;
 
     private final BroadcastReceiver mCloseSystemDialogsReceiver = new CloseSystemDialogsIntentReceiver();
     private final ContentObserver mWidgetObserver = new AppWidgetResetObserver();
@@ -220,11 +216,11 @@ public class Launcher extends Activity implements View.OnClickListener,
     private AppWidgetManager mAppWidgetManager;
     private LauncherAppWidgetHost mAppWidgetHost;
 
-    private ItemInfo mPendingAddInfo = new ItemInfo();
+    private final ItemInfo mPendingAddInfo = new ItemInfo();
     private AppWidgetProviderInfo mPendingAddWidgetInfo;
     private int mPendingAddWidgetId = -1;
 
-    private int[] mTmpAddItemCellCoordinates = new int[2];
+    private final int[] mTmpAddItemCellCoordinates = new int[2];
 
     private FolderInfo mFolderInfo;
 
@@ -257,8 +253,8 @@ public class Launcher extends Activity implements View.OnClickListener,
     private boolean mWaitingForResult;
     private boolean mOnResumeNeedsLoad;
 
-    private ArrayList<Runnable> mBindOnResumeCallbacks = new ArrayList<Runnable>();
-    private ArrayList<Runnable> mOnResumeCallbacks = new ArrayList<Runnable>();
+    private final ArrayList<Runnable> mBindOnResumeCallbacks = new ArrayList<>();
+    private final ArrayList<Runnable> mOnResumeCallbacks = new ArrayList<>();
 
     // Keep track of whether the user has left launcher
     private static boolean sPausedFromUserAction = false;
@@ -274,7 +270,7 @@ public class Launcher extends Activity implements View.OnClickListener,
 
     private static LocaleConfiguration sLocaleConfiguration = null;
 
-    private static HashMap<Long, FolderInfo> sFolders = new HashMap<Long, FolderInfo>();
+    private static final HashMap<Long, FolderInfo> sFolders = new HashMap<>();
 
     private View.OnTouchListener mHapticFeedbackTouchListener;
 
@@ -284,7 +280,7 @@ public class Launcher extends Activity implements View.OnClickListener,
     private final int mAdvanceStagger = 250;
     private long mAutoAdvanceSentTime;
     private long mAutoAdvanceTimeLeft = -1;
-    private HashMap<View, AppWidgetProviderInfo> mWidgetsToAdvance = new HashMap<View, AppWidgetProviderInfo>();
+    private final HashMap<View, AppWidgetProviderInfo> mWidgetsToAdvance = new HashMap<>();
 
     // Determines how long to wait after a rotation before restoring the screen
     // orientation to
@@ -292,20 +288,19 @@ public class Launcher extends Activity implements View.OnClickListener,
     private final int mRestoreScreenOrientationDelay = 500;
 
     // External icons saved in case of resource changes, orientation, etc.
-    private static Drawable.ConstantState[] sGlobalSearchIcon = new Drawable.ConstantState[2];
-    private static Drawable.ConstantState[] sVoiceSearchIcon = new Drawable.ConstantState[2];
+    private static final Drawable.ConstantState[] sGlobalSearchIcon = new Drawable.ConstantState[2];
+    private static final Drawable.ConstantState[] sVoiceSearchIcon = new Drawable.ConstantState[2];
 
     private Drawable mWorkspaceBackgroundDrawable;
 
-    private final ArrayList<Integer> mSynchronouslyBoundPages = new ArrayList<Integer>();
+    private final ArrayList<Integer> mSynchronouslyBoundPages = new ArrayList<>();
     private static final boolean DISABLE_SYNCHRONOUS_BINDING_CURRENT_PAGE = false;
 
-    static final ArrayList<String> sDumpLogs = new ArrayList<String>();
-    static Date sDateStamp = new Date();
-    static DateFormat sDateFormat = DateFormat.getDateTimeInstance(
-            DateFormat.SHORT, DateFormat.SHORT);
-    static long sRunStart = System.currentTimeMillis();
-    static final String CORRUPTION_EMAIL_SENT_KEY = "corruptionEmailSent";
+    static final ArrayList<String> sDumpLogs = new ArrayList<>();
+//    static Date sDateStamp = new Date();
+//    static DateFormat sDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+//    static long sRunStart = System.currentTimeMillis();
+//    static final String CORRUPTION_EMAIL_SENT_KEY = "corruptionEmailSent";
 
     private SharedPreferences mSharedPrefs;
 
@@ -317,7 +312,7 @@ public class Launcher extends Activity implements View.OnClickListener,
     private ImageView mFolderIconImageView;
     private Bitmap mFolderIconBitmap;
     private Canvas mFolderIconCanvas;
-    private Rect mRectForFolderAnimation = new Rect();
+    private final Rect mRectForFolderAnimation = new Rect();
 
     private BubbleTextView mWaitingForResume;
     private boolean mShouldRestart = false;
@@ -330,7 +325,7 @@ public class Launcher extends Activity implements View.OnClickListener,
     // Preferences
     private boolean mHideIconLabels;
 
-    private Runnable mBuildLayersRunnable = new Runnable() {
+    private final Runnable mBuildLayersRunnable = new Runnable() {
         public void run() {
             if (mWorkspace != null) {
                 mWorkspace.buildPageHardwareLayers();
@@ -338,7 +333,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         }
     };
 
-    private static ArrayList<PendingAddArguments> sPendingAddList = new ArrayList<PendingAddArguments>();
+    private static final ArrayList<PendingAddArguments> sPendingAddList = new ArrayList<>();
 
     public static boolean sForceEnableRotation = isPropertyEnabled(FORCE_ENABLE_ROTATION_PROPERTY);
 
@@ -376,7 +371,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         return Log.isLoggable(propertyName, Log.VERBOSE);
     }
 
-    private BroadcastReceiver protectedAppsChangedReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver protectedAppsChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Update the workspace
@@ -584,6 +579,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void checkForLocaleChange() {
         if (sLocaleConfiguration == null) {
             new AsyncTask<Void, Void, LocaleConfiguration>() {
@@ -641,8 +637,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         public int mnc = -1;
     }
 
-    private static void readConfiguration(Context context,
-                                          LocaleConfiguration configuration) {
+    private static void readConfiguration(Context context, LocaleConfiguration configuration) {
         DataInputStream in = null;
         try {
             in = new DataInputStream(context.openFileInput(PREFERENCES));
@@ -650,15 +645,15 @@ public class Launcher extends Activity implements View.OnClickListener,
             configuration.mcc = in.readInt();
             configuration.mnc = in.readInt();
         } catch (FileNotFoundException e) {
-
+            e.printStackTrace();
         } catch (IOException e) {
-
+            e.printStackTrace();
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-
+                    e.printStackTrace();
                 }
             }
         }
@@ -668,23 +663,22 @@ public class Launcher extends Activity implements View.OnClickListener,
                                            LocaleConfiguration configuration) {
         DataOutputStream out = null;
         try {
-            out = new DataOutputStream(context.openFileOutput(PREFERENCES,
-                    MODE_PRIVATE));
+            out = new DataOutputStream(context.openFileOutput(PREFERENCES, MODE_PRIVATE));
             out.writeUTF(configuration.locale);
             out.writeInt(configuration.mcc);
             out.writeInt(configuration.mnc);
             out.flush();
         } catch (FileNotFoundException e) {
-
+            e.printStackTrace();
         } catch (IOException e) {
-
+            e.printStackTrace();
             context.getFileStreamPath(PREFERENCES).delete();
         } finally {
             if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e) {
-
+                    e.printStackTrace();
                 }
             }
         }
@@ -749,32 +743,24 @@ public class Launcher extends Activity implements View.OnClickListener,
      * widgets that have a configuration step, this allows the proper animations
      * to run after other transitions.
      */
-    private boolean completeAdd(PendingAddArguments args) {
-        boolean result = false;
+    private void completeAdd(PendingAddArguments args) {
         switch (args.requestCode) {
             case REQUEST_PICK_APPLICATION:
-                completeAddApplication(args.intent, args.container, args.screenId,
-                        args.cellX, args.cellY);
+                completeAddApplication(args.intent, args.container, args.screenId, args.cellX, args.cellY);
                 break;
             case REQUEST_PICK_SHORTCUT:
                 processShortcut(args.intent);
                 break;
             case REQUEST_CREATE_SHORTCUT:
-                completeAddShortcut(args.intent, args.container, args.screenId,
-                        args.cellX, args.cellY);
-                result = true;
+                completeAddShortcut(args.intent, args.container, args.screenId, args.cellX, args.cellY);
                 break;
             case REQUEST_CREATE_APPWIDGET:
-                int appWidgetId = args.intent.getIntExtra(
-                        AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-                completeAddAppWidget(appWidgetId, args.container, args.screenId,
-                        null, null);
-                result = true;
+                int appWidgetId = args.intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
+                completeAddAppWidget(appWidgetId, args.container, args.screenId, null, null);
                 break;
         }
 
         resetAddInfo();
-        return result;
     }
 
     @Override
@@ -785,14 +771,9 @@ public class Launcher extends Activity implements View.OnClickListener,
         int pendingAddWidgetId = mPendingAddWidgetId;
         mPendingAddWidgetId = -1;
 
-        Runnable exitSpringLoaded = new Runnable() {
-            @Override
-            public void run() {
-                exitSpringLoadedDragModeDelayed(
-                        (resultCode != RESULT_CANCELED),
-                        EXIT_SPRINGLOADED_MODE_SHORT_TIMEOUT, null);
-            }
-        };
+        Runnable exitSpringLoaded = () -> exitSpringLoadedDragModeDelayed(
+                (resultCode != RESULT_CANCELED),
+                EXIT_SPRINGLOADED_MODE_SHORT_TIMEOUT, null);
 
         if (requestCode == REQUEST_BIND_APPWIDGET) {
             final int appWidgetId = data != null ? data.getIntExtra(
@@ -817,9 +798,7 @@ public class Launcher extends Activity implements View.OnClickListener,
             switch (resultCode) {
                 case RESULT_OK:
                     FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager
-                            .beginTransaction();
-
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.setCustomAnimations(0, 0);
                     fragmentTransaction.replace(R.id.launcher,
                             mHiddenFolderFragment,
@@ -853,23 +832,15 @@ public class Launcher extends Activity implements View.OnClickListener,
                                 + "widget configuration activity.");
                 result = RESULT_CANCELED;
                 completeTwoStageWidgetDrop(result, appWidgetId);
-                onComplete = new Runnable() {
-                    @Override
-                    public void run() {
-                        exitSpringLoadedDragModeDelayed(false, 0, null);
-                    }
-                };
+                onComplete = () -> exitSpringLoadedDragModeDelayed(false, 0, null);
             } else {
                 result = resultCode;
                 final CellLayout dropLayout = (CellLayout) mWorkspace
                         .getScreenWithId(mPendingAddInfo.screenId);
                 dropLayout.setDropPending(true);
-                onComplete = new Runnable() {
-                    @Override
-                    public void run() {
-                        completeTwoStageWidgetDrop(result, appWidgetId);
-                        dropLayout.setDropPending(false);
-                    }
+                onComplete = () -> {
+                    completeTwoStageWidgetDrop(result, appWidgetId);
+                    dropLayout.setDropPending(false);
                 };
             }
             mWorkspace.removeExtraEmptyScreen(true, onComplete,
@@ -913,16 +884,13 @@ public class Launcher extends Activity implements View.OnClickListener,
             final AppWidgetHostView layout = mAppWidgetHost.createView(this,
                     appWidgetId, mPendingAddWidgetInfo);
             boundWidget = layout;
-            onCompleteRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    completeAddAppWidget(appWidgetId,
-                            mPendingAddInfo.container,
-                            mPendingAddInfo.screenId, layout, null);
-                    exitSpringLoadedDragModeDelayed(
-                            (resultCode != RESULT_CANCELED),
-                            EXIT_SPRINGLOADED_MODE_SHORT_TIMEOUT, null);
-                }
+            onCompleteRunnable = () -> {
+                completeAddAppWidget(appWidgetId,
+                        mPendingAddInfo.container,
+                        mPendingAddInfo.screenId, layout, null);
+                exitSpringLoadedDragModeDelayed(
+                        (resultCode != RESULT_CANCELED),
+                        EXIT_SPRINGLOADED_MODE_SHORT_TIMEOUT, null);
             };
         } else if (resultCode == RESULT_CANCELED) {
             mAppWidgetHost.deleteAppWidgetId(appWidgetId);
@@ -1055,8 +1023,7 @@ public class Launcher extends Activity implements View.OnClickListener,
                 HiddenFolderFragment.HIDDEN_FOLDER_FRAGMENT);
         if (f1 != null && !mHiddenFolderAuth) {
             mHiddenFolderFragment.saveHiddenFolderStatus(-1);
-            FragmentTransaction fragmentTransaction = getFragmentManager()
-                    .beginTransaction();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.remove(mHiddenFolderFragment).commit();
         } else {
             mHiddenFolderAuth = false;
@@ -1104,11 +1071,11 @@ public class Launcher extends Activity implements View.OnClickListener,
     }
 
     public interface CustomContentCallbacks {
-        public void onShow();
+        void onShow();
 
-        public void onHide();
+        void onHide();
 
-        public void onScrollProgressChanged(float progress);
+        void onScrollProgressChanged(float progress);
     }
 
     public void startThemeSettings() {
@@ -1143,47 +1110,37 @@ public class Launcher extends Activity implements View.OnClickListener,
                 menu.findItem(R.id.sort_mode_install_time).setChecked(true);
                 break;
         }
-        popupMenu
-                .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.sort_mode_title:
-                                mAppsCustomizeContent
-                                        .setSortMode(AppsCustomizePagedView.SortMode.Title);
-                                break;
-                            case R.id.sort_mode_install_time:
-                                mAppsCustomizeContent
-                                        .setSortMode(AppsCustomizePagedView.SortMode.InstallTime);
-                                break;
-                            case R.id.sort_mode_launch_count:
-                                mAppsCustomizeContent
-                                        .setSortMode(AppsCustomizePagedView.SortMode.LaunchCount);
-                                break;
-                        }
-                        mOverviewSettingsPanel.notifyDataSetInvalidated();
-                        SettingsProvider.putInt(getBaseContext(),
-                                SettingsProvider.SETTINGS_UI_DRAWER_SORT_MODE,
-                                mAppsCustomizeContent.getSortMode().getValue());
-                        return true;
-                    }
-                });
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.sort_mode_title:
+                    mAppsCustomizeContent.setSortMode(AppsCustomizePagedView.SortMode.Title);
+                    break;
+                case R.id.sort_mode_install_time:
+                    mAppsCustomizeContent.setSortMode(AppsCustomizePagedView.SortMode.InstallTime);
+                    break;
+                case R.id.sort_mode_launch_count:
+                    mAppsCustomizeContent.setSortMode(AppsCustomizePagedView.SortMode.LaunchCount);
+                    break;
+            }
+            mOverviewSettingsPanel.notifyDataSetInvalidated();
+            SettingsProvider.putInt(getBaseContext(),
+                    SettingsProvider.SETTINGS_UI_DRAWER_SORT_MODE,
+                    mAppsCustomizeContent.getSortMode().getValue());
+            return true;
+        });
         popupMenu.show();
     }
 
     public void onClickTransitionEffectButton(View v, final boolean pageOrDrawer) {
         Bundle bundle = new Bundle();
-        bundle.putBoolean(
-                TransitionEffectsFragment.PAGE_OR_DRAWER_SCROLL_SELECT,
-                pageOrDrawer);
+        bundle.putBoolean(TransitionEffectsFragment.PAGE_OR_DRAWER_SCROLL_SELECT, pageOrDrawer);
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager
-                .beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         mTransitionEffectsFragment = new TransitionEffectsFragment();
         mTransitionEffectsFragment.setArguments(bundle);
         fragmentTransaction.setCustomAnimations(0, 0);
-        fragmentTransaction.replace(R.id.launcher, mTransitionEffectsFragment,
-                TransitionEffectsFragment.TRANSITION_EFFECTS_FRAGMENT);
+        fragmentTransaction.replace(R.id.launcher, mTransitionEffectsFragment, TransitionEffectsFragment.TRANSITION_EFFECTS_FRAGMENT);
         fragmentTransaction.commit();
     }
 
@@ -1192,7 +1149,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         String mSettingsProviderValue = pageOrDrawer ? SettingsProvider.SETTINGS_UI_DRAWER_SCROLLING_TRANSITION_EFFECT : SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_TRANSITION_EFFECT;
         PagedView pagedView = pageOrDrawer ? mAppsCustomizeContent : mWorkspace;
 
-        SettingsProvider.get(getApplicationContext()).edit().putString(mSettingsProviderValue, newTransitionEffect).commit();
+        SettingsProvider.get(getApplicationContext()).edit().putString(mSettingsProviderValue, newTransitionEffect).apply();
         TransitionEffect.setFromString(pagedView, newTransitionEffect);
 
         // Reset Settings Changed
@@ -2121,9 +2078,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         if (mAppsCustomizeLayout != null) {
             AppsCustomizePagedView.ContentType type = mAppsCustomizeContent.getContentType();
             String currentTabTag = mAppsCustomizeContent.getContentType().name();
-            if (currentTabTag != null) {
-                outState.putString("apps_customize_currentContentType", currentTabTag);
-            }
+            outState.putString("apps_customize_currentContentType", currentTabTag);
             int currentIndex = mAppsCustomizeContent.getSaveInstanceStateIndex();
             outState.putInt("apps_customize_currentIndex", currentIndex);
         }
@@ -2752,6 +2707,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public View.OnTouchListener getHapticFeedbackTouchListener() {
         if (mHapticFeedbackTouchListener == null) {
             mHapticFeedbackTouchListener = (v, event) -> {
@@ -3920,8 +3876,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * @return true if we are currently paused. The caller might be able to skip
      * some work in that case since we will come back again.
      */
-    private boolean waitUntilResume(Runnable run,
-                                    boolean deletePreviousRunnables) {
+    private boolean waitUntilResume(Runnable run, boolean deletePreviousRunnables) {
         if (mPaused) {
 
             if (deletePreviousRunnables) {
@@ -4250,7 +4205,7 @@ public class Launcher extends Activity implements View.OnClickListener,
     private boolean canRunNewAppsAnimation() {
         long diff = System.currentTimeMillis()
                 - mDragController.getLastGestureUpTime();
-        return diff > (NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS * 1000);
+        return diff > (NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS * 1000L);
     }
 
     private ValueAnimator createNewAppBounceAnimation(View v, int i) {
@@ -4259,7 +4214,7 @@ public class Launcher extends Activity implements View.OnClickListener,
                 PropertyValuesHolder.ofFloat("scaleX", 1f),
                 PropertyValuesHolder.ofFloat("scaleY", 1f));
         bounceAnim.setDuration(InstallShortcutReceiver.NEW_SHORTCUT_BOUNCE_DURATION);
-        bounceAnim.setStartDelay(i * InstallShortcutReceiver.NEW_SHORTCUT_STAGGER_DELAY);
+        bounceAnim.setStartDelay((long) i * InstallShortcutReceiver.NEW_SHORTCUT_STAGGER_DELAY);
         bounceAnim.setInterpolator(new SmoothPagedView.OvershootInterpolator());
         return bounceAnim;
     }
@@ -4480,16 +4435,14 @@ public class Launcher extends Activity implements View.OnClickListener,
     }
 
     public ItemInfo createAppDragInfo(Intent appLaunchIntent) {
-        ResolveInfo ri = getPackageManager()
-                .resolveActivity(appLaunchIntent, 0);
+        ResolveInfo ri = getPackageManager().resolveActivity(appLaunchIntent, 0);
         if (ri == null) {
             return null;
         }
         return new AppInfo(getPackageManager(), ri, mIconCache, null);
     }
 
-    public ItemInfo createShortcutDragInfo(Intent shortcutIntent,
-                                           CharSequence caption, Bitmap icon) {
+    public ItemInfo createShortcutDragInfo(Intent shortcutIntent, CharSequence caption, Bitmap icon) {
         return new ShortcutInfo(shortcutIntent, caption, icon);
     }
 
