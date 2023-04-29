@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.os.Handler;
@@ -26,9 +10,9 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 public class DeferredHandler {
-    private LinkedList<Pair<Runnable, Integer>> mQueue = new LinkedList<Pair<Runnable, Integer>>();
-    private MessageQueue mMessageQueue = Looper.myQueue();
-    private Impl mHandler = new Impl();
+    private final LinkedList<Pair<Runnable, Integer>> mQueue = new LinkedList<>();
+    private final MessageQueue mMessageQueue = Looper.myQueue();
+    private final Impl mHandler = new Impl();
 
     private class Impl extends Handler implements MessageQueue.IdleHandler {
         public void handleMessage(Message msg) {
@@ -53,7 +37,7 @@ public class DeferredHandler {
         }
     }
 
-    private class IdleRunnable implements Runnable {
+    private static class IdleRunnable implements Runnable {
         Runnable mRunnable;
 
         IdleRunnable(Runnable r) {
@@ -74,7 +58,7 @@ public class DeferredHandler {
     }
     public void post(Runnable runnable, int type) {
         synchronized (mQueue) {
-            mQueue.add(new Pair<Runnable, Integer>(runnable, type));
+            mQueue.add(new Pair<>(runnable, type));
             if (mQueue.size() == 1) {
                 scheduleNextLocked();
             }
@@ -115,7 +99,7 @@ public class DeferredHandler {
 
     /** Runs all queued Runnables from the calling thread. */
     public void flush() {
-        LinkedList<Pair<Runnable, Integer>> queue = new LinkedList<Pair<Runnable, Integer>>();
+        LinkedList<Pair<Runnable, Integer>> queue = new LinkedList<>();
         synchronized (mQueue) {
             queue.addAll(mQueue);
             mQueue.clear();
@@ -137,4 +121,3 @@ public class DeferredHandler {
         }
     }
 }
-
