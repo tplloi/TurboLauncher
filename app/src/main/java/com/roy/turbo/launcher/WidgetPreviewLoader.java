@@ -35,8 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.roy.turbo.launcher.R;
-
 abstract class SoftReferenceThreadLocal<T> {
     private ThreadLocal<SoftReference<T>> mThreadLocal;
     public SoftReferenceThreadLocal() {
@@ -279,7 +277,7 @@ public class WidgetPreviewLoader {
         }
     }
 
-    static class CacheDb extends SQLiteOpenHelper {
+    public static class CacheDb extends SQLiteOpenHelper {
         final static int DB_VERSION = 2;
         final static String DB_NAME = "widgetpreviews.db";
         final static String TABLE_NAME = "shortcut_and_widget_previews";

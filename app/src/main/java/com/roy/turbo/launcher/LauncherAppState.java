@@ -143,7 +143,7 @@ public class LauncherAppState implements DeviceProfile.DeviceProfileCallbacks {
         return mAppFilter == null || mAppFilter.shouldShowApp(componentName);
     }
 
-    WidgetPreviewLoader.CacheDb getWidgetPreviewCacheDb() {
+    public WidgetPreviewLoader.CacheDb getWidgetPreviewCacheDb() {
         return mWidgetPreviewCacheDb;
     }
 

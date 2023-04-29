@@ -198,7 +198,7 @@
         </receiver>
 
         <receiver
-            android:name="com.roy.turbo.launcher.PackageChangedReceiver"
+            android:name="com.roy.turbo.launcher.helper.PackageChangedReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
