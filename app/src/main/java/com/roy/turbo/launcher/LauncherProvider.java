@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.app.SearchManager;
@@ -56,7 +40,6 @@ import android.util.Xml;
 
 import com.roy.turbo.launcher.LauncherSettings.Favorites;
 import com.roy.turbo.launcher.config.ProviderConfig;
-import com.roy.turbo.launcher.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -67,9 +50,10 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 public class LauncherProvider extends ContentProvider {
-    private static final String TAG = "Launcher.LauncherProvider";
+    private static final String TAG = "LauncherProvider";
     private static final boolean LOGD = false;
 
     private static final String DATABASE_NAME = "launcher.db";
@@ -143,8 +127,7 @@ public class LauncherProvider extends ContentProvider {
         return result;
     }
 
-    private static long dbInsertAndCheck(DatabaseHelper helper,
-            SQLiteDatabase db, String table, String nullColumnHack, ContentValues values) {
+    private static long dbInsertAndCheck(DatabaseHelper helper, SQLiteDatabase db, String table, String nullColumnHack, ContentValues values) {
         if (values == null) {
             throw new RuntimeException("Error: attempting to insert null values");
         }
@@ -184,9 +167,9 @@ public class LauncherProvider extends ContentProvider {
         db.beginTransaction();
         try {
             int numValues = values.length;
-            for (int i = 0; i < numValues; i++) {
-                addModifiedTime(values[i]);
-                if (dbInsertAndCheck(mOpenHelper, db, args.table, null, values[i]) < 0) {
+            for (ContentValues value : values) {
+                addModifiedTime(value);
+                if (dbInsertAndCheck(mOpenHelper, db, args.table, null, value) < 0) {
                     return 0;
                 }
             }
@@ -269,27 +252,27 @@ public class LauncherProvider extends ContentProvider {
     }
 
     /**
-     * @param Should we load the old db for upgrade? first run only.
+     * param Should we load the old db for upgrade? first run only.
      */
     synchronized public boolean justLoadedOldDb() {
         String spKey = LauncherAppState.getSharedPreferencesKey();
         SharedPreferences sp = getContext().getSharedPreferences(spKey, Context.MODE_PRIVATE);
 
-        boolean loadedOldDb = false || sJustLoadedFromOldDb;
+        boolean loadedOldDb = sJustLoadedFromOldDb;
 
         sJustLoadedFromOldDb = false;
         if (sp.getBoolean(UPGRADED_FROM_OLD_DATABASE, false)) {
 
             SharedPreferences.Editor editor = sp.edit();
             editor.remove(UPGRADED_FROM_OLD_DATABASE);
-            editor.commit();
+            editor.apply();
             loadedOldDb = true;
         }
         return loadedOldDb;
     }
 
     /**
-     * @param workspaceResId that can be 0 to use default or non-zero for specific resource
+     * param workspaceResId that can be 0 to use default or non-zero for specific resource
      */
     synchronized public void loadDefaultFavoritesIfNecessary(int origWorkspaceResId) {
         String spKey = LauncherAppState.getSharedPreferencesKey();
@@ -324,14 +307,13 @@ public class LauncherProvider extends ContentProvider {
 
             mOpenHelper.loadFavorites(mOpenHelper.getWritableDatabase(), workspaceResId);
             mOpenHelper.setFlagJustLoadedOldDb();
-            editor.commit();
+            editor.apply();
         }
     }
 
    
     public void migrateLauncher2Shortcuts() {
-        mOpenHelper.migrateLauncher2Shortcuts(mOpenHelper.getWritableDatabase(),
-                LauncherSettings.Favorites.OLD_CONTENT_URI);
+        mOpenHelper.migrateLauncher2Shortcuts(mOpenHelper.getWritableDatabase(), LauncherSettings.Favorites.OLD_CONTENT_URI);
     }
 
     private int getDefaultWorkspaceResourceId() {
@@ -340,18 +322,18 @@ public class LauncherProvider extends ContentProvider {
         //        return R.xml.default_workspace_no_all_apps_gapps;
         //    } else {
         //        return R.xml.default_workspace_no_all_apps;
-         //   }
+        //   }
         //} else {
         //    if (areGAppsInstalled()){
         //        return R.xml.default_workspace_gapps;
         //    } else {
-                return R.xml.default_workspace;
+        return R.xml.default_workspace;
         //    }
-       // }
+        // }
     }
 
-    private static interface ContentValuesCallback {
-        public void onRow(ContentValues values);
+    private interface ContentValuesCallback {
+        void onRow(ContentValues values);
     }
 
     private static boolean shouldImportLauncher2Database(Context context) {
@@ -462,14 +444,12 @@ public class LauncherProvider extends ContentProvider {
 
             if (shouldImportLauncher2Database(mContext)) {
                 // Try converting the old database
-                ContentValuesCallback permuteScreensCb = new ContentValuesCallback() {
-                    public void onRow(ContentValues values) {
-                        int container = values.getAsInteger(LauncherSettings.Favorites.CONTAINER);
-                        if (container == Favorites.CONTAINER_DESKTOP) {
-                            int screen = values.getAsInteger(LauncherSettings.Favorites.SCREEN);
-                            screen = (int) upgradeLauncherDb_permuteScreens(screen);
-                            values.put(LauncherSettings.Favorites.SCREEN, screen);
-                        }
+                ContentValuesCallback permuteScreensCb = values -> {
+                    int container = values.getAsInteger(Favorites.CONTAINER);
+                    if (container == Favorites.CONTAINER_DESKTOP) {
+                        int screen = values.getAsInteger(Favorites.SCREEN);
+                        screen = (int) upgradeLauncherDb_permuteScreens(screen);
+                        values.put(Favorites.SCREEN, screen);
                     }
                 };
                 Uri uri = Uri.parse("content://" + Settings.AUTHORITY +
@@ -508,7 +488,7 @@ public class LauncherProvider extends ContentProvider {
             SharedPreferences.Editor editor = sp.edit();
             editor.putBoolean(UPGRADED_FROM_OLD_DATABASE, true);
             editor.putBoolean(EMPTY_DATABASE_CREATED, false);
-            editor.commit();
+            editor.apply();
         }
 
         private void setFlagEmptyDbCreated() {
@@ -517,7 +497,7 @@ public class LauncherProvider extends ContentProvider {
             SharedPreferences.Editor editor = sp.edit();
             editor.putBoolean(EMPTY_DATABASE_CREATED, true);
             editor.putBoolean(UPGRADED_FROM_OLD_DATABASE, false);
-            editor.commit();
+            editor.apply();
         }
 
         // We rearrange the screens from the old launcher
@@ -794,7 +774,7 @@ public class LauncherProvider extends ContentProvider {
 
                 addWorkspacesTable(db);
 
-                Cursor c = null;
+                Cursor c;
                 long screenId = -1;
                 try {
                     c = db.rawQuery("SELECT max(screen) FROM favorites", null);
@@ -1024,9 +1004,9 @@ public class LauncherProvider extends ContentProvider {
 
         public void checkId(String table, ContentValues values) {
             long id = values.getAsLong(LauncherSettings.BaseLauncherColumns._ID);
-            if (table == LauncherProvider.TABLE_WORKSPACE_SCREENS) {
+            if (Objects.equals(table, LauncherProvider.TABLE_WORKSPACE_SCREENS)) {
                 mMaxScreenId = Math.max(id, mMaxScreenId);
-            }  else {
+            } else {
                 mMaxItemId = Math.max(id, mMaxItemId);
             }
         }
@@ -1176,12 +1156,11 @@ public class LauncherProvider extends ContentProvider {
             if (LOGD) Log.d(TAG, "mMaxItemId: " + mMaxItemId);
         }
 
-        private static final void beginDocument(XmlPullParser parser, String firstElementName)
+        private static void beginDocument(XmlPullParser parser, String firstElementName)
                 throws XmlPullParserException, IOException {
             int type;
             while ((type = parser.next()) != XmlPullParser.START_TAG
                     && type != XmlPullParser.END_DOCUMENT) {
-                ;
             }
 
             if (type != XmlPullParser.START_TAG) {
@@ -1198,7 +1177,7 @@ public class LauncherProvider extends ContentProvider {
          * Loads the default set of favorite packages from an xml file.
          *
          * @param db The database to write the values into
-         * @param filterContainerId The specific container id of items to load
+         * param filterContainerId The specific container id of items to load
          */
         private int loadFavorites(SQLiteDatabase db, int workspaceResourceId) {
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
@@ -1254,7 +1233,7 @@ public class LauncherProvider extends ContentProvider {
 
                     long container = LauncherSettings.Favorites.CONTAINER_DESKTOP;
                     if (a.hasValue(R.styleable.Favorite_container)) {
-                        container = Long.valueOf(a.getString(R.styleable.Favorite_container));
+                        container = Long.parseLong(a.getString(R.styleable.Favorite_container));
                     }
 
                     String screen = a.getString(R.styleable.Favorite_screen);
@@ -1302,7 +1281,7 @@ public class LauncherProvider extends ContentProvider {
                         long folderId = addFolder(db, values);
                         added = folderId >= 0;
 
-                        ArrayList<Long> folderItems = new ArrayList<Long>();
+                        ArrayList<Long> folderItems = new ArrayList<>();
 
                         int folderDepth = parser.getDepth();
                         while ((type = parser.next()) != XmlPullParser.END_TAG ||
@@ -1454,14 +1433,11 @@ public class LauncherProvider extends ContentProvider {
         }
 
         private boolean addClockWidget(SQLiteDatabase db, ContentValues values) {
-            ComponentName cn = new ComponentName("com.android.alarmclock",
-                    "com.android.alarmclock.AnalogAppWidgetProvider");
+            ComponentName cn = new ComponentName("com.android.alarmclock", "com.android.alarmclock.AnalogAppWidgetProvider");
             return addAppWidget(db, values, cn, 2, 2, null);
         }
 
-        private boolean addAppWidget(XmlResourceParser parser, AttributeSet attrs, int type,
-                SQLiteDatabase db, ContentValues values, TypedArray a,
-                PackageManager packageManager) throws XmlPullParserException, IOException {
+        private boolean addAppWidget(XmlResourceParser parser, AttributeSet attrs, int type, SQLiteDatabase db, ContentValues values, TypedArray a, PackageManager packageManager) throws XmlPullParserException, IOException {
 
             String packageName = a.getString(R.styleable.Favorite_packageName);
             String className = a.getString(R.styleable.Favorite_className);
@@ -1597,13 +1573,12 @@ public class LauncherProvider extends ContentProvider {
         public void migrateLauncher2Shortcuts(SQLiteDatabase db, Uri uri) {
             final ContentResolver resolver = mContext.getContentResolver();
             Cursor c = null;
-            int count = 0;
             int curScreen = 0;
 
             try {
                 c = resolver.query(uri, null, null, null, "title ASC");
             } catch (Exception e) {
-                // Ignore
+                e.printStackTrace();
             }
 
             // We already have a favorites database in the old provider
@@ -1611,34 +1586,21 @@ public class LauncherProvider extends ContentProvider {
                 try {
                     if (c.getCount() > 0) {
                         final int idIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites._ID);
-                        final int intentIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.INTENT);
-                        final int titleIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.TITLE);
-                        final int iconTypeIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_TYPE);
-                        final int iconIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON);
-                        final int iconPackageIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_PACKAGE);
-                        final int iconResourceIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_RESOURCE);
-                        final int containerIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CONTAINER);
-                        final int itemTypeIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ITEM_TYPE);
-                        final int screenIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.SCREEN);
-                        final int cellXIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CELLX);
-                        final int cellYIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CELLY);
-                        final int uriIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.URI);
-                        final int displayModeIndex
-                                = c.getColumnIndexOrThrow(LauncherSettings.Favorites.DISPLAY_MODE);
+                        final int intentIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.INTENT);
+                        final int titleIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.TITLE);
+                        final int iconTypeIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_TYPE);
+                        final int iconIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON);
+                        final int iconPackageIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_PACKAGE);
+                        final int iconResourceIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_RESOURCE);
+                        final int containerIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CONTAINER);
+                        final int itemTypeIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ITEM_TYPE);
+                        final int screenIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.SCREEN);
+                        final int cellXIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CELLX);
+                        final int cellYIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CELLY);
+                        final int uriIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.URI);
+                        final int displayModeIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.DISPLAY_MODE);
 
-                        int i = 0;
+                        int i;
                         int curX = 0;
                         int curY = 0;
 
@@ -1649,17 +1611,15 @@ public class LauncherProvider extends ContentProvider {
                         final int hotseatWidth = (int) grid.numHotseatIcons;
                         PackageManager pm = mContext.getPackageManager();
 
-                        final HashSet<String> seenIntents = new HashSet<String>(c.getCount());
+                        final HashSet<String> seenIntents = new HashSet<>(c.getCount());
 
-                        final ArrayList<ContentValues> shortcuts = new ArrayList<ContentValues>();
-                        final ArrayList<ContentValues> folders = new ArrayList<ContentValues>();
-                        final SparseArray<ContentValues> hotseat = new SparseArray<ContentValues>();
+                        final ArrayList<ContentValues> shortcuts = new ArrayList<>();
+                        final ArrayList<ContentValues> folders = new ArrayList<>();
+                        final SparseArray<ContentValues> hotseat = new SparseArray<>();
 
                         while (c.moveToNext()) {
                             final int itemType = c.getInt(itemTypeIndex);
-                            if (itemType != Favorites.ITEM_TYPE_APPLICATION
-                                    && itemType != Favorites.ITEM_TYPE_SHORTCUT
-                                    && itemType != Favorites.ITEM_TYPE_FOLDER) {
+                            if (itemType != Favorites.ITEM_TYPE_APPLICATION && itemType != Favorites.ITEM_TYPE_SHORTCUT && itemType != Favorites.ITEM_TYPE_FOLDER) {
                                 continue;
                             }
 
@@ -1767,7 +1727,7 @@ public class LauncherProvider extends ContentProvider {
                             }
                         }
 
-                        final ArrayList<ContentValues> allItems = new ArrayList<ContentValues>();
+                        final ArrayList<ContentValues> allItems = new ArrayList<>();
                         // Folders first
                         allItems.addAll(folders);
                         // Then shortcuts
@@ -1803,8 +1763,6 @@ public class LauncherProvider extends ContentProvider {
                                     if (dbInsertAndCheck(this, db, TABLE_FAVORITES, null, row)
                                             < 0) {
                                         return;
-                                    } else {
-                                        count++;
                                     }
                                 }
                                 db.setTransactionSuccessful();
