@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.content.ComponentName;
@@ -26,9 +10,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import java.util.ArrayList;
 
-import com.roy.turbo.launcher.R;
+import java.util.ArrayList;
 
 public class Hotseat extends FrameLayout {
     private static final String TAG = "Hotseat";
@@ -39,8 +22,8 @@ public class Hotseat extends FrameLayout {
 
     private int mAllAppsButtonRank;
 
-    private boolean mTransposeLayoutWithOrientation;
-    private boolean mIsLandscape;
+    private final boolean mTransposeLayoutWithOrientation;
+    private final boolean mIsLandscape;
 
     public Hotseat(Context context) {
         this(context, null);
@@ -138,10 +121,7 @@ public class Hotseat extends FrameLayout {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         // We don't want any clicks to go through to the hotseat unless the workspace is in
         // the normal state.
-        if (mLauncher.getWorkspace().isSmall()) {
-            return true;
-        }
-        return false;
+        return mLauncher.getWorkspace().isSmall();
     }
 
     void addAllAppsFolder(IconCache iconCache,
@@ -166,6 +146,7 @@ public class Hotseat extends FrameLayout {
                     fi.spanX, fi.spanY);
 
             for (AppInfo info: allApps) {
+                assert info.intent != null;
                 ComponentName cn = info.intent.getComponent();
                 if (!onWorkspace.contains(cn)) {
                     Log.d(TAG, "Adding to 'more apps': " + info.intent);
@@ -179,7 +160,7 @@ public class Hotseat extends FrameLayout {
     void addAppsToAllAppsFolder(ArrayList<AppInfo> apps) {
         if (LauncherAppState.isDisableAllApps()) {
             View v = mContent.getChildAt(getCellXFromOrder(mAllAppsButtonRank), getCellYFromOrder(mAllAppsButtonRank));
-            FolderIcon fi = null;
+            FolderIcon fi;
 
             if (v instanceof FolderIcon) {
                 fi = (FolderIcon) v;
