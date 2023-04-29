@@ -1,9 +1,10 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.helper
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.view.View
+import com.roy.turbo.launcher.LauncherAnimUtils
 import kotlin.math.max
 import kotlin.math.min
 
