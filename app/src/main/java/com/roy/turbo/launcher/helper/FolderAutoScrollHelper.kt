@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.helper
 
 import android.support.v4.widget.AutoScrollHelper
 import android.widget.ScrollView

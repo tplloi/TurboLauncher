@@ -37,6 +37,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.roy.turbo.launcher.FolderInfo.FolderListener;
+import com.roy.turbo.launcher.helper.FolderAutoScrollHelper;
 import com.roy.turbo.launcher.itf.DragSource;
 import com.roy.turbo.launcher.itf.DropTarget;
 import com.roy.turbo.launcher.settings.SettingsProvider;
