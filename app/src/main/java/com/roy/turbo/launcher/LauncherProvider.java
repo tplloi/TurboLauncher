@@ -69,23 +69,18 @@ public class LauncherProvider extends ContentProvider {
     static final String TABLE_FAVORITES = "favorites";
     static final String TABLE_WORKSPACE_SCREENS = "workspaceScreens";
     static final String PARAMETER_NOTIFY = "notify";
-    static final String UPGRADED_FROM_OLD_DATABASE =
-            "UPGRADED_FROM_OLD_DATABASE";
-    static final String EMPTY_DATABASE_CREATED =
-            "EMPTY_DATABASE_CREATED";
-    static final String DEFAULT_WORKSPACE_RESOURCE_ID =
-            "DEFAULT_WORKSPACE_RESOURCE_ID";
+    static final String UPGRADED_FROM_OLD_DATABASE = "UPGRADED_FROM_OLD_DATABASE";
+    static final String EMPTY_DATABASE_CREATED = "EMPTY_DATABASE_CREATED";
+    static final String DEFAULT_WORKSPACE_RESOURCE_ID = "DEFAULT_WORKSPACE_RESOURCE_ID";
 
-    private static final String ACTION_APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE =
-            "com.android.launcher.action.APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE";
+    private static final String ACTION_APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE = "com.android.launcher.action.APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE";
 
     /**
      * {@link Uri} triggered at any registered {@link android.database.ContentObserver} when
      * {@link AppWidgetHost#deleteHost()} is called during database creation.
      * Use this to recall {@link AppWidgetHost#startListening()} if needed.
      */
-    static final Uri CONTENT_APPWIDGET_RESET_URI =
-            Uri.parse("content://" + AUTHORITY + "/appWidgetReset");
+    static final Uri CONTENT_APPWIDGET_RESET_URI = Uri.parse("content://" + AUTHORITY + "/appWidgetReset");
 
     private DatabaseHelper mOpenHelper;
     private static boolean sJustLoadedFromOldDb;
@@ -113,8 +108,12 @@ public class LauncherProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
-            String[] selectionArgs, String sortOrder) {
+    public Cursor query(
+            Uri uri,
+            String[] projection,
+            String selection,
+            String[] selectionArgs,
+            String sortOrder) {
 
         SqlArguments args = new SqlArguments(uri, selection, selectionArgs);
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -127,7 +126,12 @@ public class LauncherProvider extends ContentProvider {
         return result;
     }
 
-    private static long dbInsertAndCheck(DatabaseHelper helper, SQLiteDatabase db, String table, String nullColumnHack, ContentValues values) {
+    private static long dbInsertAndCheck(
+            DatabaseHelper helper,
+            SQLiteDatabase db,
+            String table,
+            String nullColumnHack,
+            ContentValues values) {
         if (values == null) {
             throw new RuntimeException("Error: attempting to insert null values");
         }
@@ -138,14 +142,18 @@ public class LauncherProvider extends ContentProvider {
         return db.insert(table, nullColumnHack, values);
     }
 
-    private static void deleteId(SQLiteDatabase db, long id) {
+    private static void deleteId(
+            SQLiteDatabase db,
+            long id) {
         Uri uri = LauncherSettings.Favorites.getContentUri(id, false);
         SqlArguments args = new SqlArguments(uri, null, null);
         db.delete(args.table, args.where, args.args);
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues initialValues) {
+    public Uri insert(
+            Uri uri,
+            ContentValues initialValues) {
         SqlArguments args = new SqlArguments(uri);
 
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -197,7 +205,10 @@ public class LauncherProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(
+            Uri uri,
+            String selection,
+            String[] selectionArgs) {
         SqlArguments args = new SqlArguments(uri, selection, selectionArgs);
 
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -208,7 +219,11 @@ public class LauncherProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(
+            Uri uri,
+            ContentValues values,
+            String selection,
+            String[] selectionArgs) {
         SqlArguments args = new SqlArguments(uri, selection, selectionArgs);
 
         addModifiedTime(values);
@@ -510,8 +525,11 @@ public class LauncherProvider extends ContentProvider {
             }
         }
 
-        private boolean convertDatabase(SQLiteDatabase db, Uri uri,
-                                        ContentValuesCallback cb, boolean deleteRows) {
+        private boolean convertDatabase(
+                SQLiteDatabase db,
+                Uri uri,
+                ContentValuesCallback cb,
+                boolean deleteRows) {
             if (LOGD) Log.d(TAG, "converting database from an older format, but not onUpgrade");
             boolean converted = false;
 
@@ -551,7 +569,10 @@ public class LauncherProvider extends ContentProvider {
             return converted;
         }
 
-        private int copyFromCursor(SQLiteDatabase db, Cursor c, ContentValuesCallback cb) {
+        private int copyFromCursor(
+                SQLiteDatabase db,
+                Cursor c,
+                ContentValuesCallback cb) {
             final int idIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites._ID);
             final int intentIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.INTENT);
             final int titleIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.TITLE);
@@ -614,7 +635,10 @@ public class LauncherProvider extends ContentProvider {
         }
 
         @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        public void onUpgrade(
+                SQLiteDatabase db,
+                int oldVersion,
+                int newVersion) {
             if (LOGD) Log.d(TAG, "onUpgrade triggered: " + oldVersion);
 
             int version = oldVersion;
@@ -624,7 +648,7 @@ public class LauncherProvider extends ContentProvider {
                 try {
                     // Insert new column for holding appWidgetIds
                     db.execSQL("ALTER TABLE favorites " +
-                        "ADD COLUMN appWidgetId INTEGER NOT NULL DEFAULT -1;");
+                            "ADD COLUMN appWidgetId INTEGER NOT NULL DEFAULT -1;");
                     db.setTransactionSuccessful();
                     version = 3;
                 } catch (SQLException ex) {
@@ -1437,7 +1461,14 @@ public class LauncherProvider extends ContentProvider {
             return addAppWidget(db, values, cn, 2, 2, null);
         }
 
-        private boolean addAppWidget(XmlResourceParser parser, AttributeSet attrs, int type, SQLiteDatabase db, ContentValues values, TypedArray a, PackageManager packageManager) throws XmlPullParserException, IOException {
+        private boolean addAppWidget(
+                XmlResourceParser parser,
+                AttributeSet attrs,
+                int type,
+                SQLiteDatabase db,
+                ContentValues values,
+                TypedArray a,
+                PackageManager packageManager) throws XmlPullParserException, IOException {
 
             String packageName = a.getString(R.styleable.Favorite_packageName);
             String className = a.getString(R.styleable.Favorite_className);
