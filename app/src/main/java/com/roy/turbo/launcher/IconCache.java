@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.app.ActivityManager;
@@ -29,6 +13,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+
+import com.roy.turbo.launcher.settings.SettingsProvider;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,8 +26,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
-
-import com.roy.turbo.launcher.settings.SettingsProvider;
 
 /**
  * Cache of application icons. Icons can be made from any thread.
@@ -58,9 +43,8 @@ public class IconCache {
 	private final Bitmap mDefaultIcon;
 	private final Context mContext;
 	private final PackageManager mPackageManager;
-	private final HashMap<ComponentName, CacheEntry> mCache = new HashMap<ComponentName, CacheEntry>(
-			INITIAL_ICON_CACHE_CAPACITY);
-	private int mIconDpi;
+	private final HashMap<ComponentName, CacheEntry> mCache = new HashMap<>(INITIAL_ICON_CACHE_CAPACITY);
+	private final int mIconDpi;
 
 	public IconCache(Context context) {
 		ActivityManager activityManager = (ActivityManager) context
@@ -152,7 +136,7 @@ public class IconCache {
 	 * Remove any records for the supplied package name.
 	 */
 	public void remove(String packageName) {
-		HashSet<ComponentName> forDeletion = new HashSet<ComponentName>();
+		HashSet<ComponentName> forDeletion = new HashSet<>();
 		for (ComponentName componentName : mCache.keySet()) {
 			if (componentName.getPackageName().equals(packageName)) {
 				forDeletion.add(componentName);
@@ -208,8 +192,9 @@ public class IconCache {
 		String themePackage = SettingsProvider.getThemePackageName(mContext,
 				Launcher.THEME_DEFAULT);
 		Drawable icon = null;
-		Bitmap iconBitmap = null;
+		Bitmap iconBitmap;
 
+		assert themePackage != null;
 		if (themePackage.equals(Launcher.THEME_DEFAULT)) {
 			// iconBitmap =
 			// Utilities.createIconBitmap(info.activityInfo.loadIcon(mPackageManager),
@@ -222,10 +207,7 @@ public class IconCache {
 
 				String label = info.activityInfo.loadLabel(mPackageManager)
 						.toString();
-				if (label != null) {
-					info.activityInfo.name = (String) label.toLowerCase()
-							.replace(".", "_");
-				}
+				info.activityInfo.name = (String) label.toLowerCase().replace(".", "_");
 
 				try {
 					themeResources = mPackageManager
@@ -310,9 +292,6 @@ public class IconCache {
 						labelCache.put(key, entry.title);
 					}
 				}
-				if (entry.title == null) {
-					entry.title = info.activityInfo.name;
-				}
 
 				// entry.icon = Utilities.createIconBitmap(getFullResIcon(info),
 				// mContext);
@@ -334,9 +313,10 @@ public class IconCache {
 
 	public HashMap<ComponentName, Bitmap> getAllIcons() {
 		synchronized (mCache) {
-			HashMap<ComponentName, Bitmap> set = new HashMap<ComponentName, Bitmap>();
+			HashMap<ComponentName, Bitmap> set = new HashMap<>();
 			for (ComponentName cn : mCache.keySet()) {
 				final CacheEntry e = mCache.get(cn);
+				assert e != null;
 				set.put(cn, e.icon);
 			}
 			return set;
@@ -367,7 +347,7 @@ public class IconCache {
 			packageManager.getActivityIcon(componentName);
 			return;
 		} catch (PackageManager.NameNotFoundException e) {
-
+			e.printStackTrace();
 		}
 
 		final String key = componentName.flattenToString();
@@ -376,24 +356,20 @@ public class IconCache {
 			resourceFile = context.openFileOutput(
 					getResourceFilename(componentName), Context.MODE_PRIVATE);
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			if (icon.compress(android.graphics.Bitmap.CompressFormat.PNG, 75,
-					os)) {
+			if (icon.compress(android.graphics.Bitmap.CompressFormat.PNG, 75, os)) {
 				byte[] buffer = os.toByteArray();
 				resourceFile.write(buffer, 0, buffer.length);
-			} else {
-
-				return;
 			}
 		} catch (FileNotFoundException e) {
-
+			e.printStackTrace();
 		} catch (IOException e) {
-
+			e.printStackTrace();
 		} finally {
 			if (resourceFile != null) {
 				try {
 					resourceFile.close();
 				} catch (IOException e) {
-
+					e.printStackTrace();
 				}
 			}
 		}
@@ -404,7 +380,7 @@ public class IconCache {
 	 * 
 	 * @param componentName
 	 *            the component that should own the icon
-	 * @returns a bitmap if one is cached, or null.
+	 * returns a bitmap if one is cached, or null.
 	 */
 	private Bitmap getPreloadedIcon(ComponentName componentName) {
 		final String key = componentName.flattenToShortString();
@@ -424,19 +400,19 @@ public class IconCache {
 
 			icon = BitmapFactory.decodeByteArray(bytes.toByteArray(), 0,
 					bytes.size());
-			if (icon == null) {
-
-			}
+//			if (icon == null) {
+//
+//			}
 		} catch (FileNotFoundException e) {
-
+			e.printStackTrace();
 		} catch (IOException e) {
-
+			e.printStackTrace();
 		} finally {
 			if (resourceFile != null) {
 				try {
 					resourceFile.close();
 				} catch (IOException e) {
-
+					e.printStackTrace();
 				}
 			}
 		}
@@ -459,20 +435,17 @@ public class IconCache {
 
 	/**
 	 * Remove a pre-loaded icon from the persistent icon cache.
-	 * 
-	 * @param componentName
-	 *            the component that should own the icon
-	 * @returns true on success
+	 *
+	 * @param componentName the component that should own the icon
+	 *                      returns true on success
 	 */
-	public boolean deletePreloadedIcon(ComponentName componentName) {
+	public void deletePreloadedIcon(ComponentName componentName) {
 		if (componentName == null) {
-			return false;
+			return;
 		}
 
-		boolean success = mContext
-				.deleteFile(getResourceFilename(componentName));
+		boolean success = mContext.deleteFile(getResourceFilename(componentName));
 
-		return success;
 	}
 
 	private static String getResourceFilename(ComponentName component) {
