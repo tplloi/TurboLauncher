@@ -368,6 +368,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
         mPageIndicator = null;
     }
 

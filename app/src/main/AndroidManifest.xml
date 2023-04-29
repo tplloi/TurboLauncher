@@ -92,7 +92,7 @@
     </queries>
 
     <application
-        android:name="com.roy.turbo.launcher.LauncherApplication"
+        android:name="com.roy.turbo.LauncherApplication"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher_home"
         android:label="@string/application_name"

@@ -1,6 +1,7 @@
-package com.roy.turbo.launcher
+package com.roy.turbo
 
 import android.app.Application
+import com.roy.turbo.launcher.LauncherAppState
 
 //TODO ic_launcher
 //TODO ad
