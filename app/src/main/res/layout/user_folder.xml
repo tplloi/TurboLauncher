@@ -50,7 +50,7 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/folder_unlock" />
 
-        <com.roy.turbo.launcher.FolderEditText
+        <com.roy.turbo.launcher.view.FolderEditText
             android:id="@+id/folder_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

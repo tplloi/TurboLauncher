@@ -44,6 +44,7 @@ import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.sv.Alarm;
 import com.roy.turbo.launcher.view.BubbleTextView;
 import com.roy.turbo.launcher.view.DragView;
+import com.roy.turbo.launcher.view.FolderEditText;
 
 import java.util.ArrayList;
 import java.util.Collections;
