@@ -1,49 +1,45 @@
-package com.roy.turbo.launcher.helper;
+package com.roy.turbo.launcher.helper
 
-import android.view.View;
+import android.view.View
+import com.roy.turbo.launcher.LauncherAppState
 
-import com.roy.turbo.launcher.LauncherAppState;
+class CheckLongPressHelper(private val mView: View) {
+    private var mHasPerformedLongPress = false
+    private var mPendingCheckForLongPress: CheckForLongPress? = null
 
-public class CheckLongPressHelper {
-    private final View mView;
-    private boolean mHasPerformedLongPress;
-    private CheckForLongPress mPendingCheckForLongPress;
-
-    class CheckForLongPress implements Runnable {
-        public void run() {
-            if ((mView.getParent() != null) && mView.hasWindowFocus()
-                    && !mHasPerformedLongPress) {
+    internal inner class CheckForLongPress : Runnable {
+        override fun run() {
+            if (mView.parent != null && mView.hasWindowFocus()
+                && !mHasPerformedLongPress
+            ) {
                 if (mView.performLongClick()) {
-                    mView.setPressed(false);
-                    mHasPerformedLongPress = true;
+                    mView.isPressed = false
+                    mHasPerformedLongPress = true
                 }
             }
         }
     }
 
-    public CheckLongPressHelper(View v) {
-        mView = v;
-    }
-
-    public void postCheckForLongPress() {
-        mHasPerformedLongPress = false;
-
+    fun postCheckForLongPress() {
+        mHasPerformedLongPress = false
         if (mPendingCheckForLongPress == null) {
-            mPendingCheckForLongPress = new CheckForLongPress();
+            mPendingCheckForLongPress = CheckForLongPress()
         }
-        mView.postDelayed(mPendingCheckForLongPress,
-                LauncherAppState.getInstance().getLongPressTimeout());
+        mView.postDelayed(
+            mPendingCheckForLongPress,
+            LauncherAppState.getInstance().longPressTimeout.toLong()
+        )
     }
 
-    public void cancelLongPress() {
-        mHasPerformedLongPress = false;
+    fun cancelLongPress() {
+        mHasPerformedLongPress = false
         if (mPendingCheckForLongPress != null) {
-            mView.removeCallbacks(mPendingCheckForLongPress);
-            mPendingCheckForLongPress = null;
+            mView.removeCallbacks(mPendingCheckForLongPress)
+            mPendingCheckForLongPress = null
         }
     }
 
-    public boolean hasPerformedLongPress() {
-        return mHasPerformedLongPress;
+    fun hasPerformedLongPress(): Boolean {
+        return mHasPerformedLongPress
     }
 }
