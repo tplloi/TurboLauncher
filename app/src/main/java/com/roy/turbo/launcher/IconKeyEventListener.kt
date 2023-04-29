@@ -1,14 +1,13 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.view.KeyEvent;
-import android.view.View;
+import android.view.KeyEvent
+import android.view.View
 
 /**
  * A keyboard listener we set on all the workspace icons.
  */
-class IconKeyEventListener implements View.OnKeyListener {
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        return FocusHelper.handleIconKeyEvent(v, keyCode, event);
+internal class IconKeyEventListener : View.OnKeyListener {
+    override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
+        return FocusHelper.handleIconKeyEvent(v, keyCode, event)
     }
 }
-
