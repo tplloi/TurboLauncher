@@ -9,7 +9,6 @@ import com.roy.turbo.launcher.view.BubbleTextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class FocusHelper {
 
@@ -44,7 +43,7 @@ public class FocusHelper {
 
         final int action = e.getAction();
         final boolean handleKeyEvent = (action != KeyEvent.ACTION_UP);
-        ViewGroup newParent = null;
+        ViewGroup newParent;
         // Now that we load items in the bg asynchronously, we can't just focus
         // child siblings willy-nilly
         View child = null;
@@ -199,10 +198,10 @@ public class FocusHelper {
 
         final int action = e.getAction();
         final boolean handleKeyEvent = (action != KeyEvent.ACTION_UP);
-        ViewGroup newParent = null;
+        ViewGroup newParent;
         // Side pages do not always load synchronously, so check before focusing child siblings
         // willy-nilly
-        View child = null;
+        View child;
         boolean wasHandled = false;
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
@@ -405,19 +404,16 @@ public class FocusHelper {
         // First we order each the CellLayout children by their x,y coordinates
         final int cellCountX = layout.getCountX();
         final int count = parent.getChildCount();
-        ArrayList<View> views = new ArrayList<View>();
+        ArrayList<View> views = new ArrayList<>();
         for (int j = 0; j < count; ++j) {
             views.add(parent.getChildAt(j));
         }
-        Collections.sort(views, new Comparator<View>() {
-            @Override
-            public int compare(View lhs, View rhs) {
-                CellLayout.LayoutParams llp = (CellLayout.LayoutParams) lhs.getLayoutParams();
-                CellLayout.LayoutParams rlp = (CellLayout.LayoutParams) rhs.getLayoutParams();
-                int lvIndex = (llp.cellY * cellCountX) + llp.cellX;
-                int rvIndex = (rlp.cellY * cellCountX) + rlp.cellX;
-                return lvIndex - rvIndex;
-            }
+        Collections.sort(views, (lhs, rhs) -> {
+            CellLayout.LayoutParams llp = (CellLayout.LayoutParams) lhs.getLayoutParams();
+            CellLayout.LayoutParams rlp = (CellLayout.LayoutParams) rhs.getLayoutParams();
+            int lvIndex = (llp.cellY * cellCountX) + llp.cellX;
+            int rvIndex = (rlp.cellY * cellCountX) + rlp.cellX;
+            return lvIndex - rvIndex;
         });
         return views;
     }
