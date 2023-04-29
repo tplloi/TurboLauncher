@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.appwidget.AppWidgetHostView;
@@ -37,30 +21,15 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;
 
-class DeviceProfileQuery {
-    float widthDps;
-    float heightDps;
-    float value;
-    PointF dimens;
-
-    DeviceProfileQuery(float w, float h, float v) {
-        widthDps = w;
-        heightDps = h;
-        value = v;
-        dimens = new PointF(w, h);
-    }
-}
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class DeviceProfile {
-    public static interface DeviceProfileCallbacks {
-        public void onAvailableSizeChanged(DeviceProfile grid);
+    public interface DeviceProfileCallbacks {
+        void onAvailableSizeChanged(DeviceProfile grid);
     }
 
     String name;
@@ -69,10 +38,10 @@ public class DeviceProfile {
     float numRows;
     float numColumns;
     float numHotseatIcons;
-    private float iconSize;
-    private float iconTextSize;
+    private final float iconSize;
+    private final float iconTextSize;
     private int iconDrawablePaddingOriginalPx;
-    private float hotseatIconSize;
+    private final float hotseatIconSize;
 
     boolean isLandscape;
     boolean isTablet;
@@ -129,7 +98,7 @@ public class DeviceProfile {
 
     float dragViewScale;
 
-    private ArrayList<DeviceProfileCallbacks> mCallbacks = new ArrayList<DeviceProfileCallbacks>();
+    private final ArrayList<DeviceProfileCallbacks> mCallbacks = new ArrayList<>();
 
     DeviceProfile(String n, float w, float h, float r, float c,
                   float is, float its, float hs, float his) {
@@ -157,7 +126,7 @@ public class DeviceProfile {
                   Resources res) {
         DisplayMetrics dm = res.getDisplayMetrics();
         ArrayList<DeviceProfileQuery> points =
-                new ArrayList<DeviceProfileQuery>();
+                new ArrayList<>();
         transposeLayoutWithOrientation =
                 res.getBoolean(R.bool.hotseat_transpose_layout_with_orientation);
         minWidthDps = minWidth;
@@ -389,11 +358,7 @@ public class DeviceProfile {
         isLandscape = (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE);
         isTablet = resources.getBoolean(R.bool.is_tablet);
         isLargeTablet = resources.getBoolean(R.bool.is_large_tablet);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            isLayoutRtl = (configuration.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL);
-        } else {
-            isLayoutRtl = false;
-        }
+        isLayoutRtl = (configuration.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL);
         widthPx = wPx;
         heightPx = hPx;
         availableWidthPx = awPx;
@@ -424,15 +389,10 @@ public class DeviceProfile {
         float kNearestNeighbors = 3;
         final PointF xy = new PointF(width, height);
 
-        ArrayList<DeviceProfileQuery> pointsByNearness = points;
-        Collections.sort(pointsByNearness, new Comparator<DeviceProfileQuery>() {
-            public int compare(DeviceProfileQuery a, DeviceProfileQuery b) {
-                return (int) (dist(xy, a.dimens) - dist(xy, b.dimens));
-            }
-        });
+        Collections.sort(points, (a, b) -> (int) (dist(xy, a.dimens) - dist(xy, b.dimens)));
 
-        for (int i = 0; i < pointsByNearness.size(); ++i) {
-            DeviceProfileQuery p = pointsByNearness.get(i);
+        for (int i = 0; i < points.size(); ++i) {
+            DeviceProfileQuery p = points.get(i);
             if (i < kNearestNeighbors) {
                 float w = weight(xy, p.dimens, pow);
                 if (w == Float.POSITIVE_INFINITY) {
@@ -442,8 +402,8 @@ public class DeviceProfile {
             }
         }
 
-        for (int i = 0; i < pointsByNearness.size(); ++i) {
-            DeviceProfileQuery p = pointsByNearness.get(i);
+        for (int i = 0; i < points.size(); ++i) {
+            DeviceProfileQuery p = points.get(i);
             if (i < kNearestNeighbors) {
                 float w = weight(xy, p.dimens, pow);
                 sum += w * p.value / weights;
@@ -662,7 +622,7 @@ public class DeviceProfile {
         lp = (FrameLayout.LayoutParams) searchBar.getLayoutParams();
         if (hasVerticalBarLayout) {
             // Vertical search bar space
-            lp.gravity = Gravity.TOP | Gravity.LEFT;
+            lp.gravity = Gravity.TOP | Gravity.START;
             lp.width = searchBarSpaceHeightPx;
             lp.height = LayoutParams.WRAP_CONTENT;
             searchBar.setPadding(
