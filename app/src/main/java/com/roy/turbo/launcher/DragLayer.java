@@ -23,6 +23,7 @@ import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.roy.turbo.launcher.itf.Insettable;
 import com.roy.turbo.launcher.view.DragView;
 
 import java.util.ArrayList;
