@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.appwidget.AppWidgetProviderInfo;
@@ -33,27 +17,20 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import com.roy.turbo.launcher.R;
-
 
 /**
  * We will likely flesh this out later, to handle allow external apps to place widgets, but for now,
  * we just want to expose the action around for checking elsewhere.
  */
 public class InstallWidgetReceiver {
-    public static final String ACTION_INSTALL_WIDGET =
-            "com.roy.turbo.launcher.action.INSTALL_WIDGET";
-    public static final String ACTION_SUPPORTS_CLIPDATA_MIMETYPE =
-            "com.roy.turbo.launcher.action.SUPPORTS_CLIPDATA_MIMETYPE";
+    //    public static final String ACTION_INSTALL_WIDGET = "com.roy.turbo.launcher.action.INSTALL_WIDGET";
+    public static final String ACTION_SUPPORTS_CLIPDATA_MIMETYPE = "com.roy.turbo.launcher.action.SUPPORTS_CLIPDATA_MIMETYPE";
 
     // Currently not exposed.  Put into Intent when we want to make it public.
     // TEMP: Should we call this "EXTRA_APPWIDGET_PROVIDER"?
-    public static final String EXTRA_APPWIDGET_COMPONENT =
-        "com.roy.turbo.launcher.extra.widget.COMPONENT";
-    public static final String EXTRA_APPWIDGET_CONFIGURATION_DATA_MIME_TYPE =
-        "com.roy.turbo.launcher.extra.widget.CONFIGURATION_DATA_MIME_TYPE";
-    public static final String EXTRA_APPWIDGET_CONFIGURATION_DATA =
-        "com.roy.turbo.launcher.extra.widget.CONFIGURATION_DATA";
+//    public static final String EXTRA_APPWIDGET_COMPONENT = "com.roy.turbo.launcher.extra.widget.COMPONENT";
+//    public static final String EXTRA_APPWIDGET_CONFIGURATION_DATA_MIME_TYPE = "com.roy.turbo.launcher.extra.widget.CONFIGURATION_DATA_MIME_TYPE";
+//    public static final String EXTRA_APPWIDGET_CONFIGURATION_DATA = "com.roy.turbo.launcher.extra.widget.CONFIGURATION_DATA";
 
     /**
      * A simple data class that contains per-item information that the adapter below can reference.
@@ -73,15 +50,14 @@ public class InstallWidgetReceiver {
      */
     public static class WidgetListAdapter implements ListAdapter, DialogInterface.OnClickListener {
         private LayoutInflater mInflater;
-        private Launcher mLauncher;
-        private String mMimeType;
-        private ClipData mClipData;
-        private List<WidgetMimeTypeHandlerData> mActivities;
-        private int mTargetLayoutScreen;
-        private int[] mTargetLayoutPos;
+        private final Launcher mLauncher;
+        private final String mMimeType;
+        private final ClipData mClipData;
+        private final List<WidgetMimeTypeHandlerData> mActivities;
+        private final int mTargetLayoutScreen;
+        private final int[] mTargetLayoutPos;
 
-        public WidgetListAdapter(Launcher l, String mimeType, ClipData data,
-                List<WidgetMimeTypeHandlerData> list, int targetScreen, int[] targetPos) {
+        public WidgetListAdapter(Launcher l, String mimeType, ClipData data, List<WidgetMimeTypeHandlerData> list, int targetScreen, int[] targetPos) {
             mLauncher = l;
             mMimeType = mimeType;
             mClipData = data;
@@ -183,10 +159,8 @@ public class InstallWidgetReceiver {
         public void onClick(DialogInterface dialog, int which) {
             final AppWidgetProviderInfo widgetInfo = mActivities.get(which).widgetInfo;
 
-            final PendingAddWidgetInfo createInfo = new PendingAddWidgetInfo(widgetInfo, mMimeType,
-                    mClipData);
-            mLauncher.addAppWidgetFromDrop(createInfo, LauncherSettings.Favorites.CONTAINER_DESKTOP,
-                    mTargetLayoutScreen, null, null, mTargetLayoutPos);
+            final PendingAddWidgetInfo createInfo = new PendingAddWidgetInfo(widgetInfo, mMimeType, mClipData);
+            mLauncher.addAppWidgetFromDrop(createInfo, LauncherSettings.Favorites.CONTAINER_DESKTOP, mTargetLayoutScreen, null, null, mTargetLayoutPos);
         }
     }
 }
