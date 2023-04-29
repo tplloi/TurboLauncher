@@ -1,185 +1,178 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.animation.LayoutTransition;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
-
-import java.util.ArrayList;
+import android.animation.LayoutTransition
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 //done 2023.04.29
-public class PageIndicator extends LinearLayout {
+class PageIndicator @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : LinearLayout(context, attrs, defStyle) {
+    private val mLayoutInflater: LayoutInflater
+    private val mWindowRange = IntArray(2)
+    private val mMaxWindowSize: Int
+    private val mMarkers = ArrayList<PageIndicatorMarker>()
+    private var mActiveMarkerIndex = 0
 
-    private static final boolean MODULATE_ALPHA_ENABLED = false;
+    class PageMarkerResources {
+        var activeId: Int
+        var inactiveId: Int
 
-    private final LayoutInflater mLayoutInflater;
-    private final int[] mWindowRange = new int[2];
-    private final int mMaxWindowSize;
-
-    private final ArrayList<PageIndicatorMarker> mMarkers = new ArrayList<>();
-    private int mActiveMarkerIndex;
-
-    public static class PageMarkerResources {
-        int activeId;
-        int inactiveId;
-
-        public PageMarkerResources() {
-            activeId = R.drawable.ic_pageindicator_current;
-            inactiveId = R.drawable.ic_pageindicator_default;
+        constructor() {
+            activeId = R.drawable.ic_pageindicator_current
+            inactiveId = R.drawable.ic_pageindicator_default
         }
-        public PageMarkerResources(int aId, int iaId) {
-            activeId = aId;
-            inactiveId = iaId;
+
+        constructor(aId: Int, iaId: Int) {
+            activeId = aId
+            inactiveId = iaId
         }
     }
 
-    public PageIndicator(Context context) {
-        this(context, null);
-    }
-
-    public PageIndicator(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public PageIndicator(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.PageIndicator, defStyle, 0);
-        mMaxWindowSize = a.getInteger(R.styleable.PageIndicator_windowSize, 15);
-        mWindowRange[0] = 0;
-        mWindowRange[1] = 0;
-        mLayoutInflater = LayoutInflater.from(context);
-        a.recycle();
+    init {
+        val a = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.PageIndicator, defStyle, 0
+        )
+        mMaxWindowSize = a.getInteger(R.styleable.PageIndicator_windowSize, 15)
+        mWindowRange[0] = 0
+        mWindowRange[1] = 0
+        mLayoutInflater = LayoutInflater.from(context)
+        a.recycle()
 
         // Set the layout transition properties
-        LayoutTransition transition = getLayoutTransition();
-        transition.setDuration(175);
+        val transition = layoutTransition
+        transition.setDuration(175)
     }
 
-    private void enableLayoutTransitions() {
-        LayoutTransition transition = getLayoutTransition();
-        transition.enableTransitionType(LayoutTransition.APPEARING);
-        transition.enableTransitionType(LayoutTransition.DISAPPEARING);
-        transition.enableTransitionType(LayoutTransition.CHANGE_APPEARING);
-        transition.enableTransitionType(LayoutTransition.CHANGE_DISAPPEARING);
+    private fun enableLayoutTransitions() {
+        val transition = layoutTransition
+        transition.enableTransitionType(LayoutTransition.APPEARING)
+        transition.enableTransitionType(LayoutTransition.DISAPPEARING)
+        transition.enableTransitionType(LayoutTransition.CHANGE_APPEARING)
+        transition.enableTransitionType(LayoutTransition.CHANGE_DISAPPEARING)
     }
 
-    private void disableLayoutTransitions() {
-        LayoutTransition transition = getLayoutTransition();
-        transition.disableTransitionType(LayoutTransition.APPEARING);
-        transition.disableTransitionType(LayoutTransition.DISAPPEARING);
-        transition.disableTransitionType(LayoutTransition.CHANGE_APPEARING);
-        transition.disableTransitionType(LayoutTransition.CHANGE_DISAPPEARING);
+    private fun disableLayoutTransitions() {
+        val transition = layoutTransition
+        transition.disableTransitionType(LayoutTransition.APPEARING)
+        transition.disableTransitionType(LayoutTransition.DISAPPEARING)
+        transition.disableTransitionType(LayoutTransition.CHANGE_APPEARING)
+        transition.disableTransitionType(LayoutTransition.CHANGE_DISAPPEARING)
     }
 
-    void offsetWindowCenterTo(int activeIndex, boolean allowAnimations) {
+    private fun offsetWindowCenterTo(activeIndex: Int, allowAnimations: Boolean) {
         if (activeIndex < 0) {
-            new Throwable().printStackTrace();
+            Throwable().printStackTrace()
         }
-        int windowSize = Math.min(mMarkers.size(), mMaxWindowSize);
-        int hWindowSize = (int) windowSize / 2;
-        float hfWindowSize = windowSize / 2f;
-        int windowStart = Math.max(0, activeIndex - hWindowSize);
-        int windowEnd = Math.min(mMarkers.size(), windowStart + mMaxWindowSize);
-        windowStart = windowEnd - Math.min(mMarkers.size(), windowSize);
-        int windowMid = windowStart + (windowEnd - windowStart) / 2;
-        boolean windowAtStart = (windowStart == 0);
-        boolean windowAtEnd = (windowEnd == mMarkers.size());
-        boolean windowMoved = (mWindowRange[0] != windowStart) ||
-                (mWindowRange[1] != windowEnd);
-
+        val windowSize = min(mMarkers.size, mMaxWindowSize)
+        val hWindowSize = windowSize / 2
+        val hfWindowSize = windowSize / 2f
+        var windowStart = max(0, activeIndex - hWindowSize)
+        val windowEnd = min(mMarkers.size, windowStart + mMaxWindowSize)
+        windowStart = windowEnd - min(mMarkers.size, windowSize)
+        val windowMid = windowStart + (windowEnd - windowStart) / 2
+        val windowAtStart = windowStart == 0
+        val windowAtEnd = windowEnd == mMarkers.size
+        val windowMoved = mWindowRange[0] != windowStart || mWindowRange[1] != windowEnd
         if (!allowAnimations) {
-            disableLayoutTransitions();
+            disableLayoutTransitions()
         }
 
         // Remove all the previous children that are no longer in the window
-        for (int i = getChildCount() - 1; i >= 0; --i) {
-            PageIndicatorMarker marker = (PageIndicatorMarker) getChildAt(i);
-            int markerIndex = mMarkers.indexOf(marker);
+        for (i in childCount - 1 downTo 0) {
+            val marker = getChildAt(i) as PageIndicatorMarker
+            val markerIndex = mMarkers.indexOf(marker)
             if (markerIndex < windowStart || markerIndex >= windowEnd) {
-                removeView(marker);
+                removeView(marker)
             }
         }
 
         // Add all the new children that belong in the window
-        for (int i = 0; i < mMarkers.size(); ++i) {
-            PageIndicatorMarker marker = (PageIndicatorMarker) mMarkers.get(i);
-            if (windowStart <= i && i < windowEnd) {
+        for (i in mMarkers.indices) {
+            val marker = mMarkers[i]
+            if (i in windowStart until windowEnd) {
                 if (indexOfChild(marker) < 0) {
-                    addView(marker, i - windowStart);
+                    addView(marker, i - windowStart)
                 }
                 if (i == activeIndex) {
-                    marker.activate(windowMoved);
+                    marker.activate(windowMoved)
                 } else {
-                    marker.inactivate(windowMoved);
+                    marker.inactivate(windowMoved)
                 }
             } else {
-                marker.inactivate(true);
+                marker.inactivate(true)
             }
-
             if (MODULATE_ALPHA_ENABLED) {
                 // Update the marker's alpha
-                float alpha = 1f;
-                if (mMarkers.size() > windowSize) {
-                    if ((windowAtStart && i > hWindowSize) ||
-                        (windowAtEnd && i < (mMarkers.size() - hWindowSize)) ||
-                        (!windowAtStart && !windowAtEnd)) {
-                        alpha = 1f - Math.abs((i - windowMid) / hfWindowSize);
+                var alpha = 1f
+                if (mMarkers.size > windowSize) {
+                    if (windowAtStart && i > hWindowSize || windowAtEnd && i < mMarkers.size - hWindowSize || !windowAtStart && !windowAtEnd) {
+                        alpha = 1f - abs((i - windowMid) / hfWindowSize)
                     }
                 }
-                marker.animate().alpha(alpha).setDuration(500).start();
+                marker.animate().alpha(alpha).setDuration(500).start()
             }
         }
-
         if (!allowAnimations) {
-            enableLayoutTransitions();
+            enableLayoutTransitions()
         }
-
-        mWindowRange[0] = windowStart;
-        mWindowRange[1] = windowEnd;
+        mWindowRange[0] = windowStart
+        mWindowRange[1] = windowEnd
     }
 
-    void addMarker(int index, PageMarkerResources marker, boolean allowAnimations) {
-        index = Math.max(0, Math.min(index, mMarkers.size()));
-
-        PageIndicatorMarker m =
-            (PageIndicatorMarker) mLayoutInflater.inflate(R.layout.page_indicator_marker,
-                    this, false);
-        m.setMarkerDrawables(marker.activeId, marker.inactiveId);
-
-        mMarkers.add(index, m);
-        offsetWindowCenterTo(mActiveMarkerIndex, allowAnimations);
-    }
-    void addMarkers(ArrayList<PageMarkerResources> markers, boolean allowAnimations) {
-        for (int i = 0; i < markers.size(); ++i) {
-            addMarker(Integer.MAX_VALUE, markers.get(i), allowAnimations);
-        }
+    fun addMarker(index: Int, marker: PageMarkerResources, allowAnimations: Boolean) {
+        var mIndex = index
+        mIndex = max(0, min(mIndex, mMarkers.size))
+        val m = mLayoutInflater.inflate(
+            /* resource = */ R.layout.page_indicator_marker,
+            /* root = */ this, /* attachToRoot = */ false
+        ) as PageIndicatorMarker
+        m.setMarkerDrawables(marker.activeId, marker.inactiveId)
+        mMarkers.add(mIndex, m)
+        offsetWindowCenterTo(mActiveMarkerIndex, allowAnimations)
     }
 
-    void updateMarker(int index, PageMarkerResources marker) {
-        PageIndicatorMarker m = mMarkers.get(index);
-        m.setMarkerDrawables(marker.activeId, marker.inactiveId);
-    }
-
-    void removeMarker(int index, boolean allowAnimations) {
-        if (mMarkers.size() > 0) {
-            index = Math.max(0, Math.min(mMarkers.size() - 1, index));
-            mMarkers.remove(index);
-            offsetWindowCenterTo(mActiveMarkerIndex, allowAnimations);
-        }
-    }
-    void removeAllMarkers(boolean allowAnimations) {
-        while (mMarkers.size() > 0) {
-            removeMarker(Integer.MAX_VALUE, allowAnimations);
+    fun addMarkers(markers: ArrayList<PageMarkerResources>, allowAnimations: Boolean) {
+        for (i in markers.indices) {
+            addMarker(Int.MAX_VALUE, markers[i], allowAnimations)
         }
     }
 
-    void setActiveMarker(int index) {
+    fun updateMarker(index: Int, marker: PageMarkerResources) {
+        val m = mMarkers[index]
+        m.setMarkerDrawables(marker.activeId, marker.inactiveId)
+    }
+
+    fun removeMarker(index: Int, allowAnimations: Boolean) {
+        var mIndex = index
+        if (mMarkers.size > 0) {
+            mIndex = max(0, min(mMarkers.size - 1, mIndex))
+            mMarkers.removeAt(mIndex)
+            offsetWindowCenterTo(mActiveMarkerIndex, allowAnimations)
+        }
+    }
+
+    fun removeAllMarkers(allowAnimations: Boolean) {
+        while (mMarkers.size > 0) {
+            removeMarker(Int.MAX_VALUE, allowAnimations)
+        }
+    }
+
+    fun setActiveMarker(index: Int) {
         // Center the active marker
-        mActiveMarkerIndex = index;
-        offsetWindowCenterTo(index, false);
+        mActiveMarkerIndex = index
+        offsetWindowCenterTo(index, false)
     }
 
+    companion object {
+        private const val MODULATE_ALPHA_ENABLED = false
+    }
 }
