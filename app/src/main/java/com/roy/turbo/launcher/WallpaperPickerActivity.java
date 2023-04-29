@@ -74,6 +74,7 @@ import android.widget.Toast;
 import com.roy.android.photos.BitmapRegionTileSource;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.android.photos.BitmapRegionTileSource.BitmapSource;
+import com.roy.turbo.launcher.view.CheckableFrameLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
