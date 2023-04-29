@@ -10,7 +10,7 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.roy.turbo.launcher.HolographicViewHelper
+import com.roy.turbo.launcher.helper.HolographicViewHelper
 import com.roy.turbo.launcher.R
 
 class HolographicLinearLayout @SuppressLint("ClickableViewAccessibility") constructor(
@@ -37,7 +37,8 @@ class HolographicLinearLayout @SuppressLint("ClickableViewAccessibility") constr
         isHotwordOn = a.getBoolean(R.styleable.HolographicLinearLayout_stateHotwordOn, false)
         a.recycle()
         setWillNotDraw(false)
-        mHolographicHelper = HolographicViewHelper(context)
+        mHolographicHelper =
+            HolographicViewHelper(context)
         setOnTouchListener { _: View?, _: MotionEvent? ->
             if (isPressed != mIsPressed) {
                 mIsPressed = isPressed

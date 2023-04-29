@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.helper;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +8,9 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.widget.ImageView;
+
+import com.roy.turbo.launcher.FastBitmapDrawable;
+import com.roy.turbo.launcher.R;
 
 public class HolographicViewHelper {
 

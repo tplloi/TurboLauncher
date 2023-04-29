@@ -9,7 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.ImageView
-import com.roy.turbo.launcher.HolographicViewHelper
+import com.roy.turbo.launcher.helper.HolographicViewHelper
 import com.roy.turbo.launcher.R
 
 class HolographicImageView @SuppressLint("ClickableViewAccessibility") constructor(
@@ -27,7 +27,8 @@ class HolographicImageView @SuppressLint("ClickableViewAccessibility") construct
     }
 
     init {
-        mHolographicHelper = HolographicViewHelper(context)
+        mHolographicHelper =
+            HolographicViewHelper(context)
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.HolographicLinearLayout,
             defStyle, 0
