@@ -47,6 +47,7 @@ import com.roy.android.gallery3d.common.Utils;
 import com.roy.android.gallery3d.exif.ExifInterface;
 import com.roy.android.photos.BitmapRegionTileSource;
 import com.roy.android.photos.BitmapRegionTileSource.BitmapSource;
+import com.roy.turbo.launcher.view.CropView;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
