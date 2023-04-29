@@ -60,7 +60,7 @@
 
         <!-- This is the search bar voice button proxy view.  It allows us to have a larger
              touch target than the microphone constrained by the search bar bounds. -->
-        <com.roy.turbo.launcher.DrawableStateProxyView
+        <com.roy.turbo.launcher.view.DrawableStateProxyView
             android:id="@+id/voice_button_proxy"
             android:layout_width="0dp"
             android:layout_height="0dp"

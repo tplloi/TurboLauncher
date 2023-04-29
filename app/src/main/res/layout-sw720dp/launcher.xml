@@ -59,7 +59,7 @@
 
         
 
-        <com.roy.turbo.launcher.DrawableStateProxyView
+        <com.roy.turbo.launcher.view.DrawableStateProxyView
             android:id="@+id/voice_button_proxy"
             android:layout_width="0dp"
             android:layout_height="0dp"

@@ -1,10 +1,11 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
+import com.roy.turbo.launcher.R
 
 class DrawableStateProxyView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyle: Int = 0
