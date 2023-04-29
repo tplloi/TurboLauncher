@@ -1,39 +1,39 @@
 package com.roy.turbo.launcher;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.text.InputType;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
-
-import com.roy.turbo.launcher.R;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HiddenFolderFragment extends Fragment {
     public static final String HIDDEN_FOLDER_FRAGMENT = "hiddenFolderFragment";
-    public static final String HIDDEN_FOLDER_NAME = "hiddenFolderName";
+    //    public static final String HIDDEN_FOLDER_NAME = "hiddenFolderName";
     public static final String HIDDEN_FOLDER_STATUS = "hiddenFolderStatus";
-    public static final String HIDDEN_FOLDER_INFO = "hiddenFolderInfo";
-    public static final String HIDDEN_FOLDER_INFO_TITLES = "hiddenFolderInfoTitles";
-    public static final String HIDDEN_FOLDER_LAUNCH = "hiddenFolderLaunchPosition";
+//    public static final String HIDDEN_FOLDER_INFO = "hiddenFolderInfo";
+//    public static final String HIDDEN_FOLDER_INFO_TITLES = "hiddenFolderInfoTitles";
+//    public static final String HIDDEN_FOLDER_LAUNCH = "hiddenFolderLaunchPosition";
 
-    private static final int REQ_LOCK_PATTERN = 1;
+//    private static final int REQ_LOCK_PATTERN = 1;
 
     private String[] mComponentInfo;
     private String[] mComponentTitles;
@@ -47,17 +47,16 @@ public class HiddenFolderFragment extends Fragment {
 
     private Launcher mLauncher;
 
-    private boolean mAuth = false;
-    private boolean mSent = false;
+    private final boolean mAuth = false;
+    private final boolean mSent = false;
 
-    private OnClickListener mClicklistener = new OnClickListener() {
+    private final OnClickListener mClicklistener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             mHidden = !mHidden;
 
             ImageView mLock = (ImageView) v;
-            Drawable mLockIcon = mHidden ? getResources().getDrawable(R.drawable.folder_lock_light)
-                    : getResources().getDrawable(R.drawable.folder_unlock);
+            Drawable mLockIcon = mHidden ? getResources().getDrawable(R.drawable.folder_lock_light) : getResources().getDrawable(R.drawable.folder_unlock);
             mLock.setImageDrawable(mLockIcon);
         }
     };
@@ -79,31 +78,23 @@ public class HiddenFolderFragment extends Fragment {
         mFolderName = (EditText) v.findViewById(R.id.folder_name);
         mFolderName.setText(title);
         mFolderName.setSelectAllOnFocus(true);
-        mFolderName.setInputType(mFolderName.getInputType() |
-                InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        mFolderName.setInputType(mFolderName.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         mFolderName.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        mFolderName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    doneEditingText(v);
-                    return true;
-                }
-                return false;
+        mFolderName.setOnEditorActionListener((v1, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                doneEditingText(v1);
+                return true;
             }
+            return false;
         });
-        mFolderName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    doneEditingText(v);
-                }
+        mFolderName.setOnFocusChangeListener((v12, hasFocus) -> {
+            if (!hasFocus) {
+                doneEditingText(v12);
             }
         });
 
         ImageView mLock = (ImageView) v.findViewById(R.id.folder_lock_icon);
-        Drawable mLockIcon = mHidden ? getResources().getDrawable(R.drawable.folder_lock_light)
-                : getResources().getDrawable(R.drawable.folder_unlock);
+        Drawable mLockIcon = mHidden ? getResources().getDrawable(R.drawable.folder_lock_light) : getResources().getDrawable(R.drawable.folder_unlock);
         mLock.setImageDrawable(mLockIcon);
         mLock.setOnClickListener(mClicklistener);
 
@@ -128,7 +119,7 @@ public class HiddenFolderFragment extends Fragment {
     }
 
     private ArrayList<AppEntry> loadApps() {
-        ArrayList<AppEntry> apps = new ArrayList<AppEntry>();
+        ArrayList<AppEntry> apps = new ArrayList<>();
         int size = mComponentInfo.length;
         for (int i = 0; i < size; i++) {
             apps.add(new AppEntry(mComponentInfo[i], mComponentTitles[i]));
@@ -177,30 +168,28 @@ public class HiddenFolderFragment extends Fragment {
         }
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction
-                .remove(mLauncher.mHiddenFolderFragment).commit();
+        fragmentTransaction.remove(mLauncher.mHiddenFolderFragment).commit();
     }
 
     public class AppsAdapter extends ArrayAdapter<AppEntry> {
 
         private final LayoutInflater mInflator;
 
-        private ConcurrentHashMap<String, Drawable> mIcons;
-        private Drawable mDefaultImg;
+        private final ConcurrentHashMap<String, Drawable> mIcons;
+        private final Drawable mDefaultImg;
         private List<AppEntry> mApps;
 
         public AppsAdapter(Context context, int textViewResourceId) {
             super(context, textViewResourceId);
 
-            mApps = new ArrayList<AppEntry>();
+            mApps = new ArrayList<>();
 
             mInflator = LayoutInflater.from(context);
 
             // set the default icon till the actual app icon is loaded in async
             // task
-            mDefaultImg = context.getResources().getDrawable(
-                    android.R.mipmap.sym_def_app_icon);
-            mIcons = new ConcurrentHashMap<String, Drawable>();
+            mDefaultImg = context.getResources().getDrawable(android.R.mipmap.sym_def_app_icon);
+            mIcons = new ConcurrentHashMap<>();
         }
 
         @Override
@@ -224,12 +213,7 @@ public class HiddenFolderFragment extends Fragment {
             Drawable icon = mIcons.get(app.componentName.getPackageName());
             viewHolder.icon.setImageDrawable(icon != null ? icon : mDefaultImg);
 
-            convertView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    saveHiddenFolderStatus(viewHolder.position);
-                }
-            });
+            convertView.setOnClickListener(v -> saveHiddenFolderStatus(viewHolder.position));
 
             return convertView;
         }
@@ -244,8 +228,8 @@ public class HiddenFolderFragment extends Fragment {
             super.notifyDataSetChanged();
             // If we have new items, we have to load their icons
             // If items were deleted, remove them from our mApps
-            List<AppEntry> newApps = new ArrayList<AppEntry>(getCount());
-            List<AppEntry> oldApps = new ArrayList<AppEntry>(getCount());
+            List<AppEntry> newApps = new ArrayList<>(getCount());
+            List<AppEntry> oldApps = new ArrayList<>(getCount());
             for (int i = 0; i < getCount(); i++) {
                 AppEntry app = getItem(i);
                 if (mApps.contains(app)) {
@@ -296,7 +280,7 @@ public class HiddenFolderFragment extends Fragment {
         }
     }
 
-    private final class AppEntry {
+    private static final class AppEntry {
 
         public final ComponentName componentName;
         public final String title;
