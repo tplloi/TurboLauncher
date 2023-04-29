@@ -124,7 +124,7 @@ public class CellLayout extends ViewGroup {
     private final ShortcutAndWidgetContainer mShortcutsAndWidgets;
 
     private boolean mIsHotseat = false;
-    private float mHotseatScale;
+    private final float mHotseatScale;
 
     public static final int MODE_SHOW_REORDER_HINT = 0;
     public static final int MODE_DRAG_OVER = 1;
