@@ -1,9 +1,11 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.view.View;
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
+import android.view.View
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * A convenience class for two-way animations, e.g. a fadeIn/fadeOut animation.
@@ -12,82 +14,72 @@ import android.view.View;
  * be exactly reversed. Using this class, both the 'in' and the 'out' animation use the
  * interpolator in the same direction.
  */
-public class InterruptibleInOutAnimator {
-    private final long mOriginalDuration;
-    private final float mOriginalFromValue;
-    private final float mOriginalToValue;
-    private final ValueAnimator mAnimator;
-
-    private boolean mFirstRun = true;
-
-    private Object mTag = null;
-
-    private static final int STOPPED = 0;
-    private static final int IN = 1;
-    private static final int OUT = 2;
+class InterruptibleInOutAnimator(view: View?, duration: Long, fromValue: Float, toValue: Float) {
+    private val mOriginalDuration: Long
+    private val mOriginalFromValue: Float
+    private val mOriginalToValue: Float
+    val animator: ValueAnimator
+    private var mFirstRun = true
+    var tag: Any? = null
 
     // TODO: This isn't really necessary, but is here to help diagnose a bug in the drag viz
-    private int mDirection = STOPPED;
+    private var mDirection = STOPPED
 
-    public InterruptibleInOutAnimator(View view, long duration, float fromValue, float toValue) {
-        mAnimator = LauncherAnimUtils.ofFloat(view, fromValue, toValue).setDuration(duration);
-        mOriginalDuration = duration;
-        mOriginalFromValue = fromValue;
-        mOriginalToValue = toValue;
-
-        mAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mDirection = STOPPED;
+    init {
+        animator = LauncherAnimUtils.ofFloat(view, fromValue, toValue).setDuration(duration)
+        mOriginalDuration = duration
+        mOriginalFromValue = fromValue
+        mOriginalToValue = toValue
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                mDirection = STOPPED
             }
-        });
+        })
     }
 
-    private void animate(int direction) {
-        final long currentPlayTime = mAnimator.getCurrentPlayTime();
-        final float toValue = (direction == IN) ? mOriginalToValue : mOriginalFromValue;
-        final float startValue = mFirstRun ? mOriginalFromValue : (Float) mAnimator.getAnimatedValue();
+    private fun animate(direction: Int) {
+        val currentPlayTime = animator.currentPlayTime
+        val toValue = if (direction == IN) mOriginalToValue else mOriginalFromValue
+        val startValue = if (mFirstRun) mOriginalFromValue else (animator.animatedValue as Float)
 
         // Make sure it's stopped before we modify any values
-        cancel();
+        cancel()
 
         // TODO: We don't really need to do the animation if startValue == toValue, but
         // somehow that doesn't seem to work, possibly a quirk of the animation framework
-        mDirection = direction;
+        mDirection = direction
 
         // Ensure we don't calculate a non-sensical duration
-        long duration = mOriginalDuration - currentPlayTime;
-        mAnimator.setDuration(Math.max(0, Math.min(duration, mOriginalDuration)));
-
-        mAnimator.setFloatValues(startValue, toValue);
-        mAnimator.start();
-        mFirstRun = false;
+        val duration = mOriginalDuration - currentPlayTime
+        animator.duration = max(0, min(duration, mOriginalDuration))
+        animator.setFloatValues(startValue, toValue)
+        animator.start()
+        mFirstRun = false
     }
 
-    public void cancel() {
-        mAnimator.cancel();
-        mDirection = STOPPED;
+    fun cancel() {
+        animator.cancel()
+        mDirection = STOPPED
     }
 
-    public void end() {
-        mAnimator.end();
-        mDirection = STOPPED;
+    fun end() {
+        animator.end()
+        mDirection = STOPPED
     }
 
     /**
      * Return true when the animation is not running and it hasn't even been started.
      */
-    public boolean isStopped() {
-        return mDirection == STOPPED;
-    }
+    val isStopped: Boolean
+        get() = mDirection == STOPPED
 
     /**
      * This is the equivalent of calling Animator.start(), except that it can be called when
      * the animation is running in the opposite direction, in which case we reverse
      * direction and animate for a correspondingly shorter duration.
      */
-    public void animateIn() {
-        animate(IN);
+    fun animateIn() {
+        animate(IN)
     }
 
     /**
@@ -96,19 +88,13 @@ public class InterruptibleInOutAnimator {
      * if the animation is currently running in the opposite direction, we reverse
      * direction and animate for a correspondingly shorter duration.
      */
-    public void animateOut() {
-        animate(OUT);
+    fun animateOut() {
+        animate(OUT)
     }
 
-    public void setTag(Object tag) {
-        mTag = tag;
-    }
-
-    public Object getTag() {
-        return mTag;
-    }
-
-    public ValueAnimator getAnimator() {
-        return mAnimator;
+    companion object {
+        private const val STOPPED = 0
+        private const val IN = 1
+        private const val OUT = 2
     }
 }
