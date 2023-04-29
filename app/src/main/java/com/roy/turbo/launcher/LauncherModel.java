@@ -243,11 +243,20 @@ public class LauncherModel extends BroadcastReceiver {
 			}
 		}
 
-		return CellLayout.findVacantCell(xy, 1, 1, xCount, yCount, occupied);
+		return CellLayout.findVacantCell(
+				xy,
+				1,
+				1,
+				xCount,
+				yCount,
+				occupied);
 	}
 
-	static Pair<Long, int[]> findNextAvailableIconSpace(Context context,
-			String name, Intent launchIntent, int firstScreenIndex,
+	static Pair<Long, int[]> findNextAvailableIconSpace(
+			Context context,
+			String name,
+			Intent launchIntent,
+			int firstScreenIndex,
 			ArrayList<Long> workspaceScreens) {
 		// Lock on the app so that we don't try and get the items while apps are
 		// being added
@@ -560,7 +569,12 @@ public class LauncherModel extends BroadcastReceiver {
 		runOnWorkerThread(r);
 	}
 
-	static void updateItemInDatabaseHelper(Context context, final ContentValues values, final ItemInfo item, final String callingFunction) {
+	static void updateItemInDatabaseHelper(
+			Context context,
+			final ContentValues values,
+			final ItemInfo item,
+			final String callingFunction
+	) {
 		final long itemId = item.id;
 		final Uri uri = LauncherSettings.Favorites.getContentUri(itemId, false);
 		final ContentResolver cr = context.getContentResolver();
@@ -573,7 +587,11 @@ public class LauncherModel extends BroadcastReceiver {
 		runOnWorkerThread(r);
 	}
 
-	static void updateItemsInDatabaseHelper(Context context, final ArrayList<ContentValues> valuesList, final ArrayList<ItemInfo> items, final String callingFunction) {
+	static void updateItemsInDatabaseHelper(
+			Context context,
+			final ArrayList<ContentValues> valuesList,
+			final ArrayList<ItemInfo> items,
+			final String callingFunction) {
 		final ContentResolver cr = context.getContentResolver();
 
 		final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
@@ -689,7 +707,11 @@ public class LauncherModel extends BroadcastReceiver {
 	 * Move items in the DB to a new <container, screen, cellX, cellY>. We
 	 * assume that the cellX, cellY have already been updated on the ItemInfos.
 	 */
-	static void moveItemsInDatabase(Context context, final ArrayList<ItemInfo> items, final long container, final int screen) {
+	static void moveItemsInDatabase(
+			Context context,
+			final ArrayList<ItemInfo> items,
+			final long container,
+			final int screen) {
 
 		ArrayList<ContentValues> contentValues = new ArrayList<>();
 		int count = items.size();
@@ -1007,8 +1029,13 @@ public class LauncherModel extends BroadcastReceiver {
 	/**
 	 * Creates a new unique child id, for a given cell span across all layouts.
 	 */
-	static int getCellLayoutChildId(long container, long screen,
-			int localCellX, int localCellY, int spanX, int spanY) {
+	static int getCellLayoutChildId(
+			long container,
+			long screen,
+			int localCellX,
+			int localCellY,
+			int spanX,
+			int spanY) {
 		return (((int) container & 0xFF) << 24) | ((int) screen & 0xFF) << 16
 				| (localCellX & 0xFF) << 8 | (localCellY & 0xFF);
 	}
@@ -1018,7 +1045,9 @@ public class LauncherModel extends BroadcastReceiver {
 	 * param context
 	 * param item
 	 */
-	static void deleteItemFromDatabase(Context context, final ItemInfo item) {
+	static void deleteItemFromDatabase(
+			Context context,
+			final ItemInfo item) {
 		final ContentResolver cr = context.getContentResolver();
 		final Uri uriToDelete = LauncherSettings.Favorites.getContentUri(item.id, false);
 
@@ -1640,8 +1669,10 @@ e.printStackTrace();
 		}
 
 		private boolean checkItemPlacement(
-				HashMap<Long, ItemInfo[][]> occupied, ItemInfo item,
-				AtomicBoolean deleteOnInvalidPlacement) {
+				HashMap<Long, ItemInfo[][]> occupied,
+				ItemInfo item,
+				AtomicBoolean deleteOnInvalidPlacement
+		) {
 			LauncherAppState app = LauncherAppState.getInstance();
 			DeviceProfile grid = app.getDynamicGrid().getDeviceProfile();
 			final int countX = (int) grid.numColumns;
@@ -1736,8 +1767,8 @@ e.printStackTrace();
 
 			LauncherAppState app = LauncherAppState.getInstance();
 			DeviceProfile grid = app.getDynamicGrid().getDeviceProfile();
-			int countX = (int) grid.numColumns;
-			int countY = (int) grid.numRows;
+//			int countX = (int) grid.numColumns;
+//			int countY = (int) grid.numRows;
 
 			if ((mFlags & LOADER_FLAG_CLEAR_WORKSPACE) != 0) {
 
@@ -2440,7 +2471,8 @@ e.printStackTrace();
 		/**
 		 * Binds all loaded data to actual views on the main thread.
 		 */
-		private void bindWorkspace(int synchronizeBindPage,
+		private void bindWorkspace(
+				int synchronizeBindPage,
 				final boolean isUpgradePath) {
 			final long t = SystemClock.uptimeMillis();
 			Runnable r;
@@ -2776,7 +2808,7 @@ e.printStackTrace();
 			final ArrayList<Object> widgetsAndShortcuts = getSortedWidgetsAndShortcuts(context);
 			mHandler.post(() -> {
 				Callbacks cb = mCallbacks != null ? mCallbacks.get() : null;
-				if (callbacks == cb && cb != null) {
+				if (callbacks == cb) {
 					callbacks.bindPackagesUpdated(widgetsAndShortcuts);
 				}
 			});
@@ -2804,7 +2836,8 @@ e.printStackTrace();
 		return false;
 	}
 
-	public static boolean isValidPackageComponent(PackageManager pm,
+	public static boolean isValidPackageComponent(
+			PackageManager pm,
 			ComponentName cn) {
 		if (cn == null) {
 			return false;
@@ -2844,7 +2877,10 @@ e.printStackTrace();
 	 * Make an Intent object for a restored application or shortcut item that
 	 * points to the market page for the item.
 	 */
-	private Intent getRestoredItemIntent(Cursor c, Context context, Intent intent) {
+	private Intent getRestoredItemIntent(
+			Cursor c,
+			Context context,
+			Intent intent) {
 		ComponentName componentName = intent.getComponent();
 		Intent marketIntent = new Intent(Intent.ACTION_VIEW);
 		Uri marketUri = new Uri.Builder().scheme("market").authority("details").appendQueryParameter("id", componentName.getPackageName()).build();
@@ -3001,7 +3037,10 @@ e.printStackTrace();
 	/**
 	 * Make an ShortcutInfo object for a shortcut that isn't an application.
 	 */
-	private ShortcutInfo getShortcutInfo(Cursor c, Context context, int titleIndex) {
+	private ShortcutInfo getShortcutInfo(
+			Cursor c,
+			Context context,
+			int titleIndex) {
 		final ShortcutInfo info = new ShortcutInfo();
 		info.itemType = LauncherSettings.Favorites.ITEM_TYPE_ALLAPPS;
 
@@ -3079,13 +3118,26 @@ e.printStackTrace();
 		}
 	}
 
-	ShortcutInfo addShortcut(Context context, Intent data, long container,
-			int screen, int cellX, int cellY, boolean notify) {
+	ShortcutInfo addShortcut(
+			Context context,
+			Intent data,
+			long container,
+			int screen,
+			int cellX,
+			int cellY,
+			boolean notify) {
 		final ShortcutInfo info = infoFromShortcutIntent(context, data, null);
 		if (info == null) {
 			return null;
 		}
-		addItemToDatabase(context, info, container, screen, cellX, cellY, notify);
+		addItemToDatabase(
+				context,
+				info,
+				container,
+				screen,
+				cellX,
+				cellY,
+				notify);
 
 		return info;
 	}
@@ -3094,7 +3146,9 @@ e.printStackTrace();
 	 * Attempts to find an AppWidgetProviderInfo that matches the given
 	 * component.
 	 */
-	AppWidgetProviderInfo findAppWidgetProviderInfoWithComponent(Context context, ComponentName component) {
+	AppWidgetProviderInfo findAppWidgetProviderInfoWithComponent(
+			Context context,
+			ComponentName component) {
 		List<AppWidgetProviderInfo> widgets = AppWidgetManager.getInstance(context).getInstalledProviders();
 		for (AppWidgetProviderInfo info : widgets) {
 			if (info.provider.equals(component)) {
@@ -3108,7 +3162,9 @@ e.printStackTrace();
 	 * Returns a list of all the widgets that can handle configuration with a
 	 * particular mimeType.
 	 */
-	List<WidgetMimeTypeHandlerData> resolveWidgetsForMimeType(Context context, String mimeType) {
+	List<WidgetMimeTypeHandlerData> resolveWidgetsForMimeType(
+			Context context,
+			String mimeType) {
 		final PackageManager packageManager = context.getPackageManager();
 		final List<WidgetMimeTypeHandlerData> supportedConfigurationActivities = new ArrayList<>();
 
@@ -3139,13 +3195,15 @@ e.printStackTrace();
 		return supportedConfigurationActivities;
 	}
 
-	ShortcutInfo infoFromShortcutIntent(Context context, Intent data, Bitmap fallbackIcon) {
+	ShortcutInfo infoFromShortcutIntent(
+			Context context,
+			Intent data,
+			Bitmap fallbackIcon) {
 		Intent intent = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_INTENT);
 		String name = data.getStringExtra(Intent.EXTRA_SHORTCUT_NAME);
 		Parcelable bitmap = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON);
 
 		if (intent == null) {
-
 			return null;
 		}
 
@@ -3153,13 +3211,13 @@ e.printStackTrace();
 		boolean customIcon = false;
 		ShortcutIconResource iconResource = null;
 
-		if (bitmap != null && bitmap instanceof Bitmap) {
+		if (bitmap instanceof Bitmap) {
 			icon = Utilities.createIconBitmap(new FastBitmapDrawable(
 					(Bitmap) bitmap), context);
 			customIcon = true;
 		} else {
 			Parcelable extra = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE);
-			if (extra != null && extra instanceof ShortcutIconResource) {
+			if (extra instanceof ShortcutIconResource) {
 				try {
 					iconResource = (ShortcutIconResource) extra;
 					final PackageManager packageManager = context.getPackageManager();
@@ -3193,7 +3251,10 @@ e.printStackTrace();
 	}
 
 	void queueIconToBeChecked(
-			HashMap<Object, byte[]> cache, ShortcutInfo info, Cursor c, int iconIndex
+			HashMap<Object, byte[]> cache,
+			ShortcutInfo info,
+			Cursor c,
+			int iconIndex
 	) {
 		// If apps can't be on SD, don't even bother.
 		if (!mAppsCanBeOnRemoveableStorage) {
