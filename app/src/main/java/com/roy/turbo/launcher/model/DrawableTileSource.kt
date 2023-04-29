@@ -1,87 +1,88 @@
-package com.roy.turbo.launcher.model;
+package com.roy.turbo.launcher.model
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import com.roy.android.gallery3d.glrenderer.BasicTexture
+import com.roy.android.gallery3d.glrenderer.BitmapTexture
+import com.roy.android.photos.views.TileSource
+import com.roy.android.photos.views.TiledImageRenderer
+import kotlin.math.min
 
-import com.roy.android.gallery3d.glrenderer.BasicTexture;
-import com.roy.android.gallery3d.glrenderer.BitmapTexture;
-import com.roy.android.photos.views.TileSource;
-import com.roy.android.photos.views.TiledImageRenderer;
+class DrawableTileSource(context: Context?, d: Drawable, previewSize: Int) : TileSource {
+    private val mTileSize: Int
+    private val mPreviewSize: Int
+    private val mDrawable: Drawable
+    private var mPreview: BitmapTexture? = null
 
-public class DrawableTileSource implements TileSource {
-    private static final int GL_SIZE_LIMIT = 2048;
-    // This must be no larger than half the size of the GL_SIZE_LIMIT
-    // due to decodePreview being allowed to be up to 2x the size of the target
-    public static final int MAX_PREVIEW_SIZE = GL_SIZE_LIMIT / 2;
-
-    private final int mTileSize;
-    private final int mPreviewSize;
-    private final Drawable mDrawable;
-    private BitmapTexture mPreview;
-
-    public DrawableTileSource(Context context, Drawable d, int previewSize) {
-        mTileSize = TiledImageRenderer.suggestedTileSize(context);
-        mDrawable = d;
-        mPreviewSize = Math.min(previewSize, MAX_PREVIEW_SIZE);
+    init {
+        mTileSize = TiledImageRenderer.suggestedTileSize(context)
+        mDrawable = d
+        mPreviewSize = min(previewSize, MAX_PREVIEW_SIZE)
     }
 
-    @Override
-    public int getTileSize() {
-        return mTileSize;
+    override fun getTileSize(): Int {
+        return mTileSize
     }
 
-    @Override
-    public int getImageWidth() {
-        return mDrawable.getIntrinsicWidth();
+    override fun getImageWidth(): Int {
+        return mDrawable.intrinsicWidth
     }
 
-    @Override
-    public int getImageHeight() {
-        return mDrawable.getIntrinsicHeight();
+    override fun getImageHeight(): Int {
+        return mDrawable.intrinsicHeight
     }
 
-    @Override
-    public int getRotation() {
-        return 0;
+    override fun getRotation(): Int {
+        return 0
     }
 
-    @Override
-    public BasicTexture getPreview() {
+    override fun getPreview(): BasicTexture? {
         if (mPreviewSize == 0) {
-            return null;
+            return null
         }
         if (mPreview == null) {
-            float width = getImageWidth();
-            float height = getImageHeight();
+            var width = imageWidth.toFloat()
+            var height = imageHeight.toFloat()
             while (width > MAX_PREVIEW_SIZE || height > MAX_PREVIEW_SIZE) {
-                width /= 2;
-                height /= 2;
+                width /= 2f
+                height /= 2f
             }
-            Bitmap b = Bitmap.createBitmap((int) width, (int) height, Bitmap.Config.ARGB_8888);
-            Canvas c = new Canvas(b);
-            mDrawable.setBounds(new Rect(0, 0, (int) width, (int) height));
-            mDrawable.draw(c);
-            c.setBitmap(null);
-            mPreview = new BitmapTexture(b);
+            val b = Bitmap.createBitmap(width.toInt(), height.toInt(), Bitmap.Config.ARGB_8888)
+            val c = Canvas(b)
+            mDrawable.bounds = Rect(0, 0, width.toInt(), height.toInt())
+            mDrawable.draw(c)
+            c.setBitmap(null)
+            mPreview = BitmapTexture(b)
         }
-        return mPreview;
+        return mPreview
     }
 
-    @Override
-    public Bitmap getTile(int level, int x, int y, Bitmap bitmap) {
-        int tileSize = getTileSize();
-        if (bitmap == null) {
-            bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ARGB_8888);
+    override fun getTile(level: Int, x: Int, y: Int, bitmap: Bitmap?): Bitmap? {
+        var mBitmap = bitmap
+        val tileSize = tileSize
+        if (mBitmap == null) {
+            mBitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ARGB_8888)
         }
-        Canvas c = new Canvas(bitmap);
-        Rect bounds = new Rect(0, 0, getImageWidth(), getImageHeight());
-        bounds.offset(-x, -y);
-        mDrawable.setBounds(bounds);
-        mDrawable.draw(c);
-        c.setBitmap(null);
-        return bitmap;
+        if (mBitmap == null) {
+            return null
+        }
+        val c = Canvas(mBitmap)
+        val bounds = Rect(0, 0, imageWidth, imageHeight)
+        bounds.offset(-x, -y)
+        mDrawable.bounds = bounds
+        mDrawable.draw(c)
+        c.setBitmap(null)
+        return mBitmap
+    }
+
+    companion object {
+        private const val GL_SIZE_LIMIT = 2048
+
+        // This must be no larger than half the size of the GL_SIZE_LIMIT
+        // due to decodePreview being allowed to be up to 2x the size of the target
+        const val MAX_PREVIEW_SIZE = GL_SIZE_LIMIT / 2
     }
 }
