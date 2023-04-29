@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.helper
 
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
