@@ -1,115 +1,107 @@
-package com.roy.turbo.launcher.itf;
+package com.roy.turbo.launcher.itf
 
-import android.content.Context;
-import android.graphics.PointF;
-import android.graphics.Rect;
+import android.content.Context
+import android.graphics.PointF
+import android.graphics.Rect
+import com.roy.turbo.launcher.DragController
+import com.roy.turbo.launcher.Launcher
+import com.roy.turbo.launcher.view.DragView
 
-import com.roy.turbo.launcher.DragController;
-import com.roy.turbo.launcher.Launcher;
-import com.roy.turbo.launcher.view.DragView;
+interface DropTarget {
+    class DragObject {
+        @JvmField
+        var x = -1
 
-public interface DropTarget {
+        @JvmField
+        var y = -1
 
-	class DragObject {
-		public int x = -1;
-		public int y = -1;
+        /** X offset from the upper-left corner of the cell to where we touched.  */
+        @JvmField
+        var xOffset = -1
 
-		/** X offset from the upper-left corner of the cell to where we touched. */
-		public int xOffset = -1;
+        /** Y offset from the upper-left corner of the cell to where we touched.  */
+        @JvmField
+        var yOffset = -1
 
-		/** Y offset from the upper-left corner of the cell to where we touched. */
-		public int yOffset = -1;
+        /**
+         * This indicates whether a drag is in final stages, either drop or
+         * cancel. It differentiates onDragExit, since this is called when the
+         * drag is ending, above the current drag target, or when the drag moves
+         * off the current drag object.
+         */
+        @JvmField
+        var dragComplete = false
 
-		/**
-		 * This indicates whether a drag is in final stages, either drop or
-		 * cancel. It differentiates onDragExit, since this is called when the
-		 * drag is ending, above the current drag target, or when the drag moves
-		 * off the current drag object.
-		 */
-		public boolean dragComplete = false;
+        /** The view that moves around while you drag.  */
+        @JvmField
+        var dragView: DragView? = null
 
-		/** The view that moves around while you drag. */
-		public DragView dragView = null;
+        /** The data associated with the object being dragged  */
+        @JvmField
+        var dragInfo: Any? = null
 
-		/** The data associated with the object being dragged */
-		public Object dragInfo = null;
+        /** Where the drag originated  */
+        @JvmField
+        var dragSource: DragSource? = null
 
-		/** Where the drag originated */
-		public DragSource dragSource = null;
+        /** Post drag animation runnable  */
+        @JvmField
+        var postAnimationRunnable: Runnable? = null
 
-		/** Post drag animation runnable */
-		public Runnable postAnimationRunnable = null;
+        /** Indicates that the drag operation was cancelled  */
+        @JvmField
+        var cancelled = false
 
-		/** Indicates that the drag operation was cancelled */
-		public boolean cancelled = false;
+        /**
+         * Defers removing the DragView from the DragLayer until after the drop
+         * animation.
+         */
+        @JvmField
+        var deferDragViewCleanupPostAnimation = true
+    }
 
-		/**
-		 * Defers removing the DragView from the DragLayer until after the drop
-		 * animation.
-		 */
-		public boolean deferDragViewCleanupPostAnimation = true;
+    class DragEnforcer(context: Context) : DragController.DragListener {
+        private var dragParity = 0
 
-		public DragObject() {
-		}
-	}
+        init {
+            val launcher = context as Launcher
+            launcher.dragController.addDragListener(this)
+        }
 
-	public static class DragEnforcer implements DragController.DragListener {
-		int dragParity = 0;
+        fun onDragEnter() {
+            dragParity++
+        }
 
-		public DragEnforcer(Context context) {
-			Launcher launcher = (Launcher) context;
-			launcher.getDragController().addDragListener(this);
-		}
+        fun onDragExit() {
+            dragParity--
+        }
 
-		public void onDragEnter() {
-			dragParity++;
-		}
+        override fun onDragStart(source: DragSource, info: Any, dragAction: Int) {}
+        override fun onDragEnd() {}
+    }
 
-		public void onDragExit() {
-			dragParity--;
-		}
+    /**
+     * Used to temporarily disable certain drop targets
+     *
+     * @return boolean specifying whether this drop target is currently enabled
+     */
+    val isDropEnabled: Boolean
+    fun onDrop(dragObject: DragObject?)
+    fun onDragEnter(dragObject: DragObject?)
+    fun onDragOver(dragObject: DragObject?)
+    fun onDragExit(dragObject: DragObject?)
 
-		@Override
-		public void onDragStart(DragSource source, Object info, int dragAction) {
+    /**
+     * Handle an object being dropped as a result of flinging to delete and will
+     * be called in place of onDrop(). (This is only called on objects that are
+     * set as the DragController's fling-to-delete target.
+     */
+    fun onFlingToDelete(dragObject: DragObject?, x: Int, y: Int, vec: PointF?)
+    fun acceptDrop(dragObject: DragObject?): Boolean
 
-		}
-
-		@Override
-		public void onDragEnd() {
-
-		}
-	}
-
-	/**
-	 * Used to temporarily disable certain drop targets
-	 * 
-	 * @return boolean specifying whether this drop target is currently enabled
-	 */
-	boolean isDropEnabled();
-
-	void onDrop(DragObject dragObject);
-
-	void onDragEnter(DragObject dragObject);
-
-	void onDragOver(DragObject dragObject);
-
-	void onDragExit(DragObject dragObject);
-
-	/**
-	 * Handle an object being dropped as a result of flinging to delete and will
-	 * be called in place of onDrop(). (This is only called on objects that are
-	 * set as the DragController's fling-to-delete target.
-	 */
-	void onFlingToDelete(DragObject dragObject, int x, int y, PointF vec);
-
-	boolean acceptDrop(DragObject dragObject);
-
-	// These methods are implemented in Views
-	void getHitRectRelativeToDragLayer(Rect outRect);
-
-	void getLocationInDragLayer(int[] loc);
-
-	int getLeft();
-
-	int getTop();
+    // These methods are implemented in Views
+    fun getHitRectRelativeToDragLayer(outRect: Rect?)
+    fun getLocationInDragLayer(loc: IntArray?)
+    val left: Int
+    val top: Int
 }
