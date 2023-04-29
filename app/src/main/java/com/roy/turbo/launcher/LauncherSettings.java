@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.net.Uri;
@@ -23,26 +7,28 @@ import android.provider.BaseColumns;
  * Settings related utilities.
  */
 class LauncherSettings {
-    /** Columns required on table staht will be subject to backup and restore. */
-    static interface ChangeLogColumns extends BaseColumns {
+    /**
+     * Columns required on table staht will be subject to backup and restore.
+     */
+    interface ChangeLogColumns extends BaseColumns {
         /**
          * The time of the last update to this row.
          * <P>Type: INTEGER</P>
          */
-        static final String MODIFIED = "modified";
+        String MODIFIED = "modified";
     }
 
-    static interface BaseLauncherColumns extends ChangeLogColumns {
+    interface BaseLauncherColumns extends ChangeLogColumns {
         /**
          * Descriptive name of the gesture that can be displayed to the user.
          * <P>Type: TEXT</P>
          */
-        static final String TITLE = "title";
+        String TITLE = "title";
 
         /**
          * Folder Hidden status
          */
-        static final String HIDDEN = "hidden";
+        String HIDDEN = "hidden";
 
         /**
          * The Intent URL of the gesture, describing what it points to. This
@@ -50,63 +36,62 @@ class LauncherSettings {
          * an Intent that can be launched.
          * <P>Type: TEXT</P>
          */
-        static final String INTENT = "intent";
+        String INTENT = "intent";
 
         /**
          * The type of the gesture
          *
          * <P>Type: INTEGER</P>
          */
-        static final String ITEM_TYPE = "itemType";
+        String ITEM_TYPE = "itemType";
 
         /**
          * The gesture is an application
          */
-        static final int ITEM_TYPE_APPLICATION = 0;
+        int ITEM_TYPE_APPLICATION = 0;
 
         /**
          * The gesture is an application created shortcut
          */
-        static final int ITEM_TYPE_SHORTCUT = 1;
+        int ITEM_TYPE_SHORTCUT = 1;
 
         /**
          * The icon type.
          * <P>Type: INTEGER</P>
          */
-        static final String ICON_TYPE = "iconType";
+        String ICON_TYPE = "iconType";
 
         /**
          * The icon is a resource identified by a package name and an integer id.
          */
-        static final int ICON_TYPE_RESOURCE = 0;
+        int ICON_TYPE_RESOURCE = 0;
 
         /**
          * The icon is a bitmap.
          */
-        static final int ICON_TYPE_BITMAP = 1;
+        int ICON_TYPE_BITMAP = 1;
 
         /**
          * The icon package name, if icon type is ICON_TYPE_RESOURCE.
          * <P>Type: TEXT</P>
          */
-        static final String ICON_PACKAGE = "iconPackage";
+        String ICON_PACKAGE = "iconPackage";
 
         /**
          * The icon resource id, if icon type is ICON_TYPE_RESOURCE.
          * <P>Type: TEXT</P>
          */
-        static final String ICON_RESOURCE = "iconResource";
+        String ICON_RESOURCE = "iconResource";
 
         /**
          * The custom icon bitmap, if icon type is ICON_TYPE_BITMAP.
          * <P>Type: BLOB</P>
          */
-        static final String ICON = "icon";
+        String ICON = "icon";
     }
 
     /**
      * Workspace Screens.
-     *
      * Tracks the order of workspace screens.
      */
     static final class WorkspaceScreens implements ChangeLogColumns {
@@ -176,11 +161,14 @@ class LauncherSettings {
         static final int CONTAINER_DESKTOP = -100;
         static final int CONTAINER_HOTSEAT = -101;
 
-        static final String containerToString(int container) {
+        static String containerToString(int container) {
             switch (container) {
-                case CONTAINER_DESKTOP: return "desktop";
-                case CONTAINER_HOTSEAT: return "hotseat";
-                default: return String.valueOf(container);
+                case CONTAINER_DESKTOP:
+                    return "desktop";
+                case CONTAINER_HOTSEAT:
+                    return "hotseat";
+                default:
+                    return String.valueOf(container);
             }
         }
 
@@ -223,7 +211,6 @@ class LauncherSettings {
 
         /**
         * The favorite is a live folder
-        *
         * Note: live folders can no longer be added to Launcher, and any live folders which
         * exist within the launcher database will be ignored when loading.  That said, these
         * entries in the database may still exist, and are not automatically stripped.
@@ -288,9 +275,6 @@ class LauncherSettings {
         /**
          * The display mode if the item is a live folder.
          * <P>Type: INTEGER</P>
-         *
-         * @see android.provider.LiveFolders#DISPLAY_MODE_GRID
-         * @see android.provider.LiveFolders#DISPLAY_MODE_LIST
          */
         static final String DISPLAY_MODE = "displayMode";
 
