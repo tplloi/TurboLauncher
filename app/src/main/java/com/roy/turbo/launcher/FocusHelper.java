@@ -493,7 +493,7 @@ public class FocusHelper {
     /**
      * Handles key events in a Workspace containing.
      */
-    static boolean handleIconKeyEvent(View v, int keyCode, KeyEvent e) {
+    public static boolean handleIconKeyEvent(View v, int keyCode, KeyEvent e) {
         ShortcutAndWidgetContainer parent = (ShortcutAndWidgetContainer) v.getParent();
         final CellLayout layout = (CellLayout) parent.getParent();
         final Workspace workspace = (Workspace) layout.getParent();
