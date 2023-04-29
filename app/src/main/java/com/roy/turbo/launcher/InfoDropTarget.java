@@ -1,23 +1,4 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
-
-import com.roy.turbo.launcher.itf.DragSource;
-import com.roy.turbo.launcher.view.ButtonDropTarget;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -28,6 +9,9 @@ import android.graphics.drawable.TransitionDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.roy.turbo.launcher.itf.DragSource;
+import com.roy.turbo.launcher.view.ButtonDropTarget;
 
 public class InfoDropTarget extends ButtonDropTarget {
 
@@ -86,6 +70,7 @@ public class InfoDropTarget extends ButtonDropTarget {
         // acceptDrop is called just before onDrop. We do the work here, rather than
         // in onDrop, because it allows us to reject the drop (by returning false)
         // so that the object being dragged isn't removed from the drag source.
+        assert d != null;
         ComponentName componentName = dragItemComponentName(d.dragInfo);
         if (componentName != null) {
             mLauncher.startApplicationDetailsActivity(componentName);
