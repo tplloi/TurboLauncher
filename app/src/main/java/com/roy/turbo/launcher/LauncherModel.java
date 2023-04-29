@@ -211,12 +211,10 @@ public class LauncherModel extends BroadcastReceiver {
 		}
 	}
 
-	boolean canMigrateFromOldLauncherDb(Launcher launcher) {
-		return mOldContentProviderExists && !launcher.isLauncherPreinstalled();
-	}
-
 	static boolean findNextAvailableIconSpaceInScreen(
-			ArrayList<ItemInfo> items, int[] xy, long screen) {
+			ArrayList<ItemInfo> items,
+			int[] xy,
+			long screen) {
 		LauncherAppState app = LauncherAppState.getInstance();
 		DeviceProfile grid = app.getDynamicGrid().getDeviceProfile();
 		final int xCount = (int) grid.numColumns;
@@ -254,8 +252,6 @@ public class LauncherModel extends BroadcastReceiver {
 
 	static Pair<Long, int[]> findNextAvailableIconSpace(
 			Context context,
-			String name,
-			Intent launchIntent,
 			int firstScreenIndex,
 			ArrayList<Long> workspaceScreens) {
 		// Lock on the app so that we don't try and get the items while apps are
@@ -383,7 +379,7 @@ public class LauncherModel extends BroadcastReceiver {
 					// first page.
 					// Otherwise, we add them to the next pages.
 					int startSearchPageIndex = workspaceScreens.isEmpty() ? 0 : 1;
-					Pair<Long, int[]> coords = LauncherModel.findNextAvailableIconSpace(context, name, launchIntent, startSearchPageIndex, workspaceScreens);
+					Pair<Long, int[]> coords = LauncherModel.findNextAvailableIconSpace(context, startSearchPageIndex, workspaceScreens);
 					if (coords == null) {
 						LauncherProvider lp = LauncherAppState.getLauncherProvider();
 
@@ -405,7 +401,7 @@ public class LauncherModel extends BroadcastReceiver {
 						}
 
 						// Find the coordinate again
-						coords = LauncherModel.findNextAvailableIconSpace(context, name, launchIntent, startSearchPageIndex, workspaceScreens);
+						coords = LauncherModel.findNextAvailableIconSpace(context, startSearchPageIndex, workspaceScreens);
 					}
 					if (coords == null) {
 						throw new RuntimeException("Coordinates should not be null");
@@ -590,8 +586,7 @@ public class LauncherModel extends BroadcastReceiver {
 	static void updateItemsInDatabaseHelper(
 			Context context,
 			final ArrayList<ContentValues> valuesList,
-			final ArrayList<ItemInfo> items,
-			final String callingFunction) {
+			final ArrayList<ItemInfo> items) {
 		final ContentResolver cr = context.getContentResolver();
 
 		final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
@@ -740,8 +735,8 @@ public class LauncherModel extends BroadcastReceiver {
 
 			contentValues.add(values);
 		}
-		updateItemsInDatabaseHelper(context, contentValues, items,
-				"moveItemInDatabase");
+		updateItemsInDatabaseHelper(context, contentValues, items
+		);
 	}
 
 	/**
@@ -1024,20 +1019,6 @@ public class LauncherModel extends BroadcastReceiver {
 				allAppsIndex, allAppsIndex, 0);
 
 		return allAppsShortcut;
-	}
-
-	/**
-	 * Creates a new unique child id, for a given cell span across all layouts.
-	 */
-	static int getCellLayoutChildId(
-			long container,
-			long screen,
-			int localCellX,
-			int localCellY,
-			int spanX,
-			int spanY) {
-		return (((int) container & 0xFF) << 24) | ((int) screen & 0xFF) << 16
-				| (localCellX & 0xFF) << 8 | (localCellY & 0xFF);
 	}
 
 	/**

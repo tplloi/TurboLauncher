@@ -1,5 +1,6 @@
 package com.roy.turbo.launcher;
 
+import android.annotation.SuppressLint;
 import android.app.WallpaperInfo;
 import android.app.WallpaperManager;
 import android.content.Context;
@@ -28,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+//done 2023.04.29
 public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter {
     private static final String LOG_TAG = LiveWallpaperListAdapter.class.getSimpleName();
 
@@ -96,12 +98,11 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
 
     public static class LiveWallpaperTile extends WallpaperPickerActivity.WallpaperTileInfo {
         private final Drawable mThumbnail;
-        private WallpaperInfo mInfo;
+        private final WallpaperInfo mInfo;
 
         public LiveWallpaperTile(
                 Drawable thumbnail,
-                WallpaperInfo info,
-                Intent intent) {
+                WallpaperInfo info) {
             mThumbnail = thumbnail;
             mInfo = info;
         }
@@ -116,6 +117,7 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class LiveWallpaperEnumerator extends AsyncTask<List<ResolveInfo>, LiveWallpaperTile, Void> {
         private final Context mContext;
         private int mWallpaperPosition;
@@ -126,8 +128,9 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
             mWallpaperPosition = 0;
         }
 
+        @SafeVarargs
         @Override
-        protected Void doInBackground(List<ResolveInfo>... params) {
+        protected final Void doInBackground(List<ResolveInfo>... params) {
             final PackageManager packageManager = mContext.getPackageManager();
 
             List<ResolveInfo> list = params[0];
@@ -161,7 +164,7 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
                 Drawable thumb = info.loadThumbnail(packageManager);
                 Intent launchIntent = new Intent(WallpaperService.SERVICE_INTERFACE);
                 launchIntent.setClassName(info.getPackageName(), info.getServiceName());
-                LiveWallpaperTile wallpaper = new LiveWallpaperTile(thumb, info, launchIntent);
+                LiveWallpaperTile wallpaper = new LiveWallpaperTile(thumb, info);
                 publishProgress(wallpaper);
             }
             // Send a null object to show loading is finished
