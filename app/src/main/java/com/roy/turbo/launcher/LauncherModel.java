@@ -68,8 +68,8 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.roy.turbo.launcher.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
+import com.roy.turbo.launcher.model.AppFilter;
 import com.roy.turbo.launcher.settings.SettingsProvider;
-import com.roy.turbo.launcher.R;
 
 public class LauncherModel extends BroadcastReceiver {
 

@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.roy.turbo.launcher.model.AppFilter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -200,6 +202,7 @@ class AllAppsList {
      */
     private AppInfo findApplicationInfoLocked(String packageName, String className) {
         for (AppInfo info : data) {
+            assert info.intent != null;
             final ComponentName component = info.intent.getComponent();
             if (packageName.equals(component.getPackageName())
                     && className.equals(component.getClassName())) {

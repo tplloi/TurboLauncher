@@ -25,7 +25,7 @@ import android.os.Handler;
 
 import java.lang.ref.WeakReference;
 
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.model.AppFilter;
 
 public class LauncherAppState implements DeviceProfile.DeviceProfileCallbacks {
     

@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.model
 
 import android.content.ComponentName
 import android.text.TextUtils
