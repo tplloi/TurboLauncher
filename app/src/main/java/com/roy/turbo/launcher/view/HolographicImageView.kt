@@ -1,105 +1,89 @@
-package com.roy.turbo.launcher.view;
+package com.roy.turbo.launcher.view
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.ImageView;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.drawable.StateListDrawable
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+import android.view.View.OnFocusChangeListener
+import android.widget.ImageView
+import com.roy.turbo.launcher.HolographicViewHelper
+import com.roy.turbo.launcher.R
 
-import com.roy.turbo.launcher.HolographicViewHelper;
-import com.roy.turbo.launcher.R;
+class HolographicImageView @SuppressLint("ClickableViewAccessibility") constructor(
+    context: Context,
+    attrs: AttributeSet?,
+    defStyle: Int
+) : ImageView(context, attrs, defStyle) {
+    private val mHolographicHelper: HolographicViewHelper
+    private var isHotwordOn: Boolean
+    private var mIsPressed = false
+    private var mIsFocused = false
 
-public class HolographicImageView extends ImageView {
-
-    private final HolographicViewHelper mHolographicHelper;
-    private boolean mHotwordOn;
-    private boolean mIsPressed;
-    private boolean mIsFocused;
-
-    public HolographicImageView(Context context) {
-        this(context, null);
+    @JvmOverloads
+    constructor(context: Context, attrs: AttributeSet? = null) : this(context, attrs, 0) {
     }
 
-    public HolographicImageView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public HolographicImageView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-
-        mHolographicHelper = new HolographicViewHelper(context);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HolographicLinearLayout,
-                defStyle, 0);
-        mHotwordOn = a.getBoolean(R.styleable.HolographicLinearLayout_stateHotwordOn, false);
-        a.recycle();
-
-        setOnTouchListener((v, event) -> {
-            if (isPressed() != mIsPressed) {
-                mIsPressed = isPressed();
-                refreshDrawableState();
+    init {
+        mHolographicHelper = HolographicViewHelper(context)
+        val a = context.obtainStyledAttributes(
+            attrs, R.styleable.HolographicLinearLayout,
+            defStyle, 0
+        )
+        isHotwordOn = a.getBoolean(R.styleable.HolographicLinearLayout_stateHotwordOn, false)
+        a.recycle()
+        setOnTouchListener { v: View?, event: MotionEvent? ->
+            if (isPressed != mIsPressed) {
+                mIsPressed = isPressed
+                refreshDrawableState()
             }
-            return false;
-        });
-
-        setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (isFocused() != mIsFocused) {
-                    mIsFocused = isFocused();
-                    refreshDrawableState();
-                }
+            false
+        }
+        onFocusChangeListener = OnFocusChangeListener { _, _ ->
+            if (isFocused != mIsFocused) {
+                mIsFocused = isFocused
+                refreshDrawableState()
             }
-        });
-    }
-
-    public void invalidatePressedFocusedStates() {
-        mHolographicHelper.invalidatePressedFocusedStates(this);
-    }
-
-    @Override
-    protected void drawableStateChanged() {
-        super.drawableStateChanged();
-
-        Drawable d = getDrawable();
-        if (d instanceof StateListDrawable) {
-            StateListDrawable sld = (StateListDrawable) d;
-            sld.setState(getDrawableState());
-            sld.invalidateSelf();
         }
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    fun invalidatePressedFocusedStates() {
+        mHolographicHelper.invalidatePressedFocusedStates(this)
+    }
+
+    override fun drawableStateChanged() {
+        super.drawableStateChanged()
+        val d = drawable
+        if (d is StateListDrawable) {
+            val sld = d
+            sld.state = drawableState
+            sld.invalidateSelf()
+        }
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
 
         // One time call to generate the pressed/focused state -- must be called after
         // measure/layout
-        mHolographicHelper.generatePressedFocusedStates(this);
+        mHolographicHelper.generatePressedFocusedStates(this)
     }
 
-    private boolean isHotwordOn() {
-        return mHotwordOn;
-    }
-
-    public void setHotwordState(boolean on) {
-        if (on == mHotwordOn) {
-            return;
+    fun setHotwordState(on: Boolean) {
+        if (on == isHotwordOn) {
+            return
         }
-        mHotwordOn = on;
-        refreshDrawableState();
+        isHotwordOn = on
+        refreshDrawableState()
     }
 
-    @Override
-    public int[] onCreateDrawableState(int extraSpace) {
-        final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-        if (isHotwordOn()) {
-            mergeDrawableStates(drawableState, new int[] {R.attr.stateHotwordOn});
+    override fun onCreateDrawableState(extraSpace: Int): IntArray {
+        val drawableState = super.onCreateDrawableState(extraSpace + 1)
+        if (isHotwordOn) {
+            mergeDrawableStates(drawableState, intArrayOf(R.attr.stateHotwordOn))
         }
-        return drawableState;
+        return drawableState
     }
 }
