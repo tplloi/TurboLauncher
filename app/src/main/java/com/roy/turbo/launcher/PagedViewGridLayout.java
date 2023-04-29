@@ -1,5 +1,6 @@
 package com.roy.turbo.launcher;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,14 +12,17 @@ import com.roy.turbo.launcher.itf.Page;
 /**
  * The grid based layout used strictly for the widget/wallpaper tab of the AppsCustomize pane
  */
+//done 2023.04.29
 public class PagedViewGridLayout extends GridLayout implements Page {
-    static final String TAG = "PagedViewGridLayout";
 
-    private int mCellCountX;
-    private int mCellCountY;
+    private final int mCellCountX;
+    private final int mCellCountY;
     private Runnable mOnLayoutListener;
 
-    public PagedViewGridLayout(Context context, int cellCountX, int cellCountY) {
+    public PagedViewGridLayout(
+            Context context,
+            int cellCountX,
+            int cellCountY) {
         super(context, null, 0);
         mCellCountX = cellCountX;
         mCellCountY = cellCountY;
@@ -30,16 +34,6 @@ public class PagedViewGridLayout extends GridLayout implements Page {
 
     int getCellCountY() {
         return mCellCountY;
-    }
-
-    /**
-     * Clears all the key listeners for the individual widgets.
-     */
-    public void resetChildrenOnKeyListeners() {
-        int childCount = getChildCount();
-        for (int j = 0; j < childCount; ++j) {
-            getChildAt(j).setOnKeyListener(null);
-        }
     }
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -71,6 +65,7 @@ public class PagedViewGridLayout extends GridLayout implements Page {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean result = super.onTouchEvent(event);
@@ -78,6 +73,7 @@ public class PagedViewGridLayout extends GridLayout implements Page {
         if (count > 0) {
             // We only intercept the touch if we are tapping in empty space after the final row
             View child = getChildOnPageAt(count - 1);
+            assert child != null;
             int bottom = child.getBottom();
             result = result || (event.getY() < bottom);
         }
