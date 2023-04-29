@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.roy.turbo.launcher.itf.DragScroller;
 import com.roy.turbo.launcher.itf.DragSource;
+import com.roy.turbo.launcher.view.DragView;
 
 import java.util.ArrayList;
 

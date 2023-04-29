@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.view;
 
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
@@ -11,6 +11,11 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+
+import com.roy.turbo.launcher.DragLayer;
+import com.roy.turbo.launcher.Launcher;
+import com.roy.turbo.launcher.LauncherAnimUtils;
+import com.roy.turbo.launcher.R;
 
 public class DragView extends View {
     private static final float sDragAlpha = 1f;
@@ -47,7 +52,7 @@ public class DragView extends View {
      * @param registrationY The y coordinate of the registration point.
      */
     public DragView(Launcher launcher, Bitmap bitmap, int registrationX, int registrationY,
-            int left, int top, int width, int height, final float initialScale) {
+                    int left, int top, int width, int height, final float initialScale) {
         super(launcher);
         mDragLayer = launcher.getDragLayer();
         mInitialScale = initialScale;
@@ -253,12 +258,12 @@ public class DragView extends View {
      * @param touchX the x coordinate the user touched in DragLayer coordinates
      * @param touchY the y coordinate the user touched in DragLayer coordinates
      */
-    void move(int touchX, int touchY) {
+    public void move(int touchX, int touchY) {
         setTranslationX(touchX - mRegistrationX + (int) mOffsetX);
         setTranslationY(touchY - mRegistrationY + (int) mOffsetY);
     }
 
-    void remove() {
+    public void remove() {
         if (getParent() != null) {
             mDragLayer.removeView(DragView.this);
         }

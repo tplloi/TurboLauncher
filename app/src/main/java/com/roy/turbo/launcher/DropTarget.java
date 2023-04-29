@@ -21,6 +21,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 
 import com.roy.turbo.launcher.itf.DragSource;
+import com.roy.turbo.launcher.view.DragView;
 
 public interface DropTarget {
 

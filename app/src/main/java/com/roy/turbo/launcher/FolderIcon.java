@@ -45,6 +45,7 @@ import com.roy.turbo.launcher.FolderInfo.FolderListener;
 import com.roy.turbo.launcher.helper.CheckLongPressHelper;
 import com.roy.turbo.launcher.sv.Alarm;
 import com.roy.turbo.launcher.view.BubbleTextView;
+import com.roy.turbo.launcher.view.DragView;
 
 import java.util.ArrayList;
 
@@ -380,8 +381,8 @@ public class FolderIcon extends FrameLayout implements FolderListener {
     };
 
     public void performCreateAnimation(final ShortcutInfo destInfo, final View destView,
-            final ShortcutInfo srcInfo, final DragView srcView, Rect dstRect,
-            float scaleRelativeToDragLayer, Runnable postAnimationRunnable) {
+                                       final ShortcutInfo srcInfo, final DragView srcView, Rect dstRect,
+                                       float scaleRelativeToDragLayer, Runnable postAnimationRunnable) {
 
         // These correspond two the drawable and view that the icon was dropped _onto_
         Drawable animateDrawable = ((TextView) destView).getCompoundDrawables()[1];
