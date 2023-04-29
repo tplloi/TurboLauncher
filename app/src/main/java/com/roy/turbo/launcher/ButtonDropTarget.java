@@ -1,22 +1,4 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
-
-import com.roy.turbo.launcher.R;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -32,14 +14,18 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
     protected final int mTransitionDuration;
 
     protected Launcher mLauncher;
-    private int mBottomDragPadding;
-    protected TextView mText;
+    private final int mBottomDragPadding;
+    //    protected TextView mText;
     protected SearchDropTargetBar mSearchDropTargetBar;
 
-    /** Whether this drop target is active for the current drag */
+    /**
+     * Whether this drop target is active for the current drag
+     */
     protected boolean mActive;
 
-    /** The paint applied to the drag view on hover */
+    /**
+     * The paint applied to the drag view on hover
+     */
     protected int mHoverColor = 0;
 
     public ButtonDropTarget(Context context, AttributeSet attrs) {
@@ -68,9 +54,9 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
 
     protected Drawable getCurrentDrawable() {
         Drawable[] drawables = getCompoundDrawablesRelative();
-        for (int i = 0; i < drawables.length; ++i) {
-            if (drawables[i] != null) {
-                return drawables[i];
+        for (Drawable drawable : drawables) {
+            if (drawable != null) {
+                return drawable;
             }
         }
         return null;
@@ -80,7 +66,7 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
     }
 
     public void onFlingToDelete(DragObject d, int x, int y, PointF vec) {
-        
+
     }
 
     public void onDragEnter(DragObject d) {
@@ -88,7 +74,7 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
     }
 
     public void onDragOver(DragObject d) {
-        
+
     }
 
     public void onDragExit(DragObject d) {
@@ -96,7 +82,7 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
     }
 
     public void onDragStart(DragSource source, Object info, int dragAction) {
-        
+
     }
 
     public boolean isDropEnabled() {
@@ -104,7 +90,7 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
     }
 
     public void onDragEnd() {
-        
+
     }
 
     @Override
@@ -128,28 +114,25 @@ public class ButtonDropTarget extends TextView implements DropTarget, DragContro
         Rect to = new Rect();
         dragLayer.getViewRectRelativeToSelf(this, to);
 
-        final int width = drawableWidth;
-        final int height = drawableHeight;
-
         final int left;
         final int right;
 
         if (isRtl()) {
             right = to.right - getPaddingRight();
-            left = right - width;
+            left = right - drawableWidth;
         } else {
             left = to.left + getPaddingLeft();
-            right = left + width;
+            right = left + drawableWidth;
         }
 
-        final int top = to.top + (getMeasuredHeight() - height) / 2;
-        final int bottom = top +  height;
+        final int top = to.top + (getMeasuredHeight() - drawableHeight) / 2;
+        final int bottom = top + drawableHeight;
 
         to.set(left, top, right, bottom);
 
         // Center the destination rect about the trash icon
-        final int xOffset = (int) -(viewWidth - width) / 2;
-        final int yOffset = (int) -(viewHeight - height) / 2;
+        final int xOffset = (int) -(viewWidth - drawableWidth) / 2;
+        final int yOffset = (int) -(viewHeight - drawableHeight) / 2;
         to.offset(xOffset, yOffset);
 
         return to;
