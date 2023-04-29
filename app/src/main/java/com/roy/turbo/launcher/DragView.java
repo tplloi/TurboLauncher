@@ -1,25 +1,6 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
-import com.roy.turbo.launcher.R;
-
 import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -32,24 +13,24 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 public class DragView extends View {
-    private static float sDragAlpha = 1f;
+    private static final float sDragAlpha = 1f;
 
-    private Bitmap mBitmap;
+    private final Bitmap mBitmap;
     private Bitmap mCrossFadeBitmap;
     private Paint mPaint;
-    private int mRegistrationX;
-    private int mRegistrationY;
+    private final int mRegistrationX;
+    private final int mRegistrationY;
 
     private Point mDragVisualizeOffset = null;
     private Rect mDragRegion = null;
-    private DragLayer mDragLayer = null;
+    private DragLayer mDragLayer;
     private boolean mHasDrawn = false;
     private float mCrossFadeProgress = 0f;
 
     ValueAnimator mAnim;
     private float mOffsetX = 0.0f;
     private float mOffsetY = 0.0f;
-    private float mInitialScale = 1f;
+    private float mInitialScale;
     // The intrinsic icon scale factor is the scale factor for a drag icon over the workspace
     // size.  This is ignored for non-icons.
     private float mIntrinsicIconScale = 1f;
@@ -84,28 +65,25 @@ public class DragView extends View {
         // Animate the view into the correct position
         mAnim = LauncherAnimUtils.ofFloat(this, 0f, 1f);
         mAnim.setDuration(150);
-        mAnim.addUpdateListener(new AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                final float value = (Float) animation.getAnimatedValue();
+        mAnim.addUpdateListener(animation -> {
+            final float value = (Float) animation.getAnimatedValue();
 
-                final int deltaX = (int) ((value * offsetX) - mOffsetX);
-                final int deltaY = (int) ((value * offsetY) - mOffsetY);
+            final int deltaX = (int) ((value * offsetX) - mOffsetX);
+            final int deltaY = (int) ((value * offsetY) - mOffsetY);
 
-                mOffsetX += deltaX;
-                mOffsetY += deltaY;
-                setScaleX(initialScale + (value * (scale - initialScale)));
-                setScaleY(initialScale + (value * (scale - initialScale)));
-                if (sDragAlpha != 1f) {
-                    setAlpha(sDragAlpha * value + (1f - value));
-                }
+            mOffsetX += deltaX;
+            mOffsetY += deltaY;
+            setScaleX(initialScale + (value * (scale - initialScale)));
+            setScaleY(initialScale + (value * (scale - initialScale)));
+            if (sDragAlpha != 1f) {
+                setAlpha(sDragAlpha * value + (1f - value));
+            }
 
-                if (getParent() == null) {
-                    animation.cancel();
-                } else {
-                    setTranslationX(getTranslationX() + deltaX);
-                    setTranslationY(getTranslationY() + deltaY);
-                }
+            if (getParent() == null) {
+                animation.cancel();
+            } else {
+                setTranslationX(getTranslationX() + deltaX);
+                setTranslationY(getTranslationY() + deltaY);
             }
         });
 
@@ -209,12 +187,7 @@ public class DragView extends View {
         ValueAnimator va = LauncherAnimUtils.ofFloat(this, 0f, 1f);
         va.setDuration(duration);
         va.setInterpolator(new DecelerateInterpolator(1.5f));
-        va.addUpdateListener(new AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                mCrossFadeProgress = animation.getAnimatedFraction();
-            }
-        });
+        va.addUpdateListener(animation -> mCrossFadeProgress = animation.getAnimatedFraction());
         va.start();
     }
 
@@ -243,8 +216,8 @@ public class DragView extends View {
 
     /**
      * Create a window containing this view and show it.
+     * windowToken obtained from v.getWindowToken() from one of your views
      *
-     * @param windowToken obtained from v.getWindowToken() from one of your views
      * @param touchX the x coordinate the user touched in DragLayer coordinates
      * @param touchY the y coordinate the user touched in DragLayer coordinates
      */
@@ -260,11 +233,7 @@ public class DragView extends View {
         setTranslationX(touchX - mRegistrationX);
         setTranslationY(touchY - mRegistrationY);
         // Post the animation to skip other expensive work happening on the first frame
-        post(new Runnable() {
-                public void run() {
-                    mAnim.start();
-                }
-            });
+        post(() -> mAnim.start());
     }
 
     public void cancelAnimation() {
