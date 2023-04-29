@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.roy.turbo.launcher.CellLayout;
 import com.roy.turbo.launcher.helper.CheckLongPressHelper;
 import com.roy.turbo.launcher.DeviceProfile;
-import com.roy.turbo.launcher.HolographicOutlineHelper;
+import com.roy.turbo.launcher.helper.HolographicOutlineHelper;
 import com.roy.turbo.launcher.IconCache;
 import com.roy.turbo.launcher.ItemInfo;
 import com.roy.turbo.launcher.LauncherAppState;
