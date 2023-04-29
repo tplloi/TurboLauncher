@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.content.ComponentName;
@@ -60,17 +44,17 @@ public class DragController {
     private static final int SCROLL_OUTSIDE_ZONE = 0;
     private static final int SCROLL_WAITING_IN_ZONE = 1;
 
-    static final int SCROLL_NONE = -1;
+    //    static final int SCROLL_NONE = -1;
     static final int SCROLL_LEFT = 0;
     static final int SCROLL_RIGHT = 1;
 
     private static final float MAX_FLING_DEGREES = 35f;
 
-    private Launcher mLauncher;
-    private Handler mHandler;
+    private final Launcher mLauncher;
+    private final Handler mHandler;
 
     // temporaries to avoid gc thrash
-    private Rect mRectTemp = new Rect();
+    private final Rect mRectTemp = new Rect();
     private final int[] mCoordinatesTemp = new int[2];
 
     /**
@@ -92,15 +76,15 @@ public class DragController {
      * the area at the edge of the screen that makes the workspace go left
      * or right while you're dragging.
      */
-    private int mScrollZone;
+    private final int mScrollZone;
 
     private DropTarget.DragObject mDragObject;
 
     /**
      * Who can receive drop events
      */
-    private ArrayList<DropTarget> mDropTargets = new ArrayList<DropTarget>();
-    private ArrayList<DragListener> mListeners = new ArrayList<DragListener>();
+    private final ArrayList<DropTarget> mDropTargets = new ArrayList<>();
+    private final ArrayList<DragListener> mListeners = new ArrayList<>();
     private DropTarget mFlingToDeleteDropTarget;
 
     /**
@@ -117,18 +101,18 @@ public class DragController {
 
     private DragScroller mDragScroller;
     private int mScrollState = SCROLL_OUTSIDE_ZONE;
-    private ScrollRunnable mScrollRunnable = new ScrollRunnable();
+    private final ScrollRunnable mScrollRunnable = new ScrollRunnable();
 
     private DropTarget mLastDropTarget;
 
     private InputMethodManager mInputMethodManager;
 
-    private int mLastTouch[] = new int[2];
+    private final int[] mLastTouch = new int[2];
     private long mLastTouchUpTime = -1;
     private int mDistanceSinceScroll = 0;
 
-    private int mTmpPoint[] = new int[2];
-    private Rect mDragLayerRect = new Rect();
+    private final int[] mTmpPoint = new int[2];
+    private final Rect mDragLayerRect = new Rect();
 
     protected int mFlingToDeleteThresholdVelocity;
     private VelocityTracker mVelocityTracker;
@@ -142,7 +126,7 @@ public class DragController {
      * @param dragInfo   The data associated with the object that is being dragged
      * @param dragAction The drag action: either {@link #DRAG_ACTION_MOVE} or
      *                   {@link #DRAG_ACTION_COPY}
-     * @param dragRegion Coordinates within the bitmap b for the position of item being dragged.
+     * dragRegion Coordinates within the bitmap b for the position of item being dragged.
      *                   Makes dragging feel more precise, e.g. you can clip out a transparent border
      */
     public void startDrag(View v, Bitmap bmp, DragSource source, Object dragInfo, int dragAction,
@@ -166,8 +150,7 @@ public class DragController {
 
     /**
      * Used to create a new DragLayer from XML.
-     *
-     * @param context The application's context.
+     * context The application's context.
      */
     public DragController(Launcher launcher) {
         Resources r = launcher.getResources();
@@ -335,7 +318,7 @@ public class DragController {
      * Call this from a drag source view like this:
      *
      * <pre>
-     *  @Override
+     *  Override
      *  public boolean dispatchKeyEvent(KeyEvent event) {
      *      return mDragController.dispatchKeyEvent(this, event)
      *              || super.dispatchKeyEvent(event);
@@ -373,8 +356,7 @@ public class DragController {
                 ShortcutInfo dragInfo = (ShortcutInfo) rawDragInfo;
                 for (AppInfo info : appInfos) {
                     // Added null checks to prevent NPE we've seen in the wild
-                    if (dragInfo != null &&
-                            dragInfo.intent != null && info != null) {
+                    if (dragInfo.intent != null && info != null) {
                         ComponentName cn = dragInfo.intent.getComponent();
                         boolean isSameComponent = cn.equals(info.componentName) ||
                                 packageNames.contains(cn.getPackageName());
