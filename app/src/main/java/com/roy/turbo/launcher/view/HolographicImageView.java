@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,6 +9,9 @@ import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.roy.turbo.launcher.HolographicViewHelper;
+import com.roy.turbo.launcher.R;
 
 public class HolographicImageView extends ImageView {
 
@@ -54,7 +57,7 @@ public class HolographicImageView extends ImageView {
         });
     }
 
-    void invalidatePressedFocusedStates() {
+    public void invalidatePressedFocusedStates() {
         mHolographicHelper.invalidatePressedFocusedStates(this);
     }
 

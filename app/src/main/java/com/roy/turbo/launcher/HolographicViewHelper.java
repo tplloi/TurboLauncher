@@ -16,8 +16,6 @@
 
 package com.roy.turbo.launcher;
 
-import com.roy.turbo.launcher.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -43,7 +41,7 @@ public class HolographicViewHelper {
     /**
      * Generate the pressed/focused states if necessary.
      */
-    void generatePressedFocusedStates(ImageView v) {
+    public void generatePressedFocusedStates(ImageView v) {
         if (!mStatesUpdated && v != null) {
             mStatesUpdated = true;
             Bitmap original = createOriginalImage(v, mTempCanvas);
@@ -66,7 +64,7 @@ public class HolographicViewHelper {
     /**
      * Invalidates the pressed/focused states.
      */
-    void invalidatePressedFocusedStates(ImageView v) {
+    public void invalidatePressedFocusedStates(ImageView v) {
         mStatesUpdated = false;
         if (v != null) {
             v.invalidate();
