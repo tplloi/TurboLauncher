@@ -41,7 +41,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.roy.turbo.launcher.DropTarget.DragObject;
+import com.roy.turbo.launcher.itf.DropTarget.DragObject;
 import com.roy.turbo.launcher.itf.DragSource;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.sv.AppsCustomizeAsyncTask;

@@ -1,7 +1,7 @@
 package com.roy.turbo.launcher.itf
 
 import android.view.View
-import com.roy.turbo.launcher.DropTarget.DragObject
+import com.roy.turbo.launcher.itf.DropTarget.DragObject
 
 /**
  * Interface defining an object that can originate a drag.

@@ -1,26 +1,11 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.itf;
 
 import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import com.roy.turbo.launcher.itf.DragSource;
+import com.roy.turbo.launcher.DragController;
+import com.roy.turbo.launcher.Launcher;
 import com.roy.turbo.launcher.view.DragView;
 
 public interface DropTarget {
@@ -76,11 +61,11 @@ public interface DropTarget {
 			launcher.getDragController().addDragListener(this);
 		}
 
-		void onDragEnter() {
+		public void onDragEnter() {
 			dragParity++;
 		}
 
-		void onDragExit() {
+		public void onDragExit() {
 			dragParity--;
 		}
 
@@ -102,27 +87,6 @@ public interface DropTarget {
 	 */
 	boolean isDropEnabled();
 
-	/**
-	 * Handle an object being dropped on the DropTarget
-	 * 
-	 * @param source
-	 *            DragSource where the drag started
-	 * @param x
-	 *            X coordinate of the drop location
-	 * @param y
-	 *            Y coordinate of the drop location
-	 * @param xOffset
-	 *            Horizontal offset with the object being dragged where the
-	 *            original touch happened
-	 * @param yOffset
-	 *            Vertical offset with the object being dragged where the
-	 *            original touch happened
-	 * @param dragView
-	 *            The DragView that's being dragged around on screen.
-	 * @param dragInfo
-	 *            Data associated with the object being dragged
-	 * 
-	 */
 	void onDrop(DragObject dragObject);
 
 	void onDragEnter(DragObject dragObject);
@@ -138,28 +102,6 @@ public interface DropTarget {
 	 */
 	void onFlingToDelete(DragObject dragObject, int x, int y, PointF vec);
 
-	/**
-	 * Check if a drop action can occur at, or near, the requested location.
-	 * This will be called just before onDrop.
-	 * 
-	 * @param source
-	 *            DragSource where the drag started
-	 * @param x
-	 *            X coordinate of the drop location
-	 * @param y
-	 *            Y coordinate of the drop location
-	 * @param xOffset
-	 *            Horizontal offset with the object being dragged where the
-	 *            original touch happened
-	 * @param yOffset
-	 *            Vertical offset with the object being dragged where the
-	 *            original touch happened
-	 * @param dragView
-	 *            The DragView that's being dragged around on screen.
-	 * @param dragInfo
-	 *            Data associated with the object being dragged
-	 * @return True if the drop will be accepted, false otherwise.
-	 */
 	boolean acceptDrop(DragObject dragObject);
 
 	// These methods are implemented in Views

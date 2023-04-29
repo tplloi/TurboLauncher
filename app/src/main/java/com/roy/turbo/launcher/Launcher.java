@@ -91,7 +91,8 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.roy.turbo.launcher.DropTarget.DragObject;
+import com.roy.turbo.launcher.itf.DropTarget;
+import com.roy.turbo.launcher.itf.DropTarget.DragObject;
 import com.roy.turbo.launcher.PagedView.TransitionEffect;
 import com.roy.turbo.launcher.itf.DragSource;
 import com.roy.turbo.launcher.settings.SettingsProvider;

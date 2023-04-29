@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.roy.turbo.launcher.DragController;
 import com.roy.turbo.launcher.DragLayer;
 import com.roy.turbo.launcher.itf.DragSource;
-import com.roy.turbo.launcher.DropTarget;
+import com.roy.turbo.launcher.itf.DropTarget;
 import com.roy.turbo.launcher.Launcher;
 import com.roy.turbo.launcher.R;
 import com.roy.turbo.launcher.SearchDropTargetBar;
