@@ -1,33 +1,4 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.roy.turbo.launcher;
-
-import com.google.protobuf.nano.InvalidProtocolBufferNanoException;
-import com.google.protobuf.nano.MessageNano;
-
-import com.roy.turbo.launcher.LauncherSettings.Favorites;
-import com.roy.turbo.launcher.LauncherSettings.WorkspaceScreens;
-import com.roy.turbo.launcher.backup.BackupProtos;
-import com.roy.turbo.launcher.backup.BackupProtos.CheckedMessage;
-import com.roy.turbo.launcher.backup.BackupProtos.Favorite;
-import com.roy.turbo.launcher.backup.BackupProtos.Journal;
-import com.roy.turbo.launcher.backup.BackupProtos.Key;
-import com.roy.turbo.launcher.backup.BackupProtos.Resource;
-import com.roy.turbo.launcher.backup.BackupProtos.Screen;
-import com.roy.turbo.launcher.backup.BackupProtos.Widget;
 
 import android.app.backup.BackupDataInputStream;
 import android.app.backup.BackupDataOutput;
@@ -48,6 +19,19 @@ import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+
+import com.google.protobuf.nano.InvalidProtocolBufferNanoException;
+import com.google.protobuf.nano.MessageNano;
+import com.roy.turbo.launcher.LauncherSettings.Favorites;
+import com.roy.turbo.launcher.LauncherSettings.WorkspaceScreens;
+import com.roy.turbo.launcher.backup.BackupProtos;
+import com.roy.turbo.launcher.backup.BackupProtos.CheckedMessage;
+import com.roy.turbo.launcher.backup.BackupProtos.Favorite;
+import com.roy.turbo.launcher.backup.BackupProtos.Journal;
+import com.roy.turbo.launcher.backup.BackupProtos.Key;
+import com.roy.turbo.launcher.backup.BackupProtos.Resource;
+import com.roy.turbo.launcher.backup.BackupProtos.Screen;
+import com.roy.turbo.launcher.backup.BackupProtos.Widget;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -168,7 +152,7 @@ public class LauncherBackupHelper implements BackupHelper {
      * @param oldState notes from the last backup
      * @param data incremental key/value pairs to persist off-device
      * @param newState notes for the next backup
-     * @throws IOException
+     * throws IOException
      */
     @Override
     public void performBackup(ParcelFileDescriptor oldState, BackupDataOutput data,
@@ -185,7 +169,7 @@ public class LauncherBackupHelper implements BackupHelper {
 
         Log.v(TAG, "lastBackupTime = " + lastBackupTime);
 
-        ArrayList<Key> keys = new ArrayList<Key>();
+        ArrayList<Key> keys = new ArrayList<>();
         if (launcherIsReady()) {
             try {
                 backupFavorites(in, data, out, keys);
@@ -215,21 +199,21 @@ public class LauncherBackupHelper implements BackupHelper {
     public void restoreEntity(BackupDataInputStream data) {
         if (VERBOSE) Log.v(TAG, "restoreEntity");
         if (mKeys == null) {
-            mKeys = new ArrayList<Key>();
+            mKeys = new ArrayList<>();
         }
         byte[] buffer = new byte[512];
-            String backupKey = data.getKey();
-            int dataSize = data.size();
-            if (buffer.length < dataSize) {
-                buffer = new byte[dataSize];
-            }
-            Key key = null;
-        int bytesRead = 0;
+        String backupKey = data.getKey();
+        int dataSize = data.size();
+        if (buffer.length < dataSize) {
+            buffer = new byte[dataSize];
+        }
+        Key key;
+        int bytesRead;
         try {
             bytesRead = data.read(buffer, 0, dataSize);
             if (DEBUG) Log.d(TAG, "read " + bytesRead + " of " + dataSize + " available");
         } catch (IOException e) {
-            Log.e(TAG, "failed to read entity from restore data", e);
+            e.printStackTrace();
         }
         try {
             key = backupKeyToKey(backupKey);
@@ -281,12 +265,11 @@ public class LauncherBackupHelper implements BackupHelper {
     /**
      * Write all modified favorites to the data stream.
      *
-     *
      * @param in notes from last backup
      * @param data output stream for key/value pairs
      * @param out notes about this backup
      * @param keys keys to mark as clean in the notes for next backup
-     * @throws IOException
+     * throws IOException
      */
     private void backupFavorites(Journal in, BackupDataOutput data, Journal out,
             ArrayList<Key> keys)
@@ -299,7 +282,7 @@ public class LauncherBackupHelper implements BackupHelper {
         ContentResolver cr = mContext.getContentResolver();
         Cursor cursor = cr.query(Favorites.CONTENT_URI, FAVORITE_PROJECTION,
                 null, null, null);
-        Set<String> currentIds = new HashSet<String>(cursor.getCount());
+        Set<String> currentIds = new HashSet<>(cursor.getCount());
         try {
             cursor.moveToPosition(-1);
             while(cursor.moveToNext()) {
@@ -358,12 +341,11 @@ public class LauncherBackupHelper implements BackupHelper {
     /**
      * Write all modified screens to the data stream.
      *
-     *
      * @param in notes from last backup
      * @param data output stream for key/value pairs
      * @param out notes about this backup
      * @param keys keys to mark as clean in the notes for next backup
-     * @throws IOException
+     * throws IOException
      */
     private void backupScreens(Journal in, BackupDataOutput data, Journal out,
             ArrayList<Key> keys)
@@ -376,7 +358,7 @@ public class LauncherBackupHelper implements BackupHelper {
         ContentResolver cr = mContext.getContentResolver();
         Cursor cursor = cr.query(WorkspaceScreens.CONTENT_URI, SCREEN_PROJECTION,
                 null, null, null);
-        Set<String> currentIds = new HashSet<String>(cursor.getCount());
+        Set<String> currentIds = new HashSet<>(cursor.getCount());
         try {
             cursor.moveToPosition(-1);
             if (DEBUG) Log.d(TAG, "dumping screens after: " + in.t);
@@ -442,7 +424,7 @@ public class LauncherBackupHelper implements BackupHelper {
      * @param data output stream for key/value pairs
      * @param out notes about this backup
      * @param keys keys to mark as clean in the notes for next backup
-     * @throws IOException
+     * throws IOException
      */
     private void backupIcons(Journal in, BackupDataOutput data, Journal out,
             ArrayList<Key> keys) throws IOException {
@@ -462,12 +444,11 @@ public class LauncherBackupHelper implements BackupHelper {
         int startRows = out.rows;
         if (DEBUG) Log.d(TAG, "starting here: " + startRows);
         String where = Favorites.ITEM_TYPE + "=" + Favorites.ITEM_TYPE_APPLICATION;
-        Cursor cursor = cr.query(Favorites.CONTENT_URI, FAVORITE_PROJECTION,
-                where, null, null);
-        Set<String> currentIds = new HashSet<String>(cursor.getCount());
+        Cursor cursor = cr.query(Favorites.CONTENT_URI, FAVORITE_PROJECTION, where, null, null);
+        Set<String> currentIds = new HashSet<>(cursor.getCount());
         try {
             cursor.moveToPosition(-1);
-            while(cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
                 final long id = cursor.getLong(ID_INDEX);
                 final String intentDescription = cursor.getString(INTENT_INDEX);
                 try {
@@ -554,10 +535,8 @@ public class LauncherBackupHelper implements BackupHelper {
                 if (VERBOSE) {
                     Log.v(TAG, "restore not enabled: skipping database mutation");
                 }
-                return;
             } else {
-                IconCache.preloadIcon(mContext, ComponentName.unflattenFromString(key.name),
-                        icon, res.dpi);
+                IconCache.preloadIcon(mContext, ComponentName.unflattenFromString(key.name), icon, res.dpi);
             }
         } catch (IOException e) {
             Log.d(TAG, "failed to save restored icon for: " + key.name, e);
@@ -572,7 +551,7 @@ public class LauncherBackupHelper implements BackupHelper {
      * @param data output stream for key/value pairs
      * @param out notes about this backup
      * @param keys keys to mark as clean in the notes for next backup
-     * @throws IOException
+     * throws IOException
      */
     private void backupWidgets(Journal in, BackupDataOutput data, Journal out,
             ArrayList<Key> keys) throws IOException {
@@ -596,12 +575,11 @@ public class LauncherBackupHelper implements BackupHelper {
         int startRows = out.rows;
         if (DEBUG) Log.d(TAG, "starting here: " + startRows);
         String where = Favorites.ITEM_TYPE + "=" + Favorites.ITEM_TYPE_APPWIDGET;
-        Cursor cursor = cr.query(Favorites.CONTENT_URI, FAVORITE_PROJECTION,
-                where, null, null);
-        Set<String> currentIds = new HashSet<String>(cursor.getCount());
+        Cursor cursor = cr.query(Favorites.CONTENT_URI, FAVORITE_PROJECTION, where, null, null);
+        Set<String> currentIds = new HashSet<>(cursor.getCount());
         try {
             cursor.moveToPosition(-1);
-            while(cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
                 final long id = cursor.getLong(ID_INDEX);
                 final String providerName = cursor.getString(APPWIDGET_PROVIDER_INDEX);
                 final int spanX = cursor.getInt(SPANX_INDEX);
@@ -675,7 +653,6 @@ public class LauncherBackupHelper implements BackupHelper {
 
             if (!mRestoreEnabled) {
                 if (VERBOSE) Log.v(TAG, "restore not enabled: skipping database mutation");
-                return;
             } else {
                 // future site of widget table mutation
             }
@@ -941,7 +918,6 @@ public class LauncherBackupHelper implements BackupHelper {
 
     /**
      * Read the old journal from the input file.
-     *
      * In the event of any error, just pretend we didn't have a journal,
      * in that case, do a full backup.
      *
@@ -1036,7 +1012,7 @@ public class LauncherBackupHelper implements BackupHelper {
     }
 
     private Set<String> getSavedIdsByType(int type, Journal in) {
-        Set<String> savedIds = new HashSet<String>();
+        Set<String> savedIds = new HashSet<>();
         for(int i = 0; i < in.key.length; i++) {
             Key key = in.key[i];
             if (key.type == type) {
@@ -1059,7 +1035,6 @@ public class LauncherBackupHelper implements BackupHelper {
 
     /**
      * Write the new journal to the output file.
-     *
      * In the event of any error, just pretend we didn't have a journal,
      * in that case, do a full backup.
 
@@ -1067,7 +1042,7 @@ public class LauncherBackupHelper implements BackupHelper {
      * @param journal a Journal protocol buffer
      */
     private void writeJournal(ParcelFileDescriptor newState, Journal journal) {
-        FileOutputStream outStream = null;
+        FileOutputStream outStream;
         try {
             outStream = new FileOutputStream(newState.getFileDescriptor());
             final byte[] journalBytes = writeCheckedBytes(journal);
@@ -1106,7 +1081,7 @@ public class LauncherBackupHelper implements BackupHelper {
         if (mWidgetMap == null) {
             List<AppWidgetProviderInfo> widgets =
                     AppWidgetManager.getInstance(mContext).getInstalledProviders();
-            mWidgetMap = new HashMap<ComponentName, AppWidgetProviderInfo>(widgets.size());
+            mWidgetMap = new HashMap<>(widgets.size());
             for (AppWidgetProviderInfo info : widgets) {
                 mWidgetMap.put(info.provider, info);
             }
@@ -1151,7 +1126,7 @@ public class LauncherBackupHelper implements BackupHelper {
         return true;
     }
 
-    private class KeyParsingException extends Throwable {
+    private static class KeyParsingException extends Throwable {
         private KeyParsingException(Throwable cause) {
             super(cause);
         }
