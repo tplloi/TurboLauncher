@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
 import com.roy.turbo.launcher.DragLayer.TouchCompleteListener;
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.helper.CheckLongPressHelper;
 
 public class LauncherAppWidgetHostView extends AppWidgetHostView implements TouchCompleteListener {
     private CheckLongPressHelper mLongPressHelper;

@@ -1,6 +1,8 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.helper;
 
 import android.view.View;
+
+import com.roy.turbo.launcher.LauncherAppState;
 
 public class CheckLongPressHelper {
     private final View mView;
