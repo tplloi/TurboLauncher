@@ -36,8 +36,8 @@ public class DeviceProfile {
     String name;
     float minWidthDps;
     float minHeightDps;
-    float numRows;
-    float numColumns;
+    public float numRows;
+    public float numColumns;
     float numHotseatIcons;
     private final float iconSize;
     private final float iconTextSize;
@@ -70,8 +70,8 @@ public class DeviceProfile {
     int iconSizePx;
     public int iconTextSizePx;
     public int iconDrawablePaddingPx;
-    int cellWidthPx;
-    int cellHeightPx;
+    public int cellWidthPx;
+    public int cellHeightPx;
     int allAppsIconSizePx;
     int allAppsIconTextSizePx;
     int allAppsCellWidthPx;

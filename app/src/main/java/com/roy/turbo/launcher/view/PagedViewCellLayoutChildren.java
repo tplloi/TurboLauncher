@@ -5,8 +5,6 @@ import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.roy.turbo.launcher.PagedViewCellLayout;
-
 /**
  * An abstraction of the original CellLayout which supports laying out items
  * which span multiple cells into a grid-like layout.  Also supports dimming

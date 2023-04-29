@@ -32,6 +32,7 @@ import com.roy.turbo.launcher.backup.BackupProtos.Key;
 import com.roy.turbo.launcher.backup.BackupProtos.Resource;
 import com.roy.turbo.launcher.backup.BackupProtos.Screen;
 import com.roy.turbo.launcher.backup.BackupProtos.Widget;
+import com.roy.turbo.launcher.view.PagedViewCellLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;

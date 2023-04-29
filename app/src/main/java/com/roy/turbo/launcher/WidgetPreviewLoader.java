@@ -27,6 +27,8 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.roy.turbo.launcher.view.PagedViewCellLayout;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.ref.SoftReference;

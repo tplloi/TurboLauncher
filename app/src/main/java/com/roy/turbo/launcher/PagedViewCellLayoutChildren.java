@@ -5,6 +5,8 @@ import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.roy.turbo.launcher.view.PagedViewCellLayout;
+
 /**
  * An abstraction of the original CellLayout which supports laying out items
  * which span multiple cells into a grid-like layout.  Also supports dimming
@@ -123,7 +125,7 @@ public class PagedViewCellLayoutChildren extends ViewGroup {
     }
 
     @Override
-    protected void setChildrenDrawingCacheEnabled(boolean enabled) {
+    public void setChildrenDrawingCacheEnabled(boolean enabled) {
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
             final View view = getChildAt(i);

@@ -41,6 +41,7 @@ import com.roy.turbo.launcher.view.LauncherScroller;
 
 import java.util.ArrayList;
 
+//done 2023.04.29
 public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener {
     protected static final int INVALID_PAGE = -1;
     private static final int MIN_LENGTH_FOR_FLING = 25;
