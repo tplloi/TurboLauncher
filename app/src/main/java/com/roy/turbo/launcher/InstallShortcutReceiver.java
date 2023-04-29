@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.content.BroadcastReceiver;
@@ -33,8 +17,6 @@ import org.json.JSONObject;
 import org.json.JSONStringer;
 import org.json.JSONTokener;
 
-import com.roy.turbo.launcher.R;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -44,8 +26,7 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
     private static final String TAG = "InstallShortcutReceiver";
     private static final boolean DBG = false;
 
-    public static final String ACTION_INSTALL_SHORTCUT =
-            "com.android.launcher.action.INSTALL_SHORTCUT";
+    public static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
     public static final String DATA_INTENT_KEY = "intent.data";
     public static final String LAUNCH_INTENT_KEY = "intent.launch";
@@ -63,18 +44,16 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
     private static final int INSTALL_SHORTCUT_IS_DUPLICATE = -1;
 
     // A mime-type representing shortcut data
-    public static final String SHORTCUT_MIMETYPE =
-            "com.roy.turbo.launcher/shortcut";
+//    public static final String SHORTCUT_MIMETYPE = "com.roy.turbo.launcher/shortcut";
 
-    private static Object sLock = new Object();
+    private static final Object sLock = new Object();
 
-    private static void addToStringSet(SharedPreferences sharedPrefs,
-            SharedPreferences.Editor editor, String key, String value) {
+    private static void addToStringSet(SharedPreferences sharedPrefs, SharedPreferences.Editor editor, String key, String value) {
         Set<String> strings = sharedPrefs.getStringSet(key, null);
         if (strings == null) {
-            strings = new HashSet<String>(0);
+            strings = new HashSet<>(0);
         } else {
-            strings = new HashSet<String>(strings);
+            strings = new HashSet<>(strings);
         }
         strings.add(value);
         editor.putStringSet(key, strings);
@@ -91,9 +70,8 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
                     .key(NAME_KEY).value(info.name);
                 if (info.icon != null) {
                     byte[] iconByteArray = ItemInfo.flattenBitmap(info.icon);
-                    json = json.key(ICON_KEY).value(
-                        Base64.encodeToString(
-                            iconByteArray, 0, iconByteArray.length, Base64.DEFAULT));
+                    assert iconByteArray != null;
+                    json = json.key(ICON_KEY).value(Base64.encodeToString(iconByteArray, 0, iconByteArray.length, Base64.DEFAULT));
                 }
                 if (info.iconResource != null) {
                     json = json.key(ICON_RESOURCE_NAME_KEY).value(info.iconResource.resourceName);
@@ -104,9 +82,9 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 if (DBG) Log.d(TAG, "Adding to APPS_PENDING_INSTALL: " + json);
                 addToStringSet(sharedPrefs, editor, APPS_PENDING_INSTALL, json.toString());
-                editor.commit();
+                editor.apply();
             } catch (org.json.JSONException e) {
-                Log.d(TAG, "Exception when adding shortcut: " + e);
+                e.printStackTrace();
             }
         }
     }
@@ -123,7 +101,7 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
                         + ", removing packages: " + packageNames);
             }
             if (strings != null) {
-                Set<String> newStrings = new HashSet<String>(strings);
+                Set<String> newStrings = new HashSet<>(strings);
                 Iterator<String> newStringsIter = newStrings.iterator();
                 while (newStringsIter.hasNext()) {
                     String json = newStringsIter.next();
@@ -143,22 +121,19 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
                         Log.d(TAG, "Exception reading shortcut to remove: " + e);
                     }
                 }
-                sharedPrefs.edit().putStringSet(APPS_PENDING_INSTALL,
-                        new HashSet<String>(newStrings)).commit();
+                sharedPrefs.edit().putStringSet(APPS_PENDING_INSTALL, new HashSet<>(newStrings)).apply();
             }
         }
     }
 
-    private static ArrayList<PendingInstallShortcutInfo> getAndClearInstallQueue(
-            SharedPreferences sharedPrefs) {
-        synchronized(sLock) {
+    private static ArrayList<PendingInstallShortcutInfo> getAndClearInstallQueue(SharedPreferences sharedPrefs) {
+        synchronized (sLock) {
             Set<String> strings = sharedPrefs.getStringSet(APPS_PENDING_INSTALL, null);
             if (DBG) Log.d(TAG, "Getting and clearing APPS_PENDING_INSTALL: " + strings);
             if (strings == null) {
-                return new ArrayList<PendingInstallShortcutInfo>();
+                return new ArrayList<>();
             }
-            ArrayList<PendingInstallShortcutInfo> infos =
-                new ArrayList<PendingInstallShortcutInfo>();
+            ArrayList<PendingInstallShortcutInfo> infos = new ArrayList<>();
             for (String json : strings) {
                 try {
                     JSONObject object = (JSONObject) new JSONTokener(json).nextValue();
@@ -170,13 +145,12 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
                     String iconResourceName = object.optString(ICON_RESOURCE_NAME_KEY);
                     String iconResourcePackageName =
                         object.optString(ICON_RESOURCE_PACKAGE_NAME_KEY);
-                    if (iconBase64 != null && !iconBase64.isEmpty()) {
+                    if (!iconBase64.isEmpty()) {
                         byte[] iconArray = Base64.decode(iconBase64, Base64.DEFAULT);
                         Bitmap b = BitmapFactory.decodeByteArray(iconArray, 0, iconArray.length);
                         data.putExtra(Intent.EXTRA_SHORTCUT_ICON, b);
-                    } else if (iconResourceName != null && !iconResourceName.isEmpty()) {
-                        Intent.ShortcutIconResource iconResource =
-                            new Intent.ShortcutIconResource();
+                    } else if (!iconResourceName.isEmpty()) {
+                        Intent.ShortcutIconResource iconResource = new Intent.ShortcutIconResource();
                         iconResource.resourceName = iconResourceName;
                         iconResource.packageName = iconResourcePackageName;
                         data.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconResource);
@@ -186,12 +160,12 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
                         new PendingInstallShortcutInfo(data, name, launchIntent);
                     infos.add(info);
                 } catch (org.json.JSONException e) {
-                    Log.d(TAG, "Exception reading shortcut to add: " + e);
+                    e.printStackTrace();
                 } catch (java.net.URISyntaxException e) {
-                    Log.d(TAG, "Exception reading shortcut to add: " + e);
+                    e.printStackTrace();
                 }
             }
-            sharedPrefs.edit().putStringSet(APPS_PENDING_INSTALL, new HashSet<String>()).commit();
+            sharedPrefs.edit().putStringSet(APPS_PENDING_INSTALL, new HashSet<>()).apply();
             return infos;
         }
     }
@@ -265,8 +239,7 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         ArrayList<PendingInstallShortcutInfo> installQueue = getAndClearInstallQueue(sp);
         if (!installQueue.isEmpty()) {
             Iterator<PendingInstallShortcutInfo> iter = installQueue.iterator();
-            ArrayList<ItemInfo> addShortcuts = new ArrayList<ItemInfo>();
-            int result = INSTALL_SHORTCUT_SUCCESSFUL;
+            ArrayList<ItemInfo> addShortcuts = new ArrayList<>();
             String duplicateName = "";
             while (iter.hasNext()) {
                 final PendingInstallShortcutInfo pendingInfo = iter.next();
@@ -298,7 +271,7 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
             }
 
             // Notify the user once if we weren't able to place any duplicates
-            if (result == INSTALL_SHORTCUT_IS_DUPLICATE) {
+            if (INSTALL_SHORTCUT_SUCCESSFUL == INSTALL_SHORTCUT_IS_DUPLICATE) {
                 Toast.makeText(context, context.getString(R.string.shortcut_duplicate,
                         duplicateName), Toast.LENGTH_SHORT).show();
             }
@@ -315,24 +288,20 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
      * Returns true if the intent is a valid launch intent for a shortcut.
      * This is used to identify shortcuts which are different from the ones exposed by the
      * applications' manifest file.
-     *
      * When DISABLE_ALL_APPS is true, shortcuts exposed via the app's manifest should never be
      * duplicated or removed(unless the app is un-installed).
      *
      * @param launchIntent The intent that will be launched when the shortcut is clicked.
      */
     static boolean isValidShortcutLaunchIntent(Intent launchIntent) {
-        if (launchIntent != null
-                && Intent.ACTION_MAIN.equals(launchIntent.getAction())
-                && launchIntent.getComponent() != null
-                && launchIntent.getCategories() != null
-                && launchIntent.getCategories().size() == 1
-                && launchIntent.hasCategory(Intent.CATEGORY_LAUNCHER)
-                && launchIntent.getExtras() == null
-                && TextUtils.isEmpty(launchIntent.getDataString())) {
-            return false;
-        }
-        return true;
+        return launchIntent == null
+                || !Intent.ACTION_MAIN.equals(launchIntent.getAction())
+                || launchIntent.getComponent() == null
+                || launchIntent.getCategories() == null
+                || launchIntent.getCategories().size() != 1
+                || !launchIntent.hasCategory(Intent.CATEGORY_LAUNCHER)
+                || launchIntent.getExtras() != null
+                || !TextUtils.isEmpty(launchIntent.getDataString());
     }
 
     private static ShortcutInfo getShortcutInfo(Context context, Intent data,
