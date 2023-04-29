@@ -1,21 +1,6 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -33,19 +18,19 @@ import com.roy.android.photos.views.TiledImageView;
 
 public class CropView extends TiledImageView implements OnScaleGestureListener {
 
-    private ScaleGestureDetector mScaleGestureDetector;
+    private final ScaleGestureDetector mScaleGestureDetector;
     private long mTouchDownTime;
     private float mFirstX, mFirstY;
     private float mLastX, mLastY;
     private float mCenterX, mCenterY;
     private float mMinScale;
     private boolean mTouchEnabled = true;
-    private RectF mTempEdges = new RectF();
-    private float[] mTempPoint = new float[]{0, 0};
-    private float[] mTempCoef = new float[]{0, 0};
-    private float[] mTempAdjustment = new float[]{0, 0};
-    private float[] mTempImageDims = new float[]{0, 0};
-    private float[] mTempRendererCenter = new float[]{0, 0};
+    private final RectF mTempEdges = new RectF();
+    private final float[] mTempPoint = new float[]{0, 0};
+    private final float[] mTempCoef = new float[]{0, 0};
+    private final float[] mTempAdjustment = new float[]{0, 0};
+    private final float[] mTempImageDims = new float[]{0, 0};
+    private final float[] mTempRendererCenter = new float[]{0, 0};
     TouchCallback mTouchCallback;
     Matrix mRotateMatrix;
     Matrix mInverseRotateMatrix;
@@ -221,6 +206,7 @@ public class CropView extends TiledImageView implements OnScaleGestureListener {
         mTouchCallback = cb;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getActionMasked();
@@ -269,17 +255,15 @@ public class CropView extends TiledImageView implements OnScaleGestureListener {
 
         synchronized (mLock) {
             mScaleGestureDetector.onTouchEvent(event);
-            switch (action) {
-                case MotionEvent.ACTION_MOVE:
-                    float[] point = mTempPoint;
-                    point[0] = (mLastX - x) / mRenderer.scale;
-                    point[1] = (mLastY - y) / mRenderer.scale;
-                    mInverseRotateMatrix.mapPoints(point);
-                    mCenterX += point[0];
-                    mCenterY += point[1];
-                    updateCenter();
-                    invalidate();
-                    break;
+            if (action == MotionEvent.ACTION_MOVE) {
+                float[] point = mTempPoint;
+                point[0] = (mLastX - x) / mRenderer.scale;
+                point[1] = (mLastY - y) / mRenderer.scale;
+                mInverseRotateMatrix.mapPoints(point);
+                mCenterX += point[0];
+                mCenterY += point[1];
+                updateCenter();
+                invalidate();
             }
             if (mRenderer.source != null) {
                 // Adjust position so that the wallpaper covers the entire area
