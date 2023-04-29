@@ -1,6 +1,7 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.itf
 
 import android.view.View
+import com.roy.turbo.launcher.Launcher
 
 interface LauncherTransitionable {
     val content: View?

@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import com.roy.turbo.launcher.AppsCustomizePagedView;
 import com.roy.turbo.launcher.itf.Insettable;
 import com.roy.turbo.launcher.Launcher;
-import com.roy.turbo.launcher.LauncherTransitionable;
+import com.roy.turbo.launcher.itf.LauncherTransitionable;
 import com.roy.turbo.launcher.R;
 
 public class AppsCustomizeLayout extends FrameLayout implements LauncherTransitionable, Insettable {

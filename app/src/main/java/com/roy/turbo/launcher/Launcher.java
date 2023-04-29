@@ -83,6 +83,7 @@ import com.roy.turbo.launcher.helper.LauncherAppWidgetHost;
 import com.roy.turbo.launcher.itf.DragSource;
 import com.roy.turbo.launcher.itf.DropTarget;
 import com.roy.turbo.launcher.itf.DropTarget.DragObject;
+import com.roy.turbo.launcher.itf.LauncherTransitionable;
 import com.roy.turbo.launcher.settings.SettingsPanel;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;

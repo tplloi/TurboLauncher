@@ -45,6 +45,7 @@ import com.roy.turbo.launcher.helper.LauncherAnimUtils;
 import com.roy.turbo.launcher.helper.LauncherAnimatorUpdateListener;
 import com.roy.turbo.launcher.itf.DropTarget.DragObject;
 import com.roy.turbo.launcher.itf.DragSource;
+import com.roy.turbo.launcher.itf.LauncherTransitionable;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.sv.AppsCustomizeAsyncTask;
 import com.roy.turbo.launcher.sv.AsyncTaskPageData;
