@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.content.Context;
@@ -27,7 +11,6 @@ import android.view.ViewGroup;
  * to give a preview of its contents.
  */
 public class PagedViewCellLayoutChildren extends ViewGroup {
-    static final String TAG = "PagedViewCellLayout";
 
     private boolean mCenterContent;
 
@@ -89,17 +72,11 @@ public class PagedViewCellLayoutChildren extends ViewGroup {
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
             View child = getChildAt(i);
-            PagedViewCellLayout.LayoutParams lp =
-                (PagedViewCellLayout.LayoutParams) child.getLayoutParams();
-            lp.setup(getContext(),
-                    mCellWidth, mCellHeight, mWidthGap, mHeightGap,
-                    getPaddingLeft(),
-                    getPaddingTop());
+            PagedViewCellLayout.LayoutParams lp = (PagedViewCellLayout.LayoutParams) child.getLayoutParams();
+            lp.setup(getContext(), mCellWidth, mCellHeight, mWidthGap, mHeightGap, getPaddingLeft(), getPaddingTop());
 
-            int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(lp.width,
-                    MeasureSpec.EXACTLY);
-            int childheightMeasureSpec = MeasureSpec.makeMeasureSpec(lp.height,
-                    MeasureSpec.EXACTLY);
+            int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(lp.width, MeasureSpec.EXACTLY);
+            int childheightMeasureSpec = MeasureSpec.makeMeasureSpec(lp.height, MeasureSpec.EXACTLY);
 
             child.measure(childWidthMeasureSpec, childheightMeasureSpec);
         }
@@ -119,8 +96,7 @@ public class PagedViewCellLayoutChildren extends ViewGroup {
             for (int i = 0; i < count; i++) {
                 View child = getChildAt(i);
                 if (child.getVisibility() != GONE) {
-                    PagedViewCellLayout.LayoutParams lp =
-                        (PagedViewCellLayout.LayoutParams) child.getLayoutParams();
+                    PagedViewCellLayout.LayoutParams lp = (PagedViewCellLayout.LayoutParams) child.getLayoutParams();
                     minRowX = Math.min(minRowX, lp.x);
                     maxRowX = Math.max(maxRowX, lp.x + lp.width);
                 }
