@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.animation.Animator;
@@ -29,10 +13,10 @@ import android.view.View;
  * interpolator in the same direction.
  */
 public class InterruptibleInOutAnimator {
-    private long mOriginalDuration;
-    private float mOriginalFromValue;
-    private float mOriginalToValue;
-    private ValueAnimator mAnimator;
+    private final long mOriginalDuration;
+    private final float mOriginalFromValue;
+    private final float mOriginalToValue;
+    private final ValueAnimator mAnimator;
 
     private boolean mFirstRun = true;
 
@@ -62,8 +46,7 @@ public class InterruptibleInOutAnimator {
     private void animate(int direction) {
         final long currentPlayTime = mAnimator.getCurrentPlayTime();
         final float toValue = (direction == IN) ? mOriginalToValue : mOriginalFromValue;
-        final float startValue = mFirstRun ? mOriginalFromValue :
-                ((Float) mAnimator.getAnimatedValue()).floatValue();
+        final float startValue = mFirstRun ? mOriginalFromValue : (Float) mAnimator.getAnimatedValue();
 
         // Make sure it's stopped before we modify any values
         cancel();
