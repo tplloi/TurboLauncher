@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.app.WallpaperInfo;
@@ -45,12 +29,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter {
-    private static final String LOG_TAG = "LiveWallpaperListAdapter";
+    private static final String LOG_TAG = LiveWallpaperListAdapter.class.getSimpleName();
 
     private final LayoutInflater mInflater;
     private final PackageManager mPackageManager;
 
-    private List<LiveWallpaperTile> mWallpapers;
+    private final List<LiveWallpaperTile> mWallpapers;
 
     @SuppressWarnings("unchecked")
     public LiveWallpaperListAdapter(Context context) {
@@ -61,7 +45,7 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
                 new Intent(WallpaperService.SERVICE_INTERFACE),
                 PackageManager.GET_META_DATA);
 
-        mWallpapers = new ArrayList<LiveWallpaperTile>();
+        mWallpapers = new ArrayList<>();
 
         new LiveWallpaperEnumerator(context).execute(list);
     }
@@ -111,12 +95,17 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
     }
 
     public static class LiveWallpaperTile extends WallpaperPickerActivity.WallpaperTileInfo {
-        private Drawable mThumbnail;
+        private final Drawable mThumbnail;
         private WallpaperInfo mInfo;
-        public LiveWallpaperTile(Drawable thumbnail, WallpaperInfo info, Intent intent) {
+
+        public LiveWallpaperTile(
+                Drawable thumbnail,
+                WallpaperInfo info,
+                Intent intent) {
             mThumbnail = thumbnail;
             mInfo = info;
         }
+
         @Override
         public void onClick(WallpaperPickerActivity a) {
             Intent preview = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
@@ -127,9 +116,8 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
         }
     }
 
-    private class LiveWallpaperEnumerator extends
-            AsyncTask<List<ResolveInfo>, LiveWallpaperTile, Void> {
-        private Context mContext;
+    private class LiveWallpaperEnumerator extends AsyncTask<List<ResolveInfo>, LiveWallpaperTile, Void> {
+        private final Context mContext;
         private int mWallpaperPosition;
 
         public LiveWallpaperEnumerator(Context context) {
@@ -144,7 +132,7 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
 
             List<ResolveInfo> list = params[0];
 
-            Collections.sort(list, new Comparator<ResolveInfo>() {
+            Collections.sort(list, new Comparator<>() {
                 final Collator mCollator;
 
                 {
@@ -158,7 +146,7 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
             });
 
             for (ResolveInfo resolveInfo : list) {
-                WallpaperInfo info = null;
+                WallpaperInfo info;
                 try {
                     info = new WallpaperInfo(mContext, resolveInfo);
                 } catch (XmlPullParserException e) {

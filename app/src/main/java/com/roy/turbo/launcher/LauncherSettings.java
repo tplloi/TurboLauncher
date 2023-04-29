@@ -209,13 +209,13 @@ class LauncherSettings {
          */
         static final int ITEM_TYPE_FOLDER = 2;
 
-        /**
-        * The favorite is a live folder
-        * Note: live folders can no longer be added to Launcher, and any live folders which
-        * exist within the launcher database will be ignored when loading.  That said, these
-        * entries in the database may still exist, and are not automatically stripped.
-        */
-        static final int ITEM_TYPE_LIVE_FOLDER = 3;
+        /*
+         * The favorite is a live folder
+         * Note: live folders can no longer be added to Launcher, and any live folders which
+         * exist within the launcher database will be ignored when loading.  That said, these
+         * entries in the database may still exist, and are not automatically stripped.
+         */
+//        static final int ITEM_TYPE_LIVE_FOLDER = 3;
 
         /**
          * The favorite is a widget
