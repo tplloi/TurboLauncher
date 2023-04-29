@@ -1,9 +1,12 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.helper
 
 import android.appwidget.AppWidgetHost
 import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetProviderInfo
 import android.content.Context
+import com.roy.turbo.launcher.Launcher
+import com.roy.turbo.launcher.LauncherAppWidgetHostView
+import com.roy.turbo.launcher.LauncherModel
 
 class LauncherAppWidgetHost(var mLauncher: Launcher, hostId: Int) :
     AppWidgetHost(mLauncher, hostId) {

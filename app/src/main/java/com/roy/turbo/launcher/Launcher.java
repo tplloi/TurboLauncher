@@ -79,6 +79,7 @@ import android.widget.Toast;
 import com.roy.turbo.launcher.PagedView.TransitionEffect;
 import com.roy.turbo.launcher.helper.FirstFrameAnimatorHelper;
 import com.roy.turbo.launcher.helper.LauncherAnimUtils;
+import com.roy.turbo.launcher.helper.LauncherAppWidgetHost;
 import com.roy.turbo.launcher.itf.DragSource;
 import com.roy.turbo.launcher.itf.DropTarget;
 import com.roy.turbo.launcher.itf.DropTarget.DragObject;
