@@ -1,18 +1,26 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.view.View;
+import android.view.View
 
-public interface LauncherTransitionable {
-    View getContent();
+interface LauncherTransitionable {
+    val content: View?
 
-    void onLauncherTransitionPrepare(Launcher l, boolean animated,
-                                     boolean toWorkspace);
+    fun onLauncherTransitionPrepare(
+        l: Launcher?, animated: Boolean,
+        toWorkspace: Boolean
+    )
 
-    void onLauncherTransitionStart(Launcher l, boolean animated,
-                                   boolean toWorkspace);
+    fun onLauncherTransitionStart(
+        l: Launcher?, animated:
+        Boolean,
+        toWorkspace: Boolean
+    )
 
-    void onLauncherTransitionStep(Launcher l, float t);
+    fun onLauncherTransitionStep(l: Launcher?, t: Float)
 
-    void onLauncherTransitionEnd(Launcher l, boolean animated,
-                                 boolean toWorkspace);
+    fun onLauncherTransitionEnd(
+        l: Launcher?,
+        animated: Boolean,
+        toWorkspace: Boolean
+    )
 }
