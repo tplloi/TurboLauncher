@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;

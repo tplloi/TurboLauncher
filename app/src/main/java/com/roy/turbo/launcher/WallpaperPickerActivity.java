@@ -72,6 +72,7 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.roy.android.photos.BitmapRegionTileSource;
+import com.roy.turbo.launcher.model.DrawableTileSource;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.android.photos.BitmapRegionTileSource.BitmapSource;
 import com.roy.turbo.launcher.view.CheckableFrameLayout;
