@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.animation.LayoutTransition;
@@ -25,18 +9,16 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-import com.roy.turbo.launcher.R;
-
+//done 2023.04.29
 public class PageIndicator extends LinearLayout {
-   
+
     private static final boolean MODULATE_ALPHA_ENABLED = false;
 
-    private LayoutInflater mLayoutInflater;
-    private int[] mWindowRange = new int[2];
-    private int mMaxWindowSize;
+    private final LayoutInflater mLayoutInflater;
+    private final int[] mWindowRange = new int[2];
+    private final int mMaxWindowSize;
 
-    private ArrayList<PageIndicatorMarker> mMarkers =
-            new ArrayList<PageIndicatorMarker>();
+    private final ArrayList<PageIndicatorMarker> mMarkers = new ArrayList<>();
     private int mActiveMarkerIndex;
 
     public static class PageMarkerResources {
@@ -200,19 +182,4 @@ public class PageIndicator extends LinearLayout {
         offsetWindowCenterTo(index, false);
     }
 
-    void dumpState(String txt) {
-        System.out.println(txt);
-        System.out.println("\tmMarkers: " + mMarkers.size());
-        for (int i = 0; i < mMarkers.size(); ++i) {
-            PageIndicatorMarker m = mMarkers.get(i);
-            System.out.println("\t\t(" + i + ") " + m);
-        }
-        System.out.println("\twindow: [" + mWindowRange[0] + ", " + mWindowRange[1] + "]");
-        System.out.println("\tchildren: " + getChildCount());
-        for (int i = 0; i < getChildCount(); ++i) {
-            PageIndicatorMarker m = (PageIndicatorMarker) getChildAt(i);
-            System.out.println("\t\t(" + i + ") " + m);
-        }
-        System.out.println("\tactive: " + mActiveMarkerIndex);
-    }
 }
