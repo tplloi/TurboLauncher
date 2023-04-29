@@ -1498,7 +1498,7 @@ e.printStackTrace();
 		}
 
 		public void run() {
-			boolean isUpgrade = false;
+			boolean isUpgrade;
 
 			synchronized (mLock) {
 				mIsLoaderTaskRunning = true;
@@ -1624,7 +1624,7 @@ e.printStackTrace();
 			// Cross reference all the applications in our apps list with items
 			// in the workspace
 			ArrayList<ItemInfo> tmpInfos;
-			ArrayList<ItemInfo> added = new ArrayList<ItemInfo>();
+			ArrayList<ItemInfo> added = new ArrayList<>();
 			synchronized (sBgLock) {
 				for (AppInfo app : mBgAllAppsList.data) {
 					tmpInfos = getItemInfoForComponentName(app.componentName);
@@ -1696,14 +1696,15 @@ e.printStackTrace();
 			// Check if any workspace icons overlap with each other
 			for (int x = item.cellX; x < (item.cellX + item.spanX); x++) {
 				for (int y = item.cellY; y < (item.cellY + item.spanY); y++) {
+					assert screens != null;
 					if (screens[x][y] != null) {
-
 						return false;
 					}
 				}
 			}
 			for (int x = item.cellX; x < (item.cellX + item.spanX); x++) {
 				for (int y = item.cellY; y < (item.cellY + item.spanY); y++) {
+					assert screens != null;
 					screens[x][y] = item;
 				}
 			}
@@ -1763,55 +1764,36 @@ e.printStackTrace();
 			synchronized (sBgLock) {
 				clearSBgDataStructures();
 
-				final ArrayList<Long> itemsToRemove = new ArrayList<Long>();
-				final ArrayList<Long> restoredRows = new ArrayList<Long>();
+				final ArrayList<Long> itemsToRemove = new ArrayList<>();
+				final ArrayList<Long> restoredRows = new ArrayList<>();
 				final Uri contentUri = LauncherSettings.Favorites.CONTENT_URI;
-				final Cursor c = contentResolver.query(contentUri, null, null,
-						null, null);
+				final Cursor c = contentResolver.query(contentUri, null, null, null, null);
 
 				// +1 for the hotseat (it can be larger than the workspace)
 				// Load workspace in reverse order to ensure that latest items
 				// are loaded first (and
 				// before any earlier duplicates)
-				final HashMap<Long, ItemInfo[][]> occupied = new HashMap<Long, ItemInfo[][]>();
+				final HashMap<Long, ItemInfo[][]> occupied = new HashMap<>();
 
 				try {
-					final int idIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites._ID);
-					final int intentIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.INTENT);
-					final int titleIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.TITLE);
-					final int iconTypeIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_TYPE);
-					final int iconIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON);
-					final int iconPackageIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_PACKAGE);
-					final int iconResourceIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_RESOURCE);
-					final int containerIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.CONTAINER);
-					final int itemTypeIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.ITEM_TYPE);
-					final int appWidgetIdIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.APPWIDGET_ID);
-					final int appWidgetProviderIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.APPWIDGET_PROVIDER);
-					final int screenIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.SCREEN);
-					final int cellXIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.CELLX);
-					final int cellYIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.CELLY);
-					final int spanXIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.SPANX);
-					final int spanYIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.SPANY);
-					final int restoredIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.RESTORED);
-					final int hiddenIndex = c
-							.getColumnIndexOrThrow(LauncherSettings.Favorites.HIDDEN);
+					final int idIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites._ID);
+					final int intentIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.INTENT);
+					final int titleIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.TITLE);
+					final int iconTypeIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_TYPE);
+					final int iconIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON);
+					final int iconPackageIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_PACKAGE);
+					final int iconResourceIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_RESOURCE);
+					final int containerIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CONTAINER);
+					final int itemTypeIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ITEM_TYPE);
+					final int appWidgetIdIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.APPWIDGET_ID);
+					final int appWidgetProviderIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.APPWIDGET_PROVIDER);
+					final int screenIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.SCREEN);
+					final int cellXIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CELLX);
+					final int cellYIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CELLY);
+					final int spanXIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.SPANX);
+					final int spanYIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.SPANY);
+					final int restoredIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.RESTORED);
+					final int hiddenIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.HIDDEN);
 					// final int uriIndex =
 					// c.getColumnIndexOrThrow(LauncherSettings.Favorites.URI);
 					// //final int displayModeIndex = c.getColumnIndexOrThrow(
