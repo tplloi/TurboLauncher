@@ -648,7 +648,7 @@ public class FocusHelper {
     /**
      * Handles key events for items in a Folder.
      */
-    static boolean handleFolderKeyEvent(View v, int keyCode, KeyEvent e) {
+    public static boolean handleFolderKeyEvent(View v, int keyCode, KeyEvent e) {
         ShortcutAndWidgetContainer parent = (ShortcutAndWidgetContainer) v.getParent();
         final CellLayout layout = (CellLayout) parent.getParent();
         final ScrollView scrollView = (ScrollView) layout.getParent();
