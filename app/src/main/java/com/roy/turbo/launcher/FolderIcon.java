@@ -42,7 +42,7 @@ import android.widget.TextView;
 
 import com.roy.turbo.launcher.DropTarget.DragObject;
 import com.roy.turbo.launcher.FolderInfo.FolderListener;
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.sv.Alarm;
 
 import java.util.ArrayList;
 

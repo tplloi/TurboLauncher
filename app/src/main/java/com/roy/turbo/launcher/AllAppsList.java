@@ -90,6 +90,7 @@ class AllAppsList {
         final List<AppInfo> data = this.data;
         for (int i = data.size() - 1; i >= 0; i--) {
             AppInfo info = data.get(i);
+            assert info.intent != null;
             final ComponentName component = info.intent.getComponent();
             if (packageName.equals(component.getPackageName())) {
                 removed.add(info);
@@ -109,6 +110,7 @@ class AllAppsList {
             // to the removed list.
             for (int i = data.size() - 1; i >= 0; i--) {
                 final AppInfo applicationInfo = data.get(i);
+                assert applicationInfo.intent != null;
                 final ComponentName component = applicationInfo.intent.getComponent();
                 if (packageName.equals(component.getPackageName())) {
                     if (!findActivity(matches, component)) {
@@ -139,6 +141,7 @@ class AllAppsList {
             // Remove all data for this package.
             for (int i = data.size() - 1; i >= 0; i--) {
                 final AppInfo applicationInfo = data.get(i);
+                assert applicationInfo.intent != null;
                 final ComponentName component = applicationInfo.intent.getComponent();
                 if (packageName.equals(component.getPackageName())) {
                     removed.add(applicationInfo);
@@ -184,6 +187,7 @@ class AllAppsList {
         final int N = apps.size();
         for (int i = 0; i < N; i++) {
             final AppInfo info = apps.get(i);
+            assert info.componentName != null;
             if (info.componentName.equals(component)) {
                 return true;
             }

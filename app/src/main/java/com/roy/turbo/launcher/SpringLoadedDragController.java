@@ -16,6 +16,8 @@
 
 package com.roy.turbo.launcher;
 
+import com.roy.turbo.launcher.sv.Alarm;
+
 public class SpringLoadedDragController implements OnAlarmListener {
     // how long the user must hover over a mini-screen before it unshrinks
     final long ENTER_SPRING_LOAD_HOVER_TIME = 500;

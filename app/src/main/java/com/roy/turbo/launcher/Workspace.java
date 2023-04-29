@@ -66,7 +66,7 @@ import com.roy.turbo.launcher.FolderIcon.FolderRingAnimator;
 import com.roy.turbo.launcher.Launcher.CustomContentCallbacks;
 import com.roy.turbo.launcher.LauncherSettings.Favorites;
 import com.roy.turbo.launcher.settings.SettingsProvider;
-import com.roy.turbo.launcher.R;
+import com.roy.turbo.launcher.sv.Alarm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
