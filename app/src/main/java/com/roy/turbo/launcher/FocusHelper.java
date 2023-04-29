@@ -325,7 +325,7 @@ public class FocusHelper {
     /**
      * Handles key events in the workspace hotseat (bottom of the screen).
      */
-    static boolean handleHotseatButtonKeyEvent(View v, int keyCode, KeyEvent e, int orientation) {
+    public static boolean handleHotseatButtonKeyEvent(View v, int keyCode, KeyEvent e, int orientation) {
         final ViewGroup parent = (ViewGroup) v.getParent();
         final ViewGroup launcher = (ViewGroup) parent.getParent();
         final Workspace workspace = (Workspace) launcher.findViewById(R.id.workspace);

@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.roy.turbo.launcher.view.HotseatIconKeyEventListener;
+
 import java.util.ArrayList;
 
 public class Hotseat extends FrameLayout {
