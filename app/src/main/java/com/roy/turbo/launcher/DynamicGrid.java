@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.content.Context;
@@ -22,15 +6,12 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import com.roy.turbo.launcher.settings.SettingsProvider;
-import com.roy.turbo.launcher.R;
 
 import java.util.ArrayList;
 
 public class DynamicGrid {
     
-    private DeviceProfile mProfile;
-    private float mMinWidth;
-    private float mMinHeight;
+    private final DeviceProfile mProfile;
 
     // This is a static that we use for the default icon size on a 4/5-inch phone
     static float DEFAULT_ICON_SIZE_DP = 60;
@@ -54,8 +35,7 @@ public class DynamicGrid {
                        int widthPx, int heightPx,
                        int awPx, int ahPx) {
         DisplayMetrics dm = resources.getDisplayMetrics();
-        ArrayList<DeviceProfile> deviceProfiles =
-                new ArrayList<DeviceProfile>();
+        ArrayList<DeviceProfile> deviceProfiles = new ArrayList<>();
         boolean hasAA = !LauncherAppState.isDisableAllApps();
         boolean useLargeIcons = SettingsProvider.getBoolean(context, SettingsProvider.SETTINGS_UI_GENERAL_ICONS_LARGE,
                 R.bool.preferences_interface_general_icons_large_default);
@@ -83,7 +63,7 @@ public class DynamicGrid {
                 575, 904,  5, 5,  (useLargeIcons ? 72 : 60), 14.4f,  7, (useLargeIcons ? 60 : 52)));
         // Larger tablet profiles always have system bars on the top & bottom
         deviceProfiles.add(new DeviceProfile("Nexus 10",
-                727, 1207,  5, 8,  (useLargeIcons ? 76 : 64), 14.4f,  9, (useLargeIcons ? 64 : 56)));
+                727, 1207, 5, 8, (useLargeIcons ? 76 : 64), 14.4f, 9, (useLargeIcons ? 64 : 56)));
         /*
         deviceProfiles.add(new DeviceProfile("Nexus 7",
                 600, 960,  5, 5,  72, 14.4f,  5, 60));
@@ -91,9 +71,9 @@ public class DynamicGrid {
                 800, 1280,  5, 5,  80, 14.4f, (hasAA ? 7 : 6), 64));
          */
         deviceProfiles.add(new DeviceProfile("20-inch Tablet",
-                1527, 2527,  7, 7,  (useLargeIcons ? 100 : 80), 20,  7, (useLargeIcons ? 72 : 64)));
-        mMinWidth = dpiFromPx(minWidthPx, dm);
-        mMinHeight = dpiFromPx(minHeightPx, dm);
+                1527, 2527, 7, 7, (useLargeIcons ? 100 : 80), 20, 7, (useLargeIcons ? 72 : 64)));
+        float mMinWidth = dpiFromPx(minWidthPx, dm);
+        float mMinHeight = dpiFromPx(minHeightPx, dm);
         mProfile = new DeviceProfile(context, deviceProfiles,
                 mMinWidth, mMinHeight,
                 widthPx, heightPx,
