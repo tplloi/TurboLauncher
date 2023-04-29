@@ -4506,7 +4506,7 @@ public class Workspace extends SmoothPagedView
     }
 
     @Override
-    public boolean onExitScrollArea() {
+    public void onExitScrollArea() {
         boolean result = false;
         if (mInScrollArea) {
             invalidate();
@@ -4517,7 +4517,6 @@ public class Workspace extends SmoothPagedView
             result = true;
             mInScrollArea = false;
         }
-        return result;
     }
 
     private void onResetScrollArea() {
