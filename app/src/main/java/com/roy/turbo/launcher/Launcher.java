@@ -6,7 +6,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -117,7 +116,7 @@ public class Launcher extends Activity implements View.OnClickListener,
 
     private static final int REQUEST_BIND_APPWIDGET = 11;
 
-    static final int REQUEST_PICK_ICON = 13;
+//    static final int REQUEST_PICK_ICON = 13;
 
     private static final int REQUEST_LOCK_PATTERN = 14;
 
@@ -125,7 +124,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * IntentStarter uses request codes starting with this. This must be greater
      * than all activity request codes used internally.
      */
-    protected static final int REQUEST_LAST = 100;
+//    protected static final int REQUEST_LAST = 100;
 
     static final String EXTRA_SHORTCUT_DUPLICATE = "duplicate";
 
@@ -2677,6 +2676,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouch(View v, MotionEvent event) {
         return false;
     }
@@ -2754,14 +2754,11 @@ public class Launcher extends Activity implements View.OnClickListener,
 
     public View.OnTouchListener getHapticFeedbackTouchListener() {
         if (mHapticFeedbackTouchListener == null) {
-            mHapticFeedbackTouchListener = new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
-                        v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    }
-                    return false;
+            mHapticFeedbackTouchListener = (v, event) -> {
+                if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
+                    v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 }
+                return false;
             };
         }
         return mHapticFeedbackTouchListener;
@@ -3018,7 +3015,6 @@ public class Launcher extends Activity implements View.OnClickListener,
      * Opens the user folder described by the specified tag. The opening of the
      * folder is animated relative to the specified View. If the View is null,
      * no animation is played.
-     *
      * folderInfo The FolderInfo describing the folder to open.
      */
     public void openFolder(FolderIcon folderIcon) {
@@ -3136,9 +3132,7 @@ public class Launcher extends Activity implements View.OnClickListener,
     }
 
     boolean isHotseatLayout(View layout) {
-        return mHotseat != null && layout != null
-                && (layout instanceof CellLayout)
-                && (layout == mHotseat.getLayout());
+        return mHotseat != null && (layout instanceof CellLayout) && (layout == mHotseat.getLayout());
     }
 
     /**
@@ -3229,16 +3223,15 @@ public class Launcher extends Activity implements View.OnClickListener,
      * the view to show is anchored at either the very top or very bottom of the
      * screen.
      */
-    private void showAppsCustomizeHelper(final boolean animated,
-                                         final boolean springLoaded) {
-        AppsCustomizePagedView.ContentType contentType = mAppsCustomizeContent
-                .getContentType();
+    private void showAppsCustomizeHelper(final boolean animated, final boolean springLoaded) {
+        AppsCustomizePagedView.ContentType contentType = mAppsCustomizeContent.getContentType();
         showAppsCustomizeHelper(animated, springLoaded, contentType);
     }
 
-    private void showAppsCustomizeHelper(final boolean animated,
-                                         final boolean springLoaded,
-                                         final AppsCustomizePagedView.ContentType contentType) {
+    private void showAppsCustomizeHelper(
+            final boolean animated,
+            final boolean springLoaded,
+            final AppsCustomizePagedView.ContentType contentType) {
         if (mStateAnimation != null) {
             mStateAnimation.setDuration(0);
             mStateAnimation.cancel();
@@ -3281,16 +3274,13 @@ public class Launcher extends Activity implements View.OnClickListener,
             final ObjectAnimator alphaAnim = LauncherAnimUtils.ofFloat(toView,
                     "alpha", 0f, 1f).setDuration(fadeDuration);
             alphaAnim.setInterpolator(new DecelerateInterpolator(1.5f));
-            alphaAnim.addUpdateListener(new AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    if (animation == null) {
-                        throw new RuntimeException("animation is null");
-                    }
-                    float t = (Float) animation.getAnimatedValue();
-                    dispatchOnLauncherTransitionStep(fromView, t);
-                    dispatchOnLauncherTransitionStep(toView, t);
+            alphaAnim.addUpdateListener(animation -> {
+                if (animation == null) {
+                    throw new RuntimeException("animation is null");
                 }
+                float t = (Float) animation.getAnimatedValue();
+                dispatchOnLauncherTransitionStep(fromView, t);
+                dispatchOnLauncherTransitionStep(toView, t);
             });
 
             // toView should appear right at the end of the workspace shrink
@@ -3341,18 +3331,16 @@ public class Launcher extends Activity implements View.OnClickListener,
             }
 
             final AnimatorSet stateAnimation = mStateAnimation;
-            final Runnable startAnimRunnable = new Runnable() {
-                public void run() {
-                    // Check that mStateAnimation hasn't changed while
-                    // we waited for a layout/draw pass
-                    if (mStateAnimation != stateAnimation)
-                        return;
-                    setPivotsForZoom(toView, scale);
-                    dispatchOnLauncherTransitionStart(fromView, animated, false);
-                    dispatchOnLauncherTransitionStart(toView, animated, false);
-                    LauncherAnimUtils.startAnimationAfterNextDraw(
-                            mStateAnimation, toView);
-                }
+            final Runnable startAnimRunnable = () -> {
+                // Check that mStateAnimation hasn't changed while
+                // we waited for a layout/draw pass
+                if (mStateAnimation != stateAnimation)
+                    return;
+                setPivotsForZoom(toView, scale);
+                dispatchOnLauncherTransitionStart(fromView, animated, false);
+                dispatchOnLauncherTransitionStart(toView, animated, false);
+                LauncherAnimUtils.startAnimationAfterNextDraw(
+                        mStateAnimation, toView);
             };
             if (delayAnim) {
                 final ViewTreeObserver observer = toView.getViewTreeObserver();
@@ -3396,9 +3384,11 @@ public class Launcher extends Activity implements View.OnClickListener,
      *
      * @param animated If true, the transition will be animated.
      */
-    private void hideAppsCustomizeHelper(Workspace.State toState,
-                                         final boolean animated, final boolean springLoaded,
-                                         final Runnable onCompleteRunnable) {
+    private void hideAppsCustomizeHelper(
+            Workspace.State toState,
+            final boolean animated,
+            final boolean springLoaded,
+            final Runnable onCompleteRunnable) {
 
         if (mStateAnimation != null) {
             mStateAnimation.setDuration(0);
@@ -3436,16 +3426,12 @@ public class Launcher extends Activity implements View.OnClickListener,
                     .setDuration(duration)
                     .setInterpolator(new Workspace.ZoomInInterpolator());
 
-            final ObjectAnimator alphaAnim = LauncherAnimUtils.ofFloat(
-                    fromView, "alpha", 1f, 0f).setDuration(fadeOutDuration);
+            final ObjectAnimator alphaAnim = LauncherAnimUtils.ofFloat(fromView, "alpha", 1f, 0f).setDuration(fadeOutDuration);
             alphaAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-            alphaAnim.addUpdateListener(new AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float t = 1f - (Float) animation.getAnimatedValue();
-                    dispatchOnLauncherTransitionStep(fromView, t);
-                    dispatchOnLauncherTransitionStep(toView, t);
-                }
+            alphaAnim.addUpdateListener(animation -> {
+                float t = 1f - (Float) animation.getAnimatedValue();
+                dispatchOnLauncherTransitionStep(fromView, t);
+                dispatchOnLauncherTransitionStep(toView, t);
             });
 
             mStateAnimation = LauncherAnimUtils.createAnimatorSet();
@@ -3516,8 +3502,7 @@ public class Launcher extends Activity implements View.OnClickListener,
             // target bar in spring
             // loaded mode)
             if (mSearchDropTargetBar != null) {
-                mSearchDropTargetBar.showSearchBar(animated
-                        && wasInSpringLoadedMode);
+                mSearchDropTargetBar.showSearchBar(animated && wasInSpringLoadedMode);
             }
 
             // Set focus to the AppsCustomize button
@@ -3587,20 +3572,19 @@ public class Launcher extends Activity implements View.OnClickListener,
         }
     }
 
-    void exitSpringLoadedDragModeDelayed(final boolean successfulDrop,
-                                         int delay, final Runnable onCompleteRunnable) {
+    void exitSpringLoadedDragModeDelayed(
+            final boolean successfulDrop,
+            int delay,
+            final Runnable onCompleteRunnable) {
         if (mState != State.APPS_CUSTOMIZE_SPRING_LOADED)
             return;
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (successfulDrop) {
-                    mAppsCustomizeLayout.setVisibility(View.GONE);
-                    showWorkspace(true, onCompleteRunnable);
-                } else {
-                    exitSpringLoadedDragMode();
-                }
+        mHandler.postDelayed(() -> {
+            if (successfulDrop) {
+                mAppsCustomizeLayout.setVisibility(View.GONE);
+                showWorkspace(true, onCompleteRunnable);
+            } else {
+                exitSpringLoadedDragMode();
             }
         }, delay);
 
@@ -3680,12 +3664,10 @@ public class Launcher extends Activity implements View.OnClickListener,
      */
     private int getCurrentOrientationIndexForGlobalIcons() {
         // default - 0, landscape - 1
-        switch (getResources().getConfiguration().orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                return 1;
-            default:
-                return 0;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            return 1;
         }
+        return 0;
     }
 
     private Drawable getExternalPackageToolbarIcon(ComponentName activityName,
@@ -3704,9 +3686,9 @@ public class Launcher extends Activity implements View.OnClickListener,
                 }
             }
         } catch (NameNotFoundException e) {
-
+            e.printStackTrace();
         } catch (Resources.NotFoundException nfe) {
-
+            nfe.printStackTrace();
         }
         return null;
     }
@@ -4045,16 +4027,13 @@ public class Launcher extends Activity implements View.OnClickListener,
         }
     }
 
-    public void bindAppsAdded(final ArrayList<Long> newScreens,
-                              final ArrayList<ItemInfo> addNotAnimated,
-                              final ArrayList<ItemInfo> addAnimated,
-                              final ArrayList<AppInfo> addedApps) {
-        Runnable r = new Runnable() {
-            public void run() {
-                bindAppsAdded(newScreens, addNotAnimated, addAnimated,
-                        addedApps);
-            }
-        };
+    public void bindAppsAdded(
+            final ArrayList<Long> newScreens,
+            final ArrayList<ItemInfo> addNotAnimated,
+            final ArrayList<ItemInfo> addAnimated,
+            final ArrayList<AppInfo> addedApps) {
+        Runnable r = () -> bindAppsAdded(newScreens, addNotAnimated, addAnimated,
+                addedApps);
         if (waitUntilResume(r)) {
             return;
         }
@@ -4092,11 +4071,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         final ArrayList<ItemInfo> items = shortcuts;
         final int s = start;
         final int e = end;
-        Runnable r = new Runnable() {
-            public void run() {
-                bindItems(items, s, e, forceAnimateIcons);
-            }
-        };
+        Runnable r = () -> bindItems(items, s, e, forceAnimateIcons);
         if (waitUntilResume(r)) {
             return;
         }
@@ -4104,9 +4079,8 @@ public class Launcher extends Activity implements View.OnClickListener,
         // Get the list of added shortcuts and intersect them with the set of
         // shortcuts here
         final AnimatorSet anim = LauncherAnimUtils.createAnimatorSet();
-        final Collection<Animator> bounceAnims = new ArrayList<Animator>();
-        final boolean animateIcons = forceAnimateIcons
-                && canRunNewAppsAnimation();
+        final Collection<Animator> bounceAnims = new ArrayList<>();
+        final boolean animateIcons = forceAnimateIcons && canRunNewAppsAnimation();
         Workspace workspace = mWorkspace;
         long newShortcutsScreenId = -1;
         for (int i = start; i < end; i++) {
@@ -4168,23 +4142,19 @@ public class Launcher extends Activity implements View.OnClickListener,
                         .getScreenIdForPageIndex(mWorkspace.getNextPage());
                 final int newScreenIndex = mWorkspace
                         .getPageIndexForScreenId(newShortcutsScreenId);
-                final Runnable startBounceAnimRunnable = new Runnable() {
-                    public void run() {
-                        anim.playTogether(bounceAnims);
-                        anim.start();
-                    }
+                final Runnable startBounceAnimRunnable = () -> {
+                    anim.playTogether(bounceAnims);
+                    anim.start();
                 };
                 if (newShortcutsScreenId != currentScreenId) {
                     // We post the animation slightly delayed to prevent
                     // slowdowns
                     // when we are loading right after we return to launcher.
-                    mWorkspace.postDelayed(new Runnable() {
-                        public void run() {
-                            if (mWorkspace != null) {
-                                mWorkspace.snapToPage(newScreenIndex);
-                                mWorkspace.postDelayed(startBounceAnimRunnable,
-                                        NEW_APPS_ANIMATION_DELAY);
-                            }
+                    mWorkspace.postDelayed(() -> {
+                        if (mWorkspace != null) {
+                            mWorkspace.snapToPage(newScreenIndex);
+                            mWorkspace.postDelayed(startBounceAnimRunnable,
+                                    NEW_APPS_ANIMATION_DELAY);
                         }
                     }, NEW_APPS_PAGE_MOVE_DELAY);
                 } else {
@@ -4200,11 +4170,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * Implementation of the method from LauncherModel.Callbacks.
      */
     public void bindFolders(final HashMap<Long, FolderInfo> folders) {
-        Runnable r = new Runnable() {
-            public void run() {
-                bindFolders(folders);
-            }
-        };
+        Runnable r = () -> bindFolders(folders);
         if (waitUntilResume(r)) {
             return;
         }
@@ -4218,25 +4184,17 @@ public class Launcher extends Activity implements View.OnClickListener,
      * Implementation of the method from LauncherModel.Callbacks.
      */
     public void bindAppWidget(final LauncherAppWidgetInfo item) {
-        Runnable r = new Runnable() {
-            public void run() {
-                bindAppWidget(item);
-            }
-        };
+        Runnable r = () -> bindAppWidget(item);
         if (waitUntilResume(r)) {
             return;
         }
 
-
         final Workspace workspace = mWorkspace;
 
         final int appWidgetId = item.appWidgetId;
-        final AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager
-                .getAppWidgetInfo(appWidgetId);
+        final AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
 
-
-        item.hostView = mAppWidgetHost.createView(this, appWidgetId,
-                appWidgetInfo);
+        item.hostView = mAppWidgetHost.createView(this, appWidgetId, appWidgetInfo);
 
         item.hostView.setTag(item);
         item.onBindAppWidget(this);
@@ -4260,18 +4218,13 @@ public class Launcher extends Activity implements View.OnClickListener,
      * Implementation of the method from LauncherModel.Callbacks.
      */
     public void finishBindingItems(final boolean upgradePath) {
-        Runnable r = new Runnable() {
-            public void run() {
-                finishBindingItems(upgradePath);
-            }
-        };
+        Runnable r = () -> finishBindingItems(upgradePath);
         if (waitUntilResume(r)) {
             return;
         }
         if (mSavedState != null) {
             if (!mWorkspace.hasFocus()) {
-                mWorkspace.getChildAt(mWorkspace.getCurrentPage())
-                        .requestFocus();
+                mWorkspace.getChildAt(mWorkspace.getCurrentPage()).requestFocus();
             }
             mSavedState = null;
         }
@@ -4305,10 +4258,8 @@ public class Launcher extends Activity implements View.OnClickListener,
                 PropertyValuesHolder.ofFloat("alpha", 1f),
                 PropertyValuesHolder.ofFloat("scaleX", 1f),
                 PropertyValuesHolder.ofFloat("scaleY", 1f));
-        bounceAnim
-                .setDuration(InstallShortcutReceiver.NEW_SHORTCUT_BOUNCE_DURATION);
-        bounceAnim.setStartDelay(i
-                * InstallShortcutReceiver.NEW_SHORTCUT_STAGGER_DELAY);
+        bounceAnim.setDuration(InstallShortcutReceiver.NEW_SHORTCUT_BOUNCE_DURATION);
+        bounceAnim.setStartDelay(i * InstallShortcutReceiver.NEW_SHORTCUT_STAGGER_DELAY);
         bounceAnim.setInterpolator(new SmoothPagedView.OvershootInterpolator());
         return bounceAnim;
     }
@@ -4367,11 +4318,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * Implementation of the method from LauncherModel.Callbacks.
      */
     public void bindAppsUpdated(final ArrayList<AppInfo> apps) {
-        Runnable r = new Runnable() {
-            public void run() {
-                bindAppsUpdated(apps);
-            }
-        };
+        Runnable r = () -> bindAppsUpdated(apps);
         if (waitUntilResume(r)) {
             return;
         }
@@ -4397,11 +4344,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      */
     public void bindComponentsRemoved(final ArrayList<String> packageNames,
                                       final ArrayList<AppInfo> appInfos) {
-        Runnable r = new Runnable() {
-            public void run() {
-                bindComponentsRemoved(packageNames, appInfos);
-            }
-        };
+        Runnable r = () -> bindComponentsRemoved(packageNames, appInfos);
         if (waitUntilResume(r)) {
             return;
         }
@@ -4427,7 +4370,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * A number of packages were updated.
      */
     private ArrayList<Object> mWidgetsAndShortcuts;
-    private Runnable mBindPackagesUpdatedRunnable = new Runnable() {
+    private final Runnable mBindPackagesUpdatedRunnable = new Runnable() {
         public void run() {
             bindPackagesUpdated(mWidgetsAndShortcuts);
             mWidgetsAndShortcuts = null;
@@ -4480,9 +4423,7 @@ public class Launcher extends Activity implements View.OnClickListener,
     }
 
     public boolean isRotationEnabled() {
-        boolean enableRotation = sForceEnableRotation
-                || getResources().getBoolean(R.bool.allow_rotation);
-        return enableRotation;
+        return sForceEnableRotation || getResources().getBoolean(R.bool.allow_rotation);
     }
 
     public void lockScreenOrientation() {
@@ -4497,11 +4438,7 @@ public class Launcher extends Activity implements View.OnClickListener,
             if (immediate) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             } else {
-                mHandler.postDelayed(new Runnable() {
-                    public void run() {
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-                    }
-                }, mRestoreScreenOrientationDelay);
+                mHandler.postDelayed(() -> setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED), mRestoreScreenOrientationDelay);
             }
         }
     }
@@ -4512,11 +4449,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         try {
             ApplicationInfo ai = pm.getApplicationInfo(getComponentName()
                     .getPackageName(), 0);
-            if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return (ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
         } catch (NameNotFoundException e) {
 
             return false;
@@ -4578,7 +4511,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         if (settingsChanged) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(SettingsProvider.SETTINGS_CHANGED, false);
-            editor.commit();
+            editor.apply();
         }
         mShouldRestart = true;
         return settingsChanged;
@@ -4629,7 +4562,7 @@ public class Launcher extends Activity implements View.OnClickListener,
                 return true;
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return false;
     }
