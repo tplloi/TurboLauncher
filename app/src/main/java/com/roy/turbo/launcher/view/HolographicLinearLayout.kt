@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher
+package com.roy.turbo.launcher.view
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,6 +10,8 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.roy.turbo.launcher.HolographicViewHelper
+import com.roy.turbo.launcher.R
 
 class HolographicLinearLayout @SuppressLint("ClickableViewAccessibility") constructor(
     context: Context,
