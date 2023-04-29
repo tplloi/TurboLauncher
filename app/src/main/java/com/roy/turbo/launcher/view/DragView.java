@@ -14,7 +14,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.roy.turbo.launcher.DragLayer;
 import com.roy.turbo.launcher.Launcher;
-import com.roy.turbo.launcher.LauncherAnimUtils;
+import com.roy.turbo.launcher.helper.LauncherAnimUtils;
 import com.roy.turbo.launcher.R;
 
 public class DragView extends View {

@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewPropertyAnimator;
 
 import com.roy.turbo.launcher.helper.FirstFrameAnimatorHelper;
+import com.roy.turbo.launcher.helper.LauncherAnimUtils;
 
 import java.util.ArrayList;
 import java.util.EnumSet;

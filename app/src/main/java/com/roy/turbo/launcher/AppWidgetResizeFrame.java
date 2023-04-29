@@ -11,6 +11,8 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.roy.turbo.launcher.helper.LauncherAnimUtils;
+
 public class AppWidgetResizeFrame extends FrameLayout {
     private final LauncherAppWidgetHostView mWidgetView;
     private final CellLayout mCellLayout;
