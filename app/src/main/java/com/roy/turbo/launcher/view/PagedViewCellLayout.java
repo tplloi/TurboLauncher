@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.roy.turbo.launcher.DeviceProfile;
 import com.roy.turbo.launcher.LauncherAppState;
-import com.roy.turbo.launcher.PagedViewCellLayoutChildren;
 import com.roy.turbo.launcher.itf.Page;
 
 /**
@@ -30,7 +29,7 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
     private int mOriginalHeightGap;
     private int mWidthGap;
     private int mHeightGap;
-    protected com.roy.turbo.launcher.PagedViewCellLayoutChildren mChildren;
+    protected PagedViewCellLayoutChildren mChildren;
 
     public PagedViewCellLayout(Context context) {
         this(context, null);
@@ -54,7 +53,7 @@ public class PagedViewCellLayout extends ViewGroup implements Page {
         mCellCountY = (int) grid.numRows;
         mOriginalWidthGap = mOriginalHeightGap = mWidthGap = mHeightGap = -1;
 
-        mChildren = new com.roy.turbo.launcher.PagedViewCellLayoutChildren(context);
+        mChildren = new PagedViewCellLayoutChildren(context);
         mChildren.setCellDimensions(mCellWidth, mCellHeight);
         mChildren.setGap(mWidthGap, mHeightGap);
 
