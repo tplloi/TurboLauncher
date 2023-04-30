@@ -1103,27 +1103,27 @@ public class Launcher extends Activity implements View.OnClickListener,
     public void onClickSortModeButton(View v) {
         final PopupMenu popupMenu = new PopupMenu(this, v);
         final Menu menu = popupMenu.getMenu();
-        popupMenu.inflate(R.menu.apps_customize_sort_mode);
+        popupMenu.inflate(R.menu.menu_apps_customize_sort_mode);
         switch (mAppsCustomizeContent.getSortMode()) {
             case Title:
-                menu.findItem(R.id.sort_mode_title).setChecked(true);
+                menu.findItem(R.id.itemSortModeTitle).setChecked(true);
                 break;
             case LaunchCount:
-                menu.findItem(R.id.sort_mode_launch_count).setChecked(true);
+                menu.findItem(R.id.itemSortModeLaunchCount).setChecked(true);
                 break;
             case InstallTime:
-                menu.findItem(R.id.sort_mode_install_time).setChecked(true);
+                menu.findItem(R.id.itemSortModeInstallTime).setChecked(true);
                 break;
         }
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.sort_mode_title:
+                case R.id.itemSortModeTitle:
                     mAppsCustomizeContent.setSortMode(AppsCustomizePagedView.SortMode.Title);
                     break;
-                case R.id.sort_mode_install_time:
+                case R.id.itemSortModeInstallTime:
                     mAppsCustomizeContent.setSortMode(AppsCustomizePagedView.SortMode.InstallTime);
                     break;
-                case R.id.sort_mode_launch_count:
+                case R.id.itemSortModeLaunchCount:
                     mAppsCustomizeContent.setSortMode(AppsCustomizePagedView.SortMode.LaunchCount);
                     break;
             }
@@ -1178,9 +1178,9 @@ public class Launcher extends Activity implements View.OnClickListener,
         final PopupMenu popupMenu = new PopupMenu(this, v);
 
         final Menu menu = popupMenu.getMenu();
-        popupMenu.inflate(R.menu.scrolling_settings);
-        MenuItem pageOutlines = menu.findItem(R.id.scrolling_page_outlines);
-        MenuItem fadeAdjacent = menu.findItem(R.id.scrolling_fade_adjacent);
+        popupMenu.inflate(R.menu.menu_scrolling_settings);
+        MenuItem pageOutlines = menu.findItem(R.id.itemScrollingPageOutlines);
+        MenuItem fadeAdjacent = menu.findItem(R.id.itemScrollingFadeAdjacent);
 
         pageOutlines.setVisible(!isAllAppsVisible());
         pageOutlines
@@ -1197,11 +1197,11 @@ public class Launcher extends Activity implements View.OnClickListener,
 
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.scrolling_page_outlines:
+                case R.id.itemScrollingPageOutlines:
                     SettingsProvider.get(Launcher.this).edit().putBoolean(SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_PAGE_OUTLINES, !item.isChecked()).commit();
                     mWorkspace.setShowOutlines(!item.isChecked());
                     break;
-                case R.id.scrolling_fade_adjacent:
+                case R.id.itemScrollingFadeAdjacent:
                     SettingsProvider.get(Launcher.this).edit().putBoolean(!isAllAppsVisible() ? SettingsProvider.SETTINGS_UI_HOMESCREEN_SCROLLING_FADE_ADJACENT : SettingsProvider.SETTINGS_UI_DRAWER_SCROLLING_FADE_ADJACENT, !item.isChecked()).apply();
                     pagedView.setFadeInAdjacentScreens(!item.isChecked());
                     break;

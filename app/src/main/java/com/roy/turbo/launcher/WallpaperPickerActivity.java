@@ -561,7 +561,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 // Inflate a menu resource providing context menu items
                 MenuInflater inflater = mode.getMenuInflater();
-                inflater.inflate(R.menu.cab_delete_wallpapers, menu);
+                inflater.inflate(R.menu.menu_cab_delete_wallpapers, menu);
                 return true;
             }
 
@@ -596,7 +596,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 int itemId = item.getItemId();
-                if (itemId == R.id.menu_delete) {
+                if (itemId == R.id.itemMenuDelete) {
                     int childCount = mWallpapersView.getChildCount();
                     ArrayList<View> viewsToRemove = new ArrayList<>();
                     boolean selectedTileRemoved = false;
