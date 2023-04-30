@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:visibility="invisible" />
 
-        <include layout="@layout/overview_panel"
+        <include layout="@layout/v_overview_panel"
             android:id="@+id/overview_panel"
             android:visibility="gone" />
     </com.roy.turbo.launcher.DragLayer>

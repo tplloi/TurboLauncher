@@ -2043,7 +2043,7 @@ public class Workspace extends SmoothPagedView
     private void updateDefaultScreenButton() {
         View overviewPanel = mLauncher.getOverviewPanel();
         if (overviewPanel != null) {
-            View defaultPageButton = overviewPanel.findViewById(R.id.default_screen_button);
+            View defaultPageButton = overviewPanel.findViewById(R.id.ivDefaultScreenButton);
             defaultPageButton.setActivated(
                     getScreenIdForPageIndex(getPageNearestToCenterOfScreen()) == mDefaultScreenId);
         }

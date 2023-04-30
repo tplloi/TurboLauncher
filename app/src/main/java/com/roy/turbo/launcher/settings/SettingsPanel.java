@@ -122,7 +122,7 @@ public class SettingsPanel {
         settingsButton.setOnTouchListener(mLauncher
                 .getHapticFeedbackTouchListener());
 
-        View defaultScreenButton = mLauncher.findViewById(R.id.default_screen_button);
+        View defaultScreenButton = mLauncher.findViewById(R.id.ivDefaultScreenButton);
         defaultScreenButton.setOnClickListener(arg0 -> {
             if (!mLauncher.getWorkspace().isSwitchingState()) {
                 mLauncher.getWorkspace().onClickDefaultScreenButton();
@@ -149,7 +149,7 @@ public class SettingsPanel {
 //        View widgetButton = mOverviewPanel.findViewById(R.id.widget_button);
 //        View wallpaperButton = mOverviewPanel.findViewById(R.id.wallpaper_button);
 //        View themesButton = mOverviewPanel.findViewById(R.id.themes_button);
-        View defaultHomePanel = mOverviewPanel.findViewById(R.id.default_screen_button);
+        View defaultHomePanel = mOverviewPanel.findViewById(R.id.ivDefaultScreenButton);
 
         boolean isAllAppsVisible = mLauncher.isAllAppsVisible();
 

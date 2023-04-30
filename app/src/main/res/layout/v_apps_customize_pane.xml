@@ -19,7 +19,7 @@
             launcher:pageIndicator="@+id/apps_customize_page_indicator" />
         <include
             android:id="@+id/apps_customize_page_indicator"
-            layout="@layout/page_indicator"
+            layout="@layout/v_page_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom" />

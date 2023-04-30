@@ -132,7 +132,7 @@ class PageIndicator @JvmOverloads constructor(
         var mIndex = index
         mIndex = max(0, min(mIndex, mMarkers.size))
         val m = mLayoutInflater.inflate(
-            /* resource = */ R.layout.page_indicator_marker,
+            /* resource = */ R.layout.v_page_indicator_marker,
             /* root = */ this, /* attachToRoot = */ false
         ) as PageIndicatorMarker
         m.setMarkerDrawables(marker.activeId, marker.inactiveId)

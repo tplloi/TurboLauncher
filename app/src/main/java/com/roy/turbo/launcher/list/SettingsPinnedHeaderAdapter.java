@@ -282,7 +282,7 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
                     }
             }
 
-            View defaultHome = mLauncher.findViewById(R.id.default_home_screen_panel);
+            View defaultHome = mLauncher.findViewById(R.id.llDefaultHomeScreenPanel);
             defaultHome.setVisibility(getCursor(0).getCount() > 1 ? View.VISIBLE : View.GONE);
         }
     };

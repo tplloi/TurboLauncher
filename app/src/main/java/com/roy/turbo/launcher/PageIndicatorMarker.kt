@@ -17,8 +17,8 @@ class PageIndicatorMarker @JvmOverloads constructor(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        mActiveMarker = findViewById<View>(R.id.active) as ImageView
-        mInactiveMarker = findViewById<View>(R.id.inactive) as ImageView
+        mActiveMarker = findViewById<View>(R.id.ivActive) as ImageView
+        mInactiveMarker = findViewById<View>(R.id.ivInactive) as ImageView
     }
 
     fun setMarkerDrawables(activeResId: Int, inactiveResId: Int) {
