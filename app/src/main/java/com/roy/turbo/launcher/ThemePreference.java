@@ -1,7 +1,5 @@
 package com.roy.turbo.launcher;
 
-import com.roy.turbo.launcher.R;
-
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
@@ -70,7 +68,7 @@ public class ThemePreference extends Preference {
         	try {
     			themeResources=getContext().getPackageManager().getResourcesForApplication(packageName.toString());
     		} catch (NameNotFoundException e) {
-    		
+    		e.printStackTrace();
     		}
     		if(themeResources!=null){
     			int themeNameId=themeResources.getIdentifier("theme_title", "string", packageName.toString());
