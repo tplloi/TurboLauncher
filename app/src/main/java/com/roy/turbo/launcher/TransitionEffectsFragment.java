@@ -2,6 +2,7 @@ package com.roy.turbo.launcher;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,11 +22,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.roy.turbo.launcher.settings.SettingsProvider;
-import com.roy.turbo.launcher.R;
 
 public class TransitionEffectsFragment extends Fragment {
     public static final String PAGE_OR_DRAWER_SCROLL_SELECT = "pageOrDrawer";
-    public static final String SELECTED_TRANSITION_EFFECT = "selectedTransitionEffect";
     public static final String TRANSITION_EFFECTS_FRAGMENT = "transitionEffectsFragment";
     ImageView mTransitionIcon;
     ListView mListView;
@@ -54,23 +53,17 @@ public class TransitionEffectsFragment extends Fragment {
             setSelected(v);
             mCurrentSelection = v;
 
-            new Thread(new Runnable() {
-                public void run() {
-                    mTransitionIcon.post(new Runnable() {
-                        public void run() {
-                            setImageViewToEffect();
-                        }
-                    });
-                }
-            }).start();
+            new Thread(() -> mTransitionIcon.post(() -> setImageViewToEffect())).start();
 
             ((TransitionsArrayAdapter) mListView.getAdapter()).notifyDataSetChanged();
         }
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.settings_transitions_screen, container, false);
 
         mPageOrDrawer = getArguments().getBoolean(PAGE_OR_DRAWER_SCROLL_SELECT);
@@ -87,25 +80,15 @@ public class TransitionEffectsFragment extends Fragment {
         TextView title = (TextView) v.findViewById(R.id.transition_effect_title);
         title.setText(getResources().getString(R.string.scroll_effect_text));
         LinearLayout titleLayout = (LinearLayout) v.findViewById(R.id.transition_title);
-        titleLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setEffect();
-            }
-        });
+        titleLayout.setOnClickListener(v1 -> setEffect());
 
-        String[] titles = getResources().getStringArray(
-                R.array.transition_effect_entries);
-        mListView.setAdapter(new TransitionsArrayAdapter(getActivity(),
-                R.layout.transition_effect_list_item, titles));
+        String[] titles = getResources().getStringArray(R.array.transition_effect_entries);
+        mListView.setAdapter(new TransitionsArrayAdapter(getActivity(), R.layout.transition_effect_list_item, titles));
 
-        mTransitionStates = getResources().getStringArray(
-                R.array.transition_effect_values);
-        mTransitionDrawables = getResources().obtainTypedArray(
-                R.array.transition_effect_drawables);
+        mTransitionStates = getResources().getStringArray(R.array.transition_effect_values);
+        mTransitionDrawables = getResources().obtainTypedArray(R.array.transition_effect_drawables);
 
-        mCurrentState = SettingsProvider.getString(getActivity(),
-                mSettingsProviderValue, mPreferenceValue);
+        mCurrentState = SettingsProvider.getString(getActivity(), mSettingsProviderValue, mPreferenceValue);
         mCurrentPosition = mapEffectToPosition(mCurrentState);
 
         mListView.setSelection(mCurrentPosition);
@@ -128,8 +111,7 @@ public class TransitionEffectsFragment extends Fragment {
     }
 
     private void setImageViewToEffect() {
-        mTransitionIcon.setBackgroundResource(mTransitionDrawables
-                .getResourceId(mCurrentPosition, R.drawable.transition_none));
+        mTransitionIcon.setBackgroundResource(mTransitionDrawables.getResourceId(mCurrentPosition, R.drawable.transition_none));
 
         AnimationDrawable frameAnimation = (AnimationDrawable) mTransitionIcon.getBackground();
         frameAnimation.start();
@@ -193,14 +175,12 @@ public class TransitionEffectsFragment extends Fragment {
             titles = objects;
         }
 
+        @SuppressLint("ViewHolder")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.transition_effect_list_item,
-                    parent, false);
-            TextView textView = (TextView) convertView
-                    .findViewById(R.id.item_name);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.transition_effect_list_item, parent, false);
+            TextView textView = (TextView) convertView.findViewById(R.id.item_name);
             textView.setText(titles[position]);
             // Set Selected State
             if (position == mCurrentPosition) {
