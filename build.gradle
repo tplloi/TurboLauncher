@@ -3,7 +3,7 @@ buildscript {
         kotlin_version = '1.8.20'
     }
     repositories {
-        jcenter()
+//        jcenter()
         google()
         gradlePluginPortal()
         mavenCentral()
@@ -16,7 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+//        jcenter()
         gradlePluginPortal()
         mavenCentral()
         google()

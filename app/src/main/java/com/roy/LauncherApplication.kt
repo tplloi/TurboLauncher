@@ -1,4 +1,4 @@
-package com.roy.turbo
+package com.roy
 
 import android.app.Application
 import com.roy.turbo.launcher.LauncherAppState
