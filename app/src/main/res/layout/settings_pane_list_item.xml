@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal|bottom"
-    android:background="@drawable/listitem_bg"
+    android:background="@drawable/selector_listitem_bg"
     android:paddingLeft="@dimen/overview_panel_list_padding"
     android:paddingRight="@dimen/overview_panel_list_padding"
     android:orientation="horizontal" >

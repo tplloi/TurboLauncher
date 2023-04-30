@@ -1165,7 +1165,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         mOverviewSettingsPanel.notifyDataSetInvalidated();
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(0, R.anim.exit_out_right);
+        fragmentTransaction.setCustomAnimations(0, R.anim.a_exit_out_right);
         fragmentTransaction.remove(mTransitionEffectsFragment).commit();
 
         mDarkPanel.setVisibility(View.VISIBLE);
@@ -1506,7 +1506,7 @@ public class Launcher extends Activity implements View.OnClickListener,
                 && info.getIcon(mIconCache) == null) {
             // All apps icon
             Drawable d = getResources().getDrawable(
-                    R.drawable.all_apps_button_icon);
+                    R.drawable.selector_all_apps_button_icon);
             Utilities.resizeIconDrawable(d);
             favorite.setCompoundDrawables(null, d, null, null);
             favorite.setOnTouchListener(getHapticFeedbackTouchListener());

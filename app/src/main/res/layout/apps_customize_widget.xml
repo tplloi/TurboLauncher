@@ -22,7 +22,7 @@
     android:layout_weight="1"
     android:orientation="vertical"
 
-    android:background="@drawable/focusable_view_bg"
+    android:background="@drawable/selector_focusable_view_bg"
     android:focusable="true">
 
     <!-- The preview of the widget or shortcut. -->

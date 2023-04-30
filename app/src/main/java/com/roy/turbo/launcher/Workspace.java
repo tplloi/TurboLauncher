@@ -2412,7 +2412,7 @@ public class Workspace extends SmoothPagedView
 
             overviewPanel.setAlpha(finalOverviewPanelAlpha);
             AlphaUpdateListener.updateVisibility(overviewPanel);
-            Animation animation = AnimationUtils.loadAnimation(mLauncher, R.anim.drop_down);
+            Animation animation = AnimationUtils.loadAnimation(mLauncher, R.anim.a_drop_down);
             overviewPanel.startAnimation(animation);
             anim.play(hotseatAlpha);
             if (mShowSearchBar) anim.play(searchBarAlpha);
