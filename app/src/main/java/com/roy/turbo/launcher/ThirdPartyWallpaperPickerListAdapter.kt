@@ -1,117 +1,100 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
+import android.graphics.Rect
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.FrameLayout
+import android.widget.ListAdapter
+import android.widget.TextView
+import com.roy.turbo.launcher.WallpaperPickerActivity.WallpaperTileInfo
 
-import java.util.ArrayList;
-import java.util.List;
+class ThirdPartyWallpaperPickerListAdapter(
+    context: Context
+) : BaseAdapter(), ListAdapter {
+    private val mInflater: LayoutInflater
+    private val mPackageManager: PackageManager
+    private val mIconSize: Int
+    private val mThirdPartyWallpaperPickers: MutableList<ThirdPartyWallpaperTile> = ArrayList()
 
-public class ThirdPartyWallpaperPickerListAdapter extends BaseAdapter implements ListAdapter {
-
-    private final LayoutInflater mInflater;
-    private final PackageManager mPackageManager;
-    private final int mIconSize;
-
-    private final List<ThirdPartyWallpaperTile> mThirdPartyWallpaperPickers = new ArrayList<>();
-
-    public static class ThirdPartyWallpaperTile extends WallpaperPickerActivity.WallpaperTileInfo {
-        private final ResolveInfo mResolveInfo;
-        public ThirdPartyWallpaperTile(ResolveInfo resolveInfo) {
-            mResolveInfo = resolveInfo;
-        }
-        @Override
-        public void onClick(WallpaperPickerActivity a) {
-            final ComponentName itemComponentName = new ComponentName(mResolveInfo.activityInfo.packageName, mResolveInfo.activityInfo.name);
-            Intent launchIntent = new Intent(Intent.ACTION_SET_WALLPAPER);
-            launchIntent.setComponent(itemComponentName);
-            a.startActivityForResultSafely(launchIntent, WallpaperPickerActivity.PICK_WALLPAPER_THIRD_PARTY_ACTIVITY);
+    class ThirdPartyWallpaperTile(val mResolveInfo: ResolveInfo) : WallpaperTileInfo() {
+        override fun onClick(a: WallpaperPickerActivity) {
+            val itemComponentName =
+                ComponentName(mResolveInfo.activityInfo.packageName, mResolveInfo.activityInfo.name)
+            val launchIntent = Intent(Intent.ACTION_SET_WALLPAPER)
+            launchIntent.component = itemComponentName
+            a.startActivityForResultSafely(
+                launchIntent,
+                WallpaperPickerActivity.PICK_WALLPAPER_THIRD_PARTY_ACTIVITY
+            )
         }
     }
 
-    public ThirdPartyWallpaperPickerListAdapter(Context context) {
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mPackageManager = context.getPackageManager();
-        mIconSize = context.getResources().getDimensionPixelSize(R.dimen.wallpaperItemIconSize);
-        final PackageManager pm = mPackageManager;
-
-        final Intent pickWallpaperIntent = new Intent(Intent.ACTION_SET_WALLPAPER);
-        final List<ResolveInfo> apps = pm.queryIntentActivities(pickWallpaperIntent, 0);
+    init {
+        mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        mPackageManager = context.packageManager
+        mIconSize = context.resources.getDimensionPixelSize(R.dimen.wallpaperItemIconSize)
+        val pm = mPackageManager
+        val pickWallpaperIntent = Intent(Intent.ACTION_SET_WALLPAPER)
+        val apps = pm.queryIntentActivities(pickWallpaperIntent, 0)
 
         // Get list of image picker intents
-        Intent pickImageIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        pickImageIntent.setType("image/*");
-        final List<ResolveInfo> imagePickerActivities = pm.queryIntentActivities(pickImageIntent, 0);
-        final ComponentName[] imageActivities = new ComponentName[imagePickerActivities.size()];
-        for (int i = 0; i < imagePickerActivities.size(); i++) {
-            ActivityInfo activityInfo = imagePickerActivities.get(i).activityInfo;
-            imageActivities[i] = new ComponentName(activityInfo.packageName, activityInfo.name);
+        val pickImageIntent = Intent(Intent.ACTION_GET_CONTENT)
+        pickImageIntent.type = "image/*"
+        val imagePickerActivities = pm.queryIntentActivities(pickImageIntent, 0)
+        val imageActivities = arrayOfNulls<ComponentName>(imagePickerActivities.size)
+        for (i in imagePickerActivities.indices) {
+            val activityInfo = imagePickerActivities[i].activityInfo
+            imageActivities[i] = ComponentName(activityInfo.packageName, activityInfo.name)
         }
-
-        outerLoop:
-        for (ResolveInfo info : apps) {
-            final ComponentName itemComponentName =
-                    new ComponentName(info.activityInfo.packageName, info.activityInfo.name);
-            final String itemPackageName = itemComponentName.getPackageName();
+        outerLoop@ for (info in apps) {
+            val itemComponentName =
+                ComponentName(info.activityInfo.packageName, info.activityInfo.name)
+            val itemPackageName = itemComponentName.packageName
             // Exclude anything from our own package, and the old Launcher,
             // and live wallpaper picker
-            if (itemPackageName.equals(context.getPackageName()) ||
-                    itemPackageName.equals("com.android.launcher") ||
-                    itemPackageName.equals("com.android.wallpaper.livepicker")) {
-                continue;
+            if (itemPackageName == context.packageName || itemPackageName == "com.android.launcher" || itemPackageName == "com.android.wallpaper.livepicker") {
+                continue
             }
             // Exclude any package that already responds to the image picker intent
-            for (ResolveInfo imagePickerActivityInfo : imagePickerActivities) {
-                if (itemPackageName.equals(
-                        imagePickerActivityInfo.activityInfo.packageName)) {
-                    continue outerLoop;
+            for (imagePickerActivityInfo in imagePickerActivities) {
+                if (itemPackageName ==
+                    imagePickerActivityInfo.activityInfo.packageName
+                ) {
+                    continue@outerLoop
                 }
             }
-            mThirdPartyWallpaperPickers.add(new ThirdPartyWallpaperTile(info));
+            mThirdPartyWallpaperPickers.add(ThirdPartyWallpaperTile(info))
         }
     }
 
-    public int getCount() {
-        return mThirdPartyWallpaperPickers.size();
+    override fun getCount(): Int {
+        return mThirdPartyWallpaperPickers.size
     }
 
-    public ThirdPartyWallpaperTile getItem(int position) {
-        return mThirdPartyWallpaperPickers.get(position);
+    override fun getItem(position: Int): ThirdPartyWallpaperTile {
+        return mThirdPartyWallpaperPickers[position]
     }
 
-    public long getItemId(int position) {
-        return position;
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view;
-
-        if (convertView == null) {
-            view = mInflater.inflate(R.layout.wallpaper_picker_third_party_item, parent, false);
-        } else {
-            view = convertView;
-        }
-
-        WallpaperPickerActivity.setWallpaperItemPaddingToZero((FrameLayout) view);
-
-        ResolveInfo info = mThirdPartyWallpaperPickers.get(position).mResolveInfo;
-        TextView label = (TextView) view.findViewById(R.id.wallpaper_item_label);
-        label.setText(info.loadLabel(mPackageManager));
-        Drawable icon = info.loadIcon(mPackageManager);
-        icon.setBounds(new Rect(0, 0, mIconSize, mIconSize));
-        label.setCompoundDrawables(null, icon, null, null);
-        return view;
+    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+        val view: View = convertView
+        WallpaperPickerActivity.setWallpaperItemPaddingToZero(view as FrameLayout)
+        val info = mThirdPartyWallpaperPickers[position].mResolveInfo
+        val label = view.findViewById<View>(R.id.wallpaper_item_label) as TextView
+        label.text = info.loadLabel(mPackageManager)
+        val icon = info.loadIcon(mPackageManager)
+        icon.bounds = Rect(0, 0, mIconSize, mIconSize)
+        label.setCompoundDrawables(null, icon, null, null)
+        return view
     }
 }
