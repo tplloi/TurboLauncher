@@ -76,14 +76,14 @@ public class TransitionEffectsFragment extends Fragment {
 
         mTransitionIcon = (ImageView) v.findViewById(R.id.ivSettingsTransitionImage);
         mListView = (ListView) v.findViewById(R.id.lvSettingsTransitions);
-        mScrollView = (ScrollView) v.findViewById(R.id.scroll_view);
+        mScrollView = (ScrollView) v.findViewById(R.id.scrollView);
         TextView title = (TextView) v.findViewById(R.id.tvTransitionEffectTitle);
         title.setText(getResources().getString(R.string.scroll_effect_text));
         LinearLayout titleLayout = (LinearLayout) v.findViewById(R.id.llTransitionTitle);
         titleLayout.setOnClickListener(v1 -> setEffect());
 
         String[] titles = getResources().getStringArray(R.array.transition_effect_entries);
-        mListView.setAdapter(new TransitionsArrayAdapter(getActivity(), R.layout.transition_effect_list_item, titles));
+        mListView.setAdapter(new TransitionsArrayAdapter(getActivity(), R.layout.v_transition_effect_list_item, titles));
 
         mTransitionStates = getResources().getStringArray(R.array.transition_effect_values);
         mTransitionDrawables = getResources().obtainTypedArray(R.array.transition_effect_drawables);
@@ -179,7 +179,7 @@ public class TransitionEffectsFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.transition_effect_list_item, parent, false);
+            convertView = inflater.inflate(R.layout.v_transition_effect_list_item, parent, false);
             TextView textView = (TextView) convertView.findViewById(R.id.tvItemName);
             textView.setText(titles[position]);
             // Set Selected State

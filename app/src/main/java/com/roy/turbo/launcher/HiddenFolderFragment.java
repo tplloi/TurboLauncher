@@ -75,7 +75,7 @@ public class HiddenFolderFragment extends Fragment {
         mComponentTitles = folder.getComponentTitles();
         String title = mLauncher.mHiddenFolderIcon.getFolderInfo().title.toString();
 
-        mFolderName = (EditText) v.findViewById(R.id.folder_name);
+        mFolderName = (EditText) v.findViewById(R.id.etFolderName);
         mFolderName.setText(title);
         mFolderName.setSelectAllOnFocus(true);
         mFolderName.setInputType(mFolderName.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_FLAG_CAP_WORDS);

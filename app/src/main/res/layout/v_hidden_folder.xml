@@ -27,7 +27,7 @@
             android:background="@drawable/selector_listitem_bg" />
 
         <EditText
-            android:id="@+id/folder_name"
+            android:id="@+id/etFolderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

@@ -185,8 +185,8 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mScrollView = (ScrollView) findViewById(R.id.scroll_view);
-        mContent = (CellLayout) findViewById(R.id.folder_content);
+        mScrollView = (ScrollView) findViewById(R.id.scrollView);
+        mContent = (CellLayout) findViewById(R.id.clFolderContent);
         int measureSpec = MeasureSpec.UNSPECIFIED;
 
         LauncherAppState app = LauncherAppState.getInstance();
@@ -196,7 +196,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         mContent.setGridSize(0, 0);
         mContent.getShortcutsAndWidgets().setMotionEventSplittingEnabled(false);
         mContent.setInvertIfRtl(true);
-        mFolderName = (FolderEditText) findViewById(R.id.folder_name);
+        mFolderName = (FolderEditText) findViewById(R.id.etFolderName);
         mFolderName.setFolder(this);
         mFolderName.setOnFocusChangeListener(this);
 
@@ -220,8 +220,8 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             mFolderNameHeight = getPaddingBottom();
         }
 
-        mFolderLock = (ImageView) findViewById(R.id.folder_lock);
-        mFolderTitleSection = (RelativeLayout) findViewById(R.id.folder_title_section);
+        mFolderLock = (ImageView) findViewById(R.id.ivFolderLock);
+        mFolderTitleSection = (RelativeLayout) findViewById(R.id.rlFolderTitleSection);
         mFolderLock.measure(measureSpec, measureSpec);
         mFolderLock.setOnClickListener(this);
         mFolderTitleSection.measure(measureSpec, measureSpec);
@@ -250,7 +250,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             mLauncher.onClick(v);
         }
 
-        if (v.getId() == R.id.folder_lock) {
+        if (v.getId() == R.id.ivFolderLock) {
             startHiddenFolderManager();
         }
     }
@@ -511,7 +511,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
      */
     @SuppressLint("InflateParams")
     static Folder fromXml(Context context) {
-        return (Folder) LayoutInflater.from(context).inflate(R.layout.user_folder, null);
+        return (Folder) LayoutInflater.from(context).inflate(R.layout.v_user_folder, null);
     }
 
     /**
