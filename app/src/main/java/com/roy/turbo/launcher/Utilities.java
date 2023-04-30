@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.app.Activity;
@@ -40,8 +24,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import com.roy.turbo.launcher.R;
-
 public final class Utilities {
     private static final String TAG = "Launcher.Utilities";
 
@@ -61,7 +43,7 @@ public final class Utilities {
         sCanvas.setDrawFilter(new PaintFlagsDrawFilter(Paint.DITHER_FLAG,
                 Paint.FILTER_BITMAP_FLAG));
     }
-    static int sColors[] = { 0xffff0000, 0xff00ff00, 0xff0000ff };
+    static int[] sColors = {0xffff0000, 0xff00ff00, 0xff0000ff};
     static int sColorIndex = 0;
 
     static final String FORCE_ENABLE_ROTATION_PROPERTY = "launcher_force_rotate";
@@ -89,9 +71,7 @@ public final class Utilities {
     }
 
     public static boolean isRotationEnabled(Context c) {
-        boolean enableRotation = sForceEnableRotation ||
-                c.getResources().getBoolean(R.bool.allow_rotation);
-        return enableRotation;
+        return sForceEnableRotation || c.getResources().getBoolean(R.bool.allow_rotation);
     }
 
     /**
@@ -226,14 +206,17 @@ public final class Utilities {
      *         this scale factor is assumed to be equal in X and Y, and so if at any point this
      *         assumption fails, we will need to return a pair of scale factors.
      */
-    public static float getDescendantCoordRelativeToParent(View descendant, View root,
-                                                           int[] coord, boolean includeRootScroll) {
-        ArrayList<View> ancestorChain = new ArrayList<View>();
+    public static float getDescendantCoordRelativeToParent(
+            View descendant,
+            View root,
+            int[] coord,
+            boolean includeRootScroll) {
+        ArrayList<View> ancestorChain = new ArrayList<>();
 
         float[] pt = {coord[0], coord[1]};
 
         View v = descendant;
-        while(v != root && v != null) {
+        while (v != root && v != null) {
             ancestorChain.add(v);
             v = (View) v.getParent();
         }
@@ -261,17 +244,16 @@ public final class Utilities {
         return scale;
     }
 
-    /**
-     * Inverse of {@link #getDescendantCoordRelativeToSelf(View, int[])}.
-     */
-    public static float mapCoordInSelfToDescendent(View descendant, View root,
-                                                   int[] coord) {
-        ArrayList<View> ancestorChain = new ArrayList<View>();
+    public static void mapCoordInSelfToDescendent(
+            View descendant,
+            View root,
+            int[] coord) {
+        ArrayList<View> ancestorChain = new ArrayList<>();
 
         float[] pt = {coord[0], coord[1]};
 
         View v = descendant;
-        while(v != root) {
+        while (v != root) {
             ancestorChain.add(v);
             v = (View) v.getParent();
         }
@@ -298,7 +280,6 @@ public final class Utilities {
 
         coord[0] = (int) Math.round(pt[0]);
         coord[1] = (int) Math.round(pt[1]);
-        return scale;
     }
 
     private static void initStatics(Context context) {
@@ -342,7 +323,9 @@ public final class Utilities {
     }
 
     public static void startActivityForResultSafely(
-            Activity activity, Intent intent, int requestCode) {
+            Activity activity,
+            Intent intent,
+            int requestCode) {
         try {
             activity.startActivityForResult(intent, requestCode);
         } catch (ActivityNotFoundException e) {
