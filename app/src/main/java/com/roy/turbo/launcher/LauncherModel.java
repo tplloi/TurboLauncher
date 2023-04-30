@@ -37,6 +37,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.roy.turbo.launcher.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
+import com.roy.turbo.launcher.model.AllAppsList;
 import com.roy.turbo.launcher.model.AppFilter;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.sv.DeferredHandler;

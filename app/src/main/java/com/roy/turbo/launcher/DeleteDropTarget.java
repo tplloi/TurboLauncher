@@ -23,6 +23,7 @@ import android.view.animation.LinearInterpolator;
 
 import com.roy.turbo.launcher.helper.LauncherAppWidgetHost;
 import com.roy.turbo.launcher.itf.DragSource;
+import com.roy.turbo.launcher.model.AllAppsList;
 import com.roy.turbo.launcher.view.ButtonDropTarget;
 import com.roy.turbo.launcher.view.DragView;
 

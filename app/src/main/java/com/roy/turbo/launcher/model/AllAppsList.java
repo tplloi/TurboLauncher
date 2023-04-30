@@ -1,4 +1,4 @@
-package com.roy.turbo.launcher;
+package com.roy.turbo.launcher.model;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -7,12 +7,13 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.roy.turbo.launcher.model.AppFilter;
+import com.roy.turbo.launcher.AppInfo;
+import com.roy.turbo.launcher.IconCache;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class AllAppsList {
+public class AllAppsList {
     public static final int DEFAULT_APPLICATIONS_NUMBER = 42;
 
     /**
@@ -157,7 +158,7 @@ class AllAppsList {
     /**
      * Query the package manager for MAIN/LAUNCHER activities in the supplied package.
      */
-    static List<ResolveInfo> findActivitiesForPackage(Context context, String packageName) {
+    public static List<ResolveInfo> findActivitiesForPackage(Context context, String packageName) {
         final PackageManager packageManager = context.getPackageManager();
 
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
