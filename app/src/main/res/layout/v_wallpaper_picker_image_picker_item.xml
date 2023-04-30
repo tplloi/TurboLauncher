@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.roy.turbo.launcher.view.CheckableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/wallpaperThumbnailWidth"
+    android:layout_height="@dimen/wallpaperThumbnailHeight"
+    android:background="@drawable/selector_wallpaper_tile_fg"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="@drawable/selector_wallpaper_tile_fg">
+
+    <ImageView
+        android:contentDescription="@string/application_name"
+        android:id="@+id/ivWallpaper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/wallpaper_picker_translucent_gray"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tvWallpaperItemLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_images"
+        android:drawablePadding="4dp"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:text="@string/pick_image"
+        android:textColor="@android:color/white" />
+</com.roy.turbo.launcher.view.CheckableFrameLayout>

@@ -476,7 +476,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         // Add a tile for the Gallery
         LinearLayout masterWallpaperList = (LinearLayout) findViewById(R.id.llMasterWallpaper);
         FrameLayout pickImageTile = (FrameLayout) getLayoutInflater().
-                inflate(R.layout.wallpaper_picker_image_picker_item, masterWallpaperList, false);
+                inflate(R.layout.v_wallpaper_picker_image_picker_item, masterWallpaperList, false);
         setWallpaperItemPaddingToZero(pickImageTile);
         masterWallpaperList.addView(pickImageTile, 0);
 
@@ -484,7 +484,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         Bitmap lastPhoto = getThumbnailOfLastPhoto();
         if (lastPhoto != null) {
             ImageView galleryThumbnailBg =
-                    (ImageView) pickImageTile.findViewById(R.id.wallpaper_image);
+                    (ImageView) pickImageTile.findViewById(R.id.ivWallpaper);
             galleryThumbnailBg.setImageBitmap(getThumbnailOfLastPhoto());
             int colorOverlay = getResources().getColor(R.color.wallpaper_picker_translucent_gray);
             galleryThumbnailBg.setColorFilter(colorOverlay, PorterDuff.Mode.SRC_ATOP);
@@ -845,13 +845,13 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         mTempWallpaperTiles.add(uri);
         // Add a tile for the image picked from Gallery
         final FrameLayout pickedImageThumbnail = (FrameLayout) getLayoutInflater().
-                inflate(R.layout.wallpaper_picker_item, mWallpapersView, false);
+                inflate(R.layout.v_wallpaper_picker_item, mWallpapersView, false);
         pickedImageThumbnail.setVisibility(View.GONE);
         setWallpaperItemPaddingToZero(pickedImageThumbnail);
         mWallpapersView.addView(pickedImageThumbnail, 0);
 
         // Load the thumbnail
-        final ImageView image = (ImageView) pickedImageThumbnail.findViewById(R.id.wallpaper_image);
+        final ImageView image = (ImageView) pickedImageThumbnail.findViewById(R.id.ivWallpaper);
         final Point defaultSize = getDefaultThumbnailSize(this.getResources());
         final Context context = this;
         new AsyncTask<Void, Bitmap, Bitmap>() {
@@ -1093,14 +1093,14 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         View view;
 
         if (convertView == null) {
-            view = layoutInflater.inflate(R.layout.wallpaper_picker_item, parent, false);
+            view = layoutInflater.inflate(R.layout.v_wallpaper_picker_item, parent, false);
         } else {
             view = convertView;
         }
 
         setWallpaperItemPaddingToZero((FrameLayout) view);
 
-        ImageView image = (ImageView) view.findViewById(R.id.wallpaper_image);
+        ImageView image = (ImageView) view.findViewById(R.id.ivWallpaper);
 
         if (thumb != null) {
             image.setImageDrawable(thumb);

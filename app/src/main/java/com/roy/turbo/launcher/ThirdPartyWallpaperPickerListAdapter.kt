@@ -90,7 +90,7 @@ class ThirdPartyWallpaperPickerListAdapter(
         val view: View = convertView
         WallpaperPickerActivity.setWallpaperItemPaddingToZero(view as FrameLayout)
         val info = mThirdPartyWallpaperPickers[position].mResolveInfo
-        val label = view.findViewById<View>(R.id.wallpaper_item_label) as TextView
+        val label = view.findViewById<View>(R.id.tvWallpaperItemLabel) as TextView
         label.text = info.loadLabel(mPackageManager)
         val icon = info.loadIcon(mPackageManager)
         icon.bounds = Rect(0, 0, mIconSize, mIconSize)

@@ -71,7 +71,7 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
         View view;
 
         if (convertView == null) {
-            view = mInflater.inflate(R.layout.wallpaper_picker_live_wallpaper_item, parent, false);
+            view = mInflater.inflate(R.layout.v_wallpaper_picker_live_wallpaper_item, parent, false);
         } else {
             view = convertView;
         }
@@ -80,8 +80,8 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
 
         LiveWallpaperTile wallpaperInfo = mWallpapers.get(position);
         wallpaperInfo.setView(view);
-        ImageView image = (ImageView) view.findViewById(R.id.wallpaper_image);
-        ImageView icon = (ImageView) view.findViewById(R.id.wallpaper_icon);
+        ImageView image = (ImageView) view.findViewById(R.id.ivWallpaper);
+        ImageView icon = (ImageView) view.findViewById(R.id.ivWallpaperIcon);
         if (wallpaperInfo.mThumbnail != null) {
             image.setImageDrawable(wallpaperInfo.mThumbnail);
             icon.setVisibility(View.GONE);
@@ -90,7 +90,7 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
             icon.setVisibility(View.VISIBLE);
         }
 
-        TextView label = (TextView) view.findViewById(R.id.wallpaper_item_label);
+        TextView label = (TextView) view.findViewById(R.id.tvWallpaperItemLabel);
         label.setText(wallpaperInfo.mInfo.loadLabel(mPackageManager));
 
         return view;

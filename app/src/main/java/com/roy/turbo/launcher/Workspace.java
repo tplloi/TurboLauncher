@@ -592,7 +592,7 @@ public class Workspace extends SmoothPagedView
         }
 
         @SuppressLint("InflateParams") CellLayout newScreen = (CellLayout)
-                mLauncher.getLayoutInflater().inflate(R.layout.workspace_screen, null);
+                mLauncher.getLayoutInflater().inflate(R.layout.v_workspace_screen, null);
 
         newScreen.setOnLongClickListener(mLongClickListener);
         newScreen.setOnClickListener(mLauncher);
@@ -612,7 +612,7 @@ public class Workspace extends SmoothPagedView
 
     public void createCustomContentContainer() {
         @SuppressLint("InflateParams") CellLayout customScreen = (CellLayout)
-                mLauncher.getLayoutInflater().inflate(R.layout.workspace_screen, null);
+                mLauncher.getLayoutInflater().inflate(R.layout.v_workspace_screen, null);
         customScreen.disableBackground();
 
         mWorkspaceScreens.put(CUSTOM_CONTENT_SCREEN_ID, customScreen);
