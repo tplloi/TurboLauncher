@@ -3704,21 +3704,21 @@ public class Launcher extends Activity implements View.OnClickListener,
 
     protected boolean updateGlobalSearchIcon() {
         final View searchButtonContainer = findViewById(R.id.search_button_container);
-        final ImageView searchButton = (ImageView) findViewById(R.id.search_button);
+        final ImageView searchButton = (ImageView) findViewById(R.id.ivSearchButton);
         final View voiceButtonContainer = findViewById(R.id.voice_button_container);
-        final View voiceButton = findViewById(R.id.voice_button);
+        final View voiceButton = findViewById(R.id.ivVoiceButton);
 
         final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         ComponentName activityName = searchManager.getGlobalSearchActivity();
         if (activityName != null) {
             int coi = getCurrentOrientationIndexForGlobalIcons();
             sGlobalSearchIcon[coi] = updateButtonWithIconFromExternalActivity(
-                    R.id.search_button, activityName,
+                    R.id.ivSearchButton, activityName,
                     R.drawable.ic_home_search_normal_holo,
                     TOOLBAR_SEARCH_ICON_METADATA_NAME);
             if (sGlobalSearchIcon[coi] == null) {
                 sGlobalSearchIcon[coi] = updateButtonWithIconFromExternalActivity(
-                        R.id.search_button, activityName,
+                        R.id.ivSearchButton, activityName,
                         R.drawable.ic_home_search_normal_holo,
                         TOOLBAR_ICON_METADATA_NAME);
             }
@@ -3746,14 +3746,14 @@ public class Launcher extends Activity implements View.OnClickListener,
 
     protected void updateGlobalSearchIcon(Drawable.ConstantState d) {
         final View searchButtonContainer = findViewById(R.id.search_button_container);
-        final View searchButton = (ImageView) findViewById(R.id.search_button);
-        updateButtonWithDrawable(R.id.search_button, d);
+        final View searchButton = (ImageView) findViewById(R.id.ivSearchButton);
+        updateButtonWithDrawable(R.id.ivSearchButton, d);
         invalidatePressedFocusedStates(searchButtonContainer, searchButton);
     }
 
     protected boolean updateVoiceSearchIcon(boolean searchVisible) {
         final View voiceButtonContainer = findViewById(R.id.voice_button_container);
-        final View voiceButton = findViewById(R.id.voice_button);
+        final View voiceButton = findViewById(R.id.ivVoiceButton);
 
         // We only show/update the voice search icon if the search icon is
         // enabled as well
@@ -3779,12 +3779,12 @@ public class Launcher extends Activity implements View.OnClickListener,
         if (searchVisible && activityName != null) {
             int coi = getCurrentOrientationIndexForGlobalIcons();
             sVoiceSearchIcon[coi] = updateButtonWithIconFromExternalActivity(
-                    R.id.voice_button, activityName,
+                    R.id.ivVoiceButton, activityName,
                     R.drawable.ic_home_voice_search_holo,
                     TOOLBAR_VOICE_SEARCH_ICON_METADATA_NAME);
             if (sVoiceSearchIcon[coi] == null) {
                 sVoiceSearchIcon[coi] = updateButtonWithIconFromExternalActivity(
-                        R.id.voice_button, activityName,
+                        R.id.ivVoiceButton, activityName,
                         R.drawable.ic_home_voice_search_holo,
                         TOOLBAR_ICON_METADATA_NAME);
             }
@@ -3806,8 +3806,8 @@ public class Launcher extends Activity implements View.OnClickListener,
 
     protected void updateVoiceSearchIcon(Drawable.ConstantState d) {
         final View voiceButtonContainer = findViewById(R.id.voice_button_container);
-        final View voiceButton = findViewById(R.id.voice_button);
-        updateButtonWithDrawable(R.id.voice_button, d);
+        final View voiceButton = findViewById(R.id.ivVoiceButton);
+        updateButtonWithDrawable(R.id.ivVoiceButton, d);
         invalidatePressedFocusedStates(voiceButtonContainer, voiceButton);
     }
 

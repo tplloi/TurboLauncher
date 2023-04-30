@@ -54,7 +54,7 @@
             android:onClick="onClickVoiceButton"
             android:importantForAccessibility="no"
             android:focusable="true"
-            launcher:sourceViewId="@+id/voice_button" />
+            launcher:sourceViewId="@+id/ivVoiceButton" />
 
         <include layout="@layout/v_apps_customize_pane"
             android:id="@+id/apps_customize_pane"
