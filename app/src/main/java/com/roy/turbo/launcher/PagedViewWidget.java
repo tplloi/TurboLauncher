@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.roy.turbo.launcher.view.FastBitmapDrawable;
+
 /**
  * The linear layout used strictly for the widget/wallpaper tab of the customization tray
  */

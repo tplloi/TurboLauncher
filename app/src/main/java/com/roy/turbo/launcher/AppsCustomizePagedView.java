@@ -51,6 +51,7 @@ import com.roy.turbo.launcher.sv.AppsCustomizeAsyncTask;
 import com.roy.turbo.launcher.sv.AsyncTaskPageData;
 import com.roy.turbo.launcher.view.AppsCustomizeCellLayout;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;
+import com.roy.turbo.launcher.view.FastBitmapDrawable;
 import com.roy.turbo.launcher.view.LauncherViewPropertyAnimator;
 import com.roy.turbo.launcher.view.PagedViewCellLayout;
 

@@ -6,7 +6,7 @@ import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.drawable.StateListDrawable
 import android.widget.ImageView
-import com.roy.turbo.launcher.FastBitmapDrawable
+import com.roy.turbo.launcher.view.FastBitmapDrawable
 import com.roy.turbo.launcher.R
 
 class HolographicViewHelper(context: Context) {
@@ -30,9 +30,12 @@ class HolographicViewHelper(context: Context) {
             val original = createOriginalImage(v, mTempCanvas)
             val outline = createImageWithOverlay(v, mTempCanvas, mHighlightColor)
             val hotword = createImageWithOverlay(v, mTempCanvas, mHotwordColor)
-            val originalD = FastBitmapDrawable(original)
-            val outlineD = FastBitmapDrawable(outline)
-            val hotwordD = FastBitmapDrawable(hotword)
+            val originalD =
+                FastBitmapDrawable(original)
+            val outlineD =
+                FastBitmapDrawable(outline)
+            val hotwordD =
+                FastBitmapDrawable(hotword)
             val states = StateListDrawable()
             states.addState(intArrayOf(android.R.attr.state_pressed), outlineD)
             states.addState(intArrayOf(android.R.attr.state_focused), outlineD)

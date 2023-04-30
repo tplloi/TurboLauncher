@@ -41,6 +41,7 @@ import com.roy.turbo.launcher.model.AllAppsList;
 import com.roy.turbo.launcher.model.AppFilter;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.sv.DeferredHandler;
+import com.roy.turbo.launcher.view.FastBitmapDrawable;
 
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;

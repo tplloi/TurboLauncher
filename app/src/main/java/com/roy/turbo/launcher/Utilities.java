@@ -22,6 +22,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.roy.turbo.launcher.view.FastBitmapDrawable;
+
 import java.util.ArrayList;
 
 public final class Utilities {
