@@ -2143,16 +2143,18 @@ public class Launcher extends Activity implements View.OnClickListener,
     }
 
     public void validateLockForHiddenFolders(Bundle bundle, FolderIcon info) {
-        // Validate Lock Pattern
-        Intent lockPatternActivity = new Intent();
-        lockPatternActivity.setClassName("com.android.settings",
-                "com.android.settings.applications.LockPatternActivity");
-        startActivityForResult(lockPatternActivity, REQUEST_LOCK_PATTERN);
-        mHiddenFolderAuth = false;
-
-        mHiddenFolderIcon = info;
-        mHiddenFolderFragment = new HiddenFolderFragment();
-        mHiddenFolderFragment.setArguments(bundle);
+        try {
+            // Validate Lock Pattern
+            Intent lockPatternActivity = new Intent();
+            lockPatternActivity.setClassName("com.android.settings", "com.android.settings.applications.LockPatternActivity");
+            startActivityForResult(lockPatternActivity, REQUEST_LOCK_PATTERN);
+            mHiddenFolderAuth = false;
+            mHiddenFolderIcon = info;
+            mHiddenFolderFragment = new HiddenFolderFragment();
+            mHiddenFolderFragment.setArguments(bundle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
