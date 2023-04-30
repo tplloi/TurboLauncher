@@ -1,31 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-/*
-* Copyright (C) 2008 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
- -->
-
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="folder_name" msgid="7371454440695724752"></string>
     <string name="wallpaper_instructions" msgid="563973358787555519">"Aseta taustakuva"</string>
-  <plurals name="number_of_items_selected">
-    <item quantity="zero" msgid="7464587177007785408">"%1$d valittu"</item>
-    <item quantity="one" msgid="142482526010824029">"%1$d valittu"</item>
-    <item quantity="other" msgid="1418352074806573570">"%1$d valittu"</item>
-  </plurals>
+    <plurals name="number_of_items_selected">
+        <item msgid="7464587177007785408" quantity="zero">"%1$d valittu"</item>
+        <item msgid="142482526010824029" quantity="one">"%1$d valittu"</item>
+        <item msgid="1418352074806573570" quantity="other">"%1$d valittu"</item>
+    </plurals>
     <string name="wallpaper_accessibility_name" msgid="1655953108132967972">"Taustakuva %1$d/%2$d"</string>
     <string name="announce_selection" msgid="8338254712932127413">"Valittu: <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="wallpaper_delete" msgid="8095005658756613921">"Poista"</string>
@@ -74,18 +55,18 @@
     <string name="wallpaper_button_text" msgid="8404103075899945851">"Taustakuvat"</string>
     <string name="settings_button_text" msgid="8119458837558863227">"Asetukset"</string>
     <string name="sort_mode_title">Nimi</string>
-  <string name="sort_mode_launch_count">Käynnistyskerrat</string>
-  <string name="sort_mode_install_time">Asennuspäivä</string>
-  <string name="scrolling_page_outlines">Sivun ulkoreunat</string>
-  <string name="scrolling_fade_adjacent">Häivytä sivun reunat</string>
+    <string name="sort_mode_launch_count">Käynnistyskerrat</string>
+    <string name="sort_mode_install_time">Asennuspäivä</string>
+    <string name="scrolling_page_outlines">Sivun ulkoreunat</string>
+    <string name="scrolling_fade_adjacent">Häivytä sivun reunat</string>
     <string name="home_screen_settings">KOTINÄYTÖN ASETUKSET</string>
-  <string name="drawer_settings">SOVELLUSVALIKON ASETUKSET</string>
-  <string name="scroll_effect_text">Vieritysefekti</string>
-  <string name="drawer_sorting_text">Lajittelu</string>
-  <string name="home_screen_search_text">Hakupalkki</string>
-  <string name="larger_icons_text">Suuremmat kuvakkeet</string>
-  <string name="hide_icon_labels">Piilota kuvakkeiden tekstit</string>
-  <string name="setting_state_on">PÄÄLLÄ</string>
-  <string name="setting_state_off">POIS</string>
-  <string name="themes_button_text">Teemat</string>
+    <string name="drawer_settings">SOVELLUSVALIKON ASETUKSET</string>
+    <string name="scroll_effect_text">Vieritysefekti</string>
+    <string name="drawer_sorting_text">Lajittelu</string>
+    <string name="home_screen_search_text">Hakupalkki</string>
+    <string name="larger_icons_text">Suuremmat kuvakkeet</string>
+    <string name="hide_icon_labels">Piilota kuvakkeiden tekstit</string>
+    <string name="setting_state_on">PÄÄLLÄ</string>
+    <string name="setting_state_off">POIS</string>
+    <string name="themes_button_text">Teemat</string>
 </resources>
