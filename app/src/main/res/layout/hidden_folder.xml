@@ -15,11 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
+
         <ImageView
+            android:layout_alignParentEnd="true"
             android:id="@+id/folder_lock_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_alignParentRight="true"
+            android:contentDescription="@string/application_name"
             android:layout_centerVertical="true"
             android:src="@drawable/folder_unlock"
             android:background="@drawable/selector_listitem_bg" />
@@ -28,7 +30,7 @@
             android:id="@+id/folder_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:paddingBottom="@dimen/folder_name_padding"
             android:paddingTop="@dimen/folder_name_padding"
             android:hint="@string/folder_hint_text"
@@ -37,14 +39,14 @@
             android:textColorHighlight="#ffCCCCCC"
             android:textCursorDrawable="@null"
             android:singleLine="true"
+            android:autofillHints="false"
             android:background="#00000000" />
     </RelativeLayout>
 
     <ListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/hidden_apps_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginStart="5dp" />
 
 </LinearLayout>
