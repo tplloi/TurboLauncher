@@ -42,17 +42,17 @@ public class ThemePreference extends Preference {
 			TextView vThemeDescription= (TextView) view.findViewById(R.id.ThemeDescription);
 			vThemeDescription.setMovementMethod(LinkMovementMethod.getInstance());
 			vThemeDescription.setText(Html.fromHtml(themeDescription.toString()));
-			ImageView vThemePreview= (ImageView) view.findViewById(R.id.ThemeIcon);
+			ImageView vThemePreview= (ImageView) view.findViewById(R.id.ivThemeIcon);
 			if(themePreview!=null)
 				vThemePreview.setImageDrawable(themePreview);
 			else
 				vThemePreview.setImageResource(R.drawable.ic_theme);
 			vThemeTitle.setText(themeName);
 			
-			Button applyButton= (Button) view.findViewById(R.id.ThemeApply);
+			Button applyButton= (Button) view.findViewById(R.id.btThemeApply);
 			applyButton.setEnabled(true);
 		}else{
-			Button applyButton= (Button) view.findViewById(R.id.ThemeApply);
+			Button applyButton= (Button) view.findViewById(R.id.btThemeApply);
 			applyButton.setEnabled(false);
 		}
 	}
