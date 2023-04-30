@@ -631,7 +631,7 @@ public class DeviceProfile {
                     2 * edgeMarginPx);
 
             searchBar.setVisibility(searchBarVisible ? View.VISIBLE : View.GONE);
-            LinearLayout targets = (LinearLayout) searchBar.findViewById(R.id.drag_target_bar);
+            LinearLayout targets = (LinearLayout) searchBar.findViewById(R.id.llDragTargetBar);
             targets.setOrientation(LinearLayout.VERTICAL);
         } else {
             // Horizontal search bar space

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.roy.turbo.launcher.SearchDropTargetBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:focusable="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Drag specific targets container -->
+    <LinearLayout
+        android:id="@+id/llDragTargetBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <include
+            layout="@layout/v_drop_target_bar" />
+    </LinearLayout>
+</com.roy.turbo.launcher.SearchDropTargetBar>

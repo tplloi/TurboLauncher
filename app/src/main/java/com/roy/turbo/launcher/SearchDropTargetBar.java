@@ -95,7 +95,7 @@ public class SearchDropTargetBar extends FrameLayout implements DragController.D
         super.onFinishInflate();
 
         // Get the individual components
-        mDropTargetBar = findViewById(R.id.drag_target_bar);
+        mDropTargetBar = findViewById(R.id.llDragTargetBar);
         mInfoDropTarget = (ButtonDropTarget) mDropTargetBar.findViewById(R.id.info_target_text);
         mDeleteDropTarget = (ButtonDropTarget) mDropTargetBar.findViewById(R.id.delete_target_text);
 

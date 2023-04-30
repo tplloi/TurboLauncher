@@ -28,6 +28,6 @@
             android:src="@drawable/selector_default_screen_button" />
     </LinearLayout>
 
-    <include layout="@layout/settings_pane" />
+    <include layout="@layout/v_settings_pane" />
 
 </com.roy.turbo.launcher.SlidingUpPanelLayout>

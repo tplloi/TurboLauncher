@@ -1418,7 +1418,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         mOverviewSettingsPanel.initializeAdapter();
         mOverviewSettingsPanel.initializeViews();
         mDarkPanel = ((SlidingUpPanelLayout) mOverviewPanel)
-                .findViewById(R.id.dark_panel);
+                .findViewById(R.id.llDarkPanel);
 
         // Setup the workspace
         mWorkspace.setHapticFeedbackEnabled(false);

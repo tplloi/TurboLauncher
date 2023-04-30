@@ -32,7 +32,7 @@ public class SettingsPanel {
     // One time initialization of the SettingsPinnedHeaderAdapter
     public void initializeAdapter() {
 
-        PinnedHeaderListView mListView = (PinnedHeaderListView) mLauncher.findViewById(R.id.settings_home_screen_listview);
+        PinnedHeaderListView mListView = (PinnedHeaderListView) mLauncher.findViewById(R.id.lvSettingsHomeScreen);
         mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
         Resources res = mLauncher.getResources();
 
@@ -89,7 +89,7 @@ public class SettingsPanel {
         ((SlidingUpPanelLayout) mOverviewPanel).setPanelSlideListener(new SettingsSimplePanelSlideListener());
 
         //Quick Settings Buttons
-        View widgetButton = mLauncher.findViewById(R.id.widget_button);
+        View widgetButton = mLauncher.findViewById(R.id.tvWidgetButton);
         widgetButton.setOnClickListener(arg0 -> {
             if (!mLauncher.getWorkspace().isSwitchingState()) {
                 mLauncher.showAllApps(true, AppsCustomizePagedView.ContentType.Widgets, true);
@@ -97,7 +97,7 @@ public class SettingsPanel {
         });
         widgetButton.setOnTouchListener(mLauncher.getHapticFeedbackTouchListener());
 
-        View wallpaperButton = mLauncher.findViewById(R.id.wallpaper_button);
+        View wallpaperButton = mLauncher.findViewById(R.id.tvWallpaperButton);
         wallpaperButton.setOnClickListener(arg0 -> {
             if (!mLauncher.getWorkspace().isSwitchingState()) {
                 mLauncher.startWallpaper();
@@ -105,7 +105,7 @@ public class SettingsPanel {
         });
         wallpaperButton.setOnTouchListener(mLauncher.getHapticFeedbackTouchListener());
 
-        View themesButton = mLauncher.findViewById(R.id.themes_button);
+        View themesButton = mLauncher.findViewById(R.id.tvThemesButton);
         themesButton.setOnClickListener(arg0 -> {
             if (!mLauncher.getWorkspace().isSwitchingState()) {
                 mLauncher.startThemeSettings();
@@ -113,7 +113,7 @@ public class SettingsPanel {
         });
         themesButton.setOnTouchListener(mLauncher.getHapticFeedbackTouchListener());
 
-        View settingsButton = mLauncher.findViewById(R.id.settings_button);
+        View settingsButton = mLauncher.findViewById(R.id.tvSettingsButton);
         settingsButton.setOnClickListener(arg0 -> {
             if (!mLauncher.getWorkspace().isSwitchingState()) {
                 mLauncher.startSettings();
@@ -132,7 +132,7 @@ public class SettingsPanel {
         defaultScreenButton.setOnTouchListener(mLauncher.getHapticFeedbackTouchListener());
 
         //Handle
-        View v = mOverviewPanel.findViewById(R.id.settings_pane_header);
+        View v = mOverviewPanel.findViewById(R.id.llSettingsPaneHeader);
         ((SlidingUpPanelLayout) mOverviewPanel).setEnableDragViewTouchEvents(true);
         ((SlidingUpPanelLayout) mOverviewPanel).setDragView(v);
         v.setOnClickListener(v1 -> {

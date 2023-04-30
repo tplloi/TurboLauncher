@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,27 +9,27 @@
         android:layout_gravity="center_horizontal|bottom"
         android:background="@color/settings_bg_color"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/overview_panel_bottom_padding" >
+        android:paddingBottom="@dimen/overview_panel_bottom_padding">
 
         <LinearLayout
-            android:id="@+id/settings_pane_header"
+            android:id="@+id/llSettingsPaneHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="@dimen/overview_panel_top_padding" >
-            
-             <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+            android:paddingTop="@dimen/overview_panel_top_padding">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/overview_panel_bottom_padding"
-                android:paddingTop="@dimen/overview_panel_list_padding" >
+                android:paddingTop="@dimen/overview_panel_list_padding"
+                android:paddingBottom="@dimen/overview_panel_bottom_padding">
 
                 <Space
                     android:layout_width="0dip"
@@ -37,19 +37,19 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/wallpaper_button"
+                    android:id="@+id/tvWallpaperButton"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="4dp"
+                    android:layout_weight="2"
                     android:drawableTop="@drawable/selector_wallpaper_button"
+                    android:drawablePadding="4dp"
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center_horizontal"
-                    android:layout_weight="2"
+                    android:maxLines="2"
                     android:text="@string/wallpaper_button_text"
                     android:textAllCaps="true"
-                    android:textSize="10sp"
                     android:textColor="@android:color/white"
-                    android:maxLines="2" />
+                    android:textSize="10sp" />
 
                 <Space
                     android:layout_width="0dip"
@@ -57,59 +57,59 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/widget_button"
+                    android:id="@+id/tvWidgetButton"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="4dp"
+                    android:layout_weight="2"
                     android:drawableTop="@drawable/selector_widget_button"
+                    android:drawablePadding="4dp"
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center_horizontal"
-                    android:layout_weight="2"
+                    android:maxLines="2"
                     android:text="@string/widget_button_text"
                     android:textAllCaps="true"
-                    android:textSize="10sp"
                     android:textColor="@android:color/white"
-                    android:maxLines="2" />
-      
+                    android:textSize="10sp" />
+
                 <Space
                     android:layout_width="0dip"
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/themes_button"
+                    android:id="@+id/tvThemesButton"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="4dp"
+                    android:layout_weight="2"
                     android:drawableTop="@drawable/selector_themes_button"
+                    android:drawablePadding="4dp"
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center_horizontal"
-                    android:layout_weight="2"
+                    android:maxLines="2"
                     android:text="@string/themes_button_text"
                     android:textAllCaps="true"
-                    android:textSize="10sp"
                     android:textColor="@android:color/white"
-                    android:maxLines="2" />
+                    android:textSize="10sp" />
 
                 <Space
                     android:layout_width="0dip"
                     android:layout_height="1dp"
                     android:layout_weight="1" />
-                
+
                 <TextView
-                    android:id="@+id/settings_button"
+                    android:id="@+id/tvSettingsButton"
                     android:layout_width="0dip"
-                    android:layout_height="wrap_content" 
-                    android:drawablePadding="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:drawableTop="@drawable/settings_button"
+                    android:drawablePadding="4dp"
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center_horizontal"
-                    android:layout_weight="2"
+                    android:maxLines="2"
                     android:text="@string/settings_button_text"
                     android:textAllCaps="true"
-                    android:textSize="10sp"
                     android:textColor="@android:color/white"
-                    android:maxLines="2" />
+                    android:textSize="10sp" />
 
                 <Space
                     android:layout_width="0dip"
@@ -118,27 +118,27 @@
 
             </LinearLayout>
         </LinearLayout>
-        
+
         <Space
-                    android:layout_width="0dip"
-                    android:layout_height="1dp"
-                    android:layout_weight="0.125" />
-        
+            android:layout_width="0dip"
+            android:layout_height="1dp"
+            android:layout_weight="0.125" />
 
         <view
+            android:id="@+id/lvSettingsHomeScreen"
             class="com.roy.turbo.launcher.list.PinnedHeaderListView"
-            android:id="@+id/settings_home_screen_listview"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:fastScrollEnabled="true"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:fastScrollEnabled="true" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/dark_panel"
+        android:id="@+id/llDarkPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/background_dark"
+        android:orientation="horizontal"
         android:visibility="gone" />
 </FrameLayout>
