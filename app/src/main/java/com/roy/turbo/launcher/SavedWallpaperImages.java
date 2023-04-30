@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.app.Activity;
@@ -41,21 +25,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class SavedWallpaperImages extends BaseAdapter implements ListAdapter {
-    private static String TAG = "Launcher3.SavedWallpaperImages";
-    private ImageDb mDb;
+    private static final String TAG = "SavedWallpaperImages";
+    private final ImageDb mDb;
     ArrayList<SavedWallpaperTile> mImages;
     Context mContext;
     LayoutInflater mLayoutInflater;
 
     public static class SavedWallpaperTile extends WallpaperPickerActivity.WallpaperTileInfo {
-        private int mDbId;
-        private Drawable mThumb;
+        private final int mDbId;
+        private final Drawable mThumb;
+
         public SavedWallpaperTile(int dbId, Drawable thumb) {
             mDbId = dbId;
             mThumb = thumb;
         }
+
         @Override
         public void onClick(WallpaperPickerActivity a) {
             String imageFilename = a.getSavedImages().getImageFilename(mDbId);
@@ -94,7 +79,7 @@ public class SavedWallpaperImages extends BaseAdapter implements ListAdapter {
     }
 
     public void loadThumbnailsAndImageIdList() {
-        mImages = new ArrayList<SavedWallpaperTile>();
+        mImages = new ArrayList<>();
         SQLiteDatabase db = mDb.getReadableDatabase();
         Cursor result = db.query(ImageDb.TABLE_NAME,
                 new String[] { ImageDb.COLUMN_ID,
@@ -163,7 +148,7 @@ public class SavedWallpaperImages extends BaseAdapter implements ListAdapter {
             String thumbFilename = result.getString(0);
             String imageFilename = result.getString(1);
             result.close();
-            return new Pair<String, String>(thumbFilename, imageFilename);
+            return new Pair<>(thumbFilename, imageFilename);
         } else {
             return null;
         }
@@ -171,6 +156,7 @@ public class SavedWallpaperImages extends BaseAdapter implements ListAdapter {
 
     public void deleteImage(int id) {
         Pair<String, String> filenames = getImageFilenames(id);
+        assert filenames != null;
         File imageFile = new File(mContext.getFilesDir(), filenames.first);
         imageFile.delete();
         File thumbFile = new File(mContext.getFilesDir(), filenames.second);

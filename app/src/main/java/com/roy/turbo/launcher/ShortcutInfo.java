@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.content.ComponentName;
@@ -27,10 +11,12 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Represents a launchable icon on the workspaces and in folders.
  */
+//done 2023.04.30
 public class ShortcutInfo extends ItemInfo {
 
     /**
@@ -166,7 +152,10 @@ public class ShortcutInfo extends ItemInfo {
      * @param className   the class name of the component representing the intent
      * @param launchFlags the launch flags
      */
-    final void setActivity(Context context, ComponentName className, int launchFlags) {
+    final void setActivity(
+            Context context,
+            ComponentName className,
+            int launchFlags) {
         intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setComponent(className);
@@ -210,11 +199,13 @@ public class ShortcutInfo extends ItemInfo {
         return "ShortcutInfo(title=" + title.toString() + "intent=" + intent + "id=" + this.id
                 + " type=" + this.itemType + " container=" + this.container + " screen=" + screenId
                 + " cellX=" + cellX + " cellY=" + cellY + " spanX=" + spanX + " spanY=" + spanY
-                + " dropPos=" + dropPos + ")";
+                + " dropPos=" + Arrays.toString(dropPos) + ")";
     }
 
-    public static void dumpShortcutInfoList(String tag, String label,
-                                            ArrayList<ShortcutInfo> list) {
+    public static void dumpShortcutInfoList(
+            String tag,
+            String label,
+            ArrayList<ShortcutInfo> list) {
         Log.d(tag, label + " size=" + list.size());
         for (ShortcutInfo info : list) {
             Log.d(tag, "   title=\"" + info.title + " icon=" + info.mIcon

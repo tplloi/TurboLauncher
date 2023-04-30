@@ -1,24 +1,4 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
-
-import com.roy.turbo.launcher.helper.LauncherAnimUtils;
-import com.roy.turbo.launcher.itf.DragSource;
-import com.roy.turbo.launcher.view.ButtonDropTarget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -31,10 +11,15 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 
+import com.roy.turbo.launcher.helper.LauncherAnimUtils;
+import com.roy.turbo.launcher.itf.DragSource;
+import com.roy.turbo.launcher.view.ButtonDropTarget;
+
 /*
  * Ths bar will manage the transition between the QSB search bar and the delete drop
  * targets so that each of the individual IconDropTargets don't have to.
  */
+//done 2023.04.30
 public class SearchDropTargetBar extends FrameLayout implements DragController.DragListener {
 
     private static final int sTransitionInDuration = 200;
