@@ -7,7 +7,7 @@
     android:focusable="true"
     android:background="@drawable/selector_focusable_view_bg">
     <ImageView
-        android:id="@+id/preview_background"
+        android:id="@+id/ivPreviewBackground"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:src="@drawable/portal_ring_inner_holo" />
     <com.roy.turbo.launcher.view.BubbleTextView
         style="@style/WorkspaceIcon"
-        android:id="@+id/folder_icon_name"
+        android:id="@+id/tvFolderIconName"
         android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

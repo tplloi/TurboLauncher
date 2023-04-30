@@ -66,7 +66,7 @@ public class WallpaperCropActivity extends Activity {
 
     @SuppressLint("MissingInflatedId")
     protected void init() {
-        setContentView(R.layout.wallpaper_cropper);
+        setContentView(R.layout.v_wallpaper_cropper);
 
         mCropView = (CropView) findViewById(R.id.cropView);
 
@@ -112,7 +112,7 @@ public class WallpaperCropActivity extends Activity {
             final boolean moveToLeft,
             final Runnable postExecute) {
         final Context context = WallpaperCropActivity.this;
-        final View progressView = findViewById(R.id.loading);
+        final View progressView = findViewById(R.id.pb);
         @SuppressLint("StaticFieldLeak") final AsyncTask<Void, Void, Void> loadBitmapTask = new AsyncTask<>() {
             protected Void doInBackground(Void... args) {
                 if (!isCancelled()) {

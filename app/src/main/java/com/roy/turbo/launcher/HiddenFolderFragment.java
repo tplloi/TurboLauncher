@@ -93,7 +93,7 @@ public class HiddenFolderFragment extends Fragment {
             }
         });
 
-        ImageView mLock = (ImageView) v.findViewById(R.id.folder_lock_icon);
+        ImageView mLock = (ImageView) v.findViewById(R.id.ivFolderLockIcon);
         Drawable mLockIcon = mHidden ? getResources().getDrawable(R.drawable.folder_lock_light) : getResources().getDrawable(R.drawable.folder_unlock);
         mLock.setImageDrawable(mLockIcon);
         mLock.setOnClickListener(mClicklistener);
@@ -104,7 +104,7 @@ public class HiddenFolderFragment extends Fragment {
         mAppsAdapter.clear();
         mAppsAdapter.addAll(mAppEntries);
 
-        mListView = (ListView) v.findViewById(R.id.hidden_apps_list);
+        mListView = (ListView) v.findViewById(R.id.lvHiddenAppsList);
         mListView.setAdapter(mAppsAdapter);
 
         return v;
@@ -297,8 +297,8 @@ public class HiddenFolderFragment extends Fragment {
         public final int position;
 
         public AppViewHolder(View parentView, int position) {
-            icon = (ImageView) parentView.findViewById(R.id.icon);
-            title = (TextView) parentView.findViewById(R.id.title);
+            icon = (ImageView) parentView.findViewById(R.id.ivIcon);
+            title = (TextView) parentView.findViewById(R.id.tvTitle);
             this.position = position;
         }
     }

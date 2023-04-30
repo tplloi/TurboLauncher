@@ -137,14 +137,14 @@ public class FolderIcon extends FrameLayout implements FolderListener {
 
         FolderIcon icon = (FolderIcon) LayoutInflater.from(launcher).inflate(resId, group, false);
         icon.setClipToPadding(false);
-        icon.mFolderName = (BubbleTextView) icon.findViewById(R.id.folder_icon_name);
+        icon.mFolderName = (BubbleTextView) icon.findViewById(R.id.tvFolderIconName);
         icon.mFolderName.setText(folderInfo.title);
         icon.mFolderName.setCompoundDrawablePadding(0);
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) icon.mFolderName.getLayoutParams();
         lp.topMargin = grid.iconSizePx + grid.iconDrawablePaddingPx;
 
         // Offset the preview background to center this view accordingly
-        icon.mPreviewBackground = (ImageView) icon.findViewById(R.id.preview_background);
+        icon.mPreviewBackground = (ImageView) icon.findViewById(R.id.ivPreviewBackground);
         lp = (FrameLayout.LayoutParams) icon.mPreviewBackground.getLayoutParams();
         lp.topMargin = grid.folderBackgroundOffset;
         lp.width = grid.folderIconSizePx;

@@ -18,7 +18,7 @@
 
         <ImageView
             android:layout_alignParentEnd="true"
-            android:id="@+id/folder_lock_icon"
+            android:id="@+id/ivFolderLockIcon"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:contentDescription="@string/application_name"
@@ -44,7 +44,7 @@
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/hidden_apps_list"
+        android:id="@+id/lvHiddenAppsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp" />

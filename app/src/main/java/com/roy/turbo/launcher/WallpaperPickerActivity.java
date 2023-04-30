@@ -361,12 +361,12 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     // called by onCreate; this is subclassed to overwrite WallpaperCropActivity
     @SuppressLint("MissingInflatedId")
     protected void init() {
-        setContentView(R.layout.wallpaper_picker);
+        setContentView(R.layout.v_wallpaper_picker);
 
         mCropView = (CropView) findViewById(R.id.cropView);
         mCropView.setVisibility(View.INVISIBLE);
 
-        mWallpaperStrip = findViewById(R.id.wallpaper_strip);
+        mWallpaperStrip = findViewById(R.id.llWallpaperStrip);
         mCropView.setTouchCallback(new CropView.TouchCallback() {
             ViewPropertyAnimator mAnim;
 
@@ -444,7 +444,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
         // Populate the built-in wallpapers
         ArrayList<ResourceWallpaperInfo> wallpapers = findBundledWallpapers();
-        mWallpapersView = (LinearLayout) findViewById(R.id.wallpaper_list);
+        mWallpapersView = (LinearLayout) findViewById(R.id.llWallpaperList);
         BuiltInWallpapersAdapter ia = new BuiltInWallpapersAdapter(this, wallpapers);
         populateWallpapersFromAdapter(mWallpapersView, ia, false);
 
@@ -455,7 +455,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
         // Populate the live wallpapers
         final LinearLayout liveWallpapersView =
-                (LinearLayout) findViewById(R.id.live_wallpaper_list);
+                (LinearLayout) findViewById(R.id.llLiveWallpaperList);
         final LiveWallpaperListAdapter a = new LiveWallpaperListAdapter(this);
         a.registerDataSetObserver(new DataSetObserver() {
             public void onChanged() {
@@ -468,13 +468,13 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
         // Populate the third-party wallpaper pickers
         final LinearLayout thirdPartyWallpapersView =
-                (LinearLayout) findViewById(R.id.third_party_wallpaper_list);
+                (LinearLayout) findViewById(R.id.llThirdPartyWallpaperList);
         final ThirdPartyWallpaperPickerListAdapter ta =
                 new ThirdPartyWallpaperPickerListAdapter(this);
         populateWallpapersFromAdapter(thirdPartyWallpapersView, ta, false);
 
         // Add a tile for the Gallery
-        LinearLayout masterWallpaperList = (LinearLayout) findViewById(R.id.master_wallpaper_list);
+        LinearLayout masterWallpaperList = (LinearLayout) findViewById(R.id.llMasterWallpaper);
         FrameLayout pickImageTile = (FrameLayout) getLayoutInflater().
                 inflate(R.layout.wallpaper_picker_image_picker_item, masterWallpaperList, false);
         setWallpaperItemPaddingToZero(pickImageTile);
@@ -659,14 +659,14 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
     private void initializeScrollForRtl() {
         final HorizontalScrollView scroll =
-                (HorizontalScrollView) findViewById(R.id.wallpaper_scroll_container);
+                (HorizontalScrollView) findViewById(R.id.hsvWallpaperScrollContainer);
 
         if (scroll.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             final ViewTreeObserver observer = scroll.getViewTreeObserver();
             observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 public void onGlobalLayout() {
                     LinearLayout masterWallpaperList =
-                            (LinearLayout) findViewById(R.id.master_wallpaper_list);
+                            (LinearLayout) findViewById(R.id.llMasterWallpaper);
                     scroll.scrollTo(masterWallpaperList.getWidth(), 0);
                     scroll.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
@@ -709,7 +709,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
     protected void onStop() {
         super.onStop();
-        mWallpaperStrip = findViewById(R.id.wallpaper_strip);
+        mWallpaperStrip = findViewById(R.id.llWallpaperStrip);
         if (mWallpaperStrip.getAlpha() < 1f) {
             mWallpaperStrip.setAlpha(1f);
             mWallpaperStrip.setVisibility(View.VISIBLE);
@@ -748,7 +748,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     }
 
     private void updateTileIndices() {
-        LinearLayout masterWallpaperList = (LinearLayout) findViewById(R.id.master_wallpaper_list);
+        LinearLayout masterWallpaperList = (LinearLayout) findViewById(R.id.llMasterWallpaper);
         final int childCount = masterWallpaperList.getChildCount();
         final Resources res = getResources();
 
