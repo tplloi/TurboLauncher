@@ -53,12 +53,12 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
     protected View newHeaderView(Context context, int partition, Cursor cursor,
                                  ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        return inflater.inflate(R.layout.settings_pane_list_header, null);
+        return inflater.inflate(R.layout.v_settings_pane_list_header, null);
     }
 
     @Override
     protected void bindHeaderView(View view, int partition, Cursor cursor) {
-        TextView textView = (TextView) view.findViewById(R.id.item_name);
+        TextView textView = (TextView) view.findViewById(R.id.tvItemName);
         textView.setText(mHeaders[partition]);
         textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
 
@@ -70,12 +70,12 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
     protected View newView(Context context, int partition, Cursor cursor, int position,
                            ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        return inflater.inflate(R.layout.settings_pane_list_item, null);
+        return inflater.inflate(R.layout.v_settings_pane_list_item, null);
     }
 
     @Override
     protected void bindView(View v, int partition, Cursor cursor, int position) {
-        TextView text = (TextView) v.findViewById(R.id.item_name);
+        TextView text = (TextView) v.findViewById(R.id.tvItemName);
 
 
         Configuration config = mLauncher.getResources().getConfiguration();
@@ -101,18 +101,18 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
                         current = mLauncher.shouldShowSearchBar();
                         state = current ? res.getString(R.string.setting_state_on)
                                 : res.getString(R.string.setting_state_off);
-                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
                         break;
                     case 1:
                         state = mLauncher.getWorkspaceTransitionEffect();
                         state = mapEffectToValue(state);
-                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
                         break;
                     case 2:
                         current = mLauncher.shouldHideWorkspaceIconLables();
                         state = current ? res.getString(R.string.setting_state_on)
                                 : res.getString(R.string.setting_state_off);
-                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
                         break;
                     case 3:
                         current = SettingsProvider.getBoolean(mContext,
@@ -120,10 +120,10 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
                                 R.bool.preferences_interface_homescreen_scrolling_wallpaper_scroll_default);
                         state = current ? res.getString(R.string.setting_state_on)
                                 : res.getString(R.string.setting_state_off);
-                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
                         break;
                     default:
-                        ((TextView) v.findViewById(R.id.item_state)).setText("");
+                        ((TextView) v.findViewById(R.id.tvItemState)).setText("");
                 }
                 break;
             case SettingsPanel.DRAWER_SETTINGS_POSITION:
@@ -131,7 +131,7 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
                     case 0:
                         state = mLauncher.getAppsCustomizeTransitionEffect();
                         state = mapEffectToValue(state);
-                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
                         break;
                     case 1:
                         updateDrawerSortSettingsItem(v);
@@ -142,10 +142,10 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
                                 R.bool.preferences_interface_drawer_hide_icon_labels_default);
                         state = current ? res.getString(R.string.setting_state_on)
                                 : res.getString(R.string.setting_state_off);
-                        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                        ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
                         break;
                     default:
-                        ((TextView) v.findViewById(R.id.item_state)).setText("");
+                        ((TextView) v.findViewById(R.id.tvItemState)).setText("");
                 }
                 break;
             default:
@@ -155,9 +155,9 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
                             R.bool.preferences_interface_general_icons_large_default);
                     state = current ? res.getString(R.string.setting_state_on)
                             : res.getString(R.string.setting_state_off);
-                    ((TextView) v.findViewById(R.id.item_state)).setText(state);
+                    ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
                 } else {
-                    ((TextView) v.findViewById(R.id.item_state)).setText("");
+                    ((TextView) v.findViewById(R.id.tvItemState)).setText("");
                 }
         }
 
@@ -168,7 +168,7 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
     @Override
     public View getPinnedHeaderView(int viewIndex, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.settings_pane_list_header, parent, false);
+        View view = inflater.inflate(R.layout.v_settings_pane_list_header, parent, false);
         view.setFocusable(false);
         view.setEnabled(false);
         bindHeaderView(view, viewIndex, null);
@@ -195,7 +195,7 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
                         R.string.sort_mode_install_time);
                 break;
         }
-        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+        ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
     }
 
     private String mapEffectToValue(String effect) {
@@ -302,7 +302,7 @@ public class SettingsPinnedHeaderAdapter extends PinnedHeaderListAdapter {
         String state = current ? mLauncher.getResources().getString(
                 R.string.setting_state_off) : mLauncher.getResources().getString(
                 R.string.setting_state_on);
-        ((TextView) v.findViewById(R.id.item_state)).setText(state);
+        ((TextView) v.findViewById(R.id.tvItemState)).setText(state);
     }
 
     private void onClickSortButton() {

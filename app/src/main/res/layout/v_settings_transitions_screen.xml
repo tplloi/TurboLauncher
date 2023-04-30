@@ -6,17 +6,20 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/overview_panel_bottom_padding"
     android:paddingTop="@dimen/overview_panel_bottom_padding"
-    android:clickable="true" >
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
-        android:id="@+id/transition_title"
+        android:id="@+id/llTransitionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/holo_blue_dark"
-        android:clickable="true" >
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageView
+            android:contentDescription="@string/application_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -24,7 +27,7 @@
             android:src="@drawable/handle_left" />
 
         <TextView
-            android:id="@+id/transition_effect_title"
+            android:id="@+id/tvTransitionEffectTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/scroll_effect_text"
@@ -36,14 +39,15 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/settings_transition_image"
+        android:contentDescription="@string/application_name"
+        android:id="@+id/ivSettingsTransitionImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true" />
 
     <ListView
-        android:id="@+id/settings_transitions_list"
+        android:id="@+id/lvSettingsTransitions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/holo_blue_dark"

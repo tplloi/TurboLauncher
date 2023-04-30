@@ -64,7 +64,7 @@ public class TransitionEffectsFragment extends Fragment {
             LayoutInflater inflater,
             ViewGroup container,
             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.settings_transitions_screen, container, false);
+        View v = inflater.inflate(R.layout.v_settings_transitions_screen, container, false);
 
         mPageOrDrawer = getArguments().getBoolean(PAGE_OR_DRAWER_SCROLL_SELECT);
 
@@ -74,12 +74,12 @@ public class TransitionEffectsFragment extends Fragment {
         mPreferenceValue = mPageOrDrawer ? R.string.preferences_interface_drawer_scrolling_transition_effect
                 : R.string.preferences_interface_homescreen_scrolling_transition_effect;
 
-        mTransitionIcon = (ImageView) v.findViewById(R.id.settings_transition_image);
-        mListView = (ListView) v.findViewById(R.id.settings_transitions_list);
+        mTransitionIcon = (ImageView) v.findViewById(R.id.ivSettingsTransitionImage);
+        mListView = (ListView) v.findViewById(R.id.lvSettingsTransitions);
         mScrollView = (ScrollView) v.findViewById(R.id.scroll_view);
-        TextView title = (TextView) v.findViewById(R.id.transition_effect_title);
+        TextView title = (TextView) v.findViewById(R.id.tvTransitionEffectTitle);
         title.setText(getResources().getString(R.string.scroll_effect_text));
-        LinearLayout titleLayout = (LinearLayout) v.findViewById(R.id.transition_title);
+        LinearLayout titleLayout = (LinearLayout) v.findViewById(R.id.llTransitionTitle);
         titleLayout.setOnClickListener(v1 -> setEffect());
 
         String[] titles = getResources().getStringArray(R.array.transition_effect_entries);
@@ -119,13 +119,13 @@ public class TransitionEffectsFragment extends Fragment {
 
     private void setSelected(View v) {
         v.setBackgroundColor(Color.WHITE);
-        TextView t = (TextView) v.findViewById(R.id.item_name);
+        TextView t = (TextView) v.findViewById(R.id.tvItemName);
         t.setTextColor(getResources().getColor(R.color.holo_blue_light));
     }
 
     private void setCleared(View v) {
         v.setBackgroundColor(getResources().getColor(R.color.holo_blue_light));
-        TextView t = (TextView) v.findViewById(R.id.item_name);
+        TextView t = (TextView) v.findViewById(R.id.tvItemName);
         t.setTextColor(Color.WHITE);
     }
 
@@ -180,7 +180,7 @@ public class TransitionEffectsFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.transition_effect_list_item, parent, false);
-            TextView textView = (TextView) convertView.findViewById(R.id.item_name);
+            TextView textView = (TextView) convertView.findViewById(R.id.tvItemName);
             textView.setText(titles[position]);
             // Set Selected State
             if (position == mCurrentPosition) {
