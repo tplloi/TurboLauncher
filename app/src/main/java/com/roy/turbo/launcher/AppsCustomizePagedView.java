@@ -682,7 +682,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             }
         } else {
             PendingAddShortcutInfo createShortcutInfo = (PendingAddShortcutInfo) v.getTag();
-            Drawable icon = mIconCache.getFullResIcon(createShortcutInfo.shortcutActivityInfo);
+            Drawable icon = mIconCache.getFullResIcon(createShortcutInfo.getShortcutActivityInfo());
             preview = Bitmap.createBitmap(icon.getIntrinsicWidth(), icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 
             mCanvas.setBitmap(preview);
