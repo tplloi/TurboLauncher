@@ -552,7 +552,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                         finish();
                     }
                 });
-        mSetWallpaperButton = findViewById(R.id.set_wallpaper_button);
+        mSetWallpaperButton = findViewById(R.id.btSetWallpaper);
 
         // CAB for deleting items
         mActionModeCallback = new ActionMode.Callback() {

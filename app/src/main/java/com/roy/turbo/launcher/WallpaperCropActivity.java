@@ -87,7 +87,7 @@ public class WallpaperCropActivity extends Activity {
             boolean finishActivityWhenDone = true;
             cropImageAndSetWallpaper(imageUri, null, finishActivityWhenDone);
         });
-        mSetWallpaperButton = findViewById(R.id.set_wallpaper_button);
+        mSetWallpaperButton = findViewById(R.id.btSetWallpaper);
 
         // Load image in background
         final BitmapRegionTileSource.UriBitmapSource bitmapSource =

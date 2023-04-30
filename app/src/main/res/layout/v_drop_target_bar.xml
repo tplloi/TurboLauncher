@@ -6,7 +6,7 @@
         <!-- Delete target -->
         <com.roy.turbo.launcher.DeleteDropTarget
             style="@style/DropTargetButton"
-            android:id="@+id/delete_target_text"
+            android:id="@+id/deleteTargetText"
             android:text="@string/delete_zone_label_workspace"
             android:drawableStart="@drawable/transition_remove_target_selector" />
     </FrameLayout>
@@ -16,7 +16,7 @@
         <!-- Info target -->
         <com.roy.turbo.launcher.InfoDropTarget
             style="@style/DropTargetButton"
-            android:id="@+id/info_target_text"
+            android:id="@+id/infoTargetText"
             android:text="@string/info_target_label"
             android:drawableStart="@drawable/transition_info_target_selector" />
     </FrameLayout>

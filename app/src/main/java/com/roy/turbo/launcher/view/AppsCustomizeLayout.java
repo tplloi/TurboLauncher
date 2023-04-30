@@ -52,8 +52,8 @@ public class AppsCustomizeLayout extends FrameLayout implements LauncherTransiti
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mAppsCustomizePane = (AppsCustomizePagedView) findViewById(R.id.apps_customize_pane_content);
-        mContent = (FrameLayout) findViewById(R.id.apps_customize_content);
+        mAppsCustomizePane = (AppsCustomizePagedView) findViewById(R.id.pageAppsCustomize);
+        mContent = (FrameLayout) findViewById(R.id.flAppsCustomizeContent);
         if (mAppsCustomizePane == null) throw new Resources.NotFoundException();
 
     }

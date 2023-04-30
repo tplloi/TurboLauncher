@@ -473,7 +473,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
 
             // Create a little animation to show that the widget can move
             float offsetY = getResources().getDimensionPixelSize(R.dimen.dragViewOffsetY);
-            final ImageView p = (ImageView) v.findViewById(R.id.widget_preview);
+            final ImageView p = (ImageView) v.findViewById(R.id.ivWidgetPreview);
             AnimatorSet bounce = LauncherAnimUtils.createAnimatorSet();
             ValueAnimator tyuAnim = LauncherAnimUtils.ofFloat(p, "translationY", offsetY);
             tyuAnim.setDuration(125);
@@ -632,7 +632,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     private boolean beginDraggingWidget(View v) {
         mDraggingWidget = true;
         // Get the widget preview as the drag representation
-        ImageView image = (ImageView) v.findViewById(R.id.widget_preview);
+        ImageView image = (ImageView) v.findViewById(R.id.ivWidgetPreview);
         PendingAddItemInfo createItemInfo = (PendingAddItemInfo) v.getTag();
 
         // If the ImageView doesn't have a drawable yet, the widget preview hasn't been loaded and

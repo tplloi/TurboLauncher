@@ -116,14 +116,14 @@ public class InstallWidgetReceiver {
 
             // Set the icon
             Drawable d = resolveInfo.loadIcon(packageManager);
-            ImageView i = (ImageView) convertView.findViewById(R.id.provider_icon);
+            ImageView i = (ImageView) convertView.findViewById(R.id.ivProviderIcon);
             i.setImageDrawable(d);
 
             // Set the text
             final CharSequence component = resolveInfo.loadLabel(packageManager);
             final int[] widgetSpan = new int[2];
             CellLayout.rectToCell(widgetInfo.minWidth, widgetInfo.minHeight, widgetSpan);
-            TextView t = (TextView) convertView.findViewById(R.id.provider);
+            TextView t = (TextView) convertView.findViewById(R.id.tvProvider);
             t.setText(context.getString(R.string.external_drop_widget_pick_format,
                     component, widgetSpan[0], widgetSpan[1]));
 

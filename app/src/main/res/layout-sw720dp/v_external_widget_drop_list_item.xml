@@ -6,7 +6,8 @@
     android:layout_height="64dp"
     tools:ignore="MissingDefaultResource">
     <ImageView
-        android:id="@+id/provider_icon"
+        android:id="@+id/ivProviderIcon"
+        android:contentDescription="@string/application_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -16,7 +17,7 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher_application" />
     <TextView
-        android:id="@+id/provider"
+        android:id="@+id/tvProvider"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="5dp"

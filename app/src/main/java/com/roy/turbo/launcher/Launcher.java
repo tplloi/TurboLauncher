@@ -1433,7 +1433,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         // Setup AppsCustomize
         mAppsCustomizeLayout = (AppsCustomizeLayout) findViewById(R.id.apps_customize_pane);
         mAppsCustomizeContent = (AppsCustomizePagedView) mAppsCustomizeLayout
-                .findViewById(R.id.apps_customize_pane_content);
+                .findViewById(R.id.pageAppsCustomize);
         mAppsCustomizeContent.setup(this, dragController);
 
         // Setup the drag controller (drop targets have to be added in reverse

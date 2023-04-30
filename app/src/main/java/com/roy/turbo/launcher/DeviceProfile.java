@@ -731,7 +731,7 @@ public class DeviceProfile {
         }
 
         // Layout the apps customize
-        View appsCustomize = launcher.findViewById(R.id.apps_customize_pane_content);
+        View appsCustomize = launcher.findViewById(R.id.pageAppsCustomize);
         lp = (FrameLayout.LayoutParams) appsCustomize.getLayoutParams();
         lp.gravity = Gravity.CENTER;
         appsCustomize.setLayoutParams(lp);
@@ -743,7 +743,7 @@ public class DeviceProfile {
             // Center the all apps page indicator
             int pageIndicatorHeight = (int) (pageIndicatorHeightPx * Math.min(1f,
                     (allAppsIconSizePx / DynamicGrid.DEFAULT_ICON_SIZE_PX)));
-            pageIndicator = host.findViewById(R.id.apps_customize_page_indicator);
+            pageIndicator = host.findViewById(R.id.appsCustomizePageIndicator);
             if (pageIndicator != null) {
                 lp = (FrameLayout.LayoutParams) pageIndicator.getLayoutParams();
                 lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
@@ -753,7 +753,7 @@ public class DeviceProfile {
             }
 
             AppsCustomizePagedView pagedView = (AppsCustomizePagedView)
-                    host.findViewById(R.id.apps_customize_pane_content);
+                    host.findViewById(R.id.pageAppsCustomize);
             padding = new Rect();
             if (pagedView != null) {
                 // Constrain the dimensions of all apps so that it does not span the full width

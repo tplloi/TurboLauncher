@@ -58,7 +58,7 @@ public class PagedViewWidget extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        final ImageView image = (ImageView) findViewById(R.id.widget_preview);
+        final ImageView image = (ImageView) findViewById(R.id.ivWidgetPreview);
         mOriginalImagePadding.left = image.getPaddingLeft();
         mOriginalImagePadding.top = image.getPaddingTop();
         mOriginalImagePadding.right = image.getPaddingRight();
@@ -67,11 +67,11 @@ public class PagedViewWidget extends LinearLayout {
         // Ensure we are using the right text size
         LauncherAppState app = LauncherAppState.getInstance();
         DeviceProfile grid = app.getDynamicGrid().getDeviceProfile();
-        TextView name = (TextView) findViewById(R.id.widget_name);
+        TextView name = (TextView) findViewById(R.id.tvWidgetName);
         if (name != null) {
             name.setTextSize(TypedValue.COMPLEX_UNIT_PX, grid.iconTextSizePx);
         }
-        TextView dims = (TextView) findViewById(R.id.widget_dims);
+        TextView dims = (TextView) findViewById(R.id.tvWidgetDims);
         if (dims != null) {
             dims.setTextSize(TypedValue.COMPLEX_UNIT_PX, grid.iconTextSizePx);
         }
@@ -90,7 +90,7 @@ public class PagedViewWidget extends LinearLayout {
         super.onDetachedFromWindow();
 
         if (sDeletePreviewsWhenDetachedFromWindow) {
-            final ImageView image = (ImageView) findViewById(R.id.widget_preview);
+            final ImageView image = (ImageView) findViewById(R.id.ivWidgetPreview);
             if (image != null) {
                 FastBitmapDrawable preview = (FastBitmapDrawable) image.getDrawable();
                 if (sRecyclePreviewsWhenDetachedFromWindow &&
@@ -109,13 +109,13 @@ public class PagedViewWidget extends LinearLayout {
 
         mIsAppWidget = true;
         mInfo = info;
-        final ImageView image = (ImageView) findViewById(R.id.widget_preview);
+        final ImageView image = (ImageView) findViewById(R.id.ivWidgetPreview);
         if (maxWidth > -1) {
             image.setMaxWidth(maxWidth);
         }
-        final TextView name = (TextView) findViewById(R.id.widget_name);
+        final TextView name = (TextView) findViewById(R.id.tvWidgetName);
         name.setText(info.label);
-        final TextView dims = (TextView) findViewById(R.id.widget_dims);
+        final TextView dims = (TextView) findViewById(R.id.tvWidgetDims);
         if (dims != null) {
             int hSpan = Math.min(cellSpan[0], (int) grid.numColumns);
             int vSpan = Math.min(cellSpan[1], (int) grid.numRows);
@@ -129,9 +129,9 @@ public class PagedViewWidget extends LinearLayout {
         mIsAppWidget = false;
         mInfo = info;
         CharSequence label = info.loadLabel(pm);
-        final TextView name = (TextView) findViewById(R.id.widget_name);
+        final TextView name = (TextView) findViewById(R.id.tvWidgetName);
         name.setText(label);
-        final TextView dims = (TextView) findViewById(R.id.widget_dims);
+        final TextView dims = (TextView) findViewById(R.id.tvWidgetDims);
         if (dims != null) {
             dims.setText(String.format(mDimensionsFormatString, 1, 1));
         }
@@ -139,7 +139,7 @@ public class PagedViewWidget extends LinearLayout {
     }
 
     public int[] getPreviewSize() {
-        final ImageView i = (ImageView) findViewById(R.id.widget_preview);
+        final ImageView i = (ImageView) findViewById(R.id.ivWidgetPreview);
         int[] maxSize = new int[2];
         maxSize[0] = i.getWidth() - mOriginalImagePadding.left - mOriginalImagePadding.right;
         maxSize[1] = i.getHeight() - mOriginalImagePadding.top;
@@ -148,7 +148,7 @@ public class PagedViewWidget extends LinearLayout {
 
     void applyPreview(FastBitmapDrawable preview, int index) {
         final PagedViewWidgetImageView image =
-            (PagedViewWidgetImageView) findViewById(R.id.widget_preview);
+            (PagedViewWidgetImageView) findViewById(R.id.ivWidgetPreview);
         if (preview != null) {
             image.mAllowRequestLayout = false;
             image.setImageDrawable(preview);

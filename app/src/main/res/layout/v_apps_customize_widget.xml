@@ -10,7 +10,7 @@
 
     <!-- The preview of the widget or shortcut. -->
     <com.roy.turbo.launcher.PagedViewWidgetImageView
-        android:id="@+id/widget_preview"
+        android:id="@+id/ivWidgetPreview"
         style="@style/PagedViewWidgetImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:orientation="horizontal">
         <!-- The name of the widget. -->
         <TextView
-            android:id="@+id/widget_name"
+            android:id="@+id/tvWidgetName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -47,7 +47,7 @@
         <!-- The original dimensions of the widget (can't be the same text as above due to different
              style. -->
         <TextView
-            android:id="@+id/widget_dims"
+            android:id="@+id/tvWidgetDims"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

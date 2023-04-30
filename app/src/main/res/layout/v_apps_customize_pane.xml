@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
-        android:id="@+id/apps_customize_content"
+        android:id="@+id/flAppsCustomizeContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
         <com.roy.turbo.launcher.AppsCustomizePagedView
-            android:id="@+id/apps_customize_pane_content"
+            android:id="@+id/pageAppsCustomize"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             launcher:widgetCountX="@integer/apps_customize_widget_cell_count_x"
             launcher:widgetCountY="@integer/apps_customize_widget_cell_count_y"
             launcher:maxGap="@dimen/workspace_max_gap"
-            launcher:pageIndicator="@+id/apps_customize_page_indicator" />
+            launcher:pageIndicator="@+id/appsCustomizePageIndicator" />
         <include
-            android:id="@+id/apps_customize_page_indicator"
+            android:id="@+id/appsCustomizePageIndicator"
             layout="@layout/v_page_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
