@@ -1,5 +1,6 @@
 package com.roy.turbo.launcher;
 
+import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -38,15 +39,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 abstract class SoftReferenceThreadLocal<T> {
-    private ThreadLocal<SoftReference<T>> mThreadLocal;
+    private final ThreadLocal<SoftReference<T>> mThreadLocal;
     public SoftReferenceThreadLocal() {
-        mThreadLocal = new ThreadLocal<SoftReference<T>>();
+        mThreadLocal = new ThreadLocal<>();
     }
 
     abstract T initialValue();
 
     public void set(T t) {
-        mThreadLocal.set(new SoftReference<T>(t));
+        mThreadLocal.set(new SoftReference<>(t));
     }
 
     public T get() {
@@ -54,13 +55,13 @@ abstract class SoftReferenceThreadLocal<T> {
         T obj;
         if (reference == null) {
             obj = initialValue();
-            mThreadLocal.set(new SoftReference<T>(obj));
+            mThreadLocal.set(new SoftReference<>(obj));
             return obj;
         } else {
             obj = reference.get();
             if (obj == null) {
                 obj = initialValue();
-                mThreadLocal.set(new SoftReference<T>(obj));
+                mThreadLocal.set(new SoftReference<>(obj));
             }
             return obj;
         }
@@ -109,36 +110,34 @@ public class WidgetPreviewLoader {
     private int mPreviewBitmapWidth;
     private int mPreviewBitmapHeight;
     private String mSize;
-    private Context mContext;
-    private PackageManager mPackageManager;
+    private final Context mContext;
+    private final PackageManager mPackageManager;
     private PagedViewCellLayout mWidgetSpacingLayout;
 
     // Used for drawing shortcut previews
-    private BitmapCache mCachedShortcutPreviewBitmap = new BitmapCache();
-    private PaintCache mCachedShortcutPreviewPaint = new PaintCache();
-    private CanvasCache mCachedShortcutPreviewCanvas = new CanvasCache();
+    private final BitmapCache mCachedShortcutPreviewBitmap = new BitmapCache();
+    private final PaintCache mCachedShortcutPreviewPaint = new PaintCache();
+    private final CanvasCache mCachedShortcutPreviewCanvas = new CanvasCache();
 
     // Used for drawing widget previews
-    private CanvasCache mCachedAppWidgetPreviewCanvas = new CanvasCache();
-    private RectCache mCachedAppWidgetPreviewSrcRect = new RectCache();
-    private RectCache mCachedAppWidgetPreviewDestRect = new RectCache();
-    private PaintCache mCachedAppWidgetPreviewPaint = new PaintCache();
+    private final CanvasCache mCachedAppWidgetPreviewCanvas = new CanvasCache();
+    private final RectCache mCachedAppWidgetPreviewSrcRect = new RectCache();
+    private final RectCache mCachedAppWidgetPreviewDestRect = new RectCache();
+    private final PaintCache mCachedAppWidgetPreviewPaint = new PaintCache();
     private String mCachedSelectQuery;
-    private BitmapFactoryOptionsCache mCachedBitmapFactoryOptions = new BitmapFactoryOptionsCache();
+    private final BitmapFactoryOptionsCache mCachedBitmapFactoryOptions = new BitmapFactoryOptionsCache();
 
-    private int mAppIconSize;
-    private IconCache mIconCache;
-
-    private final float sWidgetPreviewIconPaddingPercentage = 0.25f;
+    private final int mAppIconSize;
+    private final IconCache mIconCache;
 
     private CacheDb mDb;
 
-    private HashMap<String, WeakReference<Bitmap>> mLoadedPreviews;
-    private ArrayList<SoftReference<Bitmap>> mUnusedBitmaps;
-    private static HashSet<String> sInvalidPackages;
+    private final HashMap<String, WeakReference<Bitmap>> mLoadedPreviews;
+    private final ArrayList<SoftReference<Bitmap>> mUnusedBitmaps;
+    private static final HashSet<String> sInvalidPackages;
 
     static {
-        sInvalidPackages = new HashSet<String>();
+        sInvalidPackages = new HashSet<>();
     }
 
     public WidgetPreviewLoader(Context context) {
@@ -150,8 +149,8 @@ public class WidgetPreviewLoader {
         mAppIconSize = grid.iconSizePx;
         mIconCache = app.getIconCache();
         mDb = app.getWidgetPreviewCacheDb();
-        mLoadedPreviews = new HashMap<String, WeakReference<Bitmap>>();
-        mUnusedBitmaps = new ArrayList<SoftReference<Bitmap>>();
+        mLoadedPreviews = new HashMap<>();
+        mUnusedBitmaps = new ArrayList<>();
 
         SharedPreferences sp = context.getSharedPreferences(
                 LauncherAppState.getSharedPreferencesKey(), Context.MODE_PRIVATE);
@@ -164,7 +163,7 @@ public class WidgetPreviewLoader {
 
             SharedPreferences.Editor editor = sp.edit();
             editor.putString(ANDROID_INCREMENTAL_VERSION_NAME_KEY, versionName);
-            editor.commit();
+            editor.apply();
         }
     }
     
@@ -182,11 +181,12 @@ public class WidgetPreviewLoader {
         mWidgetSpacingLayout = widgetSpacingLayout;
     }
 
+    @SuppressLint("StaticFieldLeak")
     public Bitmap getPreview(final Object o) {
         final String name = getObjectName(o);
         final String packageName = getObjectPackage(o);
         // check if the package is valid
-        boolean packageValid = true;
+        boolean packageValid;
         synchronized(sInvalidPackages) {
             packageValid = !sInvalidPackages.contains(packageName);
         }
@@ -232,9 +232,8 @@ public class WidgetPreviewLoader {
 
         if (preview != null) {
             synchronized(mLoadedPreviews) {
-                mLoadedPreviews.put(name, new WeakReference<Bitmap>(preview));
+                mLoadedPreviews.put(name, new WeakReference<>(preview));
             }
-            return preview;
         } else {
             // it's not in the db... we need to generate it
             final Bitmap generatedPreview = generatePreview(o, unusedBitmap);
@@ -244,20 +243,20 @@ public class WidgetPreviewLoader {
             }
 
             synchronized(mLoadedPreviews) {
-                mLoadedPreviews.put(name, new WeakReference<Bitmap>(preview));
+                mLoadedPreviews.put(name, new WeakReference<>(preview));
             }
 
             // write to db on a thread pool... this can be done lazily and improves the performance
             // of the first time widget previews are loaded
             new AsyncTask<Void, Void, Void>() {
-                public Void doInBackground(Void ... args) {
+                public Void doInBackground(Void... args) {
                     writeToDb(o, generatedPreview);
                     return null;
                 }
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
 
-            return preview;
         }
+        return preview;
     }
 
     public void recycleBitmap(Object o, Bitmap bitmapToRecycle) {
@@ -269,7 +268,7 @@ public class WidgetPreviewLoader {
                     mLoadedPreviews.remove(name);
                     if (bitmapToRecycle.isMutable()) {
                         synchronized (mUnusedBitmaps) {
-                            mUnusedBitmaps.add(new SoftReference<Bitmap>(b));
+                            mUnusedBitmaps.add(new SoftReference<>(b));
                         }
                     }
                 } else {
@@ -369,6 +368,7 @@ public class WidgetPreviewLoader {
         try {
             db.delete(CacheDb.TABLE_NAME, null, null);
         } catch (SQLiteDiskIOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -389,6 +389,7 @@ public class WidgetPreviewLoader {
                             } // args to SELECT query
                     );
                 } catch (SQLiteDiskIOException e) {
+                    e.printStackTrace();
                 }
                 synchronized(sInvalidPackages) {
                     sInvalidPackages.remove(packageName);
@@ -407,6 +408,7 @@ public class WidgetPreviewLoader {
                             CacheDb.COLUMN_NAME + " = ? ", // SELECT query
                             new String[] { objectName }); // args to SELECT query
                 } catch (SQLiteDiskIOException e) {
+                    e.printStackTrace();
                 }
                 return null;
             }
@@ -484,9 +486,16 @@ public class WidgetPreviewLoader {
                 mWidgetSpacingLayout.estimateCellHeight(spanY));
     }
 
-    public Bitmap generateWidgetPreview(ComponentName provider, int previewImage,
-            int iconId, int cellHSpan, int cellVSpan, int maxPreviewWidth, int maxPreviewHeight,
-            Bitmap preview, int[] preScaledWidthOut) {
+    public Bitmap generateWidgetPreview(
+            ComponentName provider,
+            int previewImage,
+            int iconId,
+            int cellHSpan,
+            int cellVSpan,
+            int maxPreviewWidth,
+            int maxPreviewHeight,
+            Bitmap preview,
+            int[] preScaledWidthOut) {
         // Load the preview image if possible
         String packageName = provider.getPackageName();
         if (maxPreviewWidth < 0) maxPreviewWidth = Integer.MAX_VALUE;
@@ -533,6 +542,7 @@ public class WidgetPreviewLoader {
             c.setBitmap(null);
 
             // Draw the icon in the top left corner
+            float sWidgetPreviewIconPaddingPercentage = 0.25f;
             int minOffset = (int) (mAppIconSize * sWidgetPreviewIconPaddingPercentage);
             int smallestSide = Math.min(previewWidth, previewHeight);
             float iconScale = Math.min((float) smallestSide
@@ -552,6 +562,7 @@ public class WidgetPreviewLoader {
                             (int) (mAppIconSize * iconScale));
                 }
             } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
             }
         }
 
@@ -600,7 +611,10 @@ public class WidgetPreviewLoader {
     }
 
     private Bitmap generateShortcutPreview(
-            ResolveInfo info, int maxWidth, int maxHeight, Bitmap preview) {
+            ResolveInfo info,
+            int maxWidth,
+            int maxHeight,
+            Bitmap preview) {
         Bitmap tempBitmap = mCachedShortcutPreviewBitmap.get();
         final Canvas c = mCachedShortcutPreviewCanvas.get();
         if (tempBitmap == null ||
@@ -656,12 +670,22 @@ public class WidgetPreviewLoader {
 
 
     public static void renderDrawableToBitmap(
-            Drawable d, Bitmap bitmap, int x, int y, int w, int h) {
+            Drawable d,
+            Bitmap bitmap,
+            int x,
+            int y,
+            int w,
+            int h) {
         renderDrawableToBitmap(d, bitmap, x, y, w, h, 1f);
     }
 
     private static void renderDrawableToBitmap(
-            Drawable d, Bitmap bitmap, int x, int y, int w, int h,
+            Drawable d,
+            Bitmap bitmap,
+            int x,
+            int y,
+            int w,
+            int h,
             float scale) {
         if (bitmap != null) {
             Canvas c = new Canvas(bitmap);
