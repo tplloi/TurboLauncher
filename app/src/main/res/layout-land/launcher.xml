@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             launcher:defaultScreen="@integer/config_workspaceDefaultScreen" />
 
-        <include layout="@layout/hotseat"
+        <include layout="@layout/v_hotseat"
             android:id="@+id/hotseat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,7 +33,7 @@
             android:id="@+id/search_drop_target_bar"
             layout="@layout/search_drop_target_bar" />
 
-        <include layout="@layout/apps_customize_pane"
+        <include layout="@layout/v_apps_customize_pane"
             android:id="@+id/apps_customize_pane"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

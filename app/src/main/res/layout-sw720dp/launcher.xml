@@ -24,7 +24,7 @@
             launcher:pageIndicator="@id/page_indicator">
         </com.roy.turbo.launcher.Workspace>
 
-        <include layout="@layout/hotseat"
+        <include layout="@layout/v_hotseat"
             android:id="@+id/hotseat"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -54,7 +54,7 @@
             android:focusable="true"
             launcher:sourceViewId="@+id/voice_button" />
 
-        <include layout="@layout/apps_customize_pane"
+        <include layout="@layout/v_apps_customize_pane"
             android:id="@+id/apps_customize_pane"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

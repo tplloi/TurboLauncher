@@ -64,7 +64,7 @@ public class HiddenFolderFragment extends Fragment {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.hidden_folder, container, false);
+        View v = inflater.inflate(R.layout.v_hidden_folder, container, false);
 
         mLauncher = (Launcher) getActivity();
         mPackageManager = mLauncher.getPackageManager();
@@ -98,7 +98,7 @@ public class HiddenFolderFragment extends Fragment {
         mLock.setImageDrawable(mLockIcon);
         mLock.setOnClickListener(mClicklistener);
 
-        mAppsAdapter = new AppsAdapter(mLauncher, R.layout.hidden_apps_list_item);
+        mAppsAdapter = new AppsAdapter(mLauncher, R.layout.v_hidden_apps_list_item);
         mAppsAdapter.setNotifyOnChange(true);
         mAppEntries = loadApps();
         mAppsAdapter.clear();
@@ -199,7 +199,7 @@ public class HiddenFolderFragment extends Fragment {
 
             if (convertView == null) {
                 convertView = mInflator.inflate(
-                        R.layout.hidden_folder_apps_list_item, parent, false);
+                        R.layout.v_hidden_folder_apps_list_item, parent, false);
                 viewHolder = new AppViewHolder(convertView, position);
                 convertView.setTag(viewHolder);
             } else {

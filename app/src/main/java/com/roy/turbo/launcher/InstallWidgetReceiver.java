@@ -106,7 +106,7 @@ public class InstallWidgetReceiver {
 
             // Use the convert-view where possible
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.external_widget_drop_list_item, parent,
+                convertView = mInflater.inflate(R.layout.v_external_widget_drop_list_item, parent,
                         false);
             }
 

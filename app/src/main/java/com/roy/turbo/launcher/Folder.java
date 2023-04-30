@@ -642,7 +642,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
 
     protected View createAndAddShortcut(ShortcutInfo item) {
         final BubbleTextView textView =
-            (BubbleTextView) mInflater.inflate(R.layout.application, this, false);
+            (BubbleTextView) mInflater.inflate(R.layout.v_application, this, false);
         textView.setCompoundDrawables(null,
                 Utilities.createIconDrawable(item.getIcon(mIconCache)), null, null);
         textView.setText(item.title);
@@ -1188,7 +1188,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             // Move the item from the folder to the workspace, in the position of the folder
             if (getItemCount() == 1) {
                 ShortcutInfo finalItem = mInfo.contents.get(0);
-                child = mLauncher.createShortcut(R.layout.application, cellLayout,
+                child = mLauncher.createShortcut(R.layout.v_application, cellLayout,
                         finalItem);
                 LauncherModel.addOrMoveItemInDatabase(mLauncher, finalItem, mInfo.container,
                         mInfo.screenId, mInfo.cellX, mInfo.cellY);

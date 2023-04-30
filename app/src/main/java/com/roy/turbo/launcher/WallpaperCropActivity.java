@@ -82,7 +82,7 @@ public class WallpaperCropActivity extends Activity {
         // Action bar
         // Show the custom action bar view
         final ActionBar actionBar = getActionBar();
-        actionBar.setCustomView(R.layout.actionbar_set_wallpaper);
+        actionBar.setCustomView(R.layout.v_actionbar_set_wallpaper);
         actionBar.getCustomView().setOnClickListener(v -> {
             boolean finishActivityWhenDone = true;
             cropImageAndSetWallpaper(imageUri, null, finishActivityWhenDone);

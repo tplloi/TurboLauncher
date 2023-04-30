@@ -991,7 +991,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         boolean hideIconLabels = SettingsProvider.getBoolean(mLauncher, SettingsProvider.SETTINGS_UI_DRAWER_HIDE_ICON_LABELS, R.bool.preferences_interface_drawer_hide_icon_labels_default);
         for (int i = startIndex; i < endIndex; ++i) {
             AppInfo info = mFilteredApps.get(i);
-            PagedViewIcon icon = (PagedViewIcon) mLayoutInflater.inflate(R.layout.apps_customize_application, layout, false);
+            PagedViewIcon icon = (PagedViewIcon) mLayoutInflater.inflate(R.layout.v_apps_customize_application, layout, false);
             icon.applyFromApplicationInfo(info, true, this);
             icon.setTextVisibility(!hideIconLabels);
             icon.setOnClickListener(this);
@@ -1147,7 +1147,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         for (int i = 0; i < items.size(); ++i) {
             Object rawInfo = items.get(i);
             PendingAddItemInfo createItemInfo;
-            PagedViewWidget widget = (PagedViewWidget) mLayoutInflater.inflate(R.layout.apps_customize_widget, layout, false);
+            PagedViewWidget widget = (PagedViewWidget) mLayoutInflater.inflate(R.layout.v_apps_customize_widget, layout, false);
             if (rawInfo instanceof AppWidgetProviderInfo) {
                 // Fill in the widget information
                 AppWidgetProviderInfo info = (AppWidgetProviderInfo) rawInfo;

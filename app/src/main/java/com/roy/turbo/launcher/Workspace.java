@@ -2771,7 +2771,7 @@ public class Workspace extends SmoothPagedView
 
     void addApplicationShortcut(ShortcutInfo info, CellLayout target, long container, long screenId,
             int cellX, int cellY, boolean insertAtFirst, int intersectX, int intersectY) {
-        View view = mLauncher.createShortcut(R.layout.application, target, (ShortcutInfo) info);
+        View view = mLauncher.createShortcut(R.layout.v_application, target, (ShortcutInfo) info);
 
         final int[] cellXY = new int[2];
         target.findCellForSpanThatIntersects(cellXY, 1, 1, intersectX, intersectY);
@@ -3942,11 +3942,11 @@ public class Workspace extends SmoothPagedView
                     // Came from all apps -- make a copy
                     info = new ShortcutInfo((AppInfo) info);
                 }
-                view = mLauncher.createShortcut(R.layout.application, cellLayout,
+                view = mLauncher.createShortcut(R.layout.v_application, cellLayout,
                         (ShortcutInfo) info);
                 break;
             case LauncherSettings.Favorites.ITEM_TYPE_FOLDER:
-                view = FolderIcon.fromXml(R.layout.folder_icon, mLauncher, cellLayout,
+                view = FolderIcon.fromXml(R.layout.v_folder_icon, mLauncher, cellLayout,
                         (FolderInfo) info, mIconCache);
                     ((FolderIcon) view).setTextVisible(!mHideIconLabels);
                 break;

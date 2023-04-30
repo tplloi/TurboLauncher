@@ -1482,7 +1482,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * @return A View inflated from R.layout.application.
      */
     View createShortcut(ShortcutInfo info) {
-        return createShortcut(R.layout.application,
+        return createShortcut(R.layout.v_application,
                 (ViewGroup) mWorkspace.getChildAt(mWorkspace.getCurrentPage()),
                 info);
     }
@@ -2444,7 +2444,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         sFolders.put(folderInfo.id, folderInfo);
 
         // Create the view
-        FolderIcon newFolder = FolderIcon.fromXml(R.layout.folder_icon, this,
+        FolderIcon newFolder = FolderIcon.fromXml(R.layout.v_folder_icon, this,
                 layout, folderInfo, mIconCache);
         if (container == LauncherSettings.Favorites.CONTAINER_DESKTOP) {
             newFolder.setTextVisible(!mHideIconLabels);
@@ -4084,7 +4084,7 @@ public class Launcher extends Activity implements View.OnClickListener,
                     }
                     break;
                 case LauncherSettings.Favorites.ITEM_TYPE_FOLDER:
-                    FolderIcon newFolder = FolderIcon.fromXml(R.layout.folder_icon,
+                    FolderIcon newFolder = FolderIcon.fromXml(R.layout.v_folder_icon,
                             this, (ViewGroup) workspace.getChildAt(workspace
                                     .getCurrentPage()), (FolderInfo) item,
                             mIconCache);

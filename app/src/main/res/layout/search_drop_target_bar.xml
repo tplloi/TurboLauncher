@@ -28,6 +28,6 @@
         android:layout_gravity="center">
 
         <include
-            layout="@layout/drop_target_bar" />
+            layout="@layout/v_drop_target_bar" />
     </LinearLayout>
 </com.roy.turbo.launcher.SearchDropTargetBar>

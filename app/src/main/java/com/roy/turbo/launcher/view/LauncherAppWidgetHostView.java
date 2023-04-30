@@ -32,7 +32,7 @@ public class LauncherAppWidgetHostView extends AppWidgetHostView implements Touc
 
     @Override
     protected View getErrorView() {
-        return mInflater.inflate(R.layout.appwidget_error, this, false);
+        return mInflater.inflate(R.layout.v_appwidget_error, this, false);
     }
 
     @Override

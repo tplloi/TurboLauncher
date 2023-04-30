@@ -142,7 +142,7 @@ public class Hotseat extends FrameLayout {
             fi.title = "More Apps";
             LauncherModel.addItemToDatabase(launcher, fi, fi.container, fi.screenId, fi.cellX,
                     fi.cellY, false);
-            FolderIcon folder = FolderIcon.fromXml(R.layout.folder_icon, launcher,
+            FolderIcon folder = FolderIcon.fromXml(R.layout.v_folder_icon, launcher,
                     getLayout(), fi, iconCache);
             workspace.addInScreen(folder, fi.container, fi.screenId, fi.cellX, fi.cellY,
                     fi.spanX, fi.spanY);
