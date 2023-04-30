@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.roy.turbo.launcher;
 
 import android.content.BroadcastReceiver;
@@ -21,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Stats {
@@ -66,9 +53,9 @@ public class Stats {
                 mLog.writeInt(LOG_TAG_VERSION);
                 mLog.writeInt(LOG_VERSION);
             } catch (FileNotFoundException e) {
-               
+                e.printStackTrace();
             } catch (IOException e) {
-                
+                e.printStackTrace();
             }
         }
 
@@ -175,31 +162,32 @@ public class Stats {
             }
             stats.close();
             stats = null;
-            mLauncher.getFileStreamPath(STATS_FILE_NAME + ".tmp")
-                     .renameTo(mLauncher.getFileStreamPath(STATS_FILE_NAME));
+            mLauncher.getFileStreamPath(STATS_FILE_NAME + ".tmp").renameTo(mLauncher.getFileStreamPath(STATS_FILE_NAME));
         } catch (FileNotFoundException e) {
-           
+            e.printStackTrace();
         } catch (IOException e) {
-           
+            e.printStackTrace();
         } finally {
             if (stats != null) {
                 try {
                     stats.close();
-                } catch (IOException e) { }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     private void loadStats() {
-        mIntents = new ArrayList<String>(INITIAL_STATS_SIZE);
-        mHistogram = new ArrayList<Integer>(INITIAL_STATS_SIZE);
+        mIntents = new ArrayList<>(INITIAL_STATS_SIZE);
+        mHistogram = new ArrayList<>(INITIAL_STATS_SIZE);
         DataInputStream stats = null;
         try {
             stats = new DataInputStream(mLauncher.openFileInput(STATS_FILE_NAME));
             final int version = stats.readInt();
             if (version == STATS_VERSION) {
                 final int N = stats.readInt();
-                for (int i=0; i<N; i++) {
+                for (int i = 0; i < N; i++) {
                     final String pkg = stats.readUTF();
                     final int count = stats.readInt();
                     mIntents.add(pkg);
@@ -207,14 +195,16 @@ public class Stats {
                 }
             }
         } catch (FileNotFoundException e) {
-           
+            e.printStackTrace();
         } catch (IOException e) {
-            
+            e.printStackTrace();
         } finally {
             if (stats != null) {
                 try {
                     stats.close();
-                } catch (IOException e) { }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
