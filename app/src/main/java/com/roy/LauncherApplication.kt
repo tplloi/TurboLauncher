@@ -9,7 +9,6 @@ import com.roy.turbo.launcher.LauncherAppState
 //TODO save position of drawer
 
 //TODO policy
-//TODO leak canary
 
 //done
 //ic_launcher
@@ -18,6 +17,7 @@ import com.roy.turbo.launcher.LauncherAppState
 //rename app
 //auto select home
 //rate, more app, share app
+//leak canary
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
