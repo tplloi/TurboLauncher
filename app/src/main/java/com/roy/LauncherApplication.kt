@@ -8,10 +8,10 @@ import com.roy.turbo.launcher.LauncherAppState
 //TODO rate, more app, share app
 //TODO policy
 //TODO keystore
-//TODO proguard
 
 //done
-//TODO ic_launcher
+//ic_launcher
+//proguard
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
