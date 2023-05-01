@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:contentDescription="@string/application_name"
+            android:contentDescription="@string/app_name"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_home_search_normal_holo" />
     </com.roy.turbo.launcher.view.HolographicLinearLayout>
@@ -52,7 +52,7 @@
 
         <ImageView
             android:id="@+id/ivVoiceButton"
-            android:contentDescription="@string/application_name"
+            android:contentDescription="@string/app_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"

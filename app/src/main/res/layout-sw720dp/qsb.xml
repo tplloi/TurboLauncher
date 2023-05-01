@@ -25,7 +25,7 @@
 
         <ImageView
             android:id="@+id/ivSearchButton"
-            android:contentDescription="@string/application_name"
+            android:contentDescription="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
@@ -53,7 +53,7 @@
 
         <ImageView
             android:id="@+id/ivVoiceButton"
-            android:contentDescription="@string/application_name"
+            android:contentDescription="@string/app_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"

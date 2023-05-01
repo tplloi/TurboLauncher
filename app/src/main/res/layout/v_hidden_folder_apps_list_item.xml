@@ -15,7 +15,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/application_name" />
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/tvTitle"

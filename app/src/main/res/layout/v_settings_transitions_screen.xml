@@ -19,7 +19,7 @@
         android:focusable="true">
 
         <ImageView
-            android:contentDescription="@string/application_name"
+            android:contentDescription="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <ImageView
-        android:contentDescription="@string/application_name"
+        android:contentDescription="@string/app_name"
         android:id="@+id/ivSettingsTransitionImage"
         android:layout_width="150dp"
         android:layout_height="150dp"

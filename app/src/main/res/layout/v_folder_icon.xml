@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:antialias="true"
-        android:contentDescription="@string/application_name"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/portal_ring_inner_holo" />
     <com.roy.turbo.launcher.view.BubbleTextView
         style="@style/WorkspaceIcon"

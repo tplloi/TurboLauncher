@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/ivWallpaper"
-        android:contentDescription="@string/application_name"
+        android:contentDescription="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -20,7 +20,7 @@
         android:id="@+id/ivWallpaperIcon"
         android:layout_width="@dimen/wallpaperItemIconSize"
         android:layout_height="@dimen/wallpaperItemIconSize"
-        android:contentDescription="@string/application_name"
+        android:contentDescription="@string/app_name"
         android:layout_gravity="center"
         android:visibility="gone" />
 

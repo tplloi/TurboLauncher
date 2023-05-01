@@ -8,6 +8,7 @@ import com.roy.turbo.launcher.LauncherAppState
 //TODO rate, more app, share app
 //TODO policy
 //TODO keystore
+//TODO rename app
 
 //done
 //ic_launcher

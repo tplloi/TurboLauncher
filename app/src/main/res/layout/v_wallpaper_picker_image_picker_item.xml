@@ -8,7 +8,7 @@
     android:foreground="@drawable/selector_wallpaper_tile_fg">
 
     <ImageView
-        android:contentDescription="@string/application_name"
+        android:contentDescription="@string/app_name"
         android:id="@+id/ivWallpaper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

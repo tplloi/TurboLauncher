@@ -32,7 +32,7 @@
             android:paddingBottom="@dimen/folder_name_padding"
             android:paddingTop="@dimen/folder_name_padding"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/application_name"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/folder_unlock" />
 
         <com.roy.turbo.launcher.view.FolderEditText

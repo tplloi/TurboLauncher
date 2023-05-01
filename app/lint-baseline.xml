@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.0.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.0.0)" variant="fatal" version="8.0.0">
+
+    <issue
+        id="ManifestResource"
+        message="Resources referenced from the manifest cannot vary by configuration (except for version qualifiers, e.g. `-v21`). Found variation in sw720dp-v13"
+        errorLine1="        android:largeHeap=&quot;@bool/config_largeHeap&quot;"
+        errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="99"
+            column="28"/>
+        <location
+            file="src/main/res/values-sw720dp/config.xml"
+            line="2"
+            column="35"
+            message="This value will not be used"/>
+    </issue>
+
+    <issue
+        id="MissingDefaultResource"
+        message="The integer &quot;apps_customize_widget_cell_count_x&quot; in values-port has no declaration in the base `values` folder; this can lead to crashes when the resource is queried in a configuration that does not match this qualifier"
+        errorLine1="    &lt;integer name=&quot;apps_customize_widget_cell_count_x&quot;>2&lt;/integer>"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-port/dimens.xml"
+            line="4"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="MissingDefaultResource"
+        message="The integer &quot;apps_customize_widget_cell_count_x&quot; in values-sw720dp-land has no declaration in the base `values` folder; this can lead to crashes when the resource is queried in a configuration that does not match this qualifier"
+        errorLine1="    &lt;integer name=&quot;apps_customize_widget_cell_count_x&quot;>4&lt;/integer>"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-sw720dp-land/dimens.xml"
+            line="5"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="MissingDefaultResource"
+        message="The integer &quot;apps_customize_widget_cell_count_y&quot; in values-port has no declaration in the base `values` folder; this can lead to crashes when the resource is queried in a configuration that does not match this qualifier"
+        errorLine1="    &lt;integer name=&quot;apps_customize_widget_cell_count_y&quot;>3&lt;/integer>"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-port/dimens.xml"
+            line="5"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="MissingDefaultResource"
+        message="The dimen &quot;overview_panel_list_padding&quot; in values-sw320dp has no declaration in the base `values` folder; this can lead to crashes when the resource is queried in a configuration that does not match this qualifier"
+        errorLine1="    &lt;dimen name=&quot;overview_panel_list_padding&quot;>16dp&lt;/dimen>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-sw320dp/dimens.xml"
+            line="6"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="MissingDefaultResource"
+        message="The integer &quot;apps_customize_widget_cell_count_y&quot; in values-sw720dp-land has no declaration in the base `values` folder; this can lead to crashes when the resource is queried in a configuration that does not match this qualifier"
+        errorLine1="    &lt;integer name=&quot;apps_customize_widget_cell_count_y&quot;>2&lt;/integer>"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-sw720dp-land/dimens.xml"
+            line="6"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="MissingDefaultResource"
+        message="The integer &quot;apps_customize_widget_cell_count_x&quot; in values-land has no declaration in the base `values` folder; this can lead to crashes when the resource is queried in a configuration that does not match this qualifier"
+        errorLine1="    &lt;integer name=&quot;apps_customize_widget_cell_count_x&quot;>3&lt;/integer>"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-land/dimens.xml"
+            line="8"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="MissingDefaultResource"
+        message="The integer &quot;apps_customize_widget_cell_count_y&quot; in values-land has no declaration in the base `values` folder; this can lead to crashes when the resource is queried in a configuration that does not match this qualifier"
+        errorLine1="    &lt;integer name=&quot;apps_customize_widget_cell_count_y&quot;>2&lt;/integer>"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-land/dimens.xml"
+            line="9"
+            column="14"/>
+    </issue>
+
+</issues>

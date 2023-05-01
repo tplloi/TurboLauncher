@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/ivDefaultScreenButton"
             android:layout_width="0dp"
-            android:contentDescription="@string/application_name"
+            android:contentDescription="@string/app_name"
             android:layout_height="@dimen/app_icon_size"
             android:layout_weight="1"
             android:gravity="top"

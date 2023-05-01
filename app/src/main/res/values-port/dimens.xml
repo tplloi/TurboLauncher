@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- AppsCustomize -->
-    <integer name="apps_customize_widget_cell_count_x">2</integer>
-    <integer name="apps_customize_widget_cell_count_y">3</integer>
+    <integer name="apps_customize_widget_cell_count_x" tools:ignore="MissingDefaultResource">2</integer>
+    <integer name="apps_customize_widget_cell_count_y" tools:ignore="MissingDefaultResource">3</integer>
 </resources>
