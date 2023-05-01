@@ -2,6 +2,7 @@ package com.roy.ext
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Application
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -18,8 +19,24 @@ import android.provider.Telephony
 import android.view.*
 import com.roy.turbo.launcher.R
 
+fun isDefaultLauncher(application: Application): Boolean {
+    val intent = Intent(Intent.ACTION_MAIN)
+    intent.addCategory(Intent.CATEGORY_HOME)
+    val res = application.packageManager.resolveActivity(intent, 0)
+    return if (res?.activityInfo == null) {
+        false
+    } else if ("android" == res.activityInfo.packageName) {
+        false
+    } else {
+        res.activityInfo.packageName == application.packageName
+    }
+}
+
 //mo hop thoai de select launcher default
 fun Activity.chooseLauncher(cls: Class<*>) {
+    if (this.application.isDefaultLauncher()) {
+        return
+    }
     val componentName = ComponentName(this, cls)
     this.packageManager.setComponentEnabledSetting(
         /* p0 = */ componentName,
