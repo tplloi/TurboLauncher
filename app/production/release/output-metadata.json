@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.roy93group.turbolauncher",
+  "variantName": "productionRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 20232304,
+      "versionName": "2023.23.04",
+      "outputFile": "com.roy93group.turbolauncherrelease_2023.23.04_20232304.apk"
+    }
+  ],
+  "elementType": "File"
+}
