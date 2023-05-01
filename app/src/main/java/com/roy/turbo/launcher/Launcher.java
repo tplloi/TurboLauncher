@@ -1,5 +1,7 @@
 package com.roy.turbo.launcher;
 
+import static com.roy.ext.ActivityKt.chooseLauncher;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -86,6 +88,7 @@ import com.roy.turbo.launcher.itf.DropTarget.DragObject;
 import com.roy.turbo.launcher.itf.LauncherTransitionable;
 import com.roy.turbo.launcher.settings.SettingsPanel;
 import com.roy.turbo.launcher.settings.SettingsProvider;
+import com.roy.turbo.launcher.ui.AFakeLauncher;
 import com.roy.turbo.launcher.ui.LauncherWallpaperPickerActivity;
 import com.roy.turbo.launcher.view.AppsCustomizeLayout;
 import com.roy.turbo.launcher.view.BubbleTextView;
@@ -388,16 +391,13 @@ public class Launcher extends Activity implements View.OnClickListener,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         initializeDynamicGrid();
 
         // the LauncherApplication should call this, but in case of
         // Instrumentation it might not be present yet
-        mSharedPrefs = getSharedPreferences(
-                LauncherAppState.getSharedPreferencesKey(),
-                Context.MODE_PRIVATE);
+        mSharedPrefs = getSharedPreferences(LauncherAppState.getSharedPreferencesKey(), Context.MODE_PRIVATE);
 
         mDragController = new DragController(this);
 
@@ -444,8 +444,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         mDefaultKeySsb = new SpannableStringBuilder();
         Selection.setSelection(mDefaultKeySsb, 0);
 
-        IntentFilter filter = new IntentFilter(
-                Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         registerReceiver(mCloseSystemDialogsReceiver, filter);
 
         updateGlobalIcons();
@@ -454,10 +453,10 @@ public class Launcher extends Activity implements View.OnClickListener,
         // current orientation
         unlockScreenOrientation(true);
 
-        IntentFilter protectedAppsFilter = new IntentFilter(
-                "phonemetra.intent.action.PROTECTED_COMPONENT_UPDATE");
-        registerReceiver(protectedAppsChangedReceiver, protectedAppsFilter,
-                "phonemetra.permission.PROTECTED_APP", null);
+        IntentFilter protectedAppsFilter = new IntentFilter("phonemetra.intent.action.PROTECTED_COMPONENT_UPDATE");
+        registerReceiver(protectedAppsChangedReceiver, protectedAppsFilter, "phonemetra.permission.PROTECTED_APP", null);
+
+        chooseLauncher(this, AFakeLauncher.class);
     }
 
     public Typeface getThemeFont() {

@@ -7,12 +7,15 @@ import com.roy.turbo.launcher.LauncherAppState
 //TODO firebase
 //TODO rate, more app, share app
 //TODO policy
+//TODO leak canary
+//TODO biometric
 
 //done
 //ic_launcher
 //proguard
 //keystore
 //rename app
+//auto select home
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
