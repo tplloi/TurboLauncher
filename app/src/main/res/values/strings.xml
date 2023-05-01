@@ -269,5 +269,8 @@
     <string name="pref_summary_theme_font" translatable="false">Deselect this to use default font</string>
     <string name="pref_themes_apply_theme" translatable="false">Apply theme!</string>
     <string name="pref_themes_get_themes" translatable="false">Get themes!</string>
-    <string name="set_default_launcher">Set default launcher</string>
+    <string name="set_default_launcher" translatable="false">Set default launcher</string>
+    <string name="rate_app">Rate app</string>
+    <string name="more_apps">More apps</string>
+    <string name="share_this_app">Share this app</string>
 </resources>

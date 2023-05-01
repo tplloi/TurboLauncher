@@ -4,11 +4,12 @@ import android.app.Application
 import com.roy.turbo.launcher.LauncherAppState
 
 //TODO ad
+//TODO biometric
 //TODO firebase
-//TODO rate, more app, share app
+//TODO save position of drawer
+
 //TODO policy
 //TODO leak canary
-//TODO biometric
 
 //done
 //ic_launcher
@@ -16,6 +17,7 @@ import com.roy.turbo.launcher.LauncherAppState
 //keystore
 //rename app
 //auto select home
+//rate, more app, share app
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()

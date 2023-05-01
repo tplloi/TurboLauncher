@@ -22,6 +22,7 @@ import android.preference.PreferenceActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.roy.ext.ActivityKt;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.ui.AFakeLauncher;
 
@@ -190,6 +191,18 @@ public class ThemeSettingsActivity  extends PreferenceActivity implements OnPref
 		} else {
 			chooseLauncher(this, AFakeLauncher.class);
 		}
+	}
+
+	public void rateApp(View v) {
+		ActivityKt.rateApp(this, getPackageName());
+	}
+
+	public void moreApp(View v) {
+		ActivityKt.moreApp(this, "Roy93Group");
+	}
+
+	public void shareApp(View v) {
+		ActivityKt.shareApp(this);
 	}
 
 	@Override

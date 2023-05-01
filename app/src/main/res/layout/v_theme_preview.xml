@@ -1,46 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:padding="16dp"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
-	<TextView
-		android:id="@+id/ThemeTitle"
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceLarge" />
+		tools:ignore="UselessParent">
 
-	<TextView
-		android:id="@+id/ThemeDescription"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceSmall" />
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:padding="16dp">
 
-	<ImageView
-		android:id="@+id/ivThemeIcon"
-		android:contentDescription="@string/app_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:src="@drawable/ic_theme" />
+			<TextView
+				android:id="@+id/ThemeTitle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceLarge" />
 
-	<Button
-		android:id="@+id/btThemeApply"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="16dp"
-		android:onClick="applyTheme"
-		android:text="@string/pref_themes_apply_theme" />
+			<TextView
+				android:id="@+id/ThemeDescription"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceSmall" />
 
-	<Button
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:onClick="getThemes"
-		android:text="@string/pref_themes_get_themes" />
+			<ImageView
+				android:id="@+id/ivThemeIcon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:contentDescription="@string/app_name"
+				android:src="@drawable/ic_theme" />
 
-	<Button
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:onClick="setDefaultLauncher"
-		android:text="@string/set_default_launcher" />
+			<Button
+				android:id="@+id/btThemeApply"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="16dp"
+				android:onClick="applyTheme"
+				android:text="@string/pref_themes_apply_theme" />
+
+			<Button
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="getThemes"
+				android:text="@string/pref_themes_get_themes" />
+
+			<Button
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="setDefaultLauncher"
+				android:text="@string/set_default_launcher" />
+
+			<Button
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="rateApp"
+				android:text="@string/rate_app" />
+
+			<Button
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="moreApp"
+				android:text="@string/more_apps" />
+
+			<Button
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="shareApp"
+				android:text="@string/share_this_app" />
+		</LinearLayout>
+	</ScrollView>
+
 </LinearLayout>
