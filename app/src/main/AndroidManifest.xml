@@ -64,7 +64,6 @@
     <permission
         android:name="com.roy.turbo.launcher.permission.RECEIVE_LAUNCH_BROADCASTS"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />

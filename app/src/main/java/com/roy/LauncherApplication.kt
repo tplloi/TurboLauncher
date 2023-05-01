@@ -3,6 +3,7 @@ package com.roy
 import android.app.Application
 import com.roy.turbo.launcher.LauncherAppState
 
+// https://github.com/tplloi/TurboLauncher
 //TODO ad
 //TODO biometric
 //TODO firebase
