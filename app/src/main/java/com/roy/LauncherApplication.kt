@@ -7,12 +7,12 @@ import com.roy.turbo.launcher.LauncherAppState
 //TODO firebase
 //TODO rate, more app, share app
 //TODO policy
-//TODO keystore
-//TODO rename app
 
 //done
 //ic_launcher
 //proguard
+//keystore
+//rename app
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
