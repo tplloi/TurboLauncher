@@ -3,13 +3,15 @@ package com.roy
 import android.app.Application
 import com.roy.turbo.launcher.LauncherAppState
 
-//TODO ic_launcher
 //TODO ad
 //TODO firebase
 //TODO rate, more app, share app
 //TODO policy
 //TODO keystore
 //TODO proguard
+
+//done
+//TODO ic_launcher
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
