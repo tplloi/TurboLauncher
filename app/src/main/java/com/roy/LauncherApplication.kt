@@ -17,7 +17,7 @@ import com.roy.turbo.launcher.LauncherAppState
 //rename app
 //auto select home
 //rate, more app, share app
-//leak canary
+//leak canary //failed
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
