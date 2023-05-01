@@ -8,6 +8,8 @@ import com.roy.turbo.launcher.LauncherAppState
 //TODO firebase
 //TODO rate, more app, share app
 //TODO policy
+//TODO keystore
+//TODO proguard
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
