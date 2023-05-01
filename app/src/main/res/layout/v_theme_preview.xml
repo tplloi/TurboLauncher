@@ -72,6 +72,12 @@
 				android:layout_height="wrap_content"
 				android:onClick="shareApp"
 				android:text="@string/share_this_app" />
+
+			<Button
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="policyApp"
+				android:text="@string/policy" />
 		</LinearLayout>
 	</ScrollView>
 

@@ -270,7 +270,8 @@
     <string name="pref_themes_apply_theme" translatable="false">Apply theme!</string>
     <string name="pref_themes_get_themes" translatable="false">Get themes!</string>
     <string name="set_default_launcher" translatable="false">Set default launcher</string>
-    <string name="rate_app">Rate app</string>
-    <string name="more_apps">More apps</string>
-    <string name="share_this_app">Share this app</string>
+    <string name="rate_app" translatable="false">Rate app</string>
+    <string name="more_apps" translatable="false">More apps</string>
+    <string name="share_this_app" translatable="false">Share this app</string>
+    <string name="policy">Policy</string>
 </resources>

@@ -8,8 +8,6 @@ import com.roy.turbo.launcher.LauncherAppState
 //TODO firebase
 //TODO save position of drawer
 
-//TODO policy
-
 //done
 //ic_launcher
 //proguard
@@ -18,6 +16,7 @@ import com.roy.turbo.launcher.LauncherAppState
 //auto select home
 //rate, more app, share app
 //leak canary //failed
+//policy
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()

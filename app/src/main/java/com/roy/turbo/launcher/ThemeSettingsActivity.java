@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.roy.ext.ActivityKt;
+import com.roy.ext.ContextKt;
 import com.roy.turbo.launcher.settings.SettingsProvider;
 import com.roy.turbo.launcher.ui.AFakeLauncher;
 
@@ -203,6 +204,10 @@ public class ThemeSettingsActivity  extends PreferenceActivity implements OnPref
 
 	public void shareApp(View v) {
 		ActivityKt.shareApp(this);
+	}
+
+	public void policyApp(View v) {
+		ContextKt.openBrowserPolicy(this);
 	}
 
 	@Override
