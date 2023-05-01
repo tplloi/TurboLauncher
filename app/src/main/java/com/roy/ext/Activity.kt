@@ -17,6 +17,7 @@ import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.Telephony
 import android.view.*
+import android.widget.Toast
 import com.roy.turbo.launcher.R
 
 fun isDefaultLauncher(application: Application): Boolean {

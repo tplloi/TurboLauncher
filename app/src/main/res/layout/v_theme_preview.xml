@@ -37,4 +37,10 @@
 		android:layout_height="wrap_content"
 		android:onClick="getThemes"
 		android:text="@string/pref_themes_get_themes" />
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="setDefaultLauncher"
+		android:text="@string/set_default_launcher" />
 </LinearLayout>

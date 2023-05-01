@@ -1,5 +1,9 @@
 package com.roy.turbo.launcher;
 
+import static com.roy.ext.ActivityKt.chooseLauncher;
+import static com.roy.ext.ActivityKt.searchIconPack;
+import static com.roy.ext.ContextKt.isDefaultLauncher;
+
 import android.app.WallpaperManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,15 +14,16 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.roy.turbo.launcher.settings.SettingsProvider;
+import com.roy.turbo.launcher.ui.AFakeLauncher;
 
 import java.util.List;
 
@@ -168,16 +173,25 @@ public class ThemeSettingsActivity  extends PreferenceActivity implements OnPref
 	}
 	
 	public void getThemes(View v) {
-		Uri marketUri = Uri.parse("market://search?q=Turbo Launcher Theme");
-		Intent marketIntent = new Intent(Intent.ACTION_VIEW).setData(marketUri);
-		try {
-			startActivity(marketIntent);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		searchIconPack(this);
+//		Uri marketUri = Uri.parse("market://search?q=Turbo Launcher Theme");
+//		Intent marketIntent = new Intent(Intent.ACTION_VIEW).setData(marketUri);
+//		try {
+//			startActivity(marketIntent);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		finish();
 	}
-	
+
+	public void setDefaultLauncher(View v) {
+		if (isDefaultLauncher(this)) {
+			Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show();
+		} else {
+			chooseLauncher(this, AFakeLauncher.class);
+		}
+	}
+
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 		if (preference.getKey().equals("themePackageName")) {
