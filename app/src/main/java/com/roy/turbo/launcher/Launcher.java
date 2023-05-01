@@ -456,7 +456,8 @@ public class Launcher extends Activity implements View.OnClickListener,
         IntentFilter protectedAppsFilter = new IntentFilter("phonemetra.intent.action.PROTECTED_COMPONENT_UPDATE");
         registerReceiver(protectedAppsChangedReceiver, protectedAppsFilter, "phonemetra.permission.PROTECTED_APP", null);
 
-        chooseLauncher(this, AFakeLauncher.class);
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> chooseLauncher(Launcher.this, AFakeLauncher.class), 3000);
     }
 
     public Typeface getThemeFont() {
