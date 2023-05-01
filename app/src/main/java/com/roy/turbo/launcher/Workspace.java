@@ -2611,13 +2611,17 @@ public class Workspace extends SmoothPagedView
                 clipRect.bottom = tv.getExtendedPaddingTop() - tv.getCompoundDrawablePadding() +
                         tv.getLayout().getLineTop(0);
             }
-            destCanvas.translate(-v.getScrollX() + padding / 2, -v.getScrollY() + padding / 2);
-            destCanvas.clipRect(clipRect, Op.REPLACE);
-            v.draw(destCanvas);
+            try {
+                destCanvas.translate(-v.getScrollX() + padding / 2, -v.getScrollY() + padding / 2);
+                destCanvas.clipRect(clipRect, Op.REPLACE);
+                v.draw(destCanvas);
 
-            // Restore text visibility of FolderIcon if necessary
-            if (textVisible) {
-                ((FolderIcon) v).setTextVisible(true);
+                // Restore text visibility of FolderIcon if necessary
+                if (textVisible) {
+                    ((FolderIcon) v).setTextVisible(true);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         destCanvas.restore();
