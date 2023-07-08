@@ -8,8 +8,8 @@ android {
         applicationId "com.roy93group.turbolauncher"
         minSdkVersion 19
         targetSdkVersion 33
-        versionCode 20232304
-        versionName "2023.23.04"
+        versionCode 20232708
+        versionName "2023.07.08"
     }
 
     signingConfigs {
