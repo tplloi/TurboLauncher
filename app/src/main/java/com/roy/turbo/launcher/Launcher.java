@@ -2,6 +2,8 @@ package com.roy.turbo.launcher;
 
 import static com.roy.ext.ActivityKt.chooseLauncher;
 
+import static java.lang.Long.min;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -78,6 +80,10 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.applovin.mediation.MaxAd;
+import com.applovin.mediation.MaxAdListener;
+import com.applovin.mediation.MaxError;
+import com.applovin.mediation.ads.MaxInterstitialAd;
 import com.roy.turbo.launcher.PagedView.TransitionEffect;
 import com.roy.turbo.launcher.helper.FirstFrameAnimatorHelper;
 import com.roy.turbo.launcher.helper.LauncherAnimUtils;
@@ -105,6 +111,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Launcher extends Activity implements View.OnClickListener,
@@ -421,6 +429,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         registerContentObservers();
 
         lockAllApps();
+        createAdInter();
 
         mSavedState = savedInstanceState;
         restoreState(mSavedState);
@@ -1083,11 +1092,69 @@ public class Launcher extends Activity implements View.OnClickListener,
         void onScrollProgressChanged(float progress);
     }
 
+    private MaxInterstitialAd interstitialAd;
+    private int retryAttempt = 0;
+
+    private void createAdInter() {
+        boolean enableAdInter = Objects.equals(getString(R.string.EnableAdInter), "true");
+        if (enableAdInter) {
+            interstitialAd = new MaxInterstitialAd(getString(R.string.INTER), this);
+            interstitialAd.setListener(new MaxAdListener() {
+                @Override
+                public void onAdLoaded(MaxAd maxAd) {
+                    retryAttempt = 0;
+                }
+
+                @Override
+                public void onAdDisplayed(MaxAd maxAd) {
+
+                }
+
+                @Override
+                public void onAdHidden(MaxAd maxAd) {
+                    if (interstitialAd != null) {
+                        interstitialAd.loadAd();
+                    }
+                }
+
+                @Override
+                public void onAdClicked(MaxAd maxAd) {
+
+                }
+
+                @Override
+                public void onAdLoadFailed(String s, MaxError maxError) {
+                    retryAttempt++;
+                    long delayMillis = 3000;
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> interstitialAd.loadAd(), delayMillis);
+                }
+
+                @Override
+                public void onAdDisplayFailed(MaxAd maxAd, MaxError maxError) {
+                    interstitialAd.loadAd();
+                }
+            });
+            interstitialAd.loadAd();
+        }
+    }
+
+    private void showAd() {
+        boolean enableAdInter = Objects.equals(getString(R.string.EnableAdInter), "true");
+        if (enableAdInter) {
+            if (interstitialAd != null) {
+                if (interstitialAd.isReady()) {
+                    interstitialAd.showAd();
+                }
+            }
+        }
+    }
+
     public void startThemeSettings() {
         // Intent settings = new
         // Intent().setClassName(OverviewSettingsPanel.ANDROID_SETTINGS,
         // OverviewSettingsPanel.THEME_SETTINGS);
         // startActivity(settings);
+        showAd();
 
         Intent themeSettings = new Intent();
         themeSettings.setClass(Launcher.this, ThemeSettingsActivity.class);
@@ -1517,8 +1584,8 @@ public class Launcher extends Activity implements View.OnClickListener,
     /**
      * Add an application shortcut to the workspace.
      *
-     * @param data     The intent describing the application.
-     * cellInfo The position on screen where to create the shortcut.
+     * @param data The intent describing the application.
+     *             cellInfo The position on screen where to create the shortcut.
      */
     void completeAddApplication(Intent data, long container, long screenId,
                                 int cellX, int cellY) {
@@ -1552,8 +1619,8 @@ public class Launcher extends Activity implements View.OnClickListener,
     /**
      * Add a shortcut to the workspace.
      *
-     * @param data     The intent describing the shortcut.
-     * cellInfo The position on screen where to create the shortcut.
+     * @param data The intent describing the shortcut.
+     *             cellInfo The position on screen where to create the shortcut.
      */
     private void completeAddShortcut(Intent data, long container,
                                      long screenId, int cellX, int cellY) {
@@ -1647,7 +1714,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * Add a widget to the workspace.
      *
      * @param appWidgetId The app widget id
-     * cellInfo    The position on screen where to create the widget.
+     *                    cellInfo    The position on screen where to create the widget.
      */
     @SuppressLint("StaticFieldLeak")
     private void completeAddAppWidget(final int appWidgetId, long container,
@@ -2352,7 +2419,7 @@ public class Launcher extends Activity implements View.OnClickListener,
      * @param info     The PendingAppWidgetInfo of the widget being added.
      * @param screenId The ID of the screen where it should be added
      * @param cell     The cell it should be added to, optional
-     * position The location on the screen where it was dropped, optional
+     *                 position The location on the screen where it was dropped, optional
      */
     void addAppWidgetFromDrop(PendingAddWidgetInfo info, long container,
                               long screenId, int[] cell, int[] span, int[] loc) {

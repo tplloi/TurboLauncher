@@ -66,18 +66,13 @@ public class ThemeSettingsActivity extends PreferenceActivity implements OnPrefe
         lp.setEntryValues(values);
         ThemePreference themePreview = (ThemePreference) findPreference("themePreview");
         themePreview.setTheme(themePackage);
-        themePreview.setCallBackFlAd(new ThemePreference.CallBackFlAd() {
-            @Override
-            public void onFlReady(FrameLayout flAd) {
-                adView = Applovin.INSTANCE.createAdBanner(
-                        ThemeSettingsActivity.this,
-                        ThemeSettingsActivity.class.getSimpleName(),
-                        Color.TRANSPARENT,
-                        flAd,
-                        true
-                );
-            }
-        });
+        themePreview.setCallBackFlAd(flAd -> adView = Applovin.INSTANCE.createAdBanner(
+                ThemeSettingsActivity.this,
+                ThemeSettingsActivity.class.getSimpleName(),
+                Color.TRANSPARENT,
+                flAd,
+                true
+        ));
     }
 
     public void applyTheme(View v) {
