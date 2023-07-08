@@ -13,7 +13,6 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.widget.AutoScrollHelper;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.Spannable;
@@ -35,6 +34,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.core.widget.AutoScrollHelper;
 
 import com.roy.turbo.launcher.FolderInfo.FolderListener;
 import com.roy.turbo.launcher.helper.FolderAutoScrollHelper;

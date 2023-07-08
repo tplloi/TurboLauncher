@@ -25,7 +25,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Process;
 import android.provider.Settings;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -40,6 +39,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.core.view.ViewCompat;
 
 import com.roy.turbo.launcher.helper.LauncherAnimUtils;
 import com.roy.turbo.launcher.helper.LauncherAnimatorUpdateListener;

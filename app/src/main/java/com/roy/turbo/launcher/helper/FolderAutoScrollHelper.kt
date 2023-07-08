@@ -1,7 +1,7 @@
 package com.roy.turbo.launcher.helper
 
-import android.support.v4.widget.AutoScrollHelper
 import android.widget.ScrollView
+import androidx.core.widget.AutoScrollHelper
 
 /**
  * An implementation of [AutoScrollHelper] that knows how to scroll

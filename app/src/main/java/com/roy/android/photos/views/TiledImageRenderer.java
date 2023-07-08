@@ -4,13 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.v4.util.LongSparseArray;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pools.Pool;
 import android.util.Pools.SynchronizedPool;
 import android.view.View;
 import android.view.WindowManager;
+
+import androidx.collection.LongSparseArray;
 
 import com.roy.android.gallery3d.common.Utils;
 import com.roy.android.gallery3d.glrenderer.BasicTexture;

@@ -4,7 +4,6 @@ import android.app.Application
 import com.roy.turbo.launcher.LauncherAppState
 
 // https://github.com/tplloi/TurboLauncher
-//TODO ad
 //TODO biometric
 //TODO firebase
 //TODO save position of drawer
@@ -18,6 +17,7 @@ import com.roy.turbo.launcher.LauncherAppState
 //rate, more app, share app
 //leak canary //failed
 //policy
+//ad
 class LauncherApplication : Application() {
     override fun onCreate() {
         super.onCreate()

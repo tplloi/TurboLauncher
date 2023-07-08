@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Parcelable;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -46,6 +45,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.TextView;
+
+import androidx.core.view.ViewCompat;
 
 import com.roy.turbo.launcher.FolderIcon.FolderRingAnimator;
 import com.roy.turbo.launcher.Launcher.CustomContentCallbacks;
