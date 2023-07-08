@@ -3568,6 +3568,8 @@ public class Launcher extends Activity implements View.OnClickListener,
     public void showAllApps(boolean animated,
                             AppsCustomizePagedView.ContentType contentType,
                             boolean resetPageToZero) {
+        showAd();
+
         if (mAppsCustomizeContent.isInOverviewMode()) {
             mAppsCustomizeContent.exitOverviewMode(false);
         }
