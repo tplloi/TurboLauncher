@@ -734,16 +734,20 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             ViewGroup parent,
             BaseAdapter adapter,
             boolean addLongPressHandler) {
-        for (int i = 0; i < adapter.getCount(); i++) {
-            FrameLayout thumbnail = (FrameLayout) adapter.getView(i, null, parent);
-            parent.addView(thumbnail, i);
-            WallpaperTileInfo info = (WallpaperTileInfo) adapter.getItem(i);
-            thumbnail.setTag(info);
-            info.setView(thumbnail);
-            if (addLongPressHandler) {
-                addLongPressHandler(thumbnail);
+        try {
+            for (int i = 0; i < adapter.getCount(); i++) {
+                FrameLayout thumbnail = (FrameLayout) adapter.getView(i, null, parent);
+                parent.addView(thumbnail, i);
+                WallpaperTileInfo info = (WallpaperTileInfo) adapter.getItem(i);
+                thumbnail.setTag(info);
+                info.setView(thumbnail);
+                if (addLongPressHandler) {
+                    addLongPressHandler(thumbnail);
+                }
+                thumbnail.setOnClickListener(mThumbnailOnClickListener);
             }
-            thumbnail.setOnClickListener(mThumbnailOnClickListener);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
