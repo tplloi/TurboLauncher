@@ -22,6 +22,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewCompat;
 import androidx.customview.widget.ViewDragHelper;
@@ -310,9 +311,11 @@ public class SlidingUpPanelLayout extends ViewGroup {
         // If the shadow height is zero, don't show the shadow
         if (mShadowHeight > 0) {
             if (mIsSlidingUp) {
-                mShadowDrawable = getResources().getDrawable(R.drawable.shape_above_shadow);
+//                mShadowDrawable = getResources().getDrawable(R.drawable.shape_above_shadow);
+                mShadowDrawable = ContextCompat.getDrawable(context, R.drawable.shape_above_shadow);
             } else {
-                mShadowDrawable = getResources().getDrawable(R.drawable.shape_below_shadow);
+//                mShadowDrawable = getResources().getDrawable(R.drawable.shape_below_shadow);
+                mShadowDrawable = ContextCompat.getDrawable(context, R.drawable.shape_below_shadow);
             }
 
         } else {

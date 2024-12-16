@@ -41,7 +41,7 @@ internal class AppInfo : ItemInfo {
      */
     constructor(
         pm: PackageManager, info: ResolveInfo, iconCache: IconCache,
-        labelCache: HashMap<Any?, CharSequence?>?
+        labelCache: HashMap<Any?, CharSequence?>?,
     ) {
         val packageName = info.activityInfo.applicationInfo.packageName
         componentName = ComponentName(
@@ -107,7 +107,7 @@ internal class AppInfo : ItemInfo {
 
         @JvmStatic
         fun initFlags(pi: PackageInfo): Int {
-            val appFlags = pi.applicationInfo.flags
+            val appFlags = pi.applicationInfo?.flags ?: 0
             var flags = 0
             if (appFlags and ApplicationInfo.FLAG_SYSTEM == 0) {
                 flags = flags or DOWNLOADED_FLAG
