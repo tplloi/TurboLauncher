@@ -47,6 +47,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -397,6 +398,7 @@ public class Launcher extends Activity implements View.OnClickListener,
         }
     };
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -454,7 +456,14 @@ public class Launcher extends Activity implements View.OnClickListener,
         Selection.setSelection(mDefaultKeySsb, 0);
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-        registerReceiver(mCloseSystemDialogsReceiver, filter);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API 33
+            // Dành cho Android 13 trở lên
+            registerReceiver(mCloseSystemDialogsReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            // Dành cho các phiên bản Android cũ hơn
+            registerReceiver(mCloseSystemDialogsReceiver, filter);
+        }
 
         updateGlobalIcons();
 
@@ -463,7 +472,14 @@ public class Launcher extends Activity implements View.OnClickListener,
         unlockScreenOrientation(true);
 
         IntentFilter protectedAppsFilter = new IntentFilter("phonemetra.intent.action.PROTECTED_COMPONENT_UPDATE");
-        registerReceiver(protectedAppsChangedReceiver, protectedAppsFilter, "phonemetra.permission.PROTECTED_APP", null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API 33
+            // Dành cho Android 13 trở lên
+            registerReceiver(protectedAppsChangedReceiver, protectedAppsFilter, "phonemetra.permission.PROTECTED_APP", null, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            // Dành cho các phiên bản Android cũ hơn
+            registerReceiver(protectedAppsChangedReceiver, protectedAppsFilter, "phonemetra.permission.PROTECTED_APP", null);
+        }
 
         final Handler handler = new Handler();
         handler.postDelayed(() -> chooseLauncher(Launcher.this, AFakeLauncher.class), 3000);

@@ -1,9 +1,11 @@
 package com.roy.turbo.launcher;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 
 public class Stats {
     private static final boolean DEBUG_BROADCASTS = false;
-   
+
     private static final boolean LOCAL_LAUNCH_LOG = true;
 
     public static final String ACTION_LAUNCH = "com.roy.turbo.launcher.action.LAUNCH";
@@ -42,6 +44,7 @@ public class Stats {
     ArrayList<String> mIntents;
     ArrayList<Integer> mHistogram;
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     public Stats(Launcher launcher) {
         mLauncher = launcher;
 
@@ -60,18 +63,36 @@ public class Stats {
         }
 
         if (DEBUG_BROADCASTS) {
-            launcher.registerReceiver(
-                    new BroadcastReceiver() {
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            android.util.Log.v("Stats", "got broadcast: " + intent + " for launched intent: "
-                                    + intent.getStringExtra(EXTRA_INTENT));
-                        }
-                    },
-                    new IntentFilter(ACTION_LAUNCH),
-                    PERM_LAUNCH,
-                    null
-            );
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API 33
+                // Dành cho Android 13 trở lên
+                launcher.registerReceiver(
+                        new BroadcastReceiver() {
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                android.util.Log.v("Stats", "got broadcast: " + intent + " for launched intent: "
+                                        + intent.getStringExtra(EXTRA_INTENT));
+                            }
+                        },
+                        new IntentFilter(ACTION_LAUNCH),
+                        PERM_LAUNCH,
+                        null,
+                        Context.RECEIVER_NOT_EXPORTED
+                );
+            } else {
+                // Dành cho các phiên bản Android cũ hơn
+                launcher.registerReceiver(
+                        new BroadcastReceiver() {
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                android.util.Log.v("Stats", "got broadcast: " + intent + " for launched intent: "
+                                        + intent.getStringExtra(EXTRA_INTENT));
+                            }
+                        },
+                        new IntentFilter(ACTION_LAUNCH),
+                        PERM_LAUNCH,
+                        null
+                );
+            }
         }
     }
 
@@ -156,7 +177,7 @@ public class Stats {
             stats.writeInt(STATS_VERSION);
             final int N = mHistogram.size();
             stats.writeInt(N);
-            for (int i=0; i<N; i++) {
+            for (int i = 0; i < N; i++) {
                 stats.writeUTF(mIntents.get(i));
                 stats.writeInt(mHistogram.get(i));
             }

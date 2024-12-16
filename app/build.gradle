@@ -2,12 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    compileSdk 33
+    compileSdk 34
     namespace 'com.roy.turbo.launcher'
     defaultConfig {
         applicationId "com.roy93group.turbolauncher"
         minSdkVersion 19
-        targetSdkVersion 33
+        //noinspection EditedTargetSdkVersion
+        targetSdkVersion 34
         versionCode 20232708
         versionName "2023.07.08"
     }

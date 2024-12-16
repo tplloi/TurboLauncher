@@ -1,5 +1,6 @@
 package com.roy.turbo.launcher;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -9,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.os.Build;
 import android.os.Handler;
 
 import com.roy.turbo.launcher.model.AppFilter;
@@ -54,6 +56,7 @@ public class LauncherAppState implements DeviceProfile.DeviceProfileCallbacks {
         sContext = context.getApplicationContext();
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     private LauncherAppState() {
         if (sContext == null) {
             throw new IllegalStateException("LauncherAppState inited before app context set");
@@ -82,7 +85,13 @@ public class LauncherAppState implements DeviceProfile.DeviceProfileCallbacks {
         sContext.registerReceiver(mModel, filter);
         filter = new IntentFilter();
         filter.addAction(SearchManager.INTENT_GLOBAL_SEARCH_ACTIVITY_CHANGED);
-        sContext.registerReceiver(mModel, filter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API 33
+            // Dành cho Android 13 trở lên
+            sContext.registerReceiver(mModel, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            // Dành cho các phiên bản Android cũ hơn
+            sContext.registerReceiver(mModel, filter);
+        }
         filter = new IntentFilter();
         filter.addAction(SearchManager.INTENT_ACTION_SEARCHABLES_CHANGED);
         sContext.registerReceiver(mModel, filter);
@@ -92,7 +101,7 @@ public class LauncherAppState implements DeviceProfile.DeviceProfileCallbacks {
         resolver.registerContentObserver(LauncherSettings.Favorites.CONTENT_URI, true,
                 mFavoritesObserver);
     }
-    
+
     public void recreateWidgetPreviewDb() {
         if (mWidgetPreviewCacheDb != null) {
             mWidgetPreviewCacheDb.close();
@@ -175,6 +184,7 @@ public class LauncherAppState implements DeviceProfile.DeviceProfileCallbacks {
                 availableWidth, availableHeight);
         return grid;
     }
+
     public DynamicGrid getDynamicGrid() {
         return mDynamicGrid;
     }
@@ -190,7 +200,7 @@ public class LauncherAppState implements DeviceProfile.DeviceProfileCallbacks {
 
     public static boolean isScreenLandscape(Context context) {
         return context.getResources().getConfiguration().orientation ==
-            Configuration.ORIENTATION_LANDSCAPE;
+                Configuration.ORIENTATION_LANDSCAPE;
     }
 
     public float getScreenDensity() {
