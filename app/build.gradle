@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    compileSdkVersion 33
-
+    compileSdk 33
+    namespace 'com.roy.turbo.launcher'
     defaultConfig {
         applicationId "com.roy93group.turbolauncher"
         minSdkVersion 19
@@ -58,8 +58,6 @@ android {
     kotlinOptions {
         jvmTarget = 11
     }
-
-    namespace 'com.roy.turbo.launcher'
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
